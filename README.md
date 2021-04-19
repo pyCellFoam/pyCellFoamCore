@@ -9,8 +9,10 @@ pyCellFoam is a python library that implements the Cell Method  to simulate heat
 
 
 
-
 # Quickstart
+
+- Add the variable `PYTHONPATH`  to the environment variables. Set its value to the location where you cloned this repository.
+- Restart your computer so that the environment variables get updated.
 
 # Tutorial
 
