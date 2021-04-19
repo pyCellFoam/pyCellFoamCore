@@ -1,0 +1,36 @@
+#----------------------------
+# directories
+#----------------------------
+/__pycache__/
+/.ipynb_checkpoints/
+/doc/_build
+/doc/_static
+/doc/_templates
+
+
+
+
+
+#----------------------------
+# file types
+#----------------------------
+*.png
+*.pyc
+*.mp4
+*.log
+*.pdf
+*.jpeg
+*.jpg
+*.exe
+*.txt
+*.avi
+*.xlsx
+*.tex
+*.aux
+*.bcf
+*.out
+*.run.xml
+*.synctex.gz
+*.bbl
+*.blg
+*.mat
