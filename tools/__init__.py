@@ -14,4 +14,6 @@
 import tools.colorConsole
 import tools.tumcolor
 from tools.myLogging import MyLogging
+import tools.alphaNum
+from tools.arrow3D import Arrow3D
 

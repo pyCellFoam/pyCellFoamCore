@@ -78,7 +78,7 @@ dual node is at this geometric node, meaning it is its 0D dual.
 #-------------------------------------------------------------------------
 import os
 if __name__ == '__main__':
-    os.chdir('../../../')
+    os.chdir('../../')
 
 #-------------------------------------------------------------------------
 #    Local Libraries
