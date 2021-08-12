@@ -7,7 +7,6 @@ Introduction
 *******************************************************************************
 
 
-   
 .. automodule:: tutorial.0_introduction
    :members:
  

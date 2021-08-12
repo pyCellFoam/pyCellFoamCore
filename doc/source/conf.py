@@ -10,9 +10,22 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-# import os
-# import sys
+import os
+import sys
 # sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('../../'))
+
+# -- Mock some standard modules -----------------------------------------------
+
+# http://blog.rtwilson.com/how-to-make-your-sphinx-documentation-compile-with-readthedocs-when-youre-using-numpy-and-scipy/
+
+import mock
+ 
+MOCK_MODULES = ['numpy', 'matplotlib', 'matplotlib.pyplot', 'matplotlib.patches', 'mpl_toolkits.mplot3d', 'vtk','mpl_toolkits.mplot3d.art3d','vtk.util','scipy.spatial','scipy','PIL']
+for mod_name in MOCK_MODULES:
+    sys.modules[mod_name] = mock.Mock()
+
+
 
 
 # -- Project information -----------------------------------------------------
@@ -27,7 +40,7 @@ author = 'Tobias Scheuermann'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = ['sphinxcontrib.fulltoc']
+extensions = ['sphinxcontrib.fulltoc','sphinx.ext.todo','sphinx.ext.autodoc']
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
