@@ -2,7 +2,7 @@
 Cell
 ###############################################################################
 
-.. automodule:: pyCellFoamCore.kCells.cell.superBaseCell
+.. automodule:: kCells.cell.superBaseCell
    :members:
    :private-members:
    :special-members:
