@@ -12,4 +12,5 @@
 
 
 from grids.grid1DEquidistant import Grid1DEquidistant
+from grids.grid2DRectangular import Grid2DRectangular
 

@@ -398,7 +398,7 @@ if __name__ == '__main__':
         
         
         # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, None
-        plottingMethod = 'animation'   
+        plottingMethod = 'pyplot'   
         
         if plottingMethod is None or plottingMethod == 'None':
             cc.printBlue('Plotting disabled')
