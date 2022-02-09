@@ -171,7 +171,7 @@ class Face(BaseFace,Cell):
 #==============================================================================
 #    INITIALIZATION
 #==============================================================================
-    def __init__(self,rawEdges,*args,num=None,label='f',triangulate=False,triangulationMethod='center',sortEdges=False,**kwargs):  
+    def __init__(self,rawEdges,*args,num=None,label='f',triangulate=False,triangulationMethod='center',sortEdges=False,forceTriangulate = False,**kwargs):  
         '''
         
         '''
@@ -198,6 +198,7 @@ class Face(BaseFace,Cell):
         self.__centerNodes = []
         self.__triangulate = triangulate
         self.__sortEdges = sortEdges
+        self.__forceTriangulate = forceTriangulate
         self.triangulationMethod = triangulationMethod
         self.color = tc.TUMGreen()
         self.setUp()
@@ -461,7 +462,7 @@ class Face(BaseFace,Cell):
                             
                             
                     
-                    if self.__triangulate and len(simpleEdges)>3: # Note: for exactly 3 simple edges, triangulation is not necessary
+                    if self.__forceTriangulate or (self.__triangulate and len(simpleEdges)>3): # Note: for exactly 3 simple edges, triangulation is not necessary
 #                            cc.printGreen('Triangulating')
 #                            cc.printGreen('Original simpleEdges:',simpleEdges)
                         
