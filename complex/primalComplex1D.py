@@ -152,22 +152,66 @@ if __name__ == '__main__':
         
         
         cc.printBlue('Combine them to a complex')
-        c = PrimalComplex1D(nodes,edges)
+        pc = PrimalComplex1D(nodes,edges)
         
 #        cc.printBlue('Plot')
-        c.plotComplex(axes[0])
+        # pc.plotComplex(axes[0])
         
-        print(c.incidenceMatrix1ii)
-        print(c.incidenceMatrix1ib)
-        print(c.incidenceMatrix1bi)
-        print(c.incidenceMatrix1bb)
-        print(c.incidenceMatrix1Bi)
-        print(c.incidenceMatrix1Bb)
+        print(pc.incidenceMatrix1ii)
+        print(pc.incidenceMatrix1ib)
+        print(pc.incidenceMatrix1bi)
+        print(pc.incidenceMatrix1bb)
+        print(pc.incidenceMatrix1Bi)
+        print(pc.incidenceMatrix1Bb)
 #        
-#        
-#        pic = c.plotComplexTikZ()
-#        pic.scale = 3
-#        file = True
-#        pic.writeLaTeXFile('latex','primalComplex1D',compileFile=file,openFile=file)
+#-------------------------------------------------------------------------
+#    Plotting
+#-------------------------------------------------------------------------    
+    
+        # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, None
+        plottingMethod = 'TikZ'   
+        
+        
+#    Disabled
+#--------------------------------------------------------------------- 
+        if plottingMethod is None or plottingMethod == 'None':
+            cc.printBlue('Plotting disabled')
+        
+#    Pyplot
+#---------------------------------------------------------------------         
+        elif plottingMethod == 'pyplot':
+            cc.printBlue('Plot using pyplot')
+            (figs,axes) = pf.getFigures()
+            # pc.useCategory = 1
+            pc.plotComplex(axes[0])
+            # pc.useCategory = 2
+            pc.plotComplex(axes[1])
+            
+
+#    VTK
+#--------------------------------------------------------------------- 
+        elif plottingMethod == 'VTK' :
+            cc.printBlue('Plot using VTK')
+            cc.printRed('Not implemented')
+
+#    TikZ
+#--------------------------------------------------------------------- 
+        elif plottingMethod == 'TikZ' :
+            cc.printBlue('Plot using TikZ')            
+            pic = pc.plotComplexTikZ()
+            pic.scale = 5
+            file = True
+            pic.writeLaTeXFile('latex','primalComplex2D',compileFile=file,openFile=file)  
+            
+#    Animation
+#--------------------------------------------------------------------- 
+        elif plottingMethod == 'animation':
+            cc.printBlue('Creating animation')
+            cc.printRed('Not implemented')
+
+#    Unknown
+#---------------------------------------------------------------------             
+        else:
+            cc.printRed('Unknown plotting method {}'.format(plottingMethod))  
     
 
