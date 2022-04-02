@@ -490,7 +490,6 @@ if __name__ == '__main__':
 #-------------------------------------------------------------------------
 #    Example 1
 #-------------------------------------------------------------------------        
-        cc.printBlue('Create nodes')
         n0 = Node(0,0,0)
         n1 = Node(1,0,0)
         n2 = Node(1.5,0,0)
@@ -504,7 +503,6 @@ if __name__ == '__main__':
         nodes = [n0,n1,n2,n3,n4,n5,n6]
         
         
-        cc.printBlue('Create edges')
         e0 = Edge(n0,n1)
         e1 = Edge(n1,n2)
         e2 = Edge(n3,n4)
@@ -517,7 +515,6 @@ if __name__ == '__main__':
         edges = [e0,e1,e2,e3,e4,e5,e6,e7,e8]
         
         
-        cc.printBlue('Create faces')
         f0 = Face([e0,e5,-e2,-e4])
         f1 = Face([e1,e6,-e8,-e5])
         f2 = Face([e2,e8,-e3,-e7])
@@ -528,7 +525,6 @@ if __name__ == '__main__':
         faces = [f0,f1,f2]
         
         
-        cc.printBlue('Combine them to a complex')
         pc = PrimalComplex2D(nodes,edges,faces)
         
         
@@ -544,7 +540,7 @@ if __name__ == '__main__':
 #-------------------------------------------------------------------------    
     
         # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, None
-        plottingMethod = 'pyplot'   
+        plottingMethod = 'TikZ'   
         
         
 #    Disabled
@@ -573,9 +569,27 @@ if __name__ == '__main__':
 #--------------------------------------------------------------------- 
         elif plottingMethod == 'TikZ' :
             cc.printBlue('Plot using TikZ')            
-            pic = pc.plotComplexTikZ()
-            pic.scale = 5
-            file = True
+            pic = pc.plotComplexTikZ(plotEdges=False,plotFaces=False)
+            pic.scale = 2
+            file = False
+            
+            picNodes = pc.plotNodesTikZ()
+            picNodes.scale = 2
+            picNodes.writeTikZFile(filename='Complex2D0Nodes')
+            
+            picEdges = pc.plotEdgesTikZ()
+            picEdges.scale = 2
+            picEdges.writeTikZFile(filename='Complex2D1Edges')
+            
+            picFaces = pc.plotFacesTikZ()
+            picFaces.scale = 2
+            picFaces.writeTikZFile(filename='Complex2D2Faces')
+            
+            
+            print(pc.incidenceMatrix1)
+            print(pc.incidenceMatrix2)
+            
+            
             pic.writeLaTeXFile('latex','primalComplex2D',compileFile=file,openFile=file)  
             
 #    Animation

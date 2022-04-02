@@ -116,7 +116,17 @@ class DualComplex2D(Complex2D):
         self.__construct()
         self.sortPrimal()
         self.sortDual()
+        self.renumberList(self.geometricNodes)
+        cc.printRed()
+        cc.printRed('Geometric Nodes:')
+        cc.printRed(self.geometricNodes)
+        cc.printRed()
         super().setUp()
+        
+        
+        
+        
+       
     
   
     
@@ -378,7 +388,7 @@ if __name__ == '__main__':
 #-------------------------------------------------------------------------    
     
         # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, None
-        plottingMethod = 'pyplot'
+        plottingMethod = 'TikZ'
         
         
 #    Disabled
@@ -411,11 +421,14 @@ if __name__ == '__main__':
             cc.printBlue('Plot using VTK')
             cc.printRed('Not implemented')
 
+
 #    TikZ
 #--------------------------------------------------------------------- 
         elif plottingMethod == 'TikZ' :
             cc.printBlue('Plot using TikZ')            
-            cc.printRed('Not implemented')
+            pic = dc.plotComplexTikZ()
+            pic.scale=2
+            pic.writeTikZFile(filename='Complex2DDual')
             
 #    Animation
 #--------------------------------------------------------------------- 

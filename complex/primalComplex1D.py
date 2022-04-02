@@ -132,7 +132,6 @@ if __name__ == '__main__':
         cc.printBlue('Prepare plots')
         (figs,axes) = pf.getFigures(numTotal=4)
         
-        cc.printBlue('Create some nodes')
         n0 = Node(0,0,0)
         n1 = Node(1,0,0)
         n2 = Node(2,0,0)
@@ -140,8 +139,6 @@ if __name__ == '__main__':
         n4 = Node(4,0,0)
         nodes = [n0,n1,n2,n3,n4]
         
-        
-        cc.printBlue('Create some edges')
         e0 = Edge(n0,n1)
         e1 = Edge(n1,n2)
         e2 = Edge(n2,n3)
@@ -150,8 +147,6 @@ if __name__ == '__main__':
         
         e0.category1 = 'border'
         
-        
-        cc.printBlue('Combine them to a complex')
         pc = PrimalComplex1D(nodes,edges)
         
 #        cc.printBlue('Plot')
@@ -199,7 +194,7 @@ if __name__ == '__main__':
         elif plottingMethod == 'TikZ' :
             cc.printBlue('Plot using TikZ')            
             pic = pc.plotComplexTikZ()
-            pic.scale = 5
+            pic.scale = 1
             file = True
             pic.writeLaTeXFile('latex','primalComplex2D',compileFile=file,openFile=file)  
             

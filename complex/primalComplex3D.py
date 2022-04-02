@@ -909,8 +909,11 @@ if __name__ == '__main__':
         
         bb = BoundingBox([0.2,1.2],[0.2,1.2],[0.2,1.2])
         
-        pc = PrimalComplex3D(nodes,edges,faces,volumes,boundingBox=bb)
-        pc.cutAtBoundingBox()
+        pc = PrimalComplex3D(nodes,edges,faces,volumes)
+        
+        
+        
+        # pc.cutAtBoundingBox()
         
         
         
@@ -951,8 +954,29 @@ if __name__ == '__main__':
             cc.printBlue('Plot using TikZ')            
             pic = pc.plotComplexTikZ()
             pic.scale = 5
-            file = True
+            file = False
             pic.writeLaTeXFile('latex','primalComplex3D',compileFile=file,openFile=file)  
+            
+            picNodes = pc.plotNodesTikZ()
+            picNodes.scale = 2
+            picNodes.writeTikZFile(filename='Complex3D0Nodes')
+            
+            picEdges = pc.plotEdgesTikZ()
+            picEdges.scale = 2
+            picEdges.writeTikZFile(filename='Complex3D1Edges')
+            
+            picFaces = pc.plotFacesTikZ()
+            picFaces.scale = 2
+            picFaces.writeTikZFile(filename='Complex3D2Faces')
+            
+            
+            print(pc.incidenceMatrix1)
+            # print(pc.incidenceMatrix2)
+            print(pc.incidenceMatrix3)
+            
+            # picFaces = pc.plotVolumesTikZ()
+            # picFaces.scale = 2
+            # picFaces.writeTikZFile(filename='Complex3D3Volumes')
             
 #    Animation
 #--------------------------------------------------------------------- 
