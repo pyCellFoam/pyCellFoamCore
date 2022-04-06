@@ -174,17 +174,19 @@ if __name__ == '__main__':
         n0 = Node(0,0,0)
         n1 = Node(1,0,0)
         n2 = Node(2,0,0)
-        n3 = Node(3.5,0,0)
-        n4 = Node(4,0,0)
-        nodes = [n0,n1,n2,n3,n4]
+        # n3 = Node(3.5,0,0)
+        # n4 = Node(4,0,0)
+        # nodes = [n0,n1,n2,n3,n4]
+        nodes = [n0,n1,n2]
         
         
         cc.printBlue('Create some edges')
         e0 = Edge(n0,n1)
         e1 = Edge(n1,n2)
-        e2 = Edge(n2,n3)
-        e3 = Edge(n3,n4)
-        edges = [e0,e1,e2,e3]
+        # e2 = Edge(n2,n3)
+        # e3 = Edge(n3,n4)
+        # edges = [e0,e1,e2,e3]
+        edges = [e0,e1]
         
         e0.category1 = 'border'
         
@@ -193,6 +195,11 @@ if __name__ == '__main__':
         
         cc.printBlue('Plot')
         pc.plotComplex(axes[0])
+        axes[0].view_init(90,-90)
+        axes[0].set_title('primal')
+        axes[0].axis('off')
+        figs[0].set_size_inches(4,4)
+        figs[0].savefig('img/1D_primal.png',dpi=150)
         
         
         dc = DualComplex1D(pc)
@@ -201,6 +208,12 @@ if __name__ == '__main__':
             n.color = tc.TUMRose()
         
         dc.plotComplex(axes[1])
+        
+        axes[1].view_init(90,-90)
+        axes[1].set_title('primal')
+        axes[1].axis('off')
+        figs[1].set_size_inches(4,4)    
+        figs[1].savefig('img/1D_dual.png',dpi=150)
         
         
         cc.printBlue()
