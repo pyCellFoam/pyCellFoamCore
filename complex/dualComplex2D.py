@@ -117,10 +117,6 @@ class DualComplex2D(Complex2D):
         self.sortPrimal()
         self.sortDual()
         self.renumberList(self.geometricNodes)
-        cc.printRed()
-        cc.printRed('Geometric Nodes:')
-        cc.printRed(self.geometricNodes)
-        cc.printRed()
         super().setUp()
         
         
@@ -388,7 +384,7 @@ if __name__ == '__main__':
 #-------------------------------------------------------------------------    
     
         # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, None
-        plottingMethod = 'pyplot'
+        plottingMethod = 'TikZ'
         
         
 #    Disabled
@@ -418,15 +414,15 @@ if __name__ == '__main__':
             axes[2].set_title('Primal')
             axes[2].axis('off')
             # figs[2].set_size_inches(4,4)
-            figs[2].savefig('img/2D_primal.png',dpi=150)
+            # figs[2].savefig('img/2D_primal.png',dpi=150)
             dc.plotComplex(axes[3])  
             axes[3].view_init(90,180)
             axes[3].set_title('Dual')
             axes[3].axis('off')
             # figs[3].set_size_inches(4,4)
-            figs[3].savefig('img/2D_dual.png',dpi=150)            
+            # figs[3].savefig('img/2D_dual.png',dpi=150)            
 #            c100.plotComplex(axes[2])
-#            dc100.plotComplex(axes[3])
+            dc100.plotComplex(axes[3])
 
 #    VTK
 #--------------------------------------------------------------------- 

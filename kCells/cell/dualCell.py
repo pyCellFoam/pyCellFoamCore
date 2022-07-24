@@ -99,20 +99,24 @@ class DualCell(Cell):
             myPrintInfo = self.logger.info
         if myPrintError == None:
             self.logger.error
-        if self.dualCell3D:
-            self.num = self.dualCell3D.num
-            myPrintInfo('Copying number of {} from 3D dual'.format(self))
-        elif self.dualCell2D:
-            self.num = self.dualCell2D.num
-            myPrintInfo('Copying number of {} from 2D dual'.format(self))
-        elif self.dualCell1D:
-            self.num = self.dualCell1D.num
-            myPrintInfo('Copying number of {} from 1D dual'.format(self))
-        elif self.dualCell0D:
-            self.num = self.dualCell0D.num
-            myPrintInfo('Copying number of {} from 0D dual'.format(self))
+            
+        if self.isGeometrical:
+            myPrintInfo('Not copying number for geometrical kCell')
         else:
-            myPrintError('{} has no dual - cannot update number'.format(self))
+            if self.dualCell3D:
+                self.num = self.dualCell3D.num
+                myPrintInfo('Copying number of {} from 3D dual'.format(self))
+            elif self.dualCell2D:
+                self.num = self.dualCell2D.num
+                myPrintInfo('Copying number of {} from 2D dual'.format(self))
+            elif self.dualCell1D:
+                self.num = self.dualCell1D.num
+                myPrintInfo('Copying number of {} from 1D dual'.format(self))
+            elif self.dualCell0D:
+                self.num = self.dualCell0D.num
+                myPrintInfo('Copying number of {} from 0D dual'.format(self))
+            else:
+                myPrintError('{} has no dual - cannot update number'.format(self))
 
     
 #==============================================================================
