@@ -27,7 +27,7 @@ from kCells.edge.simpleEdge import SimpleEdge
 from kCells.edge.reversedEdge import ReversedEdge
 import tools.colorConsole as cc
 import tools.alphaNum as an
-# import tools.myVTK as myv
+
 
 
 #==============================================================================
@@ -41,19 +41,6 @@ class Edge(BaseEdge,Cell):
     '''
     edgeCount = 0
     
-#==============================================================================
-#    SLOTS
-#==============================================================================
-#    __slots__ = ('__geometricNodes',
-#                 '__startNode',
-#                 '__endNode',
-#                 '__showArrow',
-#                 '__faces',
-#                 '__simpleEdges',
-#                 '__projectionFace',
-#                 '__projectedEdge',
-#                )
-
 #==============================================================================
 #    INITIALIZATION
 #==============================================================================
@@ -429,13 +416,13 @@ if __name__ == "__main__":
         
         e1 = Edge(n2,n4,geometricNodes=[n3,])
         e2 = Edge(n5,n8,geometricNodes=[n6,n7])
-#        
+      
         
         print(e1.simpleEdges)
         
         
         edges = [e0,e1,e2]
-#        
+        
         for n in nodes:
             n.plotNode(ax[0])
             n.plotNode(ax[1])
@@ -445,7 +432,7 @@ if __name__ == "__main__":
             me = -e
             me.plotEdge(ax[1])
             print(me.simpleEdges[0].directionVec)
-#            
+          
         
         cc.printBlue('change coordinate')
         cc.printWhite()
@@ -501,105 +488,8 @@ if __name__ == "__main__":
             
             
             
-            
-            
         
-        
-##        from tools import BoundingBox
-#        import numpy as np
-#        bb = BoundingBox(np.array([0,0,0]),np.array([1,1,1]))
-#        n20 = Node(0.5,0.2,0.2)
-#        n21 = Node(1.5,0.2,0.2)#
-#        n22 = Node(0.5,0.8,0.8)
-#        n23 = Node(1.5,0.8,0.8)
-#        n24 = Node(0.6,0.6,0.6)
-#        
-#        nodes20 = [n20,n21,n22,n23,n24]
-#            
-#        
-#        e20 = Edge(n20,n21)
-#        e21 = Edge(n22,n24,geometricNodes=[n23,])
-#        edges20 = [e20,e21]
-#        
-#        for n in nodes20:
-#            n.plotNode(ax[4])
-#    
-#        for e in edges20:
-#            e.plotEdge(ax[4])
-#            
-#            
-#        
-#            
-#            
-#            
-#            
-#        
-#    
-#            
-#            
-#        if False:
-#            
-#            myVTK = myv.MyVTK()
-#            for e in edges:
-#                e.plotEdgeVtk(myVTK)
-#    #            for c in e.cylinders:
-#    #                myVTK.addActor(c.vtkActor)
-#            myVTK.start()
-#        
-#        if False:
-#            myVTK = myv.MyVTK()
-#            for n in [n0,n1]:
-#                n.plotNodeVtk(myVTK)
-##            for e in edges:
-#            e0.plotEdgeVtk(myVTK)
-#            myVTK.start()
-#            
-#            
-#            
-#            #
-#        testEdge = Edge(n0,n0)
-#            
-        
-        
-        
-            
-##            
-#            
-#            
-#            
-#        me1 = -e1
-#        me2 = -e2
-#        me3 = -e3
-#        
-#        medges = [me1,me2,me3]
-#        
-#        n15 = Node(1,0,-1,15)
-#        n16 = Node(1.2, 2, 1, 16)
-#        nodes.append(n15)
-#        nodes.append(n16)
-#        me2.endNode = n15
-#        me2.startNode = n16
-#        
-#        
-#        n17 = Node(2  , 1, -0.5, 17)
-#        nodes.append(n17)
-#        
-#        me3.geometricNodes = [n13,n17]
-#        cc.printBlue('Check if',n17,'was automatically registered as a geometricalNode:')
-#        print(n17.isGeometrical)
-#        print()
-#        for n in nodes:
-#            n.plotNode(ax[3])
-#            
-#        for me in medges:
-#            me.plotEdge(ax[3])
-#            
-#            
-#        e1.radius = 0.2
-#        e1.plotCylinder(ax[3])
-#        
-#        
-#        
+     
 ##==============================================================================
 ##    IMAGES FOR DOCUMENTATION
 ##==============================================================================

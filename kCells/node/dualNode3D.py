@@ -902,7 +902,7 @@ if __name__ == "__main__":
 #-------------------------------------------------------------------------    
     
         # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, doc, None
-        plottingMethod = 'None'   
+        plottingMethod = 'pyplot'   
         
         
 #    Disabled
