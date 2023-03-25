@@ -343,32 +343,6 @@ if __name__ == "__main__":
         dn1 = DualNode1D(e1)
         dn2 = DualNode1D(e2)
 
-
-        cc.printBlue('Plotting')
-        (figs,ax) = pf.getFigures(2,2)
-        for n in nodes1:
-            n.plotNode(ax[0])
-        e0.plotEdge(ax[0]) 
-        dn0.color = tc.TUMRose()         
-        dn0.plotNode(ax[0],size=100)
-        
-        for n in nodes2:
-            n.plotNode(ax[1])
-        e1.plotEdge(ax[1])
-        dn1.color = tc.TUMRose()  
-        dn1.plotNode(ax[1],size=100)
-        
-        for n in nodes3:
-            n.plotNode(ax[2])
-        e2.plotEdge(ax[2])
-        dn2.color = tc.TUMRose()  
-        dn2.plotNode(ax[2],size=100)
-        
-        
-        if False:
-            DualNode1D.plotDoc()
-            
-        
         cc.printBlue()
         cc.printBlue('Example 1')
         cc.printBlue('-'*30)
@@ -385,4 +359,71 @@ if __name__ == "__main__":
         cc.printBlue('-'*30)
         cc.printWhite('Dual:',dn2,'1D primal:',dn2.dualCell1D)
         cc.printWhite('Dual:',dn2,'0D primal:',dn2.dualCell0D)
+        
+        
+        
+#-------------------------------------------------------------------------
+#    Plotting
+#-------------------------------------------------------------------------    
+    
+        # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, doc, None
+        plottingMethod = 'pyplot'   
+        
+        
+#    Disabled
+#--------------------------------------------------------------------- 
+        if plottingMethod is None or plottingMethod == 'None':
+            cc.printBlue('Plotting disabled')
+        
+#    Pyplot
+#---------------------------------------------------------------------         
+        elif plottingMethod == 'pyplot':
+            cc.printBlue('Plot using pyplot')
+            (figs,axes) = pf.getFigures()
+            for n in nodes1:
+                n.plotNode(axes[0])
+            e0.plotEdge(axes[0]) 
+            dn0.color = tc.TUMRose()         
+            dn0.plotNode(axes[0],size=100)
+            
+            for n in nodes2:
+                n.plotNode(axes[1])
+            e1.plotEdge(axes[1])
+            dn1.color = tc.TUMRose()  
+            dn1.plotNode(axes[1],size=100)
+            
+            for n in nodes3:
+                n.plotNode(axes[2])
+            e2.plotEdge(axes[2])
+            dn2.color = tc.TUMRose()  
+            dn2.plotNode(axes[2],size=100)
+
+#    VTK
+#--------------------------------------------------------------------- 
+        elif plottingMethod == 'VTK' :
+            cc.printBlue('Plot using VTK')
+            cc.printRed('Not implemented')
+
+#    TikZ
+#--------------------------------------------------------------------- 
+        elif plottingMethod == 'TikZ' :
+            cc.printBlue('Plot using TikZ')            
+            cc.printRed('Not implemented')
+            
+#    Animation
+#--------------------------------------------------------------------- 
+        elif plottingMethod == 'animation':
+            cc.printBlue('Creating animation')
+            cc.printRed('Not implemented')
+            
+#    Documentation
+#--------------------------------------------------------------------- 
+        elif plottingMethod == 'doc':
+            cc.printBlue('Creating plots for documentation')
+            DualNode1D.plotDoc()
+            
+#    Unknown
+#---------------------------------------------------------------------             
+        else:
+            cc.printRed('Unknown plotting method {}'.format(plottingMethod))                
     
