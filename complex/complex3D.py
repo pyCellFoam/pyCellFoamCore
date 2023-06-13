@@ -964,9 +964,9 @@ class Complex3D(Complex):
     
    
     def __getIncidenceMatrix2(self):
-        incidencematrix2i = np.concatenate((self.incidenceMatrix2ii,self.incidenceMatrix2ib,self.incidenceMatrix2iB),axis=2)
-        incidencematrix2b = np.concatenate((self.incidenceMatrix2bi,self.incidenceMatrix2bb,self.incidenceMatrix2bB),axis=2)
-        incidencematrix2B = np.concatenate((self.incidenceMatrix2Bi,self.incidenceMatrix2Bb,self.incidenceMatrix2BB),axis=2)
+        incidencematrix2i = np.concatenate((self.incidenceMatrix2ii,self.incidenceMatrix2ib,self.incidenceMatrix2iB),axis=1)
+        incidencematrix2b = np.concatenate((self.incidenceMatrix2bi,self.incidenceMatrix2bb,self.incidenceMatrix2bB),axis=1)
+        incidencematrix2B = np.concatenate((self.incidenceMatrix2Bi,self.incidenceMatrix2Bb,self.incidenceMatrix2BB),axis=1)
         incidencematrix2 = np.concatenate((incidencematrix2i,incidencematrix2b,incidencematrix2B))
         return incidencematrix2
     incidenceMatrix2 = property(__getIncidenceMatrix2)
