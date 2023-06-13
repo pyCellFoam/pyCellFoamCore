@@ -658,7 +658,7 @@ if __name__ == '__main__':
         
         
         # Choose plotting method. Possible choices: pyplot, VTK, TikZ, None
-        plottingMethod = 'pyplot'
+        plottingMethod = 'TikZ'
         
         cc.printBlue('Create nodes')
         
@@ -708,7 +708,7 @@ if __name__ == '__main__':
             tikZPic.addTikZCoSy3D(origin)
             for n in nodes:
                 n.plotNodeTikZ(tikZPic)
-            bb.plotBoundingBoxTikZ(tikZPic)
+            # bb.plotBoundingBoxTikZ(tikZPic)
             tikZPic.writeLaTeXFile('latex','node',compileFile=True,openFile=True)
             
             
