@@ -35,6 +35,7 @@ from mpl_toolkits.mplot3d import Axes3D
 import tools.colorConsole as cc
 import math
 import numpy as np
+import sys
 
 
 
@@ -94,7 +95,10 @@ def getFigures(numFigHorizontal=0,numFigVertical=0,numTotal=6,aspect3D=True):
         for y in x:
             figs.append(y)
             if aspect3D:
-                axes.append(Axes3D(y))
+                if sys.version_info.minor < 10:
+                    axes.append(Axes3D(y))
+                else:
+                    axes.append(y.add_subplot(projection='3d'))
             else:
                 axes.append(y.add_subplot(111))
           
