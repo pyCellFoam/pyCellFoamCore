@@ -26,9 +26,19 @@ Installation
 
 
 '''
+#==============================================================================
+#    IMPORTS
+#==============================================================================
+#-------------------------------------------------------------------------
+#    Change to Main Directory
+#-------------------------------------------------------------------------
 import os
 if __name__ == '__main__':
     os.chdir('../')
+
+#-------------------------------------------------------------------------
+#    Standard Libraries
+#-------------------------------------------------------------------------
 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -38,6 +48,9 @@ import numpy as np
 import sys
 
 
+#==============================================================================
+#    GET FIGURES
+#==============================================================================
 
 def getFigures(numFigHorizontal=0,numFigVertical=0,numTotal=6,aspect3D=True):
     plt.switch_backend("Qt5Agg")
@@ -109,6 +122,9 @@ def getFigures(numFigHorizontal=0,numFigVertical=0,numTotal=6,aspect3D=True):
             
     return (figs,axes)
  
+#==============================================================================
+#    SET AXES EQUAL
+#==============================================================================
 
 def setAxesEqual(ax):
     '''Make axes of 3D plot have equal scale so that spheres appear as spheres,
@@ -138,27 +154,46 @@ def setAxesEqual(ax):
     ax.set_ylim3d([y_middle - plot_radius, y_middle + plot_radius])
     ax.set_zlim3d([z_middle - plot_radius, z_middle + plot_radius])
     
+  
+#==============================================================================
+#    COPY LIMITS
+#==============================================================================
     
 def copylimits(fromax,toax):
     toax.set_xlim3d(fromax.get_xlim3d())
     toax.set_ylim3d(fromax.get_ylim3d())
     toax.set_zlim3d(fromax.get_zlim3d())
     
-    
+ 
+#==============================================================================
+#    SET LABELS
+#==============================================================================
+
 def setLabels(ax,x='x',y='y',z='z'):
     ax.set_xlabel(x)
     ax.set_ylabel(y)
     ax.set_zlabel(z)
+    
+#==============================================================================
+#    RETURN TO 2D
+#==============================================================================
     
 def returnTo2D(fig):
     fig.clf()
     ax = fig.add_subplot(111)
     return ax
 
+#==============================================================================
+#    MM TO INCH
+#==============================================================================
+
 def mm2inch(mm):
     MM_PER_INCH = 25.4
     return mm/MM_PER_INCH
     
+#==============================================================================
+#    EXPORT PNG
+#==============================================================================
 
 def exportPNG(fig,filename = 'export',width_mm = 120, height_mm = 100, dpi=300):
     if '/' in filename:
@@ -176,7 +211,9 @@ def exportPNG(fig,filename = 'export',width_mm = 120, height_mm = 100, dpi=300):
     plt.savefig(filename,dpi=dpi,transparent=True)        
     
     
-    
+#==============================================================================
+#    GET VIDEO
+#==============================================================================  
 
 def getVideo(title='My excellent animation',
              artist='Tobias Scheuermann',
@@ -202,7 +239,10 @@ def getVideo(title='My excellent animation',
     
     plt.switch_backend("Agg")
     return(fig,ax,writer)
-    
+  
+#==============================================================================
+#    GET VIDEO 2
+#==============================================================================  
     
 def getVideo2(title='My excellent animation',
              artist='Tobias Scheuermann',
@@ -225,11 +265,19 @@ def getVideo2(title='My excellent animation',
     
     plt.switch_backend("Agg")
     return(fig,[ax1,ax2],writer)    
-    
-    
+
+
+#==============================================================================
+#    CLOSE FIGURES
+#==============================================================================    
     
 def closeFigures():
     plt.close('all')
+
+
+#==============================================================================
+#    TEST FUNCTIONS
+#==============================================================================
     
 if __name__ == '__main__':
     (fig,ax) = getFigures()
