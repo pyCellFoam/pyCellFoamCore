@@ -49,7 +49,7 @@ def getFigures(numFigHorizontal=0,numFigVertical=0,numTotal=6,aspect3D=True):
             pyplotPortrait = localConfig.pyplotPortrait
         except:
             pyplotPortrait = False
-            cc.printRe('Portrait mode not defined. Using standard landscape mode')
+            cc.printRed('Portrait mode not defined. Using standard landscape mode')
     except:
         pyplotPortrait = False
         pyplotWindowSize = (1920,1080)
