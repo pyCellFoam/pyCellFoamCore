@@ -1056,7 +1056,7 @@ class Complex2D(Complex):
         tableEdges.printTable()
             
             
-        self.printHeadline('EDGES',cc.printGreen)    
+        self.printHeadline('FACES',cc.printGreen)    
         headlineFaces = ['Face','2D dual']
         tableContentFaces = [headlineFaces,]        
         for f in self.faces:

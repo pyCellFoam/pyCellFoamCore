@@ -785,6 +785,8 @@ if __name__ == '__main__':
         
         dc.checkAllIncidenceMatrices()
         
+        pc.printDualities()
+        
         
 
 
@@ -806,6 +808,7 @@ if __name__ == '__main__':
         elif plottingMethod == 'pyplot':
             cc.printBlue('Plot using pyplot')
             (figs,axes) = pf.getFigures()
+            pc.useCategory=2
             pc.plotComplex(axes[0])
             pc.plotFaces(axes[0],showLabel=False,showNormalVec=False,showBarycenter=False)
             axes[0].set_title('Primal')

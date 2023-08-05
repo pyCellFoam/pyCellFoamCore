@@ -50,6 +50,8 @@ from complex.complex import Complex
 #--------------------------------------------------------------------
 
 from tools.tikZPicture.tikZPicture2D import TikZPicture2D
+from tools.printTable import Table
+import tools.colorConsole as cc
 
 
 
@@ -456,8 +458,32 @@ class Complex1D(Complex):
                 e.plotEdgeTikZ(tikZPicture)
             
         return tikZPicture
-
+    
+#-------------------------------------------------------------------------
+#    Printing dualities
+#------------------------------------------------------------------------- 
+    def printDualities(self):    
+        '''
         
+        '''
+        self.printHeadline('NODES',cc.printRed)        
+        headlineNodes = ['Node','1D dual','0D dual']
+        tableContentNodes = [headlineNodes,]        
+        for n in self.nodes:
+            tableContentNodes.append([n.infoText,n.dualCell1D,n.dualCell0D])
+        tableNodes = Table(tableContentNodes)
+        tableNodes.printTable()
+        
+        
+        self.printHeadline('EDGES',cc.printBlue)    
+        headlineEdges = ['Edge','1D dual']
+        tableContentEdges = [headlineEdges,]        
+        for e in self.edges:
+            tableContentEdges.append([e.infoText,e.dualCell1D])
+        tableEdges = Table(tableContentEdges)
+        tableEdges.printTable()
+            
+                    
 
     
     
@@ -467,7 +493,6 @@ class Complex1D(Complex):
 if __name__ == '__main__':
     
     from tools import MyLogging
-    import tools.colorConsole as cc
     import tools.placeFigures as pf
     
     with MyLogging('Complex1D',debug=False):

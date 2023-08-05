@@ -221,5 +221,7 @@ if __name__ == '__main__':
         cc.printBlue()
         dc.checkAllIncidenceMatrices()
         
+        pc.printDualities()
+        
         
 

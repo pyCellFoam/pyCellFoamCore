@@ -384,7 +384,7 @@ if __name__ == '__main__':
 #-------------------------------------------------------------------------    
     
         # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, None
-        plottingMethod = 'TikZ'
+        plottingMethod = 'pyplot'
         
         
 #    Disabled
@@ -398,16 +398,19 @@ if __name__ == '__main__':
             cc.printBlue('Plot using pyplot')
             (figs,axes) = pf.getFigures(numTotal=4)
             
-            pc.useCategory = 1
-            pc.plotComplex(axes[0])
-            axes[0].view_init(90,180)
-            axes[0].set_title('Category 1 primal')
-            axes[0].axis('off')
             
-            dc.plotComplex(axes[1])
-            axes[1].view_init(90,180)
-            axes[1].set_title('Category 1 dual')
-            axes[1].axis('off')
+            if False:
+                pc.useCategory = 1
+                pc.plotComplex(axes[0])
+                axes[0].view_init(90,180)
+                axes[0].set_title('Category 1 primal')
+                axes[0].axis('off')
+                
+                dc.plotComplex(axes[1])
+                axes[1].view_init(90,180)
+                axes[1].set_title('Category 1 dual')
+                axes[1].axis('off')
+                
             pc.useCategory = 2
             pc.plotComplex(axes[2])
             axes[2].view_init(90,180)

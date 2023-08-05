@@ -76,6 +76,7 @@ import tools.colorConsole as cc
 import tools.tumcolor as tc
 
 from tools.tikZPicture import TikZPicture3D
+from tools.printTable import Table
 
 
 
@@ -1840,6 +1841,44 @@ class Complex3D(Complex):
 #-------------------------------------------------------------------------
 #    Printing dualities
 #------------------------------------------------------------------------- 
+    def printDualities(self):    
+        '''
+        
+        '''
+        self.printHeadline('NODES',cc.printRed)        
+        headlineNodes = ['Node','3D dual','2D dual','1D dual','0D dual']
+        tableContentNodes = [headlineNodes,]        
+        for n in self.nodes:
+            tableContentNodes.append([n.infoText,n.dualCell3D,n.dualCell2D,n.dualCell1D,n.dualCell0D])
+        tableNodes = Table(tableContentNodes)
+        tableNodes.printTable()
+        
+        
+        self.printHeadline('EDGES',cc.printBlue)    
+        headlineEdges = ['Edge','3D dual','2D dual','1D dual']
+        tableContentEdges = [headlineEdges,]        
+        for e in self.edges:
+            tableContentEdges.append([e.infoText,e.dualCell3D,e.dualCell2D,e.dualCell1D])
+        tableEdges = Table(tableContentEdges)
+        tableEdges.printTable()
+            
+            
+        self.printHeadline('FACES',cc.printGreen)    
+        headlineFaces = ['Face','3D dual','2D dual']
+        tableContentFaces = [headlineFaces,]        
+        for f in self.faces:
+            tableContentFaces.append([f.infoText,f.dualCell3D,f.dualCell2D])
+        tableFaces = Table(tableContentFaces)
+        tableFaces.printTable()
+        
+        self.printHeadline('VOLUMES',cc.printMagenta)    
+        headlineFaces = ['Volume','3D dual']
+        tableContentFaces = [headlineFaces,]        
+        for v in self.volumes:
+            tableContentFaces.append([v.infoText,v.dualCell3D])
+        tableFaces = Table(tableContentFaces)
+        tableFaces.printTable()        
+
 
     def printDuals(self,myPrint=print,maxNumEntries = 100):
         lineWidth = len(str(self))
@@ -1856,7 +1895,7 @@ class Complex3D(Complex):
         myPrint('-'*lineWidth)
         myPrint()
         tableNodes = []
-        for n in islice(chain(self.innerNodes,self.borderNodes,self.additionalBorderNodes,self.uncategorizedNodes),maxNumEntries):
+        for n in islice(chain(self.innerNodes,self.borderNodes,self.additionalBorderNodes),maxNumEntries):
             tableNodes.append([str(n),n.dualCell3D,n.dualCell2D,n.dualCell1D,n.dualCell0D])
         print(tabulate(tableNodes,headers=['Node','3D dual','2D dual','1D dual','0D dual'],tablefmt='psql'))
         myPrint()
@@ -1868,7 +1907,7 @@ class Complex3D(Complex):
         myPrint('-'*lineWidth)
         myPrint()
         tableEdges = []
-        for e in islice(chain(self.innerEdges,self.borderEdges,self.additionalBorderEdges,self.uncategorizedEdges),maxNumEntries):
+        for e in islice(chain(self.innerEdges,self.borderEdges,self.additionalBorderEdges),maxNumEntries):
             tableEdges.append([str(e),e.dualCell3D,e.dualCell2D,e.dualCell1D,])
         print(tabulate(tableEdges,headers=['Edge','3D dual','2D dual','1D dual'],tablefmt='psql'))
         myPrint()
@@ -1880,7 +1919,7 @@ class Complex3D(Complex):
         myPrint('-'*lineWidth)
         myPrint()
         tableFaces = []
-        for f in islice(chain(self.innerFaces,self.borderFaces,self.additionalBorderFaces,self.uncategorizedFaces),maxNumEntries):
+        for f in islice(chain(self.innerFaces,self.borderFaces,self.additionalBorderFaces),maxNumEntries):
             tableFaces.append([str(f),f.dualCell3D,f.dualCell2D])
         print(tabulate(tableFaces,headers=['Face','3D dual','2D dual'],tablefmt='psql'))
         myPrint()
@@ -1892,7 +1931,7 @@ class Complex3D(Complex):
         myPrint('-'*lineWidth)
         myPrint()
         tableVolumes = []
-        for v in islice(chain(self.innerVolumes,self.borderVolumes,self.uncategorizedVolumes),maxNumEntries):
+        for v in islice(chain(self.innerVolumes,self.borderVolumes),maxNumEntries):
             tableVolumes.append([str(v),v.dualCell3D,])
         print(tabulate(tableVolumes,headers=['Volume','3D dual'],tablefmt='psql'))          
 
