@@ -38,6 +38,10 @@ from kCells.cell import SimpleCell
 import tools.colorConsole as cc
 import math
 from scipy.spatial import ConvexHull
+from tools import MyLogging
+import tools.placeFigures as pf
+from kCells.node import Node
+from kCells.edge import Edge
 
 #from geometricObjects import Polygon
 
@@ -349,114 +353,214 @@ class SimpleFace(BaseSimpleFace,SimpleCell):
                
         
         
-
- 
+        
+        
 #==============================================================================
 #    TEST FUNCTIONS
 #==============================================================================
 if __name__ == '__main__':
-    import tools.placeFigures as pf
-#    import tools.colorConsole as cc
-    from tools import MyLogging
-    from kCells.node import Node
-    from kCells.edge import Edge
     
-    
-    with MyLogging('Edge',debug=True) as ml:
+    with MyLogging('SimpleFace'):
+
+#-------------------------------------------------------------------------
+#    Create some examples
+#-------------------------------------------------------------------------
+        n0 = Node(0, 0, 0)
+        n1 = Node(5, 0, 0)
+        n2 = Node(0, 5, 0)      
+        nodes = [n0, n1, n2]
+        
+        e0 = Edge(n0, n1)
+        e1 = Edge(n1, n2)
+        e2 = Edge(n2, n0)
+        edges = [e0, e1, e2]
+        
+        sf = SimpleFace([e0.simpleEdges[0], e1.simpleEdges[0], e2.simpleEdges[0]])
         
         
-        # Create some figures on second screen
-        (fig,ax) = pf.getFigures(numTotal=2)
-        
-        # Create some nodes
-        n0 = Node(0,0,0)
-        n1 = Node(0.7,0,0)
-        n2 = Node(1,1,0)
-        n3 = Node(0,1,0)
-        n4 = Node(1,1,1)
-        
-        nodes = [n0, n1, n2, n3, n4]
-        
-        # Create some edges
-        e0 = Edge(n0,n1)
-        e1 = Edge(n1,n2)
-        e2 = Edge(n2,n3)
-        e3 = Edge(n3,n0)
-        
-        
-        edges = [e0,e1,e2,e3]
-        
-        simpleEdges = []
-        for e in edges:
-            for se in e.simpleEdges:
-                simpleEdges.append(se)
         
 
-        sf1 = SimpleFace(simpleEdges)
-        msf1 = -sf1       
-        
-        
-        e4 = Edge(n1,n4)
-        e5 = Edge(n2,n4)
-        
-        edges.append(e4)
-        edges.append(e5)
-        
-        sf2 = SimpleFace([e4.simpleEdges[0],-e5.simpleEdges[0],-e1.simpleEdges[0]])
-                
-        # Plot
-        for n in nodes:
-            n.plotNode(ax[0])
-            
-        for e in edges:
-            e.plotEdge(ax[0])
-            
-        sf1.plotFace(ax[0])
-        sf2.plotFace(ax[1])
-        msf1.plotFace(ax[1])
-        
-        for a in ax:
-            pf.setAxesEqual(a)
-            
-        
-        cc.printBlue('Coordinates:')
-        cc.printGreen(sf1.coordinates)
-        print()
-        cc.printGreen(msf1.coordinates)
-        print()
-        
-        cc.printBlue('Normal vector:')
-        cc.printGreen(sf1.normalVec,msf1.normalVec)
-        print()
-        
-        cc.printBlue('Area:')
-        cc.printGreen(sf1.area,msf1.area)
-        print()
-        
-        cc.printBlue('Barycenter:')
-        cc.printGreen(sf1.barycenter,msf1.barycenter)
-        print()
-        
-        cc.printBlue('Registered simple faces in e0:')
-        cc.printGreen(e0.simpleEdges[0].simpleFaces)
-        
-        me0 = -e0
-        
-        cc.printBlue('Registered simple faces in -e0:')
-        cc.printGreen(me0.simpleEdges[0].simpleFaces)
-        
-        cc.printBlue('Registered simple faces in e1:')
-        cc.printGreen(e1.simpleEdges[0].simpleFaces)
-        
-        
-        import tools.myVTK as myv
+
+
+#-------------------------------------------------------------------------
+#    Plotting
+#-------------------------------------------------------------------------    
     
-        myVTK = myv.MyVTK()
-#        myVTK.addActor(sf1.polygon.vtkActor)
-#        myVTK.addActor(sf2.polygon.vtkActor)
+        # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, doc, None
+        plottingMethod = 'TikZ'   
         
         
-        myVTK.start()
+#    Disabled
+#--------------------------------------------------------------------- 
+        if plottingMethod is None or plottingMethod == 'None':
+            cc.printBlue('Plotting disabled')
+        
+#    Pyplot
+#---------------------------------------------------------------------         
+        elif plottingMethod == 'pyplot':
+            cc.printBlue('Plot using pyplot')
+            (figs,axes) = pf.getFigures()
+            
+            for n in nodes:
+                n.plotNode(axes[0])
+            
+            for e in edges:
+                e.plotEdge(axes[0])
+                
+            sf.plotFace(axes[0])
+
+#    VTK
+#--------------------------------------------------------------------- 
+        elif plottingMethod == 'VTK' :
+            cc.printBlue('Plot using VTK')
+            cc.printRed('Not implemented')
+
+#    TikZ
+#--------------------------------------------------------------------- 
+        elif plottingMethod == 'TikZ' :
+            cc.printBlue('Plot using TikZ')
+            pf.closeFigures()            
+            from tools.tikZPicture.tikZPicture3D import TikZPicture3D
+            tikZPic = TikZPicture3D()
+            origin = tikZPic.addTikZCoordinate('origin',np.array([0,0,0]))
+            tikZPic.addTikZCoSy3D(origin)
+            for n in nodes:
+                n.plotNodeTikZ(tikZPic)
+            sf.plotFaceTikZ(tikZPic,showNormalVec=True)
+            tikZPic.writeLaTeXFile('latex','simpleFace',compileFile=True,openFile=True)
+            
+#    Animation
+#--------------------------------------------------------------------- 
+        elif plottingMethod == 'animation':
+            cc.printBlue('Creating animation')
+            cc.printRed('Not implemented')
+            
+#    Documentation
+#--------------------------------------------------------------------- 
+        elif plottingMethod == 'doc':
+            cc.printBlue('Creating plots for documentation')
+            test.plotDoc()
+            
+#    Unknown
+#---------------------------------------------------------------------             
+        else:
+            cc.printRed('Unknown plotting method {}'.format(plottingMethod))                
+
+ 
+# #==============================================================================
+# #    TEST FUNCTIONS
+# #==============================================================================
+# if __name__ == '__main__':
+#     import tools.placeFigures as pf
+# #    import tools.colorConsole as cc
+#     from tools import MyLogging
+#     from kCells.node import Node
+#     from kCells.edge import Edge
+    
+    
+#     with MyLogging('Edge',debug=True) as ml:
+        
+#         n0 = Node(0, 0, 0)
+#         n1 = Node(1, 0, 0)
+#         n2 = Node(0, 1, 0)
+        
+#         nodes = 
+        
+        
+#         if False:
+        
+#             # Create some figures on second screen
+#             (fig,ax) = pf.getFigures(numTotal=2)
+            
+#             # Create some nodes
+#             n0 = Node(0,0,0)
+#             n1 = Node(0.7,0,0)
+#             n2 = Node(1,1,0)
+#             n3 = Node(0,1,0)
+#             n4 = Node(1,1,1)
+            
+#             nodes = [n0, n1, n2, n3, n4]
+            
+#             # Create some edges
+#             e0 = Edge(n0,n1)
+#             e1 = Edge(n1,n2)
+#             e2 = Edge(n2,n3)
+#             e3 = Edge(n3,n0)
+            
+            
+#             edges = [e0,e1,e2,e3]
+            
+#             simpleEdges = []
+#             for e in edges:
+#                 for se in e.simpleEdges:
+#                     simpleEdges.append(se)
+            
+    
+#             sf1 = SimpleFace(simpleEdges)
+#             msf1 = -sf1       
+            
+            
+#             e4 = Edge(n1,n4)
+#             e5 = Edge(n2,n4)
+            
+#             edges.append(e4)
+#             edges.append(e5)
+            
+#             sf2 = SimpleFace([e4.simpleEdges[0],-e5.simpleEdges[0],-e1.simpleEdges[0]])
+                    
+#             # Plot
+#             for n in nodes:
+#                 n.plotNode(ax[0])
+                
+#             for e in edges:
+#                 e.plotEdge(ax[0])
+                
+#             sf1.plotFace(ax[0])
+#             sf2.plotFace(ax[1])
+#             msf1.plotFace(ax[1])
+            
+#             for a in ax:
+#                 pf.setAxesEqual(a)
+                
+            
+#             cc.printBlue('Coordinates:')
+#             cc.printGreen(sf1.coordinates)
+#             print()
+#             cc.printGreen(msf1.coordinates)
+#             print()
+            
+#             cc.printBlue('Normal vector:')
+#             cc.printGreen(sf1.normalVec,msf1.normalVec)
+#             print()
+            
+#             cc.printBlue('Area:')
+#             cc.printGreen(sf1.area,msf1.area)
+#             print()
+            
+#             cc.printBlue('Barycenter:')
+#             cc.printGreen(sf1.barycenter,msf1.barycenter)
+#             print()
+            
+#             cc.printBlue('Registered simple faces in e0:')
+#             cc.printGreen(e0.simpleEdges[0].simpleFaces)
+            
+#             me0 = -e0
+            
+#             cc.printBlue('Registered simple faces in -e0:')
+#             cc.printGreen(me0.simpleEdges[0].simpleFaces)
+            
+#             cc.printBlue('Registered simple faces in e1:')
+#             cc.printGreen(e1.simpleEdges[0].simpleFaces)
+        
+        
+# #         import tools.myVTK as myv
+    
+# #         myVTK = myv.MyVTK()
+# # #        myVTK.addActor(sf1.polygon.vtkActor)
+# # #        myVTK.addActor(sf2.polygon.vtkActor)
+        
+        
+# #         myVTK.start()
         
     
     
