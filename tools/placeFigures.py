@@ -203,14 +203,9 @@ def mm2inch(mm):
 
 
 def exportPNG(fig, filename='export', width_mm=120, height_mm=100, dpi=300):
-    if '/' in filename:
-        folders = filename.split('/')
-        path = ''
-        for f in folders[:-1]:
-            path += f
-            if not os.path.isdir(path):
-                os.mkdir(path)
-            path += '/'
+    folderpath = os.path.dirname(filename)
+    if folderpath != '':
+        os.makedirs(folderpath, exist_ok=True)
 
     plt.figure(fig.number)
     handle = plt.gcf()
@@ -247,7 +242,7 @@ def getVideo(title='My excellent animation',
     else:
         ax = fig.add_subplot(111)
 
-    plt.switch_backend("Agg")
+    plt.switch_backend('Agg')
     return (fig, ax, writer)
 
 
@@ -278,7 +273,7 @@ def getVideo2(title='My excellent animation',
     ax1 = fig.add_subplot(1, 2, 1, projection='3d')
     ax2 = fig.add_subplot(1, 2, 2)
 
-    plt.switch_backend("Agg")
+    plt.switch_backend('Agg')
     return (fig, [ax1, ax2], writer)
 
 
@@ -302,8 +297,9 @@ if __name__ == '__main__':
         exportPNG(figs[0], 'testExport/test')
         exportPNG(figs[1],
                   'testExport2/testExport3/testExport4/testExport5/test')
+        exportPNG(figs[2])
 
-    if True:
+    if False:
         (fig, ax, writer) = getVideo(title='Example', aspect3D=False, fps=60)
         x = np.arange(0, math.tau, 0.1)
         t = np.arange(0, math.tau, 1/60)
