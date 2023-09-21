@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-#==============================================================================
+# =============================================================================
 # PLACE FIGURES
-#==============================================================================
+# =============================================================================
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -16,29 +16,24 @@ Installation
 
 1.  Install the ffmpeg movie writer:
     https://www.wikihow.com/Install-FFmpeg-on-Windows
-2.  Choose Qt5 Backend to display interactable windows instead of showing 
+2.  Choose Qt5 Backend to display interactable windows instead of showing
     the plot inline:
     Tools --> Preferences --> IPython console --> Graphics --> Backend --> Qt5
 
-
-
-
-
-
 '''
-#==============================================================================
+# =============================================================================
 #    IMPORTS
-#==============================================================================
-#-------------------------------------------------------------------------
+# =============================================================================
+# ------------------------------------------------------------------------
 #    Change to Main Directory
-#-------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 import os
 if __name__ == '__main__':
     os.chdir('../')
 
-#-------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 #    Standard Libraries
-#-------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -48,11 +43,12 @@ import numpy as np
 import sys
 
 
-#==============================================================================
+# =============================================================================
 #    GET FIGURES
-#==============================================================================
+# =============================================================================
 
-def getFigures(numFigHorizontal=0,numFigVertical=0,numTotal=6,aspect3D=True):
+def getFigures(numFigHorizontal=0, numFigVertical=0,
+               numTotal=6, aspect3D=True):
     plt.switch_backend("Qt5Agg")
     try:
         import localConfig
@@ -60,47 +56,48 @@ def getFigures(numFigHorizontal=0,numFigVertical=0,numTotal=6,aspect3D=True):
         pyplotTopLeftCorner = localConfig.pyplotTopLeftCorner
         try:
             pyplotPortrait = localConfig.pyplotPortrait
-        except:
+        except Exception as e:
             pyplotPortrait = False
-            cc.printRed('Portrait mode not defined. Using standard landscape mode')
-    except:
+            cc.printRed('Portrait mode not defined. ' +
+                        'Using standard landscape mode. ' +
+                        '(Message: {})'.format(e))
+    except Exception as e:
         pyplotPortrait = False
-        pyplotWindowSize = (1920,1080)
-        pyplotTopLeftCorner = (0,0)
-        cc.printRed('place Figures: No local configuration file found, using standard')
-    
+        pyplotWindowSize = (1920, 1080)
+        pyplotTopLeftCorner = (0, 0)
+        cc.printRed('place Figures: No local configuration file found, ' +
+                    'using standard. ' +
+                    '(Message: {})'.format(e))
+
     if numTotal > 0:
         cc.printYellow('Portrait mode: {}'.format(pyplotPortrait))
         if pyplotPortrait:
-            numFigHorizontal = math.floor(math.sqrt(numTotal));
-            numFigVertical = math.ceil(numTotal/numFigHorizontal);
+            numFigHorizontal = math.floor(math.sqrt(numTotal))
+            numFigVertical = math.ceil(numTotal/numFigHorizontal)
             cc.printYellow('Portraid mode activated')
         else:
-            numFigVertical = math.floor(math.sqrt(numTotal));
-            numFigHorizontal = math.ceil(numTotal/numFigVertical);
+            numFigVertical = math.floor(math.sqrt(numTotal))
+            numFigHorizontal = math.ceil(numTotal/numFigVertical)
 
     # Close old windows
-    plt.close('all')
-    
+    closeFigures()
+
     xRes = pyplotWindowSize[0]
     yRes = pyplotWindowSize[1]
-    
+
     # Create 2-dimensional list with all figures
-    figuresXY = ([([plt.figure() for _ in range(numFigHorizontal)]) for _ in range(numFigVertical)])    
-    for i,row in enumerate(figuresXY):
-        width = xRes//numFigHorizontal
-        height = yRes//numFigVertical
-        for j,fig in enumerate(row):
-            
-            xPos = xRes//numFigHorizontal*j+pyplotTopLeftCorner[0]
-#            if moveLeft:
-#                xPos -= xRes
-            yPos = yRes//numFigVertical*i+pyplotTopLeftCorner[1]
-            
+    figuresXY = [[plt.figure() for _ in range(numFigHorizontal)]
+                 for _ in range(numFigVertical)]
+
+    width = xRes // numFigHorizontal
+    height = yRes // numFigVertical
+    for (i, row) in enumerate(figuresXY):
+        for (j, fig) in enumerate(row):
+            xPos = xRes // numFigHorizontal * j + pyplotTopLeftCorner[0]
+            yPos = yRes // numFigVertical * i + pyplotTopLeftCorner[1]
             mngr = fig.canvas.manager
-            mngr.window.setGeometry(xPos,yPos,width,height)  
-            
-        
+            mngr.window.setGeometry(xPos, yPos, width, height)
+
     # create list with all figures and axes
     figs = []
     axes = []
@@ -114,17 +111,19 @@ def getFigures(numFigHorizontal=0,numFigVertical=0,numTotal=6,aspect3D=True):
                     axes.append(y.add_subplot(projection='3d'))
             else:
                 axes.append(y.add_subplot(111))
-          
+
     if aspect3D:
         for ax in axes:
             ax.set_proj_type('ortho')
-            ax.view_init(azim = 135 ,elev = 20)
-            
-    return (figs,axes)
- 
-#==============================================================================
+            ax.view_init(azim=135, elev=20)
+
+    return (figs, axes)
+
+
+# =============================================================================
 #    SET AXES EQUAL
-#==============================================================================
+# =============================================================================
+
 
 def setAxesEqual(ax):
     '''Make axes of 3D plot have equal scale so that spheres appear as spheres,
@@ -153,49 +152,57 @@ def setAxesEqual(ax):
     ax.set_xlim3d([x_middle - plot_radius, x_middle + plot_radius])
     ax.set_ylim3d([y_middle - plot_radius, y_middle + plot_radius])
     ax.set_zlim3d([z_middle - plot_radius, z_middle + plot_radius])
-    
-  
-#==============================================================================
+
+
+# =============================================================================
 #    COPY LIMITS
-#==============================================================================
-    
-def copylimits(fromax,toax):
+# =============================================================================
+
+
+def copylimits(fromax, toax):
     toax.set_xlim3d(fromax.get_xlim3d())
     toax.set_ylim3d(fromax.get_ylim3d())
     toax.set_zlim3d(fromax.get_zlim3d())
-    
- 
-#==============================================================================
-#    SET LABELS
-#==============================================================================
 
-def setLabels(ax,x='x',y='y',z='z'):
+
+# =============================================================================
+#    SET LABELS
+# =============================================================================
+
+
+def setLabels(ax, x='x', y='y', z='z'):
     ax.set_xlabel(x)
     ax.set_ylabel(y)
     ax.set_zlabel(z)
-    
-#==============================================================================
+
+
+# =============================================================================
 #    RETURN TO 2D
-#==============================================================================
-    
+# =============================================================================
+
+
 def returnTo2D(fig):
     fig.clf()
     ax = fig.add_subplot(111)
     return ax
 
-#==============================================================================
+
+# =============================================================================
 #    MM TO INCH
-#==============================================================================
+# =============================================================================
+
 
 def mm2inch(mm):
     MM_PER_INCH = 25.4
     return mm/MM_PER_INCH
-    
-#==============================================================================
-#    EXPORT PNG
-#==============================================================================
 
-def exportPNG(fig,filename = 'export',width_mm = 120, height_mm = 100, dpi=300):
+
+# =============================================================================
+#    EXPORT PNG
+# =============================================================================
+
+
+def exportPNG(fig, filename='export', width_mm=120, height_mm=100, dpi=300):
     if '/' in filename:
         folders = filename.split('/')
         path = ''
@@ -204,103 +211,109 @@ def exportPNG(fig,filename = 'export',width_mm = 120, height_mm = 100, dpi=300):
             if not os.path.isdir(path):
                 os.mkdir(path)
             path += '/'
-        
+
     plt.figure(fig.number)
     handle = plt.gcf()
-    handle.set_size_inches(mm2inch(width_mm),mm2inch(height_mm))
-    plt.savefig(filename,dpi=dpi,transparent=True)        
-    
-    
-#==============================================================================
+    handle.set_size_inches(mm2inch(width_mm), mm2inch(height_mm))
+    plt.savefig(filename, dpi=dpi, transparent=True)
+
+
+# =============================================================================
 #    GET VIDEO
-#==============================================================================  
+# =============================================================================
 
 def getVideo(title='My excellent animation',
              artist='Tobias Scheuermann',
-             comment='Tobias Scheuermann\r\n\r\nE-Mail:\r\ntobias.scheuermann@tum.de\r\n\r\nTechnical University of Munich\r\nFaculty of Mechanical Engineering\r\nChair of Automatic Control',
-             aspect3D = True,
-             fps = 15):
+             comment='Tobias Scheuermann\r\n\r\n' +
+                     'E-Mail:\r\ntobias.scheuermann@tum.de\r\n\r\n' +
+                     'Technical University of Munich\r\n' +
+                     'Faculty of Mechanical Engineering\r\n' +
+                     'Chair of Automatic Control',
+             aspect3D=True,
+             fps=15):
     import matplotlib.animation as manimation
     import datetime
     today = datetime.date.today()
     FFMpegWriter = manimation.writers['ffmpeg']
-    metadata = dict(title=title, 
+    metadata = dict(title=title,
                     artist=artist,
                     comment=comment,
                     date=str(today))
     writer = FFMpegWriter(fps=fps, metadata=metadata)
-    
+
     fig = plt.figure(figsize=(16, 9), dpi=120)
     if aspect3D:
         ax = Axes3D(fig)
     else:
         ax = fig.add_subplot(111)
-    
-    
+
     plt.switch_backend("Agg")
-    return(fig,ax,writer)
-  
-#==============================================================================
+    return (fig, ax, writer)
+
+
+# =============================================================================
 #    GET VIDEO 2
-#==============================================================================  
-    
+# =============================================================================
+
+
 def getVideo2(title='My excellent animation',
-             artist='Tobias Scheuermann',
-             comment='Tobias Scheuermann\r\n\r\nE-Mail:\r\ntobias.scheuermann@tum.de\r\n\r\nTechnical University of Munich\r\nFaculty of Mechanical Engineering\r\nChair of Automatic Control',
-             fps = 15):
+              artist='Tobias Scheuermann',
+              comment='Tobias Scheuermann\r\n\r\n' +
+                      'E-Mail:\r\ntobias.scheuermann@tum.de\r\n\r\n' +
+                      'Technical University of Munich\r\n' +
+                      'Faculty of Mechanical Engineering\r\n' +
+                      'Chair of Automatic Control',
+              fps=15):
     import matplotlib.animation as manimation
     import datetime
     today = datetime.date.today()
     FFMpegWriter = manimation.writers['ffmpeg']
-    metadata = dict(title=title, 
+    metadata = dict(title=title,
                     artist=artist,
                     comment=comment,
                     date=str(today))
     writer = FFMpegWriter(fps=fps, metadata=metadata)
-    
+
     fig = plt.figure(figsize=(16, 9), dpi=120)
-    ax1 = fig.add_subplot(1,2,1,projection='3d')
-    ax2 = fig.add_subplot(1,2,2)
-    
-    
+    ax1 = fig.add_subplot(1, 2, 1, projection='3d')
+    ax2 = fig.add_subplot(1, 2, 2)
+
     plt.switch_backend("Agg")
-    return(fig,[ax1,ax2],writer)    
+    return (fig, [ax1, ax2], writer)
 
 
-#==============================================================================
+# =============================================================================
 #    CLOSE FIGURES
-#==============================================================================    
-    
+# =============================================================================
+
+
 def closeFigures():
     plt.close('all')
 
 
-#==============================================================================
+# =============================================================================
 #    TEST FUNCTIONS
-#==============================================================================
-    
-if __name__ == '__main__':
-    (fig,ax) = getFigures()
-    
-    if False:
-        exportPNG(fig[0],'testExport/test')
-        exportPNG(fig[1],'testExport2/testExport3/testExport4/testExport5/test')
-        
-    
-    
-    if False:
-    
-        (fig,ax,writer) = getVideo(title = 'Example',aspect3D = False,fps=60)
-        x = np.arange(0,math.tau,0.1)
-        t = np.arange(0,math.tau,1/60)
-        numSteps = len(t)
-        with writer.saving(fig,'exampleVideo.mp4',120):
-            for (i,now) in enumerate(t):
-                y = math.sin(now)*np.sin(x)
-                print('Visualizing timestep {} of {}'.format(i+1,numSteps))
-                ax.clear()
-                ax.plot(x,y)
-                ax.set_title('time = {:3.2f}'.format(now))
-                ax.set_ylim(-1.2,1.2)
-                writer.grab_frame()
+# =============================================================================
 
+if __name__ == '__main__':
+    (figs, axes) = getFigures()
+
+    if False:
+        exportPNG(figs[0], 'testExport/test')
+        exportPNG(figs[1],
+                  'testExport2/testExport3/testExport4/testExport5/test')
+
+    if True:
+        (fig, ax, writer) = getVideo(title='Example', aspect3D=False, fps=60)
+        x = np.arange(0, math.tau, 0.1)
+        t = np.arange(0, math.tau, 1/60)
+        numSteps = len(t)
+        with writer.saving(fig, 'exampleVideo.mp4', 120):
+            for (i, now) in enumerate(t):
+                y = math.sin(now)*np.sin(x)
+                print('Visualizing timestep {} of {}'.format(i+1, numSteps))
+                ax.clear()
+                ax.plot(x, y)
+                ax.set_title('time = {:3.2f}'.format(now))
+                ax.set_ylim(-1.2, 1.2)
+                writer.grab_frame()
