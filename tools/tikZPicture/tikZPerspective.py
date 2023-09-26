@@ -31,12 +31,20 @@ from tools.tikZPicture.tikZElement import TikZElement
 class TikZPerspective(TikZElement):
     '''
     This is the explanation of this class.
-    
+
     '''
 #==============================================================================
 #    CLASS VARIABLES
 #==============================================================================
     allNames = []
+
+#==============================================================================
+#    RESET NAMES
+#==============================================================================
+    @classmethod
+    def resetNames(cls):
+       TikZPerspective.allNames = []
+
 #==============================================================================
 #    SLOTS
 #==============================================================================
@@ -50,7 +58,7 @@ class TikZPerspective(TikZElement):
 #==============================================================================
     def __init__(self,name,projectionX=np.array([1,0]),projectionY=np.array([0,1]),projectionZ=np.array([-np.sqrt(2)/2,-np.sqrt(2)/2])):
         '''
-        
+
         '''
         super().__init__([])
         self.__name = name
@@ -62,8 +70,10 @@ class TikZPerspective(TikZElement):
         self.__projectionY = projectionY
         self.__projectionZ = projectionZ
         self.logger.info('Created TikZPerspective')
-        
-    
+
+
+
+
 #==============================================================================
 #    SETTER AND GETTER
 #==============================================================================
@@ -90,38 +100,39 @@ class TikZPerspective(TikZElement):
         text += '\t\tz = {{({}cm, {}cm)}}\n'.format(self.projectionZ[0],self.projectionZ[1])
         text += '\t}'
         return text
-    
+
     tikzset = property(__getTikzset)
 
 
-    
-    
+
+
 #==============================================================================
 #    TEST FUNCTIONS
 #==============================================================================
 if __name__ == '__main__':
     import logging
-    
+
     from tools import MyLogging
     from tools.tikZPicture.tikZPicture3D import TikZPicture3D
-    
+
     with MyLogging('TikZPerspective',shLevel=logging.DEBUG):
         cc.printBlue('Create perspective')
+        TikZPerspective.resetNames()
         perspective = TikZPerspective('bla',
                                       np.array([-0.9,0.3]),
                                       np.array([-0.8,-0.4]),
                                       np.array([0,1]))
-        
+
         cc.printBlue('Create picture')
         pic = TikZPicture3D(perspective,scale=2)
-        
+
         cc.printBlue('Create node')
         n1 = pic.addTikZNode('n1',np.array([0,0,0]),'A',options=['draw','circle'])
-        
+
         cc.printBlue('Create coordinate system')
         pic.addTikZCoSy3D(n1)
-        
+
         cc.printBlue('Create LaTeX file')
-        pic.writeLaTeXFile('latex','tikZPerspective',compileFile=True,openFile=True)
-        
-        
+        # pic.writeLaTeXFile('latex','tikZPerspective',compileFile=True,openFile=True)
+
+

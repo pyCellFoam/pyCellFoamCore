@@ -12,8 +12,8 @@
 if __name__ == '__main__':
     import os
     os.chdir('../../')
-    
-    
+
+
 from tools.tikZPicture.tikZCanvas import TikZCanvas
 from tools.tikZPicture.tikZCircledArrow import TikZCircledArrow
 from tools.tikZPicture.tikZCoordinate import TikZCoordinate
@@ -22,3 +22,4 @@ from tools.tikZPicture.tikZCoSy3D import TikZCoSy3D
 from tools.tikZPicture.tikZPicture import TikZPicture
 from tools.tikZPicture.tikZPicture2D import TikZPicture2D
 from tools.tikZPicture.tikZPicture3D import TikZPicture3D
+from tools.tikZPicture.tikZPerspective import TikZPerspective
