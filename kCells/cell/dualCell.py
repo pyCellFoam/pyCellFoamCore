@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-#==============================================================================
+# =============================================================================
 # DUAL CELL
-#==============================================================================
+# =============================================================================
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -13,93 +13,90 @@
 Parent class for all dual k-Cells.
 
 '''
-#==============================================================================
+# =============================================================================
 #    IMPORTS
-#==============================================================================
-#-------------------------------------------------------------------------
+# =============================================================================
+# ------------------------------------------------------------------------
 #    Change to Main Directory
-#-------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 import os
 if __name__ == '__main__':
     os.chdir('../../')
 
-#-------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 #    Local Libraries
-#-------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 
 
 #    kCells
-#--------------------------------------------------------------------
+# -------------------------------------------------------------------
 from kCells.cell.cell import Cell
 
 
 #    Tools
-#--------------------------------------------------------------------
+# -------------------------------------------------------------------
 from tools import MyLogging
 import tools.colorConsole as cc
 
 
-#==============================================================================
+# =============================================================================
 #    CLASS DEFINITION
-#==============================================================================
+# =============================================================================
 
 class DualCell(Cell):
     '''
     This class only inherits from the Cell class.
-    
+
     '''
-    
-#==============================================================================
+
+# =============================================================================
 #    SLOTS
-#==============================================================================
+# =============================================================================
 #    __slots__ = ()
 
-#==============================================================================
+# =============================================================================
 #    INITIALIZATION
-#==============================================================================
-    def __init__(self,*args,**kwargs):
+# =============================================================================
+    def __init__(self, *args, **kwargs):
         '''
-        
+
         :param int num: number of this k-cell
         :param str label: label of this k-cell
         :param bool showLabel: Should the label be shown in the plot?
-        :param TUMColor color: The color of this cell in the plot.        
-        :param SuperBaseCell myReverse: 
-        :param str category: The category (inner, border, additonal border), 
+        :param TUMColor color: The color of this cell in the plot.
+        :param SuperBaseCell myReverse:
+        :param str category: The category (inner, border, additonal border),
             that this k-cell belongs to.
-        :param bool isGeometrical: Set, if the k-cell is not part of the 
+        :param bool isGeometrical: Set, if the k-cell is not part of the
             topology of the complex.
-        :param str loggerName: The logger name needs to be passed from the 
+        :param str loggerName: The logger name needs to be passed from the
             class at the lowest level by loggerName = __name__
-        
+
         '''
-        super().__init__(*args,**kwargs)
+        super().__init__(*args, **kwargs)
         self.logger.debug('Initialized DualCell')
-        
-        
-        
-    
-#==============================================================================
+
+# =============================================================================
 #    SETTER AND GETTER
-#==============================================================================
+# =============================================================================
     def __getIsDual(self): return True
     isDual = property(__getIsDual)
     '''
-    
+
     '''
-    
-#==============================================================================
+
+# =============================================================================
 #    METHODS
-#==============================================================================
-    def updateNum(self,myPrintInfo = None,myPrintError = None):
+# =============================================================================
+    def updateNum(self, myPrintInfo=None, myPrintError=None):
         '''
-        
+
         '''
-        if myPrintInfo == None:
+        if myPrintInfo is None:
             myPrintInfo = self.logger.info
-        if myPrintError == None:
+        if myPrintError is None:
             self.logger.error
-            
+
         if self.isGeometrical:
             myPrintInfo('Not copying number for geometrical kCell')
         else:
@@ -116,17 +113,16 @@ class DualCell(Cell):
                 self.num = self.dualCell0D.num
                 myPrintInfo('Copying number of {} from 0D dual'.format(self))
             else:
-                myPrintError('{} has no dual - cannot update number'.format(self))
+                myPrintError('{} has no dual - '.format(self)
+                             + 'cannot update number')
 
-    
-#==============================================================================
+
+# =============================================================================
 #    TEST FUNCTIONS
-#==============================================================================
+# =============================================================================
 if __name__ == '__main__':
-    with MyLogging('Cell',debug=True):
+    with MyLogging('Cell', debug=True):
         cc.printBlue('Creat dual cell')
         test = DualCell()
         cc.printBlue('Check that the isDual attribute ist set correctly')
-        print(test.isDual,test.myReverse.isDual)
-    
-
+        print(test.isDual, test.myReverse.isDual)
