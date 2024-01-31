@@ -6,6 +6,7 @@
 /doc/build
 /doc/_static
 /doc/_templates
+/venv/
 
 
 #----------------------------
