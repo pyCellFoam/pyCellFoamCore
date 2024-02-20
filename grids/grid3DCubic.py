@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-#==============================================================================
+# =============================================================================
 # 3D CUBIC GRID
-#==============================================================================
+# =============================================================================
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -16,9 +16,9 @@ grid by one cube and connect it to the existing nodes.
 The construction of the grid is done in the PrimalComplex3DCubic class.
 
 '''
-#==============================================================================
+# =============================================================================
 #    IMPORTS
-#==============================================================================
+# =============================================================================
 if __name__ == '__main__':
     import os
     os.chdir('../')
@@ -35,21 +35,9 @@ import tools.colorConsole as cc
 import tools.tumcolor as tc
 
 
-
-#####################################################################################
-#                           #####                                                   #
-#                          #     #  #    #  #####   ######                          #
-#                          #        #    #  #    #  #                               #
-#                          #        #    #  #####   #####                           #
-#                          #        #    #  #    #  #                               #
-#                          #     #  #    #  #    #  #                               #
-#                           #####    ####   #####   ######                          #
-#                                                                                   #
-#####################################################################################
-
-#==============================================================================
+# =============================================================================
 #    CUBE CLASS DEFINITION
-#==============================================================================
+# =============================================================================
 class Cube:
     '''
     The following local numbering is used:
@@ -58,135 +46,132 @@ class Cube:
        :width: 400px
        :alt: 3D cubic grid nodes and edges
        :align: center
-       
+
     .. image:: ../../../_static/grid3DCubicCube1.png
        :width: 400px
        :alt: 3D cubic grid edges and faces
-       :align: center    
-    
+       :align: center
+
     '''
-    
-#==============================================================================
+
+# =============================================================================
 #    CUBE SLOTS
-#==============================================================================
+# =============================================================================
 #    __slots__ = ()
 
-#==============================================================================
+# =============================================================================
 #    CUBE INITIALIZATION
-#==============================================================================
-    def __init__(self,x,y,z,a,
-                      n0old=False,
-                      n1old=False,
-                      n2old=False,
-                      n3old=False,
-                      n4old=False,
-                      n5old=False,
-                      n6old=False,
-                      n7old=False):
+# =============================================================================
+    def __init__(self, x, y, z, a,
+                 n0old=False,
+                 n1old=False,
+                 n2old=False,
+                 n3old=False,
+                 n4old=False,
+                 n5old=False,
+                 n6old=False,
+                 n7old=False):
         '''
-        
+
         :param float x: x-coordinate of cube center
         :param float y: x-coordinate of cube center
         :param float z: x-coordinate of cube center
         :param Node nIold: node that was created by another cube. Use this to
             connect cubes. I is the local number in this cube.
-        
-        
-        
+
+
+
         '''
-        
+
         # Store coordinates
         self.x = x
         self.y = y
         self.z = z
-        
-        # Create nodes        
-        self.n0 = self.__createNode(x-a/2,y-a/2,z-a/2,n0old)
-        self.n1 = self.__createNode(x+a/2,y-a/2,z-a/2,n1old)
-        self.n2 = self.__createNode(x-a/2,y+a/2,z-a/2,n2old)
-        self.n3 = self.__createNode(x+a/2,y+a/2,z-a/2,n3old)
-        self.n4 = self.__createNode(x-a/2,y-a/2,z+a/2,n4old)
-        self.n5 = self.__createNode(x+a/2,y-a/2,z+a/2,n5old)
-        self.n6 = self.__createNode(x-a/2,y+a/2,z+a/2,n6old)
-        self.n7 = self.__createNode(x+a/2,y+a/2,z+a/2,n7old)        
-        self.nodes = [self.n0,self.n1,self.n2,self.n3,self.n4,self.n5,self.n6,self.n7]
-        
+
+        # Create nodes
+        self.n0 = self.__createNode(x-a/2, y-a/2, z-a/2, n0old)
+        self.n1 = self.__createNode(x+a/2, y-a/2, z-a/2, n1old)
+        self.n2 = self.__createNode(x-a/2, y+a/2, z-a/2, n2old)
+        self.n3 = self.__createNode(x+a/2, y+a/2, z-a/2, n3old)
+        self.n4 = self.__createNode(x-a/2, y-a/2, z+a/2, n4old)
+        self.n5 = self.__createNode(x+a/2, y-a/2, z+a/2, n5old)
+        self.n6 = self.__createNode(x-a/2, y+a/2, z+a/2, n6old)
+        self.n7 = self.__createNode(x+a/2, y+a/2, z+a/2, n7old)
+        self.nodes = [self.n0, self.n1, self.n2, self.n3, self.n4, self.n5, self.n6, self.n7]
+
         # Create edges
-        self.e0 = self.__createEdge(self.n0,self.n1)
-        self.e1 = self.__createEdge(self.n2,self.n3)
-        self.e2 = self.__createEdge(self.n4,self.n5)
-        self.e3 = self.__createEdge(self.n6,self.n7)
-        self.e4 = self.__createEdge(self.n0,self.n2)
-        self.e5 = self.__createEdge(self.n1,self.n3)
-        self.e6 = self.__createEdge(self.n4,self.n6)
-        self.e7 = self.__createEdge(self.n5,self.n7)
-        self.e8 = self.__createEdge(self.n0,self.n4)
-        self.e9 = self.__createEdge(self.n1,self.n5)
-        self.e10 = self.__createEdge(self.n2,self.n6)
-        self.e11 = self.__createEdge(self.n3,self.n7)
+        self.e0 = self.__createEdge(self.n0, self.n1)
+        self.e1 = self.__createEdge(self.n2, self.n3)
+        self.e2 = self.__createEdge(self.n4, self.n5)
+        self.e3 = self.__createEdge(self.n6, self.n7)
+        self.e4 = self.__createEdge(self.n0, self.n2)
+        self.e5 = self.__createEdge(self.n1, self.n3)
+        self.e6 = self.__createEdge(self.n4, self.n6)
+        self.e7 = self.__createEdge(self.n5, self.n7)
+        self.e8 = self.__createEdge(self.n0, self.n4)
+        self.e9 = self.__createEdge(self.n1, self.n5)
+        self.e10 = self.__createEdge(self.n2, self.n6)
+        self.e11 = self.__createEdge(self.n3, self.n7)
         self.edges = [self.e0, self.e1, self.e2, self.e3,
                       self.e4, self.e5, self.e6, self.e7,
-                      self.e8,self.e9, self.e10, self.e11]
-        
+                      self.e8, self.e9, self.e10, self.e11]
+
         # Create faces
-        self.f0 = self.__createFace([self.e0,self.e5,-self.e1,-self.e4])
-        self.f1 = self.__createFace([self.e2,self.e7,-self.e3,-self.e6])
-        self.f2 = self.__createFace([self.e0,self.e9,-self.e2,-self.e8])
-        self.f3 = self.__createFace([self.e1,self.e11,-self.e3,-self.e10])
-        self.f4 = self.__createFace([self.e4,self.e10,-self.e6,-self.e8])
-        self.f5 = self.__createFace([self.e5,self.e11,-self.e7,-self.e9])
-        self.faces = [self.f0,self.f1,self.f2,self.f3,self.f4,self.f5]
-        
+        self.f0 = self.__createFace([self.e0, self.e5, -self.e1, -self.e4])
+        self.f1 = self.__createFace([self.e2, self.e7, -self.e3, -self.e6])
+        self.f2 = self.__createFace([self.e0, self.e9, -self.e2, -self.e8])
+        self.f3 = self.__createFace([self.e1, self.e11, -self.e3, -self.e10])
+        self.f4 = self.__createFace([self.e4, self.e10, -self.e6, -self.e8])
+        self.f5 = self.__createFace([self.e5, self.e11, -self.e7, -self.e9])
+        self.faces = [self.f0, self.f1, self.f2, self.f3, self.f4, self.f5]
+
         # Create volumes
-        self.volume = Volume([-self.f0,self.f1,self.f2,-self.f3,-self.f4,self.f5])
+        self.volume = Volume([-self.f0, self.f1, self.f2, -self.f3, -self.f4, self.f5])
 
-        
-    
-
-#==============================================================================
+# =============================================================================
 #    CUBE MAGIC METHODS
-#==============================================================================    
-    
+# =============================================================================
+
     def  __repr__(self):
         return '🎲'+self.volume.infoText
-    
-#==============================================================================
+
+# =============================================================================
 #    CUBE METHODS
-#==============================================================================      
-            
-#-------------------------------------------------------------------------
+# =============================================================================
+
+# ------------------------------------------------------------------------
 #    Create node
-#-------------------------------------------------------------------------
-    def __createNode(self,x,y,z,nodeOld):
+# ------------------------------------------------------------------------
+    def __createNode(self, x, y, z, nodeOld):
         '''
         Creating node at given location if no old node is given.
-        
+
         :param int x: x-Coordinate of the node
         :param int y: y-Coordinate of the node
         :param int z: z-Coordinate of the node
         :param nodeOld: old node, if it already existed
-        
+
         :return: New node
-        
+
         '''
-        
+
         if not nodeOld:
-            return Node(x,y,z)
+            return Node(x, y, z)
         else:
             return nodeOld
 
-#-------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 #    Create edge
-#-------------------------------------------------------------------------        
-    def __createEdge(self,n1,n2):
+# ------------------------------------------------------------------------
+    def __createEdge(self, n1, n2):
         '''
         Creating edge between two given nodes. If the edge already existed, the
         existing edge is returned.
-        
+
         :param Node n1: Start node
         :param Node n2: End node
         :return: Edge betweend given nodes
-        
+
         '''
         edgeExisted = False
         for e in n1.edges:
@@ -194,26 +179,26 @@ class Cube:
                 edgeExisted = True
                 oldEdge = e
         if not edgeExisted:
-            return Edge(n1,n2)
+            return Edge(n1, n2)
         else:
             return oldEdge
-#-------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 #    Create face
-#-------------------------------------------------------------------------        
-    def __createFace(self,edges):
+# ------------------------------------------------------------------------
+    def __createFace(self, edges):
         '''
         Creating face between given edges. If the face already existed, the
         existing face is returned.
-        
+
         :param Edge edges: list of edges to define face
         :return: Face defined by given edges
-        
+
         '''
-        
+
         # If an error occured in edge creation, do not create face
         if any([e == False for e in edges]):
             return False
-        
+
         # Check if face already exists
         faceExisted = False
         facesOld = []
@@ -226,68 +211,68 @@ class Cube:
             if all([e in edges for e in f.edges]):
                 faceExisted = True
                 oldFace = f
-                
-        # Return face accordingly                
+
+        # Return face accordingly
         if not faceExisted:
             return Face(edges)
         else:
             return oldFace
-        
-#-------------------------------------------------------------------------
+
+# ------------------------------------------------------------------------
 #    Set numbers to local numbering
-#------------------------------------------------------------------------- 
+# ------------------------------------------------------------------------
     def setLocalNumbering(self):
-        for (i,n) in enumerate(self.nodes):
+        for (i, n) in enumerate(self.nodes):
             n.num = i
-        for (i,e) in enumerate(self.edges):
-            e.num = i            
-        for (i,f) in enumerate(self.faces):
+        for (i, e) in enumerate(self.edges):
+            e.num = i
+        for (i, f) in enumerate(self.faces):
             f.num = i
-            
-        
-#-------------------------------------------------------------------------
+
+
+# ------------------------------------------------------------------------
 #    Plot cube
-#-------------------------------------------------------------------------         
-    def plotCube(self,ax,plotNodes=True,plotEdges=True,plotFaces=True,**kwargs):
+# ------------------------------------------------------------------------
+    def plotCube(self, ax, plotNodes=True, plotEdges=True, plotFaces=True, **kwargs):
         if plotNodes:
             for n in self.nodes:
-                n.plotNode(ax,**kwargs)
+                n.plotNode(ax, **kwargs)
         if plotEdges:
             for e in self.edges:
-                e.plotEdge(ax,**kwargs)
+                e.plotEdge(ax, **kwargs)
         if plotFaces:
             for f in self.faces:
-                f.plotFace(ax,**kwargs)
+                f.plotFace(ax, **kwargs)
 
-#-------------------------------------------------------------------------
+# ------------------------------------------------------------------------
 #    Plots for documentation
-#-------------------------------------------------------------------------    
+# ------------------------------------------------------------------------
     @classmethod
     def plotDoc(cls):
         '''
         Class method that creates all plots needed in the documentation.
-        
+
         '''
-        
+
         # Prepare figures
-        (figs,ax) = pf.getFigures(numTotal=2)
-        
+        (figs, ax) = pf.getFigures(numTotal=2)
+
         # Create a cube
-        cube = Cube(0,0,0,5)
-        
+        cube = Cube(0, 0, 0, 5)
+
         # Set numbering to local
         cube.setLocalNumbering()
-        
-        # Plot nodes & edges
-        cube.plotCube(ax[0],plotFaces=False)
-        
-        # Plot edges & faces
-        cube.plotCube(ax[1],plotNodes=False)
 
-        # Export png files            
-        pf.exportPNG(figs[0],'doc/_static/grid3DCubicCube0.png')
-        pf.exportPNG(figs[1],'doc/_static/grid3DCubicCube1.png')
-            
+        # Plot nodes & edges
+        cube.plotCube(ax[0], plotFaces=False)
+
+        # Plot edges & faces
+        cube.plotCube(ax[1], plotNodes=False)
+
+        # Export png files
+        pf.exportPNG(figs[0], 'doc/_static/grid3DCubicCube0.png')
+        pf.exportPNG(figs[1], 'doc/_static/grid3DCubicCube1.png')
+
 
 
 #####################################################################################
@@ -302,134 +287,134 @@ class Cube:
 #####################################################################################
 
 
-#==============================================================================
+# =============================================================================
 #    GRID CLASS DEFINITION
-#==============================================================================
-def getComplexCubic(*args,**kwargs):
+# =============================================================================
+def getComplexCubic(*args, **kwargs):
     raise NameError('This method is deprecated. Use PrimalComplex3DCubic class instead')
-        
+
 class Grid3DCubic(PrimalComplex3D):
     '''
     The Grid is constructed in the following steps:
-        
-        
-        
-        
+
+
+
+
     **Step 1: First cube in first row of first layer**
-    
+
     The first cube is located at the origin.
-    
+
     .. image:: ../../../_static/grid3DCubicComplex0.png
        :width: 400px
        :alt: cubic grid step 1
        :align: center
-       
-       
-       
-    
+
+
+
+
     **Step 2: First row in first layer**
-    
+
     Cubes to the first row are added. The local nodes 0, 2, 4 and 6 are taken
     from the previous cube in x-direction
-    
+
     .. image:: ../../../_static/grid3DCubicComplex1.png
        :width: 400px
        :alt: cubic grid step 2
        :align: center
-       
-       
-       
-    
-    
+
+
+
+
+
     **Step 3: First cube in other rows of current layer**
-    
+
     The other rows are started with a cube where the local nodes 0, 1, 4 and 5
     are taken from the previous cube in y-direction.
-    
+
     .. image:: ../../../_static/grid3DCubicComplex2.png
        :width: 400px
        :alt: cubic grid step 3
-       :align: center   
-        
-    
-    
-    
+       :align: center
+
+
+
+
     **Step 4: Other cubes in current layer**
-    
+
     The layer is completed with cubes that have a predecessor in x- and in y-
     direction. Nodes 0, 1, 2, 4, 5 and 6 already exist.
- 
+
     .. image:: ../../../_static/grid3DCubicComplex3.png
        :width: 400px
        :alt: cubic grid step 4
-       :align: center      
-    
-    
-    
+       :align: center
+
+
+
     **Step 5: First cube in first row of current layer**
-    
+
     A new layer is started with a cube that is connected to the pevious layer
     by nodes 0, 1, 2 and 3 from previous cube in z-direction.
-    
+
     .. image:: ../../../_static/grid3DCubicComplex4.png
        :width: 400px
        :alt: cubic grid step 5
-       :align: center      
-    
-    
-    
-    
-    
+       :align: center
+
+
+
+
+
     **Step 6: Other cubes in first row in current layer**
-    
+
     The first row is filled with cubes that have a predecesser in x- and z-
     direction. Nodes 0, 1, 2, 3, 4 and 6 already exist.
-    
+
     .. image:: ../../../_static/grid3DCubicComplex5.png
        :width: 400px
        :alt: cubic grid step 6
-       :align: center  
+       :align: center
 
 
 
-    
+
     **Step 7: First cube in current row of current layer**
-    
-    The following rows start with a cube where nodes 0, 1, 2, 3, 4 and 5 are 
+
+    The following rows start with a cube where nodes 0, 1, 2, 3, 4 and 5 are
     known from the predecessor in y- and z-direction.
-    
+
     .. image:: ../../../_static/grid3DCubicComplex6.png
        :width: 400px
        :alt: cubic grid step 7
-       :align: center      
-    
-    
-    
-    
+       :align: center
+
+
+
+
     **Step 8: Other cubes in current row of current layer**
-    
+
     In the final step, the whole grid is fille with cubes where nodes
     0, 1, 2, 3, 4, 5 and 6 are known from the predecessors in all three
     directions (only node 7 needs to be created)
-    
+
     .. image:: ../../../_static/grid3DCubicComplex7.png
        :width: 400px
        :alt: cubic grid step 8
-       :align: center      
-    
-    
-        
-        
+       :align: center
+
+
+
+
     '''
-#==============================================================================
+# =============================================================================
 #    SLOTS
-#==============================================================================
-    __slots__ = ('__cubeStack')    
-    
-    
-#==============================================================================
+# =============================================================================
+    __slots__ = ('__cubeStack')
+
+
+# =============================================================================
 #    INITIALIZATION
-#==============================================================================     
+# =============================================================================
     def __init__(self,
                  xNum,
                  yNum=None,
@@ -442,27 +427,27 @@ class Grid3DCubic(PrimalComplex3D):
                  borderVolumesRight=False,
                  borderVolumesAll=False,
                  a = 3.):
-        
+
         '''
-        
+
         :param xNum: number of cubes in x-direction
-        :param yNum: number of cubes in y-direction (leave empty to set equal 
+        :param yNum: number of cubes in y-direction (leave empty to set equal
                      to xNum)
-        :param zNum: number of cubes in z-direction (leave empty to set equal 
+        :param zNum: number of cubes in z-direction (leave empty to set equal
                      to xNum)
-        :param borderVolumesX: Set all volumes at the according border as a 
+        :param borderVolumesX: Set all volumes at the according border as a
                                border Volume. X = Bottom, Top, Front, Back,
                                Left, Right, All
-        
+
         '''
 
         if yNum == None:
             yNum = xNum
         if zNum == None:
-            zNum = xNum   
-        
-        
-        
+            zNum = xNum
+
+
+
         if borderVolumesAll:
             borderVolumesBottom=True
             borderVolumesTop=True
@@ -470,9 +455,9 @@ class Grid3DCubic(PrimalComplex3D):
             borderVolumesBack=True
             borderVolumesLeft=True
             borderVolumesRight=True
-            
-            
-        
+
+
+
 # Step 1: First cube in first row of first layer
 # ---------------------------------------------------------------------
 #            +----+----+----+
@@ -486,16 +471,16 @@ class Grid3DCubic(PrimalComplex3D):
 #      |    |    |    |/ |/ |
 #      +----+----+----+  +  +
 #      |    |    |    | /| /
-#      |    |    |    |/ |/ 
+#      |    |    |    |/ |/
 #      +----+----+----+  +
 #      |XXXX|    |    | /
 #      |XXXX|    |    |/
 #      +----+----+----+
-    
-        row = [Cube(a/2,a/2,a/2,a)]
-        
-        
-        
+
+        row = [Cube(a/2, a/2, a/2, a)]
+
+
+
         for i in range(xNum-1):
             preCube = row[-1]
 # Step 2: First row in first layer
@@ -511,7 +496,7 @@ class Grid3DCubic(PrimalComplex3D):
 #      |    |    |    |/ |/ |
 #      +----+----+----+  +  +
 #      |    |    |    | /| /
-#      |    |    |    |/X|/ 
+#      |    |    |    |/X|/
 #      +----+----+----+XX+
 #      |XXXX|XXXX|XXXX|X/
 #      |XXXX|XXXX|XXXX|/
@@ -524,10 +509,10 @@ class Grid3DCubic(PrimalComplex3D):
                             n2old = preCube.n3,
                             n4old = preCube.n5,
                             n6old = preCube.n7))
-            
-            
+
+
         # First layer
-        layer = [row,]
+        layer = [row, ]
         for j in range(yNum-1):
             preCubeY = layer[-1][0]
 # Step 3: First cube in other rows of current layer
@@ -543,11 +528,11 @@ class Grid3DCubic(PrimalComplex3D):
 #      |    |    |    |/ |/ |
 #      +----+----+----+  +  +
 #  --> |    |    |    | /| /
-#      |    |    |    |/X|/ 
+#      |    |    |    |/X|/
 #      +----+----+----+XX+
 #      |XXXX|XXXX|XXXX|X/
 #      |XXXX|XXXX|XXXX|/
-#      +----+----+----+            
+#      +----+----+----+
 
             row = [Cube(x=preCubeY.x,
                         y=preCubeY.y+a,
@@ -556,12 +541,12 @@ class Grid3DCubic(PrimalComplex3D):
                         n0old=preCubeY.n2,
                         n1old=preCubeY.n3,
                         n4old=preCubeY.n6,
-                        n5old=preCubeY.n7),]
+                        n5old=preCubeY.n7), ]
             for i in range(xNum-1):
                 preCubeX = row[-1]
                 preCubeY = layer[-1][i+1]
-                
-                
+
+
 # Step 4: Other cubes in current layer
 # ---------------------------------------------------------------------
 #            +----+----+----+
@@ -575,13 +560,13 @@ class Grid3DCubic(PrimalComplex3D):
 #      |    |    |    |/ |/X|
 #      +----+----+----+  +XX+
 #      |    |    |    | /|X/
-#      |    |    |    |/X|/ 
+#      |    |    |    |/X|/
 #      +----+----+----+XX+
 #      |XXXX|XXXX|XXXX|X/
 #      |XXXX|XXXX|XXXX|/
 #      +----+----+----+
-                
-                
+
+
                 row.append(Cube(x = preCubeX.x+a,
                             y = preCubeX.y,
                             z = preCubeX.z,
@@ -592,15 +577,15 @@ class Grid3DCubic(PrimalComplex3D):
                             n4old = preCubeX.n5,
                             n5old = preCubeY.n7,
                             n6old = preCubeX.n7))
-                
+
             layer.append(row)
-            
+
         # Complete stack
-        stack = [layer,]
+        stack = [layer, ]
         for k in range(zNum-1):
             preCubeZ = stack[-1][0][0]
-            
-            
+
+
 # Step 5: First cube in first row of current layer
 # ---------------------------------------------------------------------
 #            +----+----+----+
@@ -614,7 +599,7 @@ class Grid3DCubic(PrimalComplex3D):
 #      |    |    |    |/ |/X|
 #      +----+----+----+  +XX+
 #      |XXXX|    |    | /|X/
-#      |XXXX|    |    |/X|/ 
+#      |XXXX|    |    |/X|/
 #      +----+----+----+XX+
 #      |XXXX|XXXX|XXXX|X/
 #      |XXXX|XXXX|XXXX|/
@@ -627,16 +612,16 @@ class Grid3DCubic(PrimalComplex3D):
                         n1old = preCubeZ.n5,
                         n2old = preCubeZ.n6,
                         n3old = preCubeZ.n7)]
-            
-            
-            
+
+
+
 
             for i in range(xNum-1):
                 preCubeX = row[-1]
                 preCubeZ = stack[-1][0][i+1]
-                
+
 # Step 6: Other cubes in first row in current layer
-# ---------------------------------------------------------------------                
+# ---------------------------------------------------------------------
 #            +----+----+----+
 #      	    /    /    /    /|
 #          /    /    /    / |
@@ -648,7 +633,7 @@ class Grid3DCubic(PrimalComplex3D):
 #      |    |    |    |/X|/X|
 #      +----+----+----+XX+XX+
 #      |XXXX|XXXX|XXXX|X/|X/
-#      |XXXX|XXXX|XXXX|/X|/ 
+#      |XXXX|XXXX|XXXX|/X|/
 #      +----+----+----+XX+
 #      |XXXX|XXXX|XXXX|X/
 #      |XXXX|XXXX|XXXX|/
@@ -663,18 +648,18 @@ class Grid3DCubic(PrimalComplex3D):
                                 n3old = preCubeZ.n7,
                                 n4old = preCubeX.n5,
                                 n6old = preCubeX.n7))
-            layer = [row,]
-            
-            
-            
-            
+            layer = [row, ]
+
+
+
+
             for j in range(yNum-1):
                 preCubeY = layer[-1][0]
                 preCubeZ = stack[-1][j+1][0]
-                
-                
+
+
 # Step 7: First cube in current row of current layer
-# ---------------------------------------------------------------------  
+# ---------------------------------------------------------------------
 #            +----+----+----+
 #           /    /    /    /|
 #          /    /    /    / |
@@ -686,12 +671,12 @@ class Grid3DCubic(PrimalComplex3D):
 #      |    |    |    |/X|/X|
 #      +----+----+----+XX+XX+
 #      |XXXX|XXXX|XXXX|X/|X/
-#      |XXXX|XXXX|XXXX|/X|/ 
+#      |XXXX|XXXX|XXXX|/X|/
 #      +----+----+----+XX+
 #      |XXXX|XXXX|XXXX|X/
 #      |XXXX|XXXX|XXXX|/
 #      +----+----+----+
-                
+
                 row = [Cube(preCubeZ.x,
                             preCubeZ.y,
                             preCubeZ.z+a,
@@ -701,17 +686,17 @@ class Grid3DCubic(PrimalComplex3D):
                             n2old = preCubeZ.n6,
                             n3old = preCubeZ.n7,
                             n4old=preCubeY.n6,
-                            n5old = preCubeY.n7),]
-            
-            
-            
+                            n5old = preCubeY.n7), ]
+
+
+
                 for i in range(xNum-1):
                     preCubeX = row[-1]
                     preCubeY = layer[-1][i+1]
                     preCubeZ = stack[-1][j+1][i+1]
-                    
+
 # Step 8: Other cubes in current row of current layer
-# ---------------------------------------------------------------------  
+# ---------------------------------------------------------------------
 #            +----+----+----+
 #      	    /    /    /    /|
 #          /    /    /    / |
@@ -723,7 +708,7 @@ class Grid3DCubic(PrimalComplex3D):
 #      |    |    |    |/X|/X|
 #      +----+----+----+XX+XX+
 #      |XXXX|XXXX|XXXX|X/|X/
-#      |XXXX|XXXX|XXXX|/X|/ 
+#      |XXXX|XXXX|XXXX|/X|/
 #      +----+----+----+XX+
 #      |XXXX|XXXX|XXXX|X/
 #      |XXXX|XXXX|XXXX|/
@@ -741,11 +726,11 @@ class Grid3DCubic(PrimalComplex3D):
                                     n6old = preCubeX.n7))
                 layer.append(row)
             stack.append(layer)
-            
-            
-            
-            
-        borderVolumes = []   
+
+
+
+
+        borderVolumes = []
         if borderVolumesBottom:
             bottom = []
             for row in stack[0]:
@@ -754,7 +739,7 @@ class Grid3DCubic(PrimalComplex3D):
             for c in bottom:
                 if not c.volume in borderVolumes:
                     borderVolumes.append(c.volume)
-        
+
         if borderVolumesTop:
             top = []
             for row in stack[-1]:
@@ -763,7 +748,7 @@ class Grid3DCubic(PrimalComplex3D):
             for c in top:
                 if not c.volume in borderVolumes:
                     borderVolumes.append(c.volume)
-        
+
         if borderVolumesFront:
             front = []
             for layer in stack:
@@ -772,9 +757,9 @@ class Grid3DCubic(PrimalComplex3D):
             for c in front:
                 if not c.volume in borderVolumes:
                     borderVolumes.append(c.volume)
-                    
-        
-        if borderVolumesBack:            
+
+
+        if borderVolumesBack:
             back = []
             for layer in stack:
                 for cube in layer[-1]:
@@ -782,7 +767,7 @@ class Grid3DCubic(PrimalComplex3D):
             for c in back:
                 if not c.volume in borderVolumes:
                     borderVolumes.append(c.volume)
-        
+
         if borderVolumesLeft:
             left = []
             for layer in stack:
@@ -791,9 +776,7 @@ class Grid3DCubic(PrimalComplex3D):
             for c in left:
                 if not c.volume in borderVolumes:
                     borderVolumes.append(c.volume)
-            
-        
-        
+
         if borderVolumesRight:
             right= []
             for layer in stack:
@@ -801,21 +784,21 @@ class Grid3DCubic(PrimalComplex3D):
                     right.append(row[-1])
             for c in right:
                 if not c.volume in borderVolumes:
-                    borderVolumes.append(c.volume)                
-        
-        
-        
+                    borderVolumes.append(c.volume)
+
+
+
         for v in borderVolumes:
             v.category = 'border'
-            v.color= tc.TUMRose()    
-                
-        
-    
+            v.color= tc.TUMRose()
+
+
+
         nodes = []
         edges = []
         faces = []
         volumes = []
-        
+
         for layer in stack:
             for row in layer:
                 for cube in row:
@@ -830,133 +813,132 @@ class Grid3DCubic(PrimalComplex3D):
                             faces.append(f)
                     if not cube.volume in volumes:
                         volumes.append(cube.volume)
-                        
-                        
-                        
-                        
-        
-        
-        
+
+
+
+
+
+
+
         # Check if two nodes were generated at the same location
         for n1 in nodes:
             for n2 in nodes:
                 if not n1 == n2:
                     if np.linalg.norm(n1.coordinates-n2.coordinates)<1e-4:
                         cc.printRed('It seems that two nodes were created at the same place')
-                        cc.printRed(n1,n2)
-                        print()      
-                        
-        super().__init__(nodes,edges,faces,volumes)
-            
+                        cc.printRed(n1, n2)
+                        print()
+
+        super().__init__(nodes, edges, faces, volumes)
+
         self.__cubeStack = stack
 
 
 
 
-#==============================================================================
+# =============================================================================
 #    SETTER AND GETTER
-#==============================================================================
+# =============================================================================
     def __getCubeStack(self): return self.__cubeStack
     cubeStack = property(__getCubeStack)
-    
 
-#==============================================================================
+
+# =============================================================================
 #    METHODS
-#==============================================================================
-    
-#-------------------------------------------------------------------------
+# =============================================================================
+
+# ------------------------------------------------------------------------
 #    Plots for documentation
-#-------------------------------------------------------------------------    
+# ------------------------------------------------------------------------
     @classmethod
     def plotDoc(cls):
         '''
         Class method that creates all plots needed in the documentation.
-        
+
         '''
-        (figs,ax) = pf.getFigures(numTotal=9)
+        (figs, ax) = pf.getFigures(numTotal=9)
         comp = Grid3DCubic(3)
         print(comp.cubeStack)
-        
-        comp.plotComplex(ax[8],showLabel=False,plotEdges=False)
+
+        comp.plotComplex(ax[8], showLabel=False, plotEdges=False)
         pf.setAxesEqual(ax[8])
-        
-        
+
+
         # Step 1
-        comp.cubeStack[0][0][0].plotCube(ax[0],showLabel=False,showArrow=False,showNormalVec=False,showBarycenter=False,plotNodes=False)
-        
+        comp.cubeStack[0][0][0].plotCube(ax[0], showLabel=False, showArrow=False, showNormalVec=False, showBarycenter=False, plotNodes=False)
+
         # Step 2
         for c in comp.cubeStack[0][0]:
-            c.plotCube(ax[1],showLabel=False,showArrow=False,showNormalVec=False,showBarycenter=False,plotNodes=False)
-            
+            c.plotCube(ax[1], showLabel=False, showArrow=False, showNormalVec=False, showBarycenter=False, plotNodes=False)
+
         # Step 3
         for c in comp.cubeStack[0][0]:
-            c.plotCube(ax[2],showLabel=False,showArrow=False,showNormalVec=False,showBarycenter=False,plotNodes=False)
-        comp.cubeStack[0][1][0].plotCube(ax[2],showLabel=False,showArrow=False,showNormalVec=False,showBarycenter=False,plotNodes=False)
-        
+            c.plotCube(ax[2], showLabel=False, showArrow=False, showNormalVec=False, showBarycenter=False, plotNodes=False)
+        comp.cubeStack[0][1][0].plotCube(ax[2], showLabel=False, showArrow=False, showNormalVec=False, showBarycenter=False, plotNodes=False)
+
         # Step 4
         for row in comp.cubeStack[0]:
             for c in row:
-                c.plotCube(ax[3],showLabel=False,showArrow=False,showNormalVec=False,showBarycenter=False,plotNodes=False)
-        
+                c.plotCube(ax[3], showLabel=False, showArrow=False, showNormalVec=False, showBarycenter=False, plotNodes=False)
+
         # Step 5
         for row in comp.cubeStack[0]:
             for c in row:
-                c.plotCube(ax[4],showLabel=False,showArrow=False,showNormalVec=False,showBarycenter=False,plotNodes=False)
-        comp.cubeStack[1][0][0].plotCube(ax[4],showLabel=False,showArrow=False,showNormalVec=False,showBarycenter=False,plotNodes=False)
-        
+                c.plotCube(ax[4], showLabel=False, showArrow=False, showNormalVec=False, showBarycenter=False, plotNodes=False)
+        comp.cubeStack[1][0][0].plotCube(ax[4], showLabel=False, showArrow=False, showNormalVec=False, showBarycenter=False, plotNodes=False)
+
         # Step 6
         for row in comp.cubeStack[0]:
             for c in row:
-                c.plotCube(ax[5],showLabel=False,showArrow=False,showNormalVec=False,showBarycenter=False,plotNodes=False)
+                c.plotCube(ax[5], showLabel=False, showArrow=False, showNormalVec=False, showBarycenter=False, plotNodes=False)
         for c in comp.cubeStack[1][0]:
-            c.plotCube(ax[5],showLabel=False,showArrow=False,showNormalVec=False,showBarycenter=False,plotNodes=False)
-    
+            c.plotCube(ax[5], showLabel=False, showArrow=False, showNormalVec=False, showBarycenter=False, plotNodes=False)
+
         # Step 7
         for row in comp.cubeStack[0]:
             for c in row:
-                c.plotCube(ax[6],showLabel=False,showArrow=False,showNormalVec=False,showBarycenter=False,plotNodes=False)
+                c.plotCube(ax[6], showLabel=False, showArrow=False, showNormalVec=False, showBarycenter=False, plotNodes=False)
         for c in comp.cubeStack[1][0]:
-            c.plotCube(ax[6],showLabel=False,showArrow=False,showNormalVec=False,showBarycenter=False,plotNodes=False)
-        comp.cubeStack[1][1][0].plotCube(ax[6],showLabel=False,showArrow=False,showNormalVec=False,showBarycenter=False,plotNodes=False)
-        
+            c.plotCube(ax[6], showLabel=False, showArrow=False, showNormalVec=False, showBarycenter=False, plotNodes=False)
+        comp.cubeStack[1][1][0].plotCube(ax[6], showLabel=False, showArrow=False, showNormalVec=False, showBarycenter=False, plotNodes=False)
+
         # Step 8:
         for layer in comp.cubeStack:
             for row in layer:
                 for c in row:
-                    c.plotCube(ax[7],showLabel=False,showArrow=False,showNormalVec=False,showBarycenter=False,plotNodes=False)
-    
-    
-    
-    
-        for a in ax[:-1]:
-            pf.copylimits(ax[8],a)
-        for (i,f) in enumerate(figs):
-            pf.exportPNG(f,'doc/_static/grid3DCubicComplex'+str(i))
+                    c.plotCube(ax[7], showLabel=False, showArrow=False, showNormalVec=False, showBarycenter=False, plotNodes=False)
 
-#==============================================================================
+
+
+
+        for a in ax[:-1]:
+            pf.copylimits(ax[8], a)
+        for (i, f) in enumerate(figs):
+            pf.exportPNG(f, 'doc/_static/grid3DCubicComplex'+str(i))
+
+# =============================================================================
 #    TEST FUNCTIONS
-#==============================================================================
-    
-if __name__ == '__main__':    
-    with MyLogging('complexGeometry'): 
-        
+# =============================================================================
+
+if __name__ == '__main__':
+    with MyLogging('complexGeometry'):
+
 #        nbc = False
-        pc = Grid3DCubic(3,yNum=4,zNum=4,borderVolumesRight=True)
-        
+        pc = Grid3DCubic(3, yNum=4, zNum=4, borderVolumesRight=True)
+
         dc = DualComplex3D(pc)
-        
-        
+
+
         axNum = -1
-        (figs,axes) = pf.getFigures()
-    
+        (figs, axes) = pf.getFigures()
+
         axNum += 1
-        pc.plotComplex(axes[axNum],showLabel=False,showNormalVec=False,showArrow=False)
-        
+        pc.plotComplex(axes[axNum], showLabel=False, showNormalVec=False, showArrow=False)
+
         axNum += 1
-        dc.plotComplex(axes[axNum],showLabel=False,showNormalVec=False,showArrow=False)
-        
+        dc.plotComplex(axes[axNum], showLabel=False, showNormalVec=False, showArrow=False)
+
         axNum += 1
         for f in dc.additionalBorderFaces:
-            f.plotFace(axes[axNum],showLabel=False,showNormalVec=False)
-    
-        
+            f.plotFace(axes[axNum], showLabel=False, showNormalVec=False)
+
