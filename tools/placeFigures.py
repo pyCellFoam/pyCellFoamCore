@@ -291,15 +291,20 @@ def closeFigures():
 # =============================================================================
 
 if __name__ == '__main__':
-    
+
     if True:
         (figs, axes) = getFigures()
-    
+        x = [0, 0, 0, 0, 1, 1, 1, 1]
+        y = [0, 0, 1, 1, 0, 0, 1, 1]
+        z = [0, 1, 0, 1, 0, 1, 0, 1]
+
+        axes[0].scatter(x, y, z)
+
     if False:
         (figs, axes) = getFigures(aspect3D=False)
         x = np.arange(-math.tau, math.tau, 0.01)
         y = np.sin(x)
-        
+
         axes[0].plot(x, y)
 
     if False:
