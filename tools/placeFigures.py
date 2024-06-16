@@ -291,7 +291,16 @@ def closeFigures():
 # =============================================================================
 
 if __name__ == '__main__':
-    (figs, axes) = getFigures()
+    
+    if True:
+        (figs, axes) = getFigures()
+    
+    if False:
+        (figs, axes) = getFigures(aspect3D=False)
+        x = np.arange(-math.tau, math.tau, 0.01)
+        y = np.sin(x)
+        
+        axes[0].plot(x, y)
 
     if False:
         exportPNG(figs[0], 'testExport/test')
