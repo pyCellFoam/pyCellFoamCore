@@ -58,12 +58,12 @@ class MyLogging:
         self.__logger = logging.getLogger('log')
         self.__logger.setLevel(logging.DEBUG)
         
-        if not os.path.isdir('log'):
-            os.mkdir('log')
+        if not os.path.isdir('../log'):
+            os.mkdir('../log')
         
         
         # determine location to save the logfile
-        path = 'log/'+filename+'.log'
+        path = '../log/'+filename+'.log'
         
         # create file handler which logs even debug messages
         self.__fh = logging.FileHandler(path, mode='w')
