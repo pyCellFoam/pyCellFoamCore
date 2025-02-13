@@ -61,9 +61,9 @@ import tools.tumcolor as tc
 
 class PrimalComplex3D(Complex3D):
     '''
-    
+
     '''
-    
+
 #==============================================================================
 #    SLOTS
 #==============================================================================
@@ -78,37 +78,37 @@ class PrimalComplex3D(Complex3D):
 #==============================================================================
     def __init__(self,*args,renumber=True,boundingBox=None,**kwargs):
         '''
-        
+
         '''
-        
+
         self.__boundingBox = boundingBox
         self.__renumber = renumber
         self.__changedNumbering = True
         self.__useCategory = 1
         self.__dualComplex = None
         super().__init__(*args,**kwargs)
-        
-        
-        
 
-        
-    
+
+
+
+
+
 #==============================================================================
 #    SETTER AND GETTER
 #==============================================================================
-        
+
 
     def __getDualComplex(self): return self.__dualComplex
-    def __setDualComplex(self,d): 
+    def __setDualComplex(self,d):
         if self.__dualComplex is None:
             self.__dualComplex = d
         else:
             self.logger.error('Dual complex is already set')
     dualComplex = property(__getDualComplex,__setDualComplex)
     '''
-    
-    '''        
-        
+
+    '''
+
     def __getUseCategory(self): return self.__useCategory
     def __setUseCategory(self,u):
         if u in [1,2]:
@@ -116,7 +116,7 @@ class PrimalComplex3D(Complex3D):
             for c in chain(self.nodes,self.edges,self.faces,self.volumes):
                 c.useCategory = u
             self.updateComplex3D()
-            
+
             if self.__dualComplex:
                 for c in chain(self.__dualComplex.nodes,self.__dualComplex.edges,self.__dualComplex.faces,self.__dualComplex.volumes):
                     c.useCategory = u
@@ -125,65 +125,65 @@ class PrimalComplex3D(Complex3D):
             self.logger.error('Cannot set useCategory of to {} - It must be either 1 or 2'.format(u))
     useCategory = property(__getUseCategory,__setUseCategory)
     '''
-    
-    
+
+
     '''
-    
-    
+
+
 
     def __getChangedNumbering(self): return self.__changedNumbering
     changedNumbering = property(__getChangedNumbering)
     '''
-    
+
     '''
-    
- 
+
+
 #==============================================================================
 #    MAGIC METHODS
 #==============================================================================
     def  __repr__(self):
-        return 'PrimalComplex3D with {} nodes, {} edges, {} faces and {} volumes'.format(len(self.nodes),len(self.edges),len(self.faces),len(self.volumes))    
-    
+        return 'PrimalComplex3D with {} nodes, {} edges, {} faces and {} volumes'.format(len(self.nodes),len(self.edges),len(self.faces),len(self.volumes))
+
 #==============================================================================
 #    METHODS
 #==============================================================================
-        
-    
-    
-    
+
+
+
+
     def setUp(self):
         '''
-        
+
         '''
         self.logger.info('Called "Set Up" in PrimalComplex3D class')
         self.__categorizePrimal()
         self.sortPrimal()
         self.__combineAdditionalBorderFaces()
         self.__categorizeDual()
-        self.sortDual()  
+        self.sortDual()
         super().setUp()
-    
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
+
 
 #    def __checkNumbering(self,myList):
 #        '''
-#        
+#
 #        '''
 #        if self.__numberingChanged:
 #            self.renumberAll()
 #        return myList
-    
+
     def renumber(self):
         '''
-        
+
         '''
-        
-        
+
+
         if self.useCategory == 1:
             self.renumberList(self.innerNodes1)
             self.renumberList(self.borderNodes1)
@@ -207,36 +207,36 @@ class PrimalComplex3D(Complex3D):
             self.renumberList(self.borderFaces2)
             self.renumberList(self.additionalBorderFaces2)
             self.renumberList(self.innerVolumes2)
-            self.renumberList(self.borderVolumes2)            
+            self.renumberList(self.borderVolumes2)
         else:
             self.logger.error('Unknown useCategory {}'.format(self.useCategory))
-            
+
         self.renumberList(self.geometricNodes)
         self.renumberList(self.geometricEdges)
-        
+
         if self.dualComplex:
             self.renumberList(self.dualComplex.geometricNodes)
             self.renumberList(self.dualComplex.geometricEdges)
-            
+
 #        if self.__dualComplex:
 #            self.__dualComplex.reOrderAll()
-        
-        self.__changedNumbering = False
-        
 
-        
-        
-        
-        
+        self.__changedNumbering = False
+
+
+
+
+
+
 #-------------------------------------------------------------------------
 #    Combine additional border faces
-#-------------------------------------------------------------------------    
-    
+#-------------------------------------------------------------------------
+
     def __combineAdditionalBorderFaces(self):
         '''
-        
+
         '''
-        if True:
+        if False:
             myPrintDebug = self.logger.debug
             myPrintInfo = self.logger.info
             myPrintWarning = self.logger.warning
@@ -247,25 +247,25 @@ class PrimalComplex3D(Complex3D):
             myPrintInfo = cc.printCyan
             myPrintWarning = cc.printYellow
             myPrintError = cc.printRed
-            
-            
+
+
         myPrintInfo('Combining additional border face')
-        
-        
+
+
         #    Combine faces
         #....................................................................
-        if True:        
+        if True:
             for v in self.volumes:
                 myPrintDebug('Combining additional border faces of volume {}'.format(v.infoText))
                 facesToCombine = []
                 facesToStay = []
                 for f in v.faces:
-                    
+
                     if f.category == 'additionalBorder' and v.category != 'border':
                         myPrintError('Face {} is an additional border face and belongs to volume {} of category {}. This should not be!'.format(f.infoText,self.infoText,self.category))
-                        
+
                     if f.category == 'additionalBorder' and v.category == 'border':
-                        facesToCombine.append(f)                
+                        facesToCombine.append(f)
                     else:
                         facesToStay.append(f)
                 if len(facesToCombine) == 0:
@@ -273,14 +273,14 @@ class PrimalComplex3D(Complex3D):
                 elif len(facesToCombine) == 1:
                     myPrintDebug('Volume {} has only one additional border face, so no need to combine'.format(v.infoText))
                 elif len(facesToCombine) <= 3:
-                    
+
                     # Check if each face shares at least one edge with another face
                     edgesOfFaces = []
                     for f in facesToCombine:
                         edgesOfFaces.append(f.edges)
-                        
+
                     myPrintDebug('Eges of the faces that should be combined: {}'.format(edgesOfFaces))
-                    
+
                     anyFaceSeparated = False
                     for edges in edgesOfFaces:
                         thisFaceSeparated = True
@@ -293,11 +293,11 @@ class PrimalComplex3D(Complex3D):
                         if thisFaceSeparated:
                             anyFaceSeparated = True
 
-                    
+
                     if anyFaceSeparated:
                         myPrintInfo('Faces {} of volume {} are all additional border face but are not connected'.format(facesToCombine,v))
                     else:
-                    
+
                         myPrintDebug('Volume {} has {} additional border faces: {}, trying to combine them'.format(v.infoText,len(facesToCombine),facesToCombine))
                         edgesOfFace = []
                         for f in facesToCombine:
@@ -321,10 +321,10 @@ class PrimalComplex3D(Complex3D):
                             else:
                                 myPrintError('Cannot remove face {} from additional border faces!'.format(f.infoText))
                             f.delete()
-                                
+
                         self.faces.append(newFace)
                         self.additionalBorderFaces1.append(newFace)
-                        
+
                         for e in newFace.geometricEdges:
                             myPrintDebug('Edge {} is getting eliminated'.format(e.infoText))
                             if e in self.edges:
@@ -336,25 +336,25 @@ class PrimalComplex3D(Complex3D):
                                 self.geometricEdges.append(e)
                             else:
                                 myPrintError('Cannot remove edge {} from additional border edges!'.format(e.infoText))
-                    
+
                 else:
-                    myPrintError('Volume {} has {} additional border faces, this is too much!'.format(v,len(facesToCombine)))    
-                    
-                         
-                    
+                    myPrintError('Volume {} has {} additional border faces, this is too much!'.format(v,len(facesToCombine)))
+
+
+
         #    Combine edges
         #....................................................................
         if True:
             for f in self.faces:
                 if len(f.volumes) == 2:
                     if f.volumes[0].category == 'border' and f.volumes[1].category == 'border' :
-                        myPrintDebug('Found face {} between two border volumes'.format(f))
+                        myPrintError('Found face {} between two border volumes {}'.format(f,f.volumes))
                         edgesToCombine = []
                         for e in f.edges:
                             if e.category == 'additionalBorder':
                                 edgesToCombine.append(e)
                         myPrintDebug('Found additional border edges {}'.format(edgesToCombine))
-                        lenEdgesToCombine = len(edgesToCombine) 
+                        lenEdgesToCombine = len(edgesToCombine)
                         if lenEdgesToCombine == 0:
                             myPrintDebug('Border volumes have no common aditional border edge')
 #                            myPrintError('Two border volumes ({}) should at least have one additionalBorderEdge in common'.format(f.volumes))
@@ -363,48 +363,55 @@ class PrimalComplex3D(Complex3D):
                         elif lenEdgesToCombine == 2:
                             e0 = edgesToCombine[0]
                             e1 = edgesToCombine[1]
-                            myPrintDebug('Trying to combine additional border edges')
+                            myPrintDebug('Trying to combine additional border edges {}'.format(edgesToCombine))
+
+                            # TODO
+                            #
+                            myPrintError('Faces of edge {}: {}'.format(e0,e0.faces))
+                            myPrintError('Faces of edge {}: {}'.format(e1,e1.faces))
+
+
                             newEdge = False
-                            
-                            
-                            #        
+
+
+                            #
                             #      .      - . -O
                             #     /            |
                             #   .              | e_1
                             #  /     e_o       |
                             # O----------------O
                             # Start/end
-                            
+
                             if e0.endNode == e1.startNode:
                                 myPrintDebug('Can combine them')
                                 middleNode = e0.endNode
                                 newEdge = Edge(e0.startNode,e1.endNode,geometricNodes = middleNode)
-                                
-                                
-    
-                            #        
+
+
+
+                            #
                             #      .      - . -O
                             #     /            |
                             #   .              | e_0
                             #  /     e_1       |
                             # O----------------O
                             #                  Start/end
-                            
+
                             elif e1.endNode == e0.startNode:
                                 myPrintDebug('Can combine them after rotation')
                                 middleNode = e1.endNode
                                 newEdge = Edge(e1.startNode,e0.endNode,geometricNodes = middleNode)
-                                
+
                             else:
                                 myPrintDebug('Additional border Edges {} and {} are not connected and therefor cannto be combined'.format(e0,e1))
 #                                self.errorCells.append(e0)
 #                                self.errorCells.append(e1)
-                            
+
                             if newEdge:
 #                                newEdge.useCategory = self.__useCategory
                                 newEdge.category1 = 'additionalBorder'
                                 myPrintDebug('New edge: {}'.format(newEdge))
-                                
+
                                 currentFaces = e0.faces[:]
                                 for f in e1.faces:
                                     if not f in currentFaces:
@@ -413,19 +420,19 @@ class PrimalComplex3D(Complex3D):
                                     allEdges = f.rawEdges[:]
                                     myPrintDebug('Old edges in {}: {}'.format(f,f.rawEdges))
                                     for localEdges in allEdges:
-                                        
+
                                         # Add new edge (only once)
                                         if e0 in localEdges:
                                             localEdges.insert(localEdges.index(e0),newEdge)
                                         elif e1 in localEdges:
                                             localEdges.insert(localEdges.index(e1),newEdge)
-                                            
+
                                         # Remove old edges (maybe both)
                                         if e0 in localEdges:
                                             localEdges.remove(e0)
                                         if e1 in localEdges:
                                             localEdges.remove(e1)
-                                            
+
                                     myPrintDebug('newEdges: {}'.format(allEdges))
                                     f.edges=allEdges
                                     f.setUp()
@@ -437,7 +444,7 @@ class PrimalComplex3D(Complex3D):
                                     if -e0 in self.edges:
                                         self.edges.remove(-e0)
                                     else:
-                                        self.logger.error('Edge {} should have been in edges but was not there'.format(-e0))    
+                                        self.logger.error('Edge {} should have been in edges but was not there'.format(-e0))
                                 else:
                                     if e0 in self.additionalBorderEdges1:
                                         self.additionalBorderEdges1.remove(e0)
@@ -446,7 +453,7 @@ class PrimalComplex3D(Complex3D):
                                     if e0 in self.edges:
                                         self.edges.remove(e0)
                                     else:
-                                        self.logger.error('Edge {} should have been in edges but was not there'.format(e0))   
+                                        self.logger.error('Edge {} should have been in edges but was not there'.format(e0))
                                 if e1.isReverse:
                                     if -e1 in self.additionalBorderEdges1:
                                         self.additionalBorderEdges1.remove(-e1)
@@ -455,7 +462,7 @@ class PrimalComplex3D(Complex3D):
                                     if -e1 in self.edges:
                                         self.edges.remove(-e1)
                                     else:
-                                        self.logger.error('Edge {} should have been in edges but was not there'.format(-e1))    
+                                        self.logger.error('Edge {} should have been in edges but was not there'.format(-e1))
                                 else:
                                     if e1 in self.additionalBorderEdges1:
                                         self.additionalBorderEdges1.remove(e1)
@@ -464,23 +471,24 @@ class PrimalComplex3D(Complex3D):
                                     if e1 in self.edges:
                                         self.edges.remove(e1)
                                     else:
-                                        self.logger.error('Edge {} should have been in edges but was not there'.format(e1))  
+                                        self.logger.error('Edge {} should have been in edges but was not there'.format(e1))
                                 self.additionalBorderEdges1.append(newEdge)
                                 self.edges.append(newEdge)
                                 self.logger.info('Combined edges {} and {}'.format(e0,e1))
                                 e0.delete()
                                 e1.delete()
-                            
+
                         else:
                             myPrintWarning('Volumes {} share more than one additional border edge. This needs more work!'.format(f.volumes))
+                            myPrintWarning('Edges: {}'.format(edgesToCombine))
                             for v in f.volumes:
                                 if not v in self.errorCells:
                                     self.errorCells.append(v)
-                                    
-                    
-                    
+
+
+
         #    Remove unused nodes
-        #....................................................................                
+        #....................................................................
         if True:
             myPrintDebug('Removing geometric nodes')
             nodesToRemove = []
@@ -493,15 +501,15 @@ class PrimalComplex3D(Complex3D):
                         self.geometricNodes.append(n)
                     else:
                         myPrintError('After combining faces, only additional border nodes should have become geometric and not {}!'.format(n.infoText))
-                        
+
             for n in nodesToRemove:
                 if n in self.nodes:
                     self.nodes.remove(n)
                 else:
-                    myPrintError('Cannont remove node {} from nodes'.format(n.infoText))  
-                    
+                    myPrintError('Cannont remove node {} from nodes'.format(n.infoText))
+
         #    Remove unused edges
-        #....................................................................                
+        #....................................................................
         if True:
             myPrintDebug('Removing geometric nodes')
             edgesToRemove = []
@@ -514,31 +522,31 @@ class PrimalComplex3D(Complex3D):
                         self.geometricEdges.append(e)
                     else:
                         myPrintError('After combining faces, only additional border nodes should have become geometric and not {}!'.format(n.infoText))
-                        
+
             for e in edgesToRemove:
                 if e in self.edges:
                     self.edges.remove(e)
                 else:
-                    myPrintError('Cannont remove edge {} from edges'.format(e))                      
-                    
-                    
-                    
-                    
-                    
-        
-        
-         
-         
+                    myPrintError('Cannont remove edge {} from edges'.format(e))
+
+
+
+
+
+
+
+
+
 #-------------------------------------------------------------------------
 #    Categorize Primal
-#-------------------------------------------------------------------------   
-    
-    
+#-------------------------------------------------------------------------
+
+
     def __categorizePrimal(self):
         '''
-        
+
         '''
-        
+
         if True:
             myPrintDebug = self.logger.debug
             myPrintInfo = self.logger.info
@@ -550,124 +558,124 @@ class PrimalComplex3D(Complex3D):
             myPrintInfo = cc.printCyan
             myPrintWarning = cc.printYellow
             myPrintError = cc.printRed
-        
-        
+
+
 #    Categorize volumes
-#------------------------------------------------------------------------- 
+#-------------------------------------------------------------------------
         myPrintInfo('Categorizing volumes')
         # Go through all volumes
         for v in self.volumes:
-            
+
             # Uncategorized volumes are assumed to be inner volumes, however the user should be informed
             if v.category1 == 'undefined':
                 myPrintInfo('The category of volume {} is not defined, assuming it is an inner volume'.format(v))
                 v.category = 'inner'
             else:
                 myPrintDebug('Category1 of volume {} set correctly'.format(v))
-        
+
 #    Categorize faces
-#------------------------------------------------------------------------- 
-        
+#-------------------------------------------------------------------------
+
         if True:
             myPrintInfo('Categorizing faces')
-            
+
             # Go through all faces
             for f in self.faces:
-                
+
                 # Uncategorized faces are categorized automatically
                 if len(f.volumes) == 0:
                     myPrintError('Face {} does not belong to a volume'.format(f))
-                
+
                 # Faces that belong to only one volume must be at some kind of border
                 elif len(f.volumes) == 1:
-                                        
+
                     # Check if volume is uncategorized. This should not be, because all volumes were categorized in the step above
                     if f.volumes[0].category == 'undefined':
                         myPrintError('Volume {} should have been already categorized'.format(f.volumes[0]))
-                    
+
                     # If the face belongs to a single inner volume, it is a border face
                     elif f.volumes[0].category == 'inner':
                         f.category1 = 'border'
                         myPrintDebug('Face {} is a border face'.format(f))
-                        
+
                     # If the face belongs to a single border volume, it is an additional border face
                     elif f.volumes[0].category == 'border':
                         f.category1 = 'additionalBorder'
                         myPrintDebug('Face {} is an additional border face'.format(f.infoText))
-                        
+
                     # Anything else is not knwon
                     else:
                         myPrintError('Unknown category of volume %s',f.volumes[0].infoText)
-                    
+
                 # Faces that belong to two volumes are inner faces
                 elif len(f.volumes) == 2:
                     f.category1 = 'inner'
                     myPrintDebug('Face {} is an inner face'.format(f.infoText))
-                
+
                 # Faces cannot belong to more than 2 volumes - at least in 3 dimensions ;)
                 elif len(f.volumes) > 2:
                     myPrintError('Face {} belongs to too many volumes'.format(f))
-                        
-                    
-                    
+
+
+
 #    Categorize edges
-#------------------------------------------------------------------------- 
-        
+#-------------------------------------------------------------------------
+
         if True:
             myPrintInfo('Categorizing edges')
-            
+
             for e in self.edges:
                 # Edges that belong to a border face are border edges
                 if any([f.category1 == 'border' for f in e.faces]):
                     e.category1 = 'border'
                     myPrintDebug('Edge {} is a border edge'.format(e))
-                
+
                 # Edges that  belong to additional border faces are additional border edges
                 elif any([f.category1 == 'additionalBorder' for f in e.faces]):
                     e.category1 = 'additionalBorder'
                     myPrintDebug('Edge {} is an additional border edge'.format(e))
-                    
+
                 # Edges that are not categorized so far are inner edges
                 else:
                     e.category1 = 'inner'
                     myPrintDebug('Edge {} is an inner edge'.format(e))
-            
-    
+
+
 #    Categorize nodes
-#-------------------------------------------------------------------------    
+#-------------------------------------------------------------------------
         if True:
-                    
+
             myPrintInfo('Categorizing nodes')
-            
+
             for n in self.nodes:
-                
+
                 # Nodes that belong to border edges are border nodes
                 if any([e.category1 == 'border' for e in n.edges]):
                     n.category1 = 'border'
                     myPrintDebug('Node {} is a border node'.format(n))
-                 
+
                 # Nodes that belong to additional border edges are additional border nodes
                 elif any([e.category1 == 'additionalBorder' for e in n.edges]):
                     n.category1 = 'additionalBorder'
                     myPrintDebug('Node {} is an additional border node'.format(n))
-                
+
                 # Nodes that are not categorized so far are inner nodes
                 else:
                     n.category1 = 'inner'
                     myPrintDebug('Node {} is an inner node'.format(n))
- 
-    
-    
+
+
+
 #-------------------------------------------------------------------------
 #    Categorize Dual
-#-------------------------------------------------------------------------   
-    
-    
-    def __categorizeDual(self):  
+#-------------------------------------------------------------------------
+
+
+    def __categorizeDual(self):
         '''
-        
+
         '''
-        
+
         if True:
             myPrintDebug = self.logger.debug
             myPrintInfo = self.logger.info
@@ -678,21 +686,21 @@ class PrimalComplex3D(Complex3D):
             myPrintDebug = cc.printGreen
             myPrintInfo = cc.printCyan
             myPrintWarning = cc.printYellow
-            myPrintError = cc.printRed 
-            
+            myPrintError = cc.printRed
+
 #    Categorize volumes
-#-------------------------------------------------------------------------      
+#-------------------------------------------------------------------------
         myPrintInfo('Categorizing volumes')
-        
+
          # Category 1 and 2 are identical for volumese
         for v in self.volumes:
             if v.category2 == 'undefined':
                 v.category2 = v.category1
-            
+
 #    Categorize faces
 #-------------------------------------------------------------------------
         myPrintInfo('Categorizing faces')
-        
+
         for f in self.faces:
             if f.category2 == 'undefined':
                 if f.category1 == 'inner':
@@ -707,11 +715,11 @@ class PrimalComplex3D(Complex3D):
                     myPrintDebug('Copied category of {}'.format(f))
             else:
                 myPrintError('Category2 of {} was alreaddy set'.format(f))
-                
+
 #    Categorize nodes
 #-------------------------------------------------------------------------
         myPrintInfo('Categorizing nodes')
-        
+
         # Category 1 and 2 are identical for nodes
         for n in self.nodes:
             if n.category2 == 'undefined':
@@ -719,14 +727,14 @@ class PrimalComplex3D(Complex3D):
                 myPrintDebug('Copied category of {}'.format(n))
             else:
                 myPrintError('Category2 of {} was alreaddy set'.format(n))
-                
-                
+
+
 #    Categorize edges
 #-------------------------------------------------------------------------
         myPrintInfo('Categorizing edges')
-        
+
         for e in self.edges:
-                    
+
             if e.startNode.category2 == 'additionalBorder' or e.endNode.category2 == 'additionalBorder':
                 if e.category1 == 'inner':
                     if e.category2 == 'undefined':
@@ -738,81 +746,81 @@ class PrimalComplex3D(Complex3D):
                         e.category2 = 'additionalBorder'
                     else:
                         myPrintError('Category2 of {} was alreaddy set'.format(e))
-                
-                    
+
+
             else:
                 if e.category2 == 'undefined':
                     e.category2 = 'inner'
                 else:
                     myPrintError('Category2 of {} was alreaddy set'.format(e))
-            
-                
-            
-    def updateComplex3D(self):   
+
+
+
+    def updateComplex3D(self):
         '''
-        
+
         '''
         if self.__renumber:
             self.__changedNumbering = True
         super().updateComplex3D()
         if self.dualComplex:
             self.dualComplex.updateComplex3D()
-            
-            
-            
-            
-            
-            
+
+
+
+
+
+
     def cutAtBoundingBox(self):
         '''
-        
+
         '''
-        
+
         self.logger.error('Cutting at bounding box')
-        
+
         for n in self.borderNodes1 + self.additionalBorderNodes1 + self.innerNodes1:
-            
+
             (dist,side) = self.__boundingBox.distToBoundingBox(n.coordinates)
-            
+
             if dist > 0:
                 cc.printYellow('{} lies inside the bb, closest side: {}'.format(n,side))
             else:
                 cc.printYellow('{} lies outside the bb, closest side: {}'.format(n,side))
-                
-                
-                
+
+
+
         for e in self.edges:
             intersectionNodes = e.intersectWithBoundingBox(self.__boundingBox)
             cc.printGreen(intersectionNodes)
             if len(intersectionNodes) == 1:
                 if intersectionNodes[0] is not None:
                     self.nodes.append(intersectionNodes[0])
-                    
-            
+
+
 #            (dist1,_) = self.__boundingBox.distToBoundingBox(e.startNode.coordinates)
 #            (dist2,_) = self.__boundingBox.distToBoundingBox(e.endNode.coordinates)
-#            
+#
 #            if dist1*dist2 < 0:
 #                cc.printCyan('{} crosses the bounding box'.format(e))
 #                e.color = tc.TUMRose()
 #            else:
 #                cc.printCyan('{} does not cross the bounding box'.format(e))
-#                
-            
-                
-                
-            
-                
-        
-    
-    
+#
+
+
+
+
+
+
+
+
 #==============================================================================
 #    TEST FUNCTIONS
 #==============================================================================
 if __name__ == '__main__':
-    
-    
-    
+
+
+
     with MyLogging('PrimalComplex3D'):
         cc.printBlue('Create nodes')
         n0 = Node(0,0,0)
@@ -830,11 +838,11 @@ if __name__ == '__main__':
         n12 = Node(1.5,0,1.5)
         n13 = Node(0,1.5,1.5)
         n14 = Node(1.5,1.5,1.5)
-        
-        
+
+
         nodes = [n0,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14]
-        
-        
+
+
         cc.printBlue('Create edges')
         e0 = Edge(n0,n1)
         e1 = Edge(n1,n2)
@@ -864,9 +872,9 @@ if __name__ == '__main__':
         e25 = Edge(n8,n12)
         e26 = Edge(n10,n14)
         e27 = Edge(n9,n13)
-        
+
         edges = [e0,e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,e12,e13,e14,e15,e16,e17,e18,e19,e20,e21,e22,e23,e24,e25,e26,e27]
-        
+
         cc.printBlue('Create faces')
         f0 = Face([e0,e5,-e2,-e4])
         f1 = Face([e1,e6,-e8,-e5])
@@ -886,54 +894,54 @@ if __name__ == '__main__':
         f15 = Face([e7,e23,-e27,-e20])
         f16 = Face([e27,e16,-e24,-e12])
         f17 = Face([e13,e14,e15,e16])
-        
-        
+
+
         faces = [f0,f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14,f15,f16,f17]
-        
-        
+
+
         cc.printBlue('Create volumes')
-        
+
         v0 = Volume([-f0,f3,f4,-f5,-f6,f7])
         v1 = Volume([-f1,-f4,f9,f10,f11,-f12])
         v2 = Volume([-f2,f5,f12,-f13,f14,-f15])
         v3 = Volume([-f7,f8,-f11,-f14,-f16,f17])
-        
+
         facesForVolume = [-f7,f8,-f11,-f14,-f16,f17]
-        
+
         volumes = [v0,v1,v2,v3]
-        
+
         for v in [v1,v2,v3]:
             v.category1 = 'border'
-        
-        
-        
+
+
+
         bb = BoundingBox([0.2,1.2],[0.2,1.2],[0.2,1.2])
-        
+
         pc = PrimalComplex3D(nodes,edges,faces,volumes)
-        
-        
-        
+
+
+
         # pc.cutAtBoundingBox()
-        
-        
-        
-        
-        
+
+
+
+
+
 #-------------------------------------------------------------------------
 #    Plotting
-#-------------------------------------------------------------------------    
-    
+#-------------------------------------------------------------------------
+
         # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, doc, None
-        plottingMethod = 'TikZ'   
-        
-        
+        plottingMethod = 'TikZ'
+
+
 #    Disabled
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         if plottingMethod is None or plottingMethod == 'None':
             cc.printBlue('Plotting disabled')
-        
+
 #    Pyplot
-#---------------------------------------------------------------------         
+#---------------------------------------------------------------------
         elif plottingMethod == 'pyplot':
             cc.printBlue('Plot using pyplot')
             (figs,axes) = pf.getFigures()
@@ -943,64 +951,64 @@ if __name__ == '__main__':
             bb.plotBoundingBox(axes[0])
 
 #    VTK
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         elif plottingMethod == 'VTK' :
             cc.printBlue('Plot using VTK')
             cc.printRed('Not implemented')
 
 #    TikZ
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         elif plottingMethod == 'TikZ' :
-            cc.printBlue('Plot using TikZ')            
+            cc.printBlue('Plot using TikZ')
             pic = pc.plotComplexTikZ()
             pic.scale = 5
             file = False
-            pic.writeLaTeXFile('latex','primalComplex3D',compileFile=file,openFile=file)  
-            
+            pic.writeLaTeXFile('latex','primalComplex3D',compileFile=file,openFile=file)
+
             picNodes = pc.plotNodesTikZ()
             picNodes.scale = 2
             picNodes.writeTikZFile(filename='Complex3D0Nodes')
-            
+
             picEdges = pc.plotEdgesTikZ()
             picEdges.scale = 2
             picEdges.writeTikZFile(filename='Complex3D1Edges')
-            
+
             picFaces = pc.plotFacesTikZ()
             picFaces.scale = 2
             picFaces.writeTikZFile(filename='Complex3D2Faces')
-            
-            
+
+
             print(pc.incidenceMatrix1)
             # print(pc.incidenceMatrix2)
             print(pc.incidenceMatrix3)
-            
+
             # picFaces = pc.plotVolumesTikZ()
             # picFaces.scale = 2
             # picFaces.writeTikZFile(filename='Complex3D3Volumes')
-            
+
 #    Animation
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         elif plottingMethod == 'animation':
             cc.printBlue('Creating animation')
             cc.printRed('Not implemented')
-            
+
 #    Documentation
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         elif plottingMethod == 'doc':
             cc.printBlue('Creating plots for documentation')
             test.plotDoc()
-            
+
 #    Unknown
-#---------------------------------------------------------------------             
+#---------------------------------------------------------------------
         else:
-            cc.printRed('Unknown plotting method {}'.format(plottingMethod))               
-        
-        
-        
-            
-        
-    
-    
-    
-    
+            cc.printRed('Unknown plotting method {}'.format(plottingMethod))
+
+
+
+
+
+
+
+
+
 

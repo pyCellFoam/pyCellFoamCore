@@ -29,6 +29,7 @@ import tools.colorConsole as cc
 from complex import Complex3D
 #import matplotlib.pyplot as plt
 import tools.exportLaTeX as tex
+import tools.tumcolor as tc
 
 
 #==============================================================================
