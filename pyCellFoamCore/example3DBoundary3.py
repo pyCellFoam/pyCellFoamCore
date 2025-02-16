@@ -290,7 +290,7 @@ with MyLogging ('simpleExample'):
         v.color = tc.TUMGreen()
 
     for v in [v0, v2, v4, v6, v8]:
-        # v.category1 = "border"
+        v.category1 = "border"
         v.color = tc.TUMLightBlue()
     v0.color = tc.TUMcolor([155,0,0], "Red")
 
@@ -336,8 +336,8 @@ with MyLogging ('simpleExample'):
 # ==============================================================================
 #     DUAL COMPLEX
 # ==============================================================================
-    dc = DualComplex3D(pc)
-    dc.plotComplex(ax[5],plotFaces=True,showLabel=False, showNormalVec=False)
+    # dc = DualComplex3D(pc)
+    # dc.plotComplex(ax[5],plotFaces=True,showLabel=False, showNormalVec=False)
 
 
 
