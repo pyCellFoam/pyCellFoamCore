@@ -131,12 +131,16 @@ class DualNode3D(Node, DualCell):
         according class.
 
         '''
+        cc.printRed("Creating dual Node 3D")
+        cc.printRed("Number of additional border faces: {}".format(len([f for f in volume.faces if f.category1 == 'additionalBorder'])))
+
 
         if volume.category1 == 'border' and \
             len([f for f in volume.faces
                  if f.category1 == 'additionalBorder']) == 1:
             additionalBorderFace = [f for f in volume.faces
                                     if f.category1 == 'additionalBorder'][0]
+            cc.printRed("Additional border face: {}".format(additionalBorderFace))
 
             if len(additionalBorderFace.simpleFaces) == 1:
                 return DualNode2D(additionalBorderFace.simpleFaces[0].
@@ -166,9 +170,12 @@ class DualNode3D(Node, DualCell):
                     return super(DualNode3D, cls).__new__(cls)
 
             elif len(additionalBorderFace.simpleFaces) == 3:
+                cc.printYellow("Found three additional border faces")
                 geometricNode = None
                 geometricNodes = additionalBorderFace.geometricNodes
                 geometricEdges = additionalBorderFace.geometricEdges
+                cc.printGreen("Number of geometric nodes: {}".format(len(geometricNodes)))
+                cc.printGreen("Number of geometric edges: {}".format(len(geometricEdges)))
                 if len(geometricNodes) == 1:
                     geometricNode = geometricNodes[0]
 

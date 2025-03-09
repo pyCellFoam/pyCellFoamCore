@@ -279,7 +279,7 @@ class PrimalComplex3D(Complex3D):
                     for f in facesToCombine:
                         edgesOfFaces.append(f.edges)
 
-                    myPrintDebug('Eges of the faces that should be combined: {}'.format(edgesOfFaces))
+                    myPrintDebug('Edges of the faces that should be combined: {}'.format(edgesOfFaces))
 
                     anyFaceSeparated = False
                     for edges in edgesOfFaces:

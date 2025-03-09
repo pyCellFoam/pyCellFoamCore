@@ -73,10 +73,10 @@ with MyLogging ('simpleExample'):
     n24 = Node(0,4*a,4*a)
     n25 = Node(2*a,4*a,4*a)
     n26 = Node(4*a,4*a,4*a)
-    
+
     n27 = Node(0,2*a-d,0)
     n28 = Node(0,0,2*a-d)
-    
+
 
 
 
@@ -156,7 +156,7 @@ with MyLogging ('simpleExample'):
     e54 = Edge(n1,n27)
     e55 = Edge(n1,n28)
     e56 = Edge(n27,n28)
-    
+
     e57 = Edge(n27,n3)
     e58 = Edge(n28,n9)
 
@@ -298,6 +298,12 @@ with MyLogging ('simpleExample'):
         for e in f.edges:
             edges.append(e)
     print(edges)
+
+    print(len(faces))
+
+    f = pc.faces[25]
+    print(f)
+    f.plotFace(ax[5])
 
 
 
