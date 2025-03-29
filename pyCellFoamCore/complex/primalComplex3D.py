@@ -251,6 +251,28 @@ class PrimalComplex3D(Complex3D):
 
         myPrintInfo('Combining additional border face')
 
+        #    Combine volumes
+        #....................................................................
+        if True:
+            for v in self.volumes:
+                myPrintDebug("Checking volume {}".format(v))
+                if v.category1 == "border":
+                    myPrintDebug("Checking faces of border volume")
+
+                    # TODO
+                    # Check that all additional border faces are connected and
+                    # have no holes. Otherwise find the volume that this volume
+                    # must be merged with
+                    # Note: 3 faces must share a node, 2 faces must share an
+                    # edge
+                elif v.category1 == "inner":
+                    myPrintDebug("Inner volumes do not need to be checked")
+                else:
+                    myPrintError("Unknown category {}".format(v.category1))
+
+        return
+
+
 
         #    Combine faces
         #....................................................................
