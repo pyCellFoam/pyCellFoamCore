@@ -283,6 +283,7 @@ with MyLogging ('simpleExample'):
 
     pc = PrimalComplex3D(nodes,edges,faces,volumes,renumber=False)
     pc.plotComplex(ax[4],plotVolumes=True)
+    pc.useCategory = 2
 
     cc.printMagenta("edges_temp1 after creating complex:", edges_temp)
 
@@ -311,8 +312,8 @@ with MyLogging ('simpleExample'):
 # ==============================================================================
 #     DUAL COMPLEX
 # ==============================================================================
-    dc = DualComplex3D(pc)
-    dc.plotComplex(ax[5],plotFaces=True,showLabel=False, showNormalVec=False)
+    # dc = DualComplex3D(pc)
+    # dc.plotComplex(ax[5],plotFaces=True,showLabel=False, showNormalVec=False)
 
 
 

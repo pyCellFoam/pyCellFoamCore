@@ -197,7 +197,7 @@ class DualComplex3D(Complex3D):
         else:
             self.logger.warning('Creation of nodes has been disabled')
 
-        return None
+        # return None
 
         # Dual edges
         if self.__createEdges and self.__createNodes:
