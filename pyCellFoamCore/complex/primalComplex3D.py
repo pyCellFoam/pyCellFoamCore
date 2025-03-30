@@ -71,12 +71,14 @@ class PrimalComplex3D(Complex3D):
                  '__dualComplex',
                  '__renumber',
                  '__changedNumbering',
-                 '__useCategory')
+                 '__useCategory',
+                 "__volumes_to_combine",
+                 "__faces_to_combine")
 
 #==============================================================================
 #    INITIALIZATION
 #==============================================================================
-    def __init__(self,*args,renumber=True,boundingBox=None,**kwargs):
+    def __init__(self,*args,renumber=True,boundingBox=None, volumes_to_combine=[], faces_to_combine=[],**kwargs):
         '''
 
         '''
@@ -86,6 +88,8 @@ class PrimalComplex3D(Complex3D):
         self.__changedNumbering = True
         self.__useCategory = 1
         self.__dualComplex = None
+        self.__volumes_to_combine = volumes_to_combine
+        self.__faces_to_combine = faces_to_combine
         super().__init__(*args,**kwargs)
 
 
@@ -234,7 +238,7 @@ class PrimalComplex3D(Complex3D):
 
     def __combineAdditionalBorderFaces(self):
         '''
-
+        
         '''
         if False:
             myPrintDebug = self.logger.debug
@@ -251,13 +255,157 @@ class PrimalComplex3D(Complex3D):
 
         myPrintInfo('Combining additional border face')
 
-        #    Combine volumes
+        #    Manual combine volumes
         #....................................................................
+        
+        for (v1, v2) in self.__volumes_to_combine:
+            myPrintDebug("Combine volumes {} and {}".format(v1, v2))
+            
+            shared_faces = set(v1.faces).intersection(set([-f for f in v2.faces]))
+            myPrintDebug("Shard faces: {}".format(shared_faces))
+            
+            if len(shared_faces) == 1:
+                shared_face = list(shared_faces)[0]
+                new_faces = [f for f in v1.faces if not f == shared_face] + [f for f in v2.faces if (not (-f == shared_face) and not f in v1.faces)]
+                myPrintDebug("New faces: {}".format(new_faces))
+                new_volume = Volume(new_faces)
+                new_volume.category1 = v1.category1
+                new_volume.category2 = v1.category2
+                myPrintWarning("volumes: {}".format(self.volumes))
+                self.volumes.remove(v1)
+                self.volumes.remove(v2)
+                self.volumes.append(new_volume)
+                
+                
+            
+            else:
+                myPrintError("Cannot combine volumes with {} shared faces".format(len(shared_faces)))
+                
+        #    Manual combine faces
+        #....................................................................
+        
+        for (f1, f2) in self.__faces_to_combine:
+            myPrintDebug("Combine faces {} and {}".format(f1, f2))
+            shared_edges = set(f1.edges).intersection(set([-e for e in f2.edges]+f2.edges))
+            myPrintDebug("Edges of face 1: {}".format(f1.edges))
+            myPrintDebug("Edges of face 2: {}".format(f2.edges))
+            myPrintDebug("shared edges: {}".format(shared_edges))
+            
+            if len(shared_edges) == 1:
+                shared_edge = list(shared_edges)[0]
+                
+                if shared_edge in f2.edges:
+                    edges_1_1 = f1.edges[:f1.edges.index(shared_edge)]
+                    edges_2_1 = [-e for e in f2.edges[:f2.edges.index(shared_edge)]]
+                    edges_2_1.reverse()
+                    edges_2_2 = [-e for e in f2.edges[f2.edges.index(shared_edge)+1:]]
+                    edges_2_2.reverse()
+                    edges_1_2 = f1.edges[f1.edges.index(shared_edge)+1:]
+
+                elif -shared_edge in f2.edges:
+                    edges_1_1 = f1.edges[:f1.edges.index(shared_edge)]
+                    edges_2_1 = f2.edges[f2.edges.index(-shared_edge)+1:]
+                    edges_2_2 = f2.edges[:f2.edges.index(-shared_edge)]
+                    edges_1_2 = f1.edges[f1.edges.index(shared_edge)+1:]
+
+                
+                myPrintDebug("1_1: {} | 2_1: {} | 2_2: {} | 1_2: {}".format(edges_1_1, edges_2_1, edges_2_2, edges_1_2))
+                new_edges = edges_1_1 + edges_2_1 + edges_2_2 + edges_1_2
+                myPrintDebug("new edges: {}".format(new_edges))
+                new_face = Face(new_edges)
+                new_face.category1 = f1.category1
+                new_face.category2 = f1.category2
+                self.edges.remove(shared_edge)
+                
+                volumes = set(f1.volumes).intersection(set(f2.volumes), set(self.volumes))
+                myPrintWarning("volumes of combined faces: {}".format(volumes))
+                for v in list(volumes):
+                    myPrintWarning("Old faces: {}".format(v.faces))
+                    faces_for_new_volume = v.faces.copy()
+                    if f1 in faces_for_new_volume:
+                        faces_for_new_volume.remove(f1)
+                    elif -f1 in faces_for_new_volume:
+                        faces_for_new_volume.remove(-f1)
+                    else:
+                        myPrintError("Cannot remove face {}".format(f1))
+                    if f2 in faces_for_new_volume:
+                        faces_for_new_volume.remove(f2)
+                    elif -f2 in faces_for_new_volume:
+                        faces_for_new_volume.remove(-f2)
+                    else:
+                        myPrintError("Cannot remove face {}".format(f2))
+                    faces_for_new_volume.append(new_face)
+                    myPrintWarning("New faces: {}".format(faces_for_new_volume))
+                    new_volume = Volume(faces_for_new_volume, unalignedFaces=True)
+                    new_volume.category1 = v.category1
+                    new_volume.category2 = v.category2
+                    self.volumes.remove(v)
+                    self.volumes.append(new_volume)
+                    v.delete()
+
+                
+            else:
+                myPrintError("Cannot combine faces with {} shared edges".format(len(shared_edges)))
+                
+            
+                
+                
+            
+            
+        
+            
+            
+            
+            
+        
+        #
+        #    Check need for combine volumes
+        #....................................................................
+        
         if True:
+            need_combination = False
             for v in self.volumes:
                 myPrintDebug("Checking volume {}".format(v))
                 if v.category1 == "border":
                     myPrintDebug("Checking faces of border volume")
+                    additional_border_faces = [
+                        f for f in v.faces if f.category1 == "additionalBorder"
+                    ]
+                    
+                    if len(additional_border_faces) == 0:
+                        myPrintError("Volume {} is of type border but has no additional border faces".format(v))
+                    elif len(additional_border_faces) == 1:
+                        myPrintDebug("Found one additional border face. No need to combine volumes")
+                    elif len(additional_border_faces) == 2:
+                        myPrintDebug("Found two additional border faces. Checking if the rim is included")
+                    elif len(additional_border_faces) == 3:
+                        myPrintDebug("Found three additional border faces. Checking if the corner is included")
+                        all_nodes = []
+                        for f in additional_border_faces:
+                            temp_nodes = []
+                            for e in f.edges:
+                                for n in [e.startNode, e.endNode]:
+                                    if not n in temp_nodes:
+                                        temp_nodes.append(n)
+                            all_nodes.append(temp_nodes)
+                        myPrintDebug("Found nodes: {}".format(all_nodes))
+                        shared_nodes = set(all_nodes[0]).intersection(*[set(nodes) for nodes in all_nodes[1:]])
+                        myPrintDebug("Shared nodes: {}".format(shared_nodes))
+                        
+                        if len(shared_nodes) == 0:
+                            myPrintError("Found no shared nodes. Need to combine volume {}".format(v))
+                            need_combination = True
+                        elif len(shared_nodes) == 1:
+                            myPrintDebug("One shared node. Everything OK")
+                        else:
+                            myPrintError("{} shared nodes cannot be handled".format(len(shared_nodes)))
+                            need_combination = True
+                        
+                        
+
+                        
+                    else:
+                        myPrintError("Volume {} has {} additional border faces. This cannot be handled currently".format(v, len(additional_border_faces)))
 
                     # TODO
                     # Check that all additional border faces are connected and
@@ -269,8 +417,9 @@ class PrimalComplex3D(Complex3D):
                     myPrintDebug("Inner volumes do not need to be checked")
                 else:
                     myPrintError("Unknown category {}".format(v.category1))
+            if need_combination:
+                return
 
-        return
 
 
 
@@ -329,7 +478,7 @@ class PrimalComplex3D(Complex3D):
                         newFace = Face(edgesOfFace)
                         newFace.category1 = 'additionalBorder'
                         myPrintDebug('Changing the faces of volume {} by keeping the faces {} and adding the new face {}'.format(v.infoText,facesToStay,newFace))
-                        v.faces = [*facesToStay,newFace]
+                        v.faces = [*facesToStay,newFace]  # TODO better: v.faces = faces.ToStay.append(newFace)
                         v.setUp()
                         for f in facesToCombine:
                             if f.isReverse:

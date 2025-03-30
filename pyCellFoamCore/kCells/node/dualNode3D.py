@@ -384,7 +384,7 @@ class DualNode3D(Node, DualCell):
                                      additionalBorderFace.simpleFaces)))
 
             else:
-                myPrintWarning('Border volume with more than one ' +
+                myPrintWarning('Border volume {} with more than one '.format(volume) +
                                'additional Border face')
                 x = volume.barycenter[0]
                 y = volume.barycenter[1]
