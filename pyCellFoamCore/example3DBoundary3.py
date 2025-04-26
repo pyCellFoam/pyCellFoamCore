@@ -311,8 +311,8 @@ with MyLogging ('simpleExample'):
 #    PRIMAL COMPLEX
 #==============================================================================
 
-    # pc = PrimalComplex3D(nodes,edges,faces,volumes,renumber=False)
-    pc = PrimalComplex3D(nodes,edges,faces,volumes,renumber=False, volumes_to_combine=[(v0,v8)], faces_to_combine=[(f38,f24), (f37,f12), (f39,f0)])
+    pc = PrimalComplex3D(nodes,edges,faces,volumes,renumber=False)
+    # pc = PrimalComplex3D(nodes,edges,faces,volumes,renumber=False, volumes_to_combine=[(v0,v8)], faces_to_combine=[(f38,f24), (f37,f12), (f39,f0)])
     pc.plotComplex(ax[4],plotVolumes=True)
 
     cc.printMagenta("edges_temp1 after creating complex:", edges_temp)
@@ -329,6 +329,15 @@ with MyLogging ('simpleExample'):
     #     for e in f.edges:
     #         edges.append(e)
     # print(edges)
+    for f in v0.faces:
+        f.plotFace(ax[5])
+        
+    
+    for v in f36.volumes:
+        v.plotVolume(ax[6])
+        
+    for e in f36.edges:
+        e.plotEdge(ax[6])
 
 
 

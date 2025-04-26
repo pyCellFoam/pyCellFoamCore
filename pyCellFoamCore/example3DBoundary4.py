@@ -280,8 +280,8 @@ with MyLogging ('simpleExample'):
 #    PRIMAL COMPLEX
 #==============================================================================
 
-    # pc = PrimalComplex3D(nodes,edges,faces,volumes,renumber=False)
-    pc = PrimalComplex3D(nodes,edges,faces,volumes,renumber=False, volumes_to_combine=[(v0,v8)], faces_to_combine=[(f38,f24), (f37,f12), (f39,f0)])
+    pc = PrimalComplex3D(nodes,edges,faces,volumes,renumber=False)
+    # pc = PrimalComplex3D(nodes,edges,faces,volumes,renumber=False, volumes_to_combine=[(v0,v8)], faces_to_combine=[(f38,f24), (f37,f12), (f39,f0)])
     pc.plotComplex(ax[4],plotVolumes=True)
     pc.useCategory = 2
 
