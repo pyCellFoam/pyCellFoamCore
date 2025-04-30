@@ -869,8 +869,8 @@ class Face(BaseFace, Cell):
         self.logger.debug('Delete Face {}'.format(self.infoText))
         if self.__volumes:
             self.logger.error(
-                'Cannot delete face {} because it belongs to a volume'
-                .format(self.infoText))
+                'Cannot delete face {} because it belongs to volumes {}'
+                .format(self.infoText, self.volumes))
         else:
             self.__rawEdges = []
             self.setUp()

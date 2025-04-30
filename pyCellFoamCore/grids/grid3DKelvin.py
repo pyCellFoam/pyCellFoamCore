@@ -3455,61 +3455,61 @@ class Grid3DKelvin(PrimalComplex3D):
                         disp = np.array([0,-t,0])
                         prism = PrismN([k.n4,k.n15,k.n16,k.n8],[disp,disp,disp,disp])
                         prisms.append(prism)
-    
-    
+
+
                 for line in addKelvinCellsFront:
                     for k in line:
                         disp = np.array([0,-t,0])
                         prism = PrismN([k.n3,k.n7,k.n19,k.n23,k.n21,k.n17,k.n5,k.n1],[disp,]*8)
                         prisms.append(prism)
-    
-    
-    
+
+
+
             if borderVolumesBack:
                 for kelvinCellsLayer in kelvinCells:
                     for k in kelvinCellsLayer[-1]:
                         disp = np.array([0,t,0])
                         prism = PrismN([k.n11,k.n18,k.n12,k.n6],[disp,disp,disp,disp])
                         prisms.append(prism)
-    
+
                 for line in addKelvinCellsBack:
                     for k in line:
                         disp = np.array([0,t,0])
                         prism = PrismN([k.n1,k.n5,k.n17,k.n21,k.n23,k.n19,k.n7,k.n3],[disp,]*8)
                         prisms.append(prism)
-    
-    
+
+
             if borderVolumesLeft:
                 for kelvinCellsLayer in kelvinCells:
                     for kelvinCellsLine in kelvinCellsLayer:
                         disp = np.array([-t,0,0])
                         prism = PrismN([kelvinCellsLine[0].n7,kelvinCellsLine[0].n14,kelvinCellsLine[0].n19,kelvinCellsLine[0].n13],[disp,disp,disp,disp])
                         prisms.append(prism)
-    
-    
+
+
                 for line in addKelvinCellsLeft:
                     for k in line:
                         disp = np.array([-t,0,0])
                         prism = PrismN([k.n2,k.n6,k.n18,k.n22,k.n20,k.n16,k.n4,k.n0],[disp,]*8)
                         prisms.append(prism)
-    
-    
-    
-    
+
+
+
+
             if borderVolumesRight:
                 for kelvinCellsLayer in kelvinCells:
                     for kelvinCellsLine in kelvinCellsLayer:
                         disp = np.array([t,0,0])
                         prism = PrismN([kelvinCellsLine[-1].n5,kelvinCellsLine[-1].n10,kelvinCellsLine[-1].n17,kelvinCellsLine[-1].n9],[disp,disp,disp,disp])
                         prisms.append(prism)
-    
+
                 for line in addKelvinCellsRight:
                     for k in line:
                         disp = np.array([t,0,0])
                         prism = PrismN([k.n0,k.n4,k.n16,k.n20,k.n22,k.n18,k.n6,k.n2],[disp,]*8)
                         prisms.append(prism)
-    
-    
+
+
             myKelvinCells = []
             if borderVolumesBack and borderVolumesRight:
                 for k in addKelvinCellsBackRight:
@@ -3520,7 +3520,7 @@ class Grid3DKelvin(PrimalComplex3D):
                     prism2 = PrismN([k.n105,k.n23,k.n19,k.n7,k.n3,k.n104],[disp2,disp3,disp3,disp3,disp3,disp2])
                     prisms.append(prism1)
                     prisms.append(prism2)
-    
+
             if borderVolumesBack and borderVolumesLeft:
                 for k in addKelvinCellsBackLeft:
                     disp1 = np.array([-t,0,0])
@@ -3530,91 +3530,91 @@ class Grid3DKelvin(PrimalComplex3D):
                     prism2 = PrismN([k.n104,k.n1,k.n5,k.n17,k.n21,k.n105],[disp2,disp3,disp3,disp3,disp3,disp2])
                     prisms.append(prism1)
                     prisms.append(prism2)
-    
-    
+
+
             if borderVolumesFront and borderVolumesRight:
                 for k in addKelvinCellsFrontRight:
                     disp1 = np.array([t,0,0])
                     disp2 = np.array([t,-t,0])
                     disp3 = np.array([0,-t,0])
                     prism1 = PrismN([k.n105,k.n22,k.n18,k.n6,k.n2,k.n104],[disp2,disp1,disp1,disp1,disp1,disp2])
-    
+
                     prism2 = PrismN([k.n104,k.n3,k.n7,k.n19,k.n23,k.n105],[disp2,disp3,disp3,disp3,disp3,disp2])
                     prisms.append(prism1)
                     prisms.append(prism2)
-    
+
             if borderVolumesFront and borderVolumesLeft:
                 for k in addKelvinCellsFrontLeft:
                     disp1 = np.array([-t,0,0])
                     disp2 = np.array([-t,-t,0])
                     disp3 = np.array([0,-t,0])
                     prism1 = PrismN([k.n104,k.n2,k.n6,k.n18,k.n22,k.n105],[disp2,disp1,disp1,disp1,disp1,disp2])
-    
+
                     prism2 = PrismN([k.n105,k.n21,k.n17,k.n5,k.n1,k.n104],[disp2,disp3,disp3,disp3,disp3,disp2])
                     prisms.append(prism1)
                     prisms.append(prism2)
-    
+
             if borderVolumesLeft and not borderVolumesTop:
                 for k in addKelvinCellsUpperLeft:
                     disp = np.array([-t,0,0])
                     prism = PrismN([k.n102,k.n18,k.n22,k.n20,k.n16,k.n103],[disp,]*6)
                     prisms.append(prism)
-    
+
             if borderVolumesRight and not borderVolumesTop:
                 for k in addKelvinCellsUpperRight:
                     disp = np.array([t,0,0])
                     prism = PrismN([k.n103,k.n16,k.n20,k.n22,k.n18,k.n102],[disp,]*6)
                     prisms.append(prism)
-    
+
             if borderVolumesFront and not borderVolumesTop:
                 for k in addKelvinCellsUpperFront:
                     disp = np.array([0,-t,0])
                     prism = PrismN([k.n101,k.n19,k.n23,k.n21,k.n17,k.n100],[disp,]*6)
                     prisms.append(prism)
-    
+
             if borderVolumesBack and not borderVolumesTop:
                 for k in addKelvinCellsUpperBack:
                     disp = np.array([0,t,0])
                     prism = PrismN([k.n100,k.n17,k.n21,k.n23,k.n19,k.n101],[disp,]*6)
                     prisms.append(prism)
-    
+
             if borderVolumesLeft and not borderVolumesBottom:
                 for k in addKelvinCellsLowerLeft:
                     disp = np.array([-t,0,0])
                     prism = PrismN([k.n103,k.n4,k.n0,k.n2,k.n6,k.n102],[disp,]*6)
                     prisms.append(prism)
-    
+
             if borderVolumesRight and not borderVolumesBottom:
                 for k in addKelvinCellsLowerRight:
                     disp = np.array([t,0,0])
                     prism = PrismN([k.n102,k.n6,k.n2,k.n0,k.n4,k.n103],[disp,]*6)
                     prisms.append(prism)
-    
+
             if borderVolumesFront and not borderVolumesBottom:
                 for k in addKelvinCellsLowerFront:
                     disp = np.array([0,-t,0])
                     prism = PrismN([k.n100,k.n5,k.n1,k.n3,k.n7,k.n101],[disp,]*6)
                     prisms.append(prism)
-    
+
             if borderVolumesBack and not borderVolumesBottom:
                 for k in addKelvinCellsLowerBack:
                     disp = np.array([0,t,0])
                     prism = PrismN([k.n101,k.n7,k.n3,k.n1,k.n5,k.n100],[disp,]*6)
                     prisms.append(prism)
-    
-    
+
+
             if not borderVolumesBottom and borderVolumesBack and borderVolumesLeft:
                 k = addKelvinCellLowerBackLeft
                 disp1 = np.array([-t,0,0])
                 disp2 = np.array([-t,t,0])
                 disp3 = np.array([0,t,0])
                 prism1 = PrismN([k.n106,k.n103,k.n4,k.n0,k.n104],[disp2,disp1,disp1,disp1,disp2])
-    
+
                 prism2 = PrismN([k.n104,k.n1,k.n5,k.n100,k.n106],[disp2,disp3,disp3,disp3,disp2])
                 prisms.append(prism1)
                 prisms.append(prism2)
-    
-    
+
+
             if not borderVolumesBottom and borderVolumesBack and borderVolumesRight:
                 k = addKelvinCellLowerBackRight
                 disp1 = np.array([t,0,0])
@@ -3624,7 +3624,7 @@ class Grid3DKelvin(PrimalComplex3D):
                 prism2 = PrismN([k.n106,k.n101,k.n7,k.n3,k.n104],[disp2,disp3,disp3,disp3,disp2])
                 prisms.append(prism1)
                 prisms.append(prism2)
-    
+
             if not borderVolumesBottom and borderVolumesFront and borderVolumesLeft:
                 k = addKelvinCellLowerFrontLeft
                 myKelvinCells.append(k)
@@ -3635,7 +3635,7 @@ class Grid3DKelvin(PrimalComplex3D):
                 prism2 = PrismN([k.n106,k.n100,k.n5,k.n1,k.n104],[disp2,disp3,disp3,disp3,disp2])
                 prisms.append(prism1)
                 prisms.append(prism2)
-    
+
             if not borderVolumesBottom and borderVolumesFront and borderVolumesRight:
                 k = addKelvinCellLowerFrontRight
                 myKelvinCells.append(k)
@@ -3646,8 +3646,8 @@ class Grid3DKelvin(PrimalComplex3D):
                 prism2 = PrismN([k.n104,k.n3,k.n7,k.n101,k.n106],[disp2,disp3,disp3,disp3,disp2])
                 prisms.append(prism1)
                 prisms.append(prism2)
-    
-    
+
+
             if not borderVolumesTop and borderVolumesBack and borderVolumesLeft:
                 k = addKelvinCellUpperBackLeft
                 disp1 = np.array([-t,0,0])
@@ -3657,7 +3657,7 @@ class Grid3DKelvin(PrimalComplex3D):
                 prism2 = PrismN([k.n106,k.n100,k.n17,k.n21,k.n105],[disp2,disp3,disp3,disp3,disp2])
                 prisms.append(prism1)
                 prisms.append(prism2)
-    
+
             if not borderVolumesTop and borderVolumesBack and borderVolumesRight:
                 k = addKelvinCellUpperBackRight
                 disp1 = np.array([t,0,0])
@@ -3667,7 +3667,7 @@ class Grid3DKelvin(PrimalComplex3D):
                 prism2 = PrismN([k.n105,k.n23,k.n19,k.n101,k.n106],[disp2,disp3,disp3,disp3,disp2])
                 prisms.append(prism1)
                 prisms.append(prism2)
-    
+
             if not borderVolumesTop and borderVolumesFront and borderVolumesLeft:
                 disp1 = np.array([-t,0,0])
                 disp2 = np.array([-t,-t,0])
@@ -3676,7 +3676,7 @@ class Grid3DKelvin(PrimalComplex3D):
                 prism2 = PrismN([k.n105,k.n21,k.n17,k.n100,k.n106],[disp2,disp3,disp3,disp3,disp2])
                 prisms.append(prism1)
                 prisms.append(prism2)
-    
+
             if not borderVolumesTop and borderVolumesFront and borderVolumesRight:
                 k = addKelvinCellUpperFrontRight
                 disp1 = np.array([t,0,0])
@@ -3686,55 +3686,55 @@ class Grid3DKelvin(PrimalComplex3D):
                 prism2 = PrismN([k.n106,k.n101,k.n19,k.n23,k.n105],[disp2,disp3,disp3,disp3,disp2])
                 prisms.append(prism1)
                 prisms.append(prism2)
-    
-    
-    
-    
-    
-    
+
+
+
+
+
+
             for p in prisms:
                 p.volume.category = 'border'
                 for n in p.nodes:
                     if not n in nodes:
                         n.color = tc.TUMRose()
                         nodes.append(n)
-    
+
                 for e in p.edges:
                     if e.isReverse:
                         e = -e
                     if not e in edges:
                         edges.append(e)
-    
+
                 for f in p.faces:
                     if f.isReverse:
                         f = -f
                     if not f in faces:
                         faces.append(f)
                 volumes.append(p.volume)
-        
+
         else:
             if borderVolumesFront:
                 for kelvinCellsLayer in kelvinCells:
                     for k in kelvinCellsLayer[0]:
                         k.volume.category = 'border'
-    
-    
+
+
                 for line in addKelvinCellsFront:
                     for k in line:
                         k.volume.category = 'border'
-                        
+
                 for k in addKelvinCellsFrontLeft:
                     k.volume.category = 'border'
-                    
+
                 for k in addKelvinCellsFrontRight:
                     k.volume.category = 'border'
-                    
+
                 for k in addKelvinCellsLowerFront:
                     k.volume.category = 'border'
-                
+
                 for k in addKelvinCellsUpperFront:
                     k.volume.category = 'border'
-                    
+
                 addKelvinCellLowerFrontLeft.volume.category = 'border'
                 addKelvinCellLowerFrontRight.volume.category = 'border'
                 addKelvinCellUpperFrontLeft.volume.category = 'border'
@@ -3752,20 +3752,31 @@ class Grid3DKelvin(PrimalComplex3D):
 
 
 
-        
+
         cc.printMagenta(volumes)
 
         super().__init__(
             nodes,edges,faces,volumes,
-            # volumes_to_combine = [
-            #     (volumes[0], volumes[33]),
-            #     (volumes[1], volumes[29]),
-            #     (volumes[4], volumes[34]),
-            #     (volumes[5], volumes[30]),
-            # ],
-            # faces_to_combine = [
-            #     (faces[206], faces[57]),
-            # ],
+            volumes_to_combine = [
+                (volumes[0], volumes[33]),
+                (volumes[1], volumes[29]),
+                (volumes[4], volumes[34]),
+                (volumes[5], volumes[30]),
+            ],
+            faces_to_combine = [
+                (faces[205], faces[60]),
+                (faces[206], faces[57]),
+                (faces[207], faces[52]),
+                (faces[193], faces[70]),
+                (faces[194], faces[65]),
+                (faces[195], faces[71]),
+                (faces[190], faces[19]),
+                (faces[191], faces[20]),
+                (faces[192], faces[26]),
+                (faces[202], faces[8]),
+                (faces[203], faces[5]),
+                (faces[204], faces[13]),
+            ],
             renumber=False,
             **kwargs
         )
@@ -4130,24 +4141,24 @@ if __name__ == '__main__':
                 e.showLabel = False
                 e.showArrow = False
                 e.plotEdge(ax[axNum])
-                
+
     #-------------------------------------------------------------------------
     #    Figure 32: Volumes
     #-------------------------------------------------------------------------
-    
+
         if True:
             axNum += 1
             c.plotVolumes(ax[axNum])
-            
+
     #-------------------------------------------------------------------------
     #    Figure 33: Border Volumes
     #-------------------------------------------------------------------------
-            
+
         if True:
             axNum += 1
             for v in c.borderVolumes:
                 v.plotVolume(ax[axNum])
-                
+
     #-------------------------------------------------------------------------
     #    Figure 34: Additional Border Faces
     #-------------------------------------------------------------------------
@@ -4156,7 +4167,16 @@ if __name__ == '__main__':
             for f in c.additionalBorderFaces:
                 f.plotFace(ax[axNum], showNormalVec=False, showBarycenter=False)
             c.plotNodes(ax[axNum])
-                
+
+    #-------------------------------------------------------------------------
+    #    Figure 34: Additional Border Faces
+    #-------------------------------------------------------------------------
+        if True:
+            axNum += 1
+            for f in c.additionalBorderFaces:
+                f.plotFace(ax[axNum], showNormalVec=False, showBarycenter=False)
+            c.plotNodes(ax[axNum])
+
 
 
     #-------------------------------------------------------------------------

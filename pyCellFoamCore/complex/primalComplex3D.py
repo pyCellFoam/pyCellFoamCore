@@ -238,7 +238,7 @@ class PrimalComplex3D(Complex3D):
 
     def __combineAdditionalBorderFaces(self):
         '''
-        
+
         '''
         if False:
             myPrintDebug = self.logger.debug
@@ -257,13 +257,13 @@ class PrimalComplex3D(Complex3D):
 
         #    Manual combine volumes
         #....................................................................
-        
+
         for (v1, v2) in self.__volumes_to_combine:
             myPrintDebug("Combine volumes {} and {}".format(v1, v2))
-            
+
             shared_faces = set(v1.faces).intersection(set([-f for f in v2.faces]))
             myPrintDebug("Shard faces: {}".format(shared_faces))
-            
+
             if len(shared_faces) == 1:
                 shared_face = list(shared_faces)[0]
                 new_faces = [f for f in v1.faces if not f == shared_face] + [f for f in v2.faces if (not (-f == shared_face) and not f in v1.faces)]
@@ -271,29 +271,47 @@ class PrimalComplex3D(Complex3D):
                 new_volume = Volume(new_faces)
                 new_volume.category1 = v1.category1
                 new_volume.category2 = v1.category2
-                myPrintWarning("volumes: {}".format(self.volumes))
+                # myPrintWarning("volumes: {}".format(self.volumes))
                 self.volumes.remove(v1)
                 self.volumes.remove(v2)
                 self.volumes.append(new_volume)
-                
-                
-            
+                v1.delete()
+                v2.delete()
+                if shared_face in self.faces:
+                    self.faces.remove(shared_face)
+                elif -shared_face in self.faces:
+                    self.faces.remove(-shared_face)
+                else:
+                    myPrintError("Cannot remove face {} from faces".format(shared_face))
+
+                if shared_face.category1 == "additionalBorder":
+                    if shared_face in self.additionalBorderFaces:
+                        self.additionalBorderFaces.remove(shared_face)
+                    elif -shared_face in self.additionalBorderFaces:
+                        self.additionalBorderFaces.remove(-shared_face)
+                    else:
+                        myPrintError("Cannot remove face {} from additional border faces".format(shared_face))
+
+
+
+
+
             else:
                 myPrintError("Cannot combine volumes with {} shared faces".format(len(shared_faces)))
-                
+
         #    Manual combine faces
         #....................................................................
-        
+
         for (f1, f2) in self.__faces_to_combine:
             myPrintDebug("Combine faces {} and {}".format(f1, f2))
             shared_edges = set(f1.edges).intersection(set([-e for e in f2.edges]+f2.edges))
             myPrintDebug("Edges of face 1: {}".format(f1.edges))
             myPrintDebug("Edges of face 2: {}".format(f2.edges))
             myPrintDebug("shared edges: {}".format(shared_edges))
-            
+
             if len(shared_edges) == 1:
                 shared_edge = list(shared_edges)[0]
-                
+
                 if shared_edge in f2.edges:
                     edges_1_1 = f1.edges[:f1.edges.index(shared_edge)]
                     edges_2_1 = [-e for e in f2.edges[:f2.edges.index(shared_edge)]]
@@ -308,15 +326,26 @@ class PrimalComplex3D(Complex3D):
                     edges_2_2 = f2.edges[:f2.edges.index(-shared_edge)]
                     edges_1_2 = f1.edges[f1.edges.index(shared_edge)+1:]
 
-                
+
                 myPrintDebug("1_1: {} | 2_1: {} | 2_2: {} | 1_2: {}".format(edges_1_1, edges_2_1, edges_2_2, edges_1_2))
                 new_edges = edges_1_1 + edges_2_1 + edges_2_2 + edges_1_2
                 myPrintDebug("new edges: {}".format(new_edges))
                 new_face = Face(new_edges)
                 new_face.category1 = f1.category1
                 new_face.category2 = f1.category2
-                self.edges.remove(shared_edge)
-                
+                if shared_edge in self.edges:
+                    self.edges.remove(shared_edge)
+                elif -shared_edge in self.edges:
+                    self.edges.remove(-shared_edge)
+                else:
+                    myPrintError("Edge {} should be found in list of edges, but is not".format(shared_edge))
+
+                self.faces.append(new_face)
+                if new_face.category1 == "additionalBorder":
+                    self.additionalBorderFaces.append(new_face)
+                else:
+                    myPrintError("Should only combine additional border faces but new face is {}".format(new_face.category1))
+
                 volumes = set(f1.volumes).intersection(set(f2.volumes), set(self.volumes))
                 myPrintWarning("volumes of combined faces: {}".format(volumes))
                 for v in list(volumes):
@@ -342,26 +371,42 @@ class PrimalComplex3D(Complex3D):
                     self.volumes.remove(v)
                     self.volumes.append(new_volume)
                     v.delete()
+                    for f in [f1, f2]:
+                        if f in self.faces:
+                            self.faces.remove(f)
+                        else:
+                            myPrintError("Cannot remove {} from faces".format(f))
 
-                
+                        if f in self.additionalBorderFaces1:
+                            self.additionalBorderFaces1.remove(f)
+                        else:
+                            myPrintError("Cannot remove {} from additional border faces 1".format(f))
+
+                        if f in self.additionalBorderFaces2:
+                            self.additionalBorderFaces2.remove(f)
+                        else:
+                            myPrintError("Cannot remove {} from additional border faces 2".format(f))
+
+
+
             else:
                 myPrintError("Cannot combine faces with {} shared edges".format(len(shared_edges)))
-                
-            
-                
-                
-            
-            
-        
-            
-            
-            
-            
-        
+
+
+
+
+
+
+
+
+
+
+
+
         #
         #    Check need for combine volumes
         #....................................................................
-        
+
         if True:
             need_combination = False
             for v in self.volumes:
@@ -371,7 +416,7 @@ class PrimalComplex3D(Complex3D):
                     additional_border_faces = [
                         f for f in v.faces if f.category1 == "additionalBorder"
                     ]
-                    
+
                     if len(additional_border_faces) == 0:
                         myPrintError("Volume {} is of type border but has no additional border faces".format(v))
                     elif len(additional_border_faces) == 1:
@@ -391,7 +436,7 @@ class PrimalComplex3D(Complex3D):
                         myPrintDebug("Found nodes: {}".format(all_nodes))
                         shared_nodes = set(all_nodes[0]).intersection(*[set(nodes) for nodes in all_nodes[1:]])
                         myPrintDebug("Shared nodes: {}".format(shared_nodes))
-                        
+
                         if len(shared_nodes) == 0:
                             myPrintError("Found no shared nodes. Need to combine volume {}".format(v))
                             need_combination = True
@@ -400,10 +445,10 @@ class PrimalComplex3D(Complex3D):
                         else:
                             myPrintError("{} shared nodes cannot be handled".format(len(shared_nodes)))
                             need_combination = True
-                        
-                        
 
-                        
+
+
+
                     else:
                         myPrintError("Volume {} has {} additional border faces. This cannot be handled currently".format(v, len(additional_border_faces)))
 
@@ -490,11 +535,16 @@ class PrimalComplex3D(Complex3D):
                             if f in self.additionalBorderFaces1:
                                 self.additionalBorderFaces1.remove(f)
                             else:
-                                myPrintError('Cannot remove face {} from additional border faces!'.format(f.infoText))
+                                myPrintError('Cannot remove face {} from additional border faces 1!'.format(f.infoText))
+                            if f in self.additionalBorderFaces2:
+                                self.additionalBorderFaces2.remove(f)
+                            else:
+                                myPrintError('Cannot remove face {} from additional border faces 2!'.format(f.infoText))
                             f.delete()
 
                         self.faces.append(newFace)
                         self.additionalBorderFaces1.append(newFace)
+                        self.additionalBorderFaces2.append(newFace)
 
                         for e in newFace.geometricEdges:
                             myPrintDebug('Edge {} is getting eliminated'.format(e.infoText))
