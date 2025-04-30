@@ -189,7 +189,7 @@ class DualEdge2D(Edge, DualCell):
                     myPrintError('Edge {} is border '.format(edge.infoText) +
                                  'and should therefor belong to ' +
                                  'two border faces, ' +
-                                 'but belongs to {}'.format(len(faces)))
+                                 'but belongs to {}: {}'.format(len(faces), faces))
 
         elif edge.category1 == 'inner':
             myPrintDebug('Assuming 2D complex inner edge')

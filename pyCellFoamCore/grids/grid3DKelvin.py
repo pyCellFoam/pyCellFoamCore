@@ -3796,18 +3796,18 @@ if __name__ == '__main__':
                          fillCube=True,
 #                       borderVolumesBottom=True,
 #                       borderVolumesTop = True,
-                       borderVolumesLeft = True,
-                       borderVolumesRight = True,
-                       borderVolumesFront = True,
-                       borderVolumesBack=True,
+                        borderVolumesLeft = True,
+                        borderVolumesRight = True,
+                        borderVolumesFront = True,
+                        borderVolumesBack=True,
                        )
         for v in c.volumes:
             if v.category == 'inner':
                 v.color = tc.TUMBlack()
 
 
-        if False:
-            dc = DualComplex3D(c)
+        if True:
+            dc = DualComplex3D(c, createFaces=False, createVolumes=False)
         else:
             dc = False
 
@@ -3836,7 +3836,7 @@ if __name__ == '__main__':
         edges = c.edges
         faces = c.faces
 
-        c.useCategory = 2
+        c.useCategory = 1
         print(len(c.innerNodes))
 
 
@@ -4132,7 +4132,7 @@ if __name__ == '__main__':
     #-------------------------------------------------------------------------
     #    Figure 31: Dual complex
     #-------------------------------------------------------------------------
-        if False and dc:
+        if True and dc:
             axNum += 1
             for n in dc.nodes:
                 n.showLabel = False
@@ -4169,12 +4169,16 @@ if __name__ == '__main__':
             c.plotNodes(ax[axNum])
 
     #-------------------------------------------------------------------------
-    #    Figure 34: Additional Border Faces
+    #    Figure 34: Border edges
     #-------------------------------------------------------------------------
         if True:
             axNum += 1
-            for f in c.additionalBorderFaces:
-                f.plotFace(ax[axNum], showNormalVec=False, showBarycenter=False)
+            c.borderEdges[0].color = tc.TUMRose()
+            for e in c.borderEdges:
+                e.plotEdge(ax[axNum], showArrow=False, showLabel=True)
+
+            for f in c.borderEdges[0].faces:
+                f.plotFace(ax[axNum])
             c.plotNodes(ax[axNum])
 
 

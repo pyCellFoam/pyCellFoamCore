@@ -285,12 +285,30 @@ class PrimalComplex3D(Complex3D):
                     myPrintError("Cannot remove face {} from faces".format(shared_face))
 
                 if shared_face.category1 == "additionalBorder":
-                    if shared_face in self.additionalBorderFaces:
-                        self.additionalBorderFaces.remove(shared_face)
-                    elif -shared_face in self.additionalBorderFaces:
-                        self.additionalBorderFaces.remove(-shared_face)
+                    if shared_face in self.additionalBorderFaces1:
+                        self.additionalBorderFaces1.remove(shared_face)
+                    elif -shared_face in self.additionalBorderFaces1:
+                        self.additionalBorderFaces1.remove(-shared_face)
                     else:
-                        myPrintError("Cannot remove face {} from additional border faces".format(shared_face))
+                        myPrintError("Cannot remove face {} from additional border faces 1".format(shared_face))
+
+                    if shared_face in self.additionalBorderFaces2:
+                        self.additionalBorderFaces2.remove(shared_face)
+                    elif -shared_face in self.additionalBorderFaces1:
+                        self.additionalBorderFaces2.remove(-shared_face)
+                    else:
+                        myPrintError("Cannot remove face {} from additional border faces 2".format(shared_face))
+
+                elif shared_face.category1 == "inner":
+                    if shared_face in self.innerFaces:
+                        self.innerFaces.remove(shared_face)
+                    elif -shared_face in self.innerFaces:
+                        self.innerFaces.remove(-shared_face)
+                    else:
+                        myPrintError("Cannot remove face {} from inner faces".format(shared_face))
+
+                else:
+                    myPrintError("Category1 of {} is {}!".format(shared_face, shared_face.category1))
 
 
 
@@ -386,6 +404,8 @@ class PrimalComplex3D(Complex3D):
                             self.additionalBorderFaces2.remove(f)
                         else:
                             myPrintError("Cannot remove {} from additional border faces 2".format(f))
+                f1.delete()
+                f2.delete()
 
 
 
@@ -569,7 +589,7 @@ class PrimalComplex3D(Complex3D):
             for f in self.faces:
                 if len(f.volumes) == 2:
                     if f.volumes[0].category == 'border' and f.volumes[1].category == 'border' :
-                        myPrintError('Found face {} between two border volumes {}'.format(f,f.volumes))
+                        myPrintDebug('Found face {} between two border volumes {}'.format(f,f.volumes))
                         edgesToCombine = []
                         for e in f.edges:
                             if e.category == 'additionalBorder':
@@ -588,8 +608,8 @@ class PrimalComplex3D(Complex3D):
 
                             # TODO
                             #
-                            myPrintError('Faces of edge {}: {}'.format(e0,e0.faces))
-                            myPrintError('Faces of edge {}: {}'.format(e1,e1.faces))
+                            myPrintDebug('Faces of edge {}: {}'.format(e0,e0.faces))
+                            myPrintDebug('Faces of edge {}: {}'.format(e1,e1.faces))
 
 
                             newEdge = False
@@ -624,7 +644,7 @@ class PrimalComplex3D(Complex3D):
                                 newEdge = Edge(e1.startNode,e0.endNode,geometricNodes = middleNode)
 
                             else:
-                                myPrintDebug('Additional border Edges {} and {} are not connected and therefor cannto be combined'.format(e0,e1))
+                                myPrintDebug('Additional border Edges {} and {} are not connected and therefor cannot be combined'.format(e0,e1))
 #                                self.errorCells.append(e0)
 #                                self.errorCells.append(e1)
 
