@@ -50,7 +50,7 @@ class DualFace3D(Face, DualCell):
                  *args,
                  myPrintDebug=None,
                  myPrintError=None,
-                 myPrintInfo=None,
+                 myPrintInfo=cc.printBlue,
                  **kwargs):
         '''
         :param edge Edge: Primal edge
@@ -68,6 +68,8 @@ class DualFace3D(Face, DualCell):
             myPrintError = self.logger.error
         if myPrintInfo is None:
             myPrintInfo = self.logger.info
+
+        myPrintInfo("Create dual face of {}".format(edge))
 
         if edge.category1 == 'inner':
             myPrintInfo('Dual Face of inner edge')
@@ -413,6 +415,8 @@ class DualFace3D(Face, DualCell):
     def __sortEdges(self, edges, myPrintDebug, myPrintError):
         edgesSorted = [edges[0], ]
         edges.pop(0)
+
+        cc.printBlue("Sorting edges {}".format(edges))
 
         counter = 0
         maxCounter = 50

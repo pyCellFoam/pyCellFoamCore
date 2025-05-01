@@ -3807,7 +3807,7 @@ if __name__ == '__main__':
 
 
         if True:
-            dc = DualComplex3D(c, createFaces=False, createVolumes=False)
+            dc = DualComplex3D(c, createFaces=True, createVolumes=False)
         else:
             dc = False
 
