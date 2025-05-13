@@ -48,8 +48,8 @@ class DualFace3D(Face, DualCell):
     def __init__(self,
                  edge,
                  *args,
-                 myPrintDebug=None,
-                 myPrintError=None,
+                 myPrintDebug=cc.printGreen,
+                 myPrintError=cc.printRed,
                  myPrintInfo=cc.printBlue,
                  **kwargs):
         '''
@@ -86,7 +86,11 @@ class DualFace3D(Face, DualCell):
             # Find all edges that define the dual face
             dualEdges = []
             for f in edge.faces:
-                dualEdges.append(f.dualCell3D)
+                if f.dualCell3D is None:
+                    myPrintError('Dual edge of {}: {}'.format(f, f.dualCell3D))
+                else:
+                    dualEdges.append(f.dualCell3D)
+                    myPrintDebug('Dual edge of {}: {}'.format(f, f.dualCell3D))
 
             dualEdgesSorted = self.__sortEdges(dualEdges,
                                                myPrintDebug,

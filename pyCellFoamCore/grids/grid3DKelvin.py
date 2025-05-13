@@ -3807,7 +3807,7 @@ if __name__ == '__main__':
 
 
         if True:
-            dc = DualComplex3D(c, createFaces=True, createVolumes=False)
+            dc = DualComplex3D(c, createFaces=True, createVolumes=True)
         else:
             dc = False
 
@@ -3855,6 +3855,9 @@ if __name__ == '__main__':
             for e in edges:
                 e.showArrow=False
                 e.showLabel=False
+                if e.num == 17:
+                    e.showLabel=True
+                    e.showArrow=True
                 e.plotEdge(ax[axNum])
 
 
@@ -4180,6 +4183,30 @@ if __name__ == '__main__':
             for f in c.borderEdges[0].faces:
                 f.plotFace(ax[axNum])
             c.plotNodes(ax[axNum])
+            
+    #-------------------------------------------------------------------------
+    #    Figure 35: Dual faces
+    #-------------------------------------------------------------------------
+        if True and dc:
+            axNum += 1
+            for f in dc.faces:
+                f.showLabel=False
+                f.showNormalVec=False
+                f.showBarycenter=False
+                f.plotFace(ax[axNum])
+                
+    #-------------------------------------------------------------------------
+    #    Figure 36: Dual volumes
+    #-------------------------------------------------------------------------
+        if True and dc:
+            axNum += 1
+            for v in dc.volumes:
+                v.showLabel=False
+                v.showNormalVec=False
+                v.showBarycenter=False
+                v.plotVolume(ax[axNum])
+                
+
 
 
 
