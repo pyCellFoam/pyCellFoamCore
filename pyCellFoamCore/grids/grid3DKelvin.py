@@ -3757,26 +3757,26 @@ class Grid3DKelvin(PrimalComplex3D):
 
         super().__init__(
             nodes,edges,faces,volumes,
-            volumes_to_combine = [
-                (volumes[0], volumes[33]),
-                (volumes[1], volumes[29]),
-                (volumes[4], volumes[34]),
-                (volumes[5], volumes[30]),
-            ],
-            faces_to_combine = [
-                (faces[205], faces[60]),
-                (faces[206], faces[57]),
-                (faces[207], faces[52]),
-                (faces[193], faces[70]),
-                (faces[194], faces[65]),
-                (faces[195], faces[71]),
-                (faces[190], faces[19]),
-                (faces[191], faces[20]),
-                (faces[192], faces[26]),
-                (faces[202], faces[8]),
-                (faces[203], faces[5]),
-                (faces[204], faces[13]),
-            ],
+            # volumes_to_combine = [
+            #     (volumes[0], volumes[33]),
+            #     (volumes[1], volumes[29]),
+            #     (volumes[4], volumes[34]),
+            #     (volumes[5], volumes[30]),
+            # ],
+            # faces_to_combine = [
+            #     (faces[205], faces[60]),
+            #     (faces[206], faces[57]),
+            #     (faces[207], faces[52]),
+            #     (faces[193], faces[70]),
+            #     (faces[194], faces[65]),
+            #     (faces[195], faces[71]),
+            #     (faces[190], faces[19]),
+            #     (faces[191], faces[20]),
+            #     (faces[192], faces[26]),
+            #     (faces[202], faces[8]),
+            #     (faces[203], faces[5]),
+            #     (faces[204], faces[13]),
+            # ],
             renumber=False,
             **kwargs
         )
@@ -3793,20 +3793,21 @@ if __name__ == '__main__':
 #                       borderVolumesBack=True)
 
         c = Grid3DKelvin(1,
+                         anzZ=2,
                          fillCube=True,
-#                       borderVolumesBottom=True,
-#                       borderVolumesTop = True,
-                        borderVolumesLeft = True,
-                        borderVolumesRight = True,
+                      # borderVolumesBottom=True,
+                      # borderVolumesTop = True,
+                        # borderVolumesLeft = True,
+                        # borderVolumesRight = True,
                         borderVolumesFront = True,
-                        borderVolumesBack=True,
+                        # borderVolumesBack=True,
                        )
         for v in c.volumes:
             if v.category == 'inner':
                 v.color = tc.TUMBlack()
 
 
-        if True:
+        if False:
             dc = DualComplex3D(c, createFaces=True, createVolumes=False)
         else:
             dc = False
