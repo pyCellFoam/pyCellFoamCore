@@ -3851,6 +3851,10 @@ if __name__ == '__main__':
             axNum += 1
             for n in nodes:
                 n.showLabel=False
+                if n.category1 == "border":
+                    n.color = tc.TUMGreen()
+                if n.category1 == "additionalBorder":
+                    n.color = tc.TUMBlack()
                 n.plotNode(ax[axNum])
             for e in edges:
                 e.showArrow=False
