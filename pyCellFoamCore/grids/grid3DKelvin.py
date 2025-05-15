@@ -4183,7 +4183,7 @@ if __name__ == '__main__':
             for f in c.borderEdges[0].faces:
                 f.plotFace(ax[axNum])
             c.plotNodes(ax[axNum])
-            
+
     #-------------------------------------------------------------------------
     #    Figure 35: Dual faces
     #-------------------------------------------------------------------------
@@ -4194,18 +4194,43 @@ if __name__ == '__main__':
                 f.showNormalVec=False
                 f.showBarycenter=False
                 f.plotFace(ax[axNum])
-                
+
     #-------------------------------------------------------------------------
     #    Figure 36: Dual volumes
     #-------------------------------------------------------------------------
         if True and dc:
             axNum += 1
-            for v in dc.volumes:
+            for v in dc.borderVolumes:
                 v.showLabel=False
                 v.showNormalVec=False
                 v.showBarycenter=False
                 v.plotVolume(ax[axNum])
-                
+            for n in c.borderNodes:
+                n.plotNode(ax[axNum])
+
+    #-------------------------------------------------------------------------
+    #    Figure 37: Dual volumes
+    #-------------------------------------------------------------------------
+        if True and dc:
+            axNum += 1
+            for v in dc.innerVolumes:
+                v.showLabel=False
+                v.showNormalVec=False
+                v.showBarycenter=False
+                v.plotVolume(ax[axNum])
+            for n in c.innerNodes:
+                n.plotNode(ax[axNum])
+
+    #-------------------------------------------------------------------------
+    #    Figure 38: Dual volumes
+    #-------------------------------------------------------------------------
+        if True and dc:
+            axNum += 1
+            for n in dc.nodes:
+                n.showLabel=False
+                n.plotNode(ax[axNum])
+
+
 
 
 

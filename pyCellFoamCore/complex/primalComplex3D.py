@@ -272,9 +272,22 @@ class PrimalComplex3D(Complex3D):
                 new_volume.category1 = v1.category1
                 new_volume.category2 = v1.category2
                 # myPrintWarning("volumes: {}".format(self.volumes))
-                self.volumes.remove(v1)
-                self.volumes.remove(v2)
+
+                for v in [v1, v2]:
+                    if v in self.volumes:
+                        self.volumes.remove(v)
+                    else:
+                        myPrintError("{} should have been in volumes but is not".format(v))
+                    if v in self.borderVolumes:
+                        self.borderVolumes.remove(v)
+                    else:
+                        myPrintError("{} should have been in border volumes but is not".format(v))
+
                 self.volumes.append(new_volume)
+                if new_volume.category1 == "border":
+                    self.borderVolumes.append(new_volume)
+                else:
+                    myPrintError("New volume {} should have been a border volume".format(new_volume))
                 v1.delete()
                 v2.delete()
                 if shared_face in self.faces:
@@ -387,7 +400,17 @@ class PrimalComplex3D(Complex3D):
                     new_volume.category1 = v.category1
                     new_volume.category2 = v.category2
                     self.volumes.remove(v)
+                    if v in self.innerVolumes:
+                        self.innerVolumes.remove(v)
+                    elif v in self.borderVolumes:
+                        self.borderVolumes.remove(v)
+                    else:
+                        myPrintError("{} is neither part of the inner nor of the border volumes".format(v))
                     self.volumes.append(new_volume)
+                    if new_volume.category1 == "border":
+                        self.borderVolumes.append(new_volume)
+                    else:
+                        myPrintError("New volume {} should have been a border volume".format(new_volume))
                     v.delete()
                     for f in [f1, f2]:
                         if f in self.faces:

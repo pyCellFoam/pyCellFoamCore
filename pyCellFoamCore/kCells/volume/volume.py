@@ -490,7 +490,7 @@ class Volume(Cell):
             if showLabel:
                 ax.text(self.barycenter[0],self.barycenter[1],self.barycenter[2],self.labelText,color=self.color.html)
         else:
-            self.logger.error('Cannot plot empty volume')
+            self.logger.error('Cannot plot empty volume {}'.format(self))
 
 
 
