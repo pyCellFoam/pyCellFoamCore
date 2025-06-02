@@ -46,7 +46,7 @@ if __name__== '__main__':
 
 from kCells.cell import DualCell
 from kCells.volume.volume import Volume
-from kCells.face import DualFace3D
+from kCells.face.dualFace3D import DualFace3D
 import tools.colorConsole as cc
 import numpy as np
 

@@ -83,7 +83,7 @@ class SuperBaseCell:
         # Check if a loger name was passed to this class from child classes
         if loggerName == 'MISSING_LOGGER_NAME':
             self.__logger = _log
-            self.logger.warning('Logger name is not set')
+            _log.warning('Logger name is not set')
         
         else:
             # Create logger
@@ -99,20 +99,20 @@ class SuperBaseCell:
 
         # Check if there are any non-used positional arguments
         if args:
-            self.logger.warning('Unused positional arguments {} were passed'
+            _log.warning('Unused positional arguments {} were passed'
                                 .format(args))
 
         if kwargs:
-            self.logger.warning('Unused keyword arguments {} were passed'
+            _log.warning('Unused keyword arguments {} were passed'
                                 .format(kwargs))
 
         if self in SuperBaseCell.allCells:
-            self.logger.error('Multiple call of SuperBaseCell for {}'
+            _log.error('Multiple call of SuperBaseCell for {}'
                               .format(self.infoText))
         else:
             SuperBaseCell.allCells.append(self)
 
-        self.logger.debug('Initialized SuperBaseCell')
+        _log.debug('Initialized SuperBaseCell')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -206,7 +206,7 @@ class SuperBaseCell:
 # ------------------------------------------------------------------------
 
     def __getLabel(self):
-        self.logger.warning('Using standard value for label')
+        _log.warning('Using standard value for label')
         return 'SUPBC'
     label = property(__getLabel)
     '''
@@ -216,7 +216,7 @@ class SuperBaseCell:
     '''
 
     def __getNum(self):
-        self.logger.warning('Using standard value for num')
+        _log.warning('Using standard value for num')
         return -1
     num = property(__getNum)
 
@@ -227,7 +227,7 @@ class SuperBaseCell:
     '''
 
     def __getLabelPrefix(self):
-        self.logger.warning('Using standard value for labelPrefix')
+        _log.warning('Using standard value for labelPrefix')
         return 'x'
     labelPrefix = property(__getLabelPrefix)
     '''
@@ -237,7 +237,7 @@ class SuperBaseCell:
     '''
 
     def __getIsDual(self):
-        self.logger.warning('Using standard value for isDual')
+        _log.warning('Using standard value for isDual')
         return False
     isDual = property(__getIsDual)
     '''
@@ -247,7 +247,7 @@ class SuperBaseCell:
     '''
 
     def __getCategory(self):
-        self.logger.warning('Using standard value for category')
+        _log.warning('Using standard value for category')
         return 'NO_CATEGORY'
     category = property(__getCategory)
     '''
@@ -258,7 +258,7 @@ class SuperBaseCell:
     '''
 
     def __getCategoryText(self):
-        self.logger.warning('Using standard value for categoryText')
+        _log.warning('Using standard value for categoryText')
         return 'NC'
     categoryText = property(__getCategoryText)
     '''
@@ -268,7 +268,7 @@ class SuperBaseCell:
     '''
 
     def __getLabelSuffix(self):
-        self.logger.warning('Using standard value for labelSuffix')
+        _log.warning('Using standard value for labelSuffix')
         return ''
     labelSuffix = property(__getLabelSuffix)
     '''
@@ -279,7 +279,7 @@ class SuperBaseCell:
     '''
 
     def __getIsDeleted(self):
-        self.logger.warning('Using standard value for isDeleted')
+        _log.warning('Using standard value for isDeleted')
         return False
     isDeleted = property(__getIsDeleted)
     '''
@@ -332,7 +332,7 @@ class SuperBaseCell:
             self.__infoText = self.__infoText + '***deleted***'
 
         self.__infoTextChanged = False
-        self.logger.debug('Update infoText {}'.format(self.__infoText))
+        _log.debug('Update infoText {}'.format(self.__infoText))
 
     def __createLabelText(self):
         '''
@@ -356,7 +356,7 @@ class SuperBaseCell:
         self.__labelTextShort = r'$' + self.labelPrefix + label \
             + '_{'+categoryText + str(self.num)+'}$'
         self.__labelTextChanged = False
-        self.logger.debug('Update labelText {}'.format(self.__labelText))
+        _log.debug('Update labelText {}'.format(self.__labelText))
 
     def updateText(self):
         '''

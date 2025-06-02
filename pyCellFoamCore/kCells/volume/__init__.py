@@ -15,12 +15,12 @@ Import all files
 
 '''
 
-if __name__ == '__main__':
-    import os
-    os.chdir('../../')
+# if __name__ == '__main__':
+#     import os
+#     os.chdir('../../')
 
-# Primal
-from kCells.volume.volume import Volume
+# # Primal
+# from kCells.volume.volume import Volume
 
-# Dual
-from kCells.volume.dualVolume3D import DualVolume3D
+# # Dual
+# from kCells.volume.dualVolume3D import DualVolume3D
