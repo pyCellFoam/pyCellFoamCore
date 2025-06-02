@@ -24,6 +24,11 @@ Top parent class that contains the most basic properties of all k-cells.
 import os
 if __name__ == '__main__':
     os.chdir('../../')
+    
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+import logging
 
 # ------------------------------------------------------------------------
 #    Local Libraries
@@ -33,8 +38,14 @@ if __name__ == '__main__':
 # -------------------------------------------------------------------
 
 import tools.myLogging as myLogging
-import tools.colorConsole as cc
+from tools.logging_formatter import set_logging_format
 
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -69,8 +80,15 @@ class SuperBaseCell:
             class at the lowest level by loggerName = __name__
 
         '''
-        # Create logger
-        self.__logger = myLogging.getLogger(loggerName)
+        # Check if a loger name was passed to this class from child classes
+        if loggerName == 'MISSING_LOGGER_NAME':
+            self.__logger = _log
+            self.logger.warning('Logger name is not set')
+        
+        else:
+            # Create logger
+            self.__logger = myLogging.getLogger(loggerName)
+        
 
         self.__myReverse = myReverse
 
@@ -78,9 +96,6 @@ class SuperBaseCell:
         self.__labelTextChanged = True
         self.__infoTextChanged = True
 
-        # Check if a loger name was passed to this class from child classes
-        if loggerName == 'MISSING_LOGGER_NAME':
-            self.logger.warning('Logger name is not set')
 
         # Check if there are any non-used positional arguments
         if args:
@@ -384,15 +399,13 @@ class SuperBaseCell:
 #    TEST FUNCTIONS
 # =============================================================================
 if __name__ == "__main__":
-    with myLogging.MyLogging('SuperBaseCell', debug=True):
-        cc.printBlue('Create a Super Base Cell')
-        testSUPBC1 = SuperBaseCell()
-
-        cc.printBlue('Create another Super Base Cell ' +
-                     'with the first as reverse')
-        testSUPBC2 = SuperBaseCell(myReverse=testSUPBC1)
-
-        cc.printBlue(testSUPBC1)
-        cc.printBlue(testSUPBC2)
-        cc.printBlue(-testSUPBC1)
-        cc.printBlue(-testSUPBC2)
+    
+    set_logging_format(logging.DEBUG)
+    
+    test_supbc1 = SuperBaseCell()
+    test_supbc2 = SuperBaseCell(myReverse=test_supbc1)
+    
+    logging.debug("%s", test_supbc1)
+    logging.debug("%s", test_supbc2)
+    logging.debug("%s", -test_supbc1)
+    logging.debug("%s", -test_supbc2)
