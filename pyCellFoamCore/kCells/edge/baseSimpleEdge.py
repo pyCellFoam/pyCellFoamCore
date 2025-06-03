@@ -29,6 +29,7 @@ if __name__ == '__main__':
 #    Standard Libraries
 # ------------------------------------------------------------------------
 import numpy as np
+import logging
 
 # ------------------------------------------------------------------------
 #    Local Libraries
@@ -50,7 +51,15 @@ from kCells.node.node import Node
 import tools.tumcolor as tc
 from tools import Arrow3D
 from tools import MyLogging
+from tools.logging_formatter import set_logging_format
 
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -70,7 +79,7 @@ class BaseSimpleEdge(BaseSimpleCell):
 
         '''
         super().__init__(*args, **kwargs)
-        self.logger.debug('Initialized BaseSimpleEdge')
+        _log.debug('Initialized BaseSimpleEdge')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -80,7 +89,7 @@ class BaseSimpleEdge(BaseSimpleCell):
         if self.belongsTo:
             return self.belongsTo.showArrow
         else:
-            self.logger.warning('Simple Edge does not belong to a real cell, '
+            _log.warning('Simple Edge does not belong to a real cell, '
                                 + 'using fixed standard value for showArrow')
             return True
     showArrow = property(__getShowArrow)
@@ -153,7 +162,7 @@ class BaseSimpleEdge(BaseSimpleCell):
             color = self.color
 
         if not isinstance(color, tc.TUMcolor):
-            self.logger.error('Cannot plot {} '.format(self) +
+            _log.error('Cannot plot {} '.format(self) +
                               'with the wanted color {} '.format(color) +
                               '- it must be an instance of TUMcolor()')
 
@@ -280,19 +289,19 @@ class BaseSimpleEdge(BaseSimpleCell):
         end = self.endNode.getTikZNode(tikzpicture)
 
         if not start:
-            self.logger.info('{} has no tikZNode yet, '.format(self.startNode)
+            _log.info('{} has no tikZNode yet, '.format(self.startNode)
                              + 'adding it as a simple TikZCoordinate')
             self.startNode.plotNodeTikZ(tikzpicture, showInPlot=False)
             start = self.startNode.getTikZNode(tikzpicture)
         if not end:
-            self.logger.info('{} has no tikZNode yet, '.format(self.endNode)
+            _log.info('{} has no tikZNode yet, '.format(self.endNode)
                              + 'adding it as a simple TikZCoordinate')
             self.endNode.plotNodeTikZ(tikzpicture, showInPlot=False)
             end = self.endNode.getTikZNode(tikzpicture)
 
         if not (start in tikzpicture.tikZNodes+tikzpicture.tikZCoordinates
                 and end in tikzpicture.tikZNodes+tikzpicture.tikZCoordinates):
-            self.logger.error('Must add nodes to tikZPicture '
+            _log.error('Must add nodes to tikZPicture '
                               + '"{}" first'.format(tikzpicture))
         else:
             tikzpicture.addTikZLine(start,
@@ -309,7 +318,7 @@ class BaseSimpleEdge(BaseSimpleCell):
 
 
 if __name__ == '__main__':
-    with MyLogging('BaseSimpleEdge', debug=True):
-        se1 = BaseSimpleEdge()
-        print(se1.color)
-        print(se1.color.rgb0255)
+    set_logging_format(logging.DEBUG)
+    se1 = BaseSimpleEdge()
+    print(se1.color)
+    print(se1.color.rgb0255)
