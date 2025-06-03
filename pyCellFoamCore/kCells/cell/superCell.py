@@ -24,6 +24,13 @@ if __name__ == '__main__':
     os.chdir('../../')
 
 # ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging
+
+
+# ------------------------------------------------------------------------
 #    Local Libraries
 # ------------------------------------------------------------------------
 
@@ -37,6 +44,15 @@ from kCells.cell.superReversedCell import SuperReversedCell
 # -------------------------------------------------------------------
 import tools.colorConsole as cc
 from tools import MyLogging
+from tools.logging_formatter import set_logging_format
+
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 
 # =============================================================================
@@ -145,11 +161,11 @@ class SuperCell(SuperBaseCell):
 
 
 if __name__ == "__main__":
-    with MyLogging('SuperCell'):
+    set_logging_format(logging.DEBUG)
 
-        cc.printBlue('Create Super Cell')
-        testSUPC = SuperCell()
+    cc.printBlue('Create Super Cell')
+    testSUPC = SuperCell()
 
-        cc.printBlue('Check if both, Super Cell and its reverse, ' +
-                     'have been created')
-        print(testSUPC, -testSUPC)
+    cc.printBlue('Check if both, Super Cell and its reverse, ' +
+                 'have been created')
+    print(testSUPC, -testSUPC)
