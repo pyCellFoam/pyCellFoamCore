@@ -404,23 +404,23 @@ class DualFace3D(Face, DualCell):
         if self.normalVec:
             if self.normalVec[0] is not None:
                 if np.inner(self.normalVec[0], edge.directionVec[0]) < 0:
-                    self.logger.debug('Old edges: {}'.format(edgesForFaces))
+                    _log.debug('Old edges: {}'.format(edgesForFaces))
                     newEdges = []
                     for es in edgesForFaces:
                         newEdges.append([-e for e in es[::-1]])
-                    self.logger.debug('New edges: {}'.format(newEdges))
+                    _log.debug('New edges: {}'.format(newEdges))
                     self.edges = newEdges
                     self.setUp()
 
                 # Check direction
                 if np.inner(self.normalVec[0], edge.directionVec[0]) > 0:
-                    self.logger.debug('{}: direction ok'
+                    _log.debug('{}: direction ok'
                                       .format(self.infoText))
                 else:
-                    self.logger.error('{}: direction not ok'
+                    _log.error('{}: direction not ok'
                                       .format(self.infoText))
         else:
-            self.logger.error('Cannot check normal vec because face ' +
+            _log.error('Cannot check normal vec because face ' +
                               '{} is empty'.format(self))
 
         self.dualCell3D = edge
