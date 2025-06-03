@@ -23,6 +23,12 @@ Parent class for all negative (simple) k-Cells.
 import os
 if __name__ == '__main__':
     os.chdir('../../')
+    
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging
 
 # ------------------------------------------------------------------------
 #    Local Libraries
@@ -37,7 +43,15 @@ from kCells.cell.superBaseCell import SuperBaseCell
 # -------------------------------------------------------------------
 import tools.colorConsole as cc
 from tools import MyLogging
+from tools.logging_formatter import set_logging_format
 
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -59,7 +73,7 @@ class SuperReversedCell(SuperBaseCell):
             class at the lowest level by loggerName = __name__
         '''
         super().__init__(*args, **kwargs)
-        self.logger.debug('Initialized SuperReversedCell')
+        _log.debug('Initialized SuperReversedCell')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -123,7 +137,7 @@ class SuperReversedCell(SuperBaseCell):
         if self.myReverse:
             self.myReverse.delete()
         else:
-            self.logger.error('Cannot delete reversed cell that does not ' +
+            _log.error('Cannot delete reversed cell that does not ' +
                               'belong to a cell')
 
 
@@ -134,8 +148,8 @@ class SuperReversedCell(SuperBaseCell):
 
 if __name__ == '__main__':
 
-    with MyLogging('SuperReversedCell'):
-        cc.printBlue('Create Super Reversed Cell')
-        testSUPRC = SuperReversedCell()
-        cc.printBlue('The reversed should not be defined')
-        print(-testSUPRC)
+    set_logging_format(logging.DEBUG)
+    cc.printBlue('Create Super Reversed Cell')
+    testSUPRC = SuperReversedCell()
+    cc.printBlue('The reversed should not be defined')
+    print(-testSUPRC)
