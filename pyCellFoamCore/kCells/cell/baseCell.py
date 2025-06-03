@@ -24,6 +24,11 @@ import os
 if __name__ == '__main__':
     os.chdir('../../')
 
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging
 
 # ------------------------------------------------------------------------
 #    Local Libraries
@@ -42,7 +47,15 @@ from kCells.cell.superBaseCell import SuperBaseCell
 # -------------------------------------------------------------------
 import tools.colorConsole as cc
 import tools.myLogging as myLogging
+from tools.logging_formatter import set_logging_format
 
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -74,7 +87,7 @@ class BaseCell(SuperBaseCell):
 
         super().__init__(*args, **kwargs)
         self.tikZLabelPosition = tikZLabelPosition
-        self.logger.debug('Initialized BaseCell')
+        _log.debug('Initialized BaseCell')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -94,7 +107,7 @@ class BaseCell(SuperBaseCell):
                  'below right', 'below left', 'above right', 'above left']:
             self.__tikZLabelPosition = t
         else:
-            self.logger.error('Unknown position for TikZ label {}'.format(t))
+            _log.error('Unknown position for TikZ label {}'.format(t))
 
     tikZLabelPosition = property(__getTikZLabelPosition,
                                  __setTikZLabelPosition)
@@ -110,7 +123,7 @@ class BaseCell(SuperBaseCell):
 
 
 if __name__ == '__main__':
-    with myLogging.MyLogging('BaseCell', debug=True):
-        cc.printBlue('Create base cell')
-        testBC = BaseCell()
-        print(testBC)
+    set_logging_format(logging.DEBUG)
+    
+    testBC = BaseCell()
+    print(testBC)
