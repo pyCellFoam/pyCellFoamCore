@@ -22,10 +22,25 @@
 if __name__ == '__main__':
     import os
     os.chdir('../../')
+    
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging
 
 from kCells.face.baseFace import BaseFace
 from kCells.edge import BaseEdge
 from kCells.cell import ReversedCell
+from tools.logging_formatter import set_logging_format
+
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 
 # =============================================================================
@@ -53,7 +68,7 @@ class ReversedFace(BaseFace, ReversedCell):
 
         '''
         super().__init__(*args, loggerName=__name__, **kwargs)
-        self.logger.debug('Initialized ReversedFace')
+        _log.debug('Initialized ReversedFace')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -63,7 +78,7 @@ class ReversedFace(BaseFace, ReversedCell):
         if self.myReverse:
             return [-x for x in self.myReverse.simpleFaces]
         else:
-            self.logger.warning('No reverse defined')
+            _log.warning('No reverse defined')
             return []
 
     simpleFaces = property(__getSimpleFaces)
@@ -72,7 +87,7 @@ class ReversedFace(BaseFace, ReversedCell):
         if self.myReverse:
             return [-x for x in (reversed(self.myReverse.edges))]
         else:
-            self.logger.warning('No reverse defined')
+            _log.warning('No reverse defined')
             return []
 
     def __setEdges(self, edges):
@@ -85,7 +100,7 @@ class ReversedFace(BaseFace, ReversedCell):
                     allEdges.append([-x for x in (reversed(e))])
                 self.myReverse.edges = allEdges
         else:
-            self.logger.error('No reverse defined')
+            _log.error('No reverse defined')
 
     edges = property(__getEdges, __setEdges)
 
@@ -100,7 +115,7 @@ class ReversedFace(BaseFace, ReversedCell):
                 return rawEdges
 
         else:
-            self.logger.warning('No reverse defined')
+            _log.warning('No reverse defined')
             return []
 
     rawEdges = property(__getRawEdges)
@@ -109,7 +124,7 @@ class ReversedFace(BaseFace, ReversedCell):
         if self.myReverse:
             return self.myReverse.geometricEdges
         else:
-            self.logger.warning('No reverse defined')
+            _log.warning('No reverse defined')
             return []
 
     geometricEdges = property(__getGeometricEdges)
@@ -118,7 +133,7 @@ class ReversedFace(BaseFace, ReversedCell):
         if self.myReverse:
             return self.myReverse.geometricNodes
         else:
-            self.logger.warning('No reverse defined')
+            _log.warning('No reverse defined')
             return []
 
     geometricNodes = property(__getGeometricNodes)
@@ -127,14 +142,14 @@ class ReversedFace(BaseFace, ReversedCell):
         if self.myReverse:
             return self.myReverse.showNormalVec
         else:
-            self.logger.warning('No reverse defined')
+            _log.warning('No reverse defined')
             return True
 
     def __setShowNormalVec(self, s):
         if self.myReverse:
             self.myReverse.showNormalVec = s
         else:
-            self.logger.error(
+            _log.error(
                 'Cannot set showNormalVec because the reversed edge ' +
                 'does not belong to an edge')
 
@@ -144,14 +159,14 @@ class ReversedFace(BaseFace, ReversedCell):
         if self.myReverse:
             return self.myReverse.showBarycenter
         else:
-            self.logger.warning('No reverse defined')
+            _log.warning('No reverse defined')
             return True
 
     def __setShowBarycenter(self, s):
         if self.myReverse:
             self.myReverse.showBarycenter = s
         else:
-            self.logger.error(
+            _log.error(
                 'Cannot set showBarycenter because the reversed edge ' +
                 'does not belong to an edge')
 
@@ -161,7 +176,7 @@ class ReversedFace(BaseFace, ReversedCell):
         if self.myReverse:
             return self.myReverse.polygons
         else:
-            self.logger.warning('No reverse defined')
+            _log.warning('No reverse defined')
             return None
     polygons = property(__getPolygons)
 
@@ -169,7 +184,7 @@ class ReversedFace(BaseFace, ReversedCell):
         if self.myReverse:
             return self.myReverse.volumes
         else:
-            self.logger.warning('No reverse defined')
+            _log.warning('No reverse defined')
             return None
     volumes = property(__getVolumes)
 
@@ -181,7 +196,7 @@ class ReversedFace(BaseFace, ReversedCell):
         if self.myReverse:
             self.myReverse.simplifyFace()
         else:
-            self.logger.error('No reverse defined')
+            _log.error('No reverse defined')
 
 # ------------------------------------------------------------------------
 #    Add a volume that uses this face
@@ -190,7 +205,7 @@ class ReversedFace(BaseFace, ReversedCell):
         if self.myReverse:
             self.myReverse.addVolume(volume)
         else:
-            self.logger.error(
+            _log.error(
                 'Cannot add volume {}'.format(volume.infoText) +
                 ' to reversed face {} '.format(self.infoText) +
                 'because it does not belong to a face')
@@ -202,7 +217,7 @@ class ReversedFace(BaseFace, ReversedCell):
         if self.myReverse:
             self.myReverse.delVolume(volume)
         else:
-            self.logger.error(
+            _log.error(
                 'Cannot delete volume {} '.format(volume.infoText) +
                 'from reversed face {} '.format(self.infoText) +
                 'because it does not belong to a face')
@@ -217,4 +232,5 @@ class ReversedFace(BaseFace, ReversedCell):
 
 
 if __name__ == '__main__':
+    set_logging_format(logging.DEBUG)
     rf = ReversedFace()
