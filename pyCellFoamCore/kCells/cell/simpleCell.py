@@ -23,6 +23,12 @@ import os
 if __name__ == '__main__':
     os.chdir('../../')
 
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging
+
 
 # ------------------------------------------------------------------------
 #    Local Libraries
@@ -42,6 +48,15 @@ from kCells.cell.reversedSimpleCell import ReversedSimpleCell
 # -------------------------------------------------------------------
 from tools import MyLogging
 import tools.colorConsole as cc
+from tools.logging_formatter import set_logging_format
+
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 
 # =============================================================================
@@ -83,7 +98,7 @@ class SimpleCell(BaseSimpleCell, SuperCell):
                          myReverse=myReverse,
                          **kwargs)
         self.__labelSuffix = labelSuffix
-        self.logger.debug('Initialized SimpleCell')
+        _log.debug('Initialized SimpleCell')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -112,26 +127,26 @@ class SimpleCell(BaseSimpleCell, SuperCell):
 
 
 if __name__ == '__main__':
-    with MyLogging('simpleCell'):
-        cc.printBlue('Create a Simple Cell without a suffix')
-        sc1 = SimpleCell()
-        cc.printBlue('Check name')
-        print(sc1)
+    set_logging_format(logging.DEBUG)
+    cc.printBlue('Create a Simple Cell without a suffix')
+    sc1 = SimpleCell()
+    cc.printBlue('Check name')
+    print(sc1)
 
-        cc.printBlue('Create a Simple Cell with a suffix')
-        sc2 = SimpleCell(labelSuffix='(a)')
-        cc.printBlue('Check name')
-        print(sc2)
+    cc.printBlue('Create a Simple Cell with a suffix')
+    sc2 = SimpleCell(labelSuffix='(a)')
+    cc.printBlue('Check name')
+    print(sc2)
 
-        cc.printBlue('Check label text')
-        print(sc2.labelText)
+    cc.printBlue('Check label text')
+    print(sc2.labelText)
 
-        cc.printBlue('Get associated reversed simple cell')
-        rsc1 = -sc1
+    cc.printBlue('Get associated reversed simple cell')
+    rsc1 = -sc1
 
-        cc.printBlue('Change label suffix of the reversed simple cell')
-        rsc1.labelSuffix = '(b)'
+    cc.printBlue('Change label suffix of the reversed simple cell')
+    rsc1.labelSuffix = '(b)'
 
-        cc.printBlue('Check that the label suffix of the original simple ' +
-                     'cell has changed as well')
-        print(sc1, rsc1)
+    cc.printBlue('Check that the label suffix of the original simple ' +
+                 'cell has changed as well')
+    print(sc1, rsc1)
