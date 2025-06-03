@@ -248,11 +248,13 @@ Layer 5
 if __name__ == '__main__':
     import os
     os.chdir('../')
+    
+import logging
 
 from kCells import Node
 from kCells import Edge
 from kCells import Face
-from kCells import Volume
+from kCells.volume.volume import Volume
 import math
 import numpy as np
 import tools.colorConsole as cc
@@ -267,6 +269,11 @@ plt.switch_backend("Qt5Agg")
 import tools.combineImages as ci
 import os
 
+from tools.logging_formatter import set_logging_format
+
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 # Length of the edges in the kelvin cells
 cubeDim = 40
@@ -3784,501 +3791,502 @@ class Grid3DKelvin(PrimalComplex3D):
 
 if __name__ == '__main__':
     import random
+    
+    set_logging_format(logging.DEBUG)
 
-    with MyLogging('complexKelvin'):
 #        c = getComplex(numCells-1,
 #                       borderVolumesRight=True,
 #                       borderVolumesLeft=True,
 #                       borderVolumesFront=True,
 #                       borderVolumesBack=True)
 
-        c = Grid3DKelvin(1,
-                         fillCube=True,
+    c = Grid3DKelvin(1,
+                     fillCube=True,
 #                       borderVolumesBottom=True,
 #                       borderVolumesTop = True,
-                        borderVolumesLeft = True,
-                        borderVolumesRight = True,
-                        borderVolumesFront = True,
-                        borderVolumesBack=True,
-                       )
-        for v in c.volumes:
-            if v.category == 'inner':
-                v.color = tc.TUMBlack()
+                    borderVolumesLeft = True,
+                    borderVolumesRight = True,
+                    borderVolumesFront = True,
+                    borderVolumesBack=True,
+                   )
+    for v in c.volumes:
+        if v.category == 'inner':
+            v.color = tc.TUMBlack()
 
 
-        if True:
-            dc = DualComplex3D(c, createFaces=True, createVolumes=True)
-        else:
-            dc = False
-
-
-
-        if False:
-
-            import pickle,sys
-            sys.setrecursionlimit(30000)
-            outputFileName = 'test.data'
-            fw = open(outputFileName, 'wb')
-            pickle.dump(c.volumes, fw)
-            fw.close()
+    if True:
+        dc = DualComplex3D(c, createFaces=True, createVolumes=True)
+    else:
+        dc = False
 
 
 
+    if False:
 
-        (figs,ax) = pf.getFigures(numTotal=10)
-        axNum = -1
+        import pickle,sys
+        sys.setrecursionlimit(30000)
+        outputFileName = 'test.data'
+        fw = open(outputFileName, 'wb')
+        pickle.dump(c.volumes, fw)
+        fw.close()
 
 
 
 
-
-        nodes = c.nodes
-        edges = c.edges
-        faces = c.faces
-
-        c.useCategory = 1
-        print(len(c.innerNodes))
+    (figs,ax) = pf.getFigures(numTotal=10)
+    axNum = -1
 
 
 
 
 
-    #-------------------------------------------------------------------------
-    #    Figure 1: Nodes and edges of all kelvin cells
-    #-------------------------------------------------------------------------
+    nodes = c.nodes
+    edges = c.edges
+    faces = c.faces
 
-        if True:
-            axNum += 1
-            for n in nodes:
-                n.showLabel=False
-                if n.category1 == "border":
-                    n.color = tc.TUMGreen()
-                if n.category1 == "additionalBorder":
-                    n.color = tc.TUMBlack()
-                n.plotNode(ax[axNum])
-            for e in edges:
-                e.showArrow=False
-                e.showLabel=False
-                if e.num == 17:
-                    e.showLabel=True
-                    e.showArrow=True
-                e.plotEdge(ax[axNum])
+    c.useCategory = 1
+    print(len(c.innerNodes))
 
 
-    #-------------------------------------------------------------------------
-    #    Figure 2: Spheres and cylinders around nodes and edges
-    #-------------------------------------------------------------------------
 
 
-        if False:
-            axNum += 1
-            for n in nodes:
-                n.color = tc.TUMWhite
-                n.radius = random.uniform(0.25,0.5)
-                n.plotSphere(ax[axNum])
-                n.plotNode(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 1: Nodes and edges of all kelvin cells
+#-------------------------------------------------------------------------
+
+    if True:
+        axNum += 1
+        for n in nodes:
+            n.showLabel=False
+            if n.category1 == "border":
+                n.color = tc.TUMGreen()
+            if n.category1 == "additionalBorder":
+                n.color = tc.TUMBlack()
+            n.plotNode(ax[axNum])
+        for e in edges:
+            e.showArrow=False
+            e.showLabel=False
+            if e.num == 17:
+                e.showLabel=True
+                e.showArrow=True
+            e.plotEdge(ax[axNum])
+
+
+#-------------------------------------------------------------------------
+#    Figure 2: Spheres and cylinders around nodes and edges
+#-------------------------------------------------------------------------
+
+
+    if False:
+        axNum += 1
+        for n in nodes:
+            n.color = tc.TUMWhite
+            n.radius = random.uniform(0.25,0.5)
+            n.plotSphere(ax[axNum])
+            n.plotNode(ax[axNum])
 #            for e in edges:
 #                e.radius = random.uniform(0.07,0.15)
 #                e.plotCylinder(ax[axNum])
 #                e.plotEdge(ax[axNum])
 
 
-    #-------------------------------------------------------------------------
-    #    Figure 3: Faces of kelvin cells and inner edges of dual complex
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            for f in faces:
-                f.showLabel=False
-                f.showNormalVec=False
-                f.plotFace(ax[axNum])
-            c.setupAxis(ax[axNum])
-
-
-
-    #-------------------------------------------------------------------------
-    #    Figure 4: upper half
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell1 = KelvinCell(0,0,0,createPart='upperHalf')
-            testCell1.plotKelvinCell(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 5: lower half
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell2 = KelvinCell(0,0,0,createPart='lowerHalf')
-            testCell2.plotKelvinCell(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 6: front half
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell3 = KelvinCell(0,0,0,createPart='frontHalf')
-            testCell3.plotKelvinCell(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 7: back half
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell4 = KelvinCell(0,0,0,createPart='backHalf')
-            testCell4.plotKelvinCell(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 8: left half
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell5 = KelvinCell(0,0,0,createPart='leftHalf')
-            testCell5.plotKelvinCell(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 9: right half
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell6 = KelvinCell(0,0,0,createPart='rightHalf')
-            testCell6.plotKelvinCell(ax[axNum])
-
-
-    #-------------------------------------------------------------------------
-    #    Figure 10: upper front quarter
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell7 = KelvinCell(0,0,0,createPart='upperFrontQuarter')
-            testCell7.plotKelvinCell(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 11: upper back quarter
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell8 = KelvinCell(0,0,0,createPart='upperBackQuarter')
-            testCell8.plotKelvinCell(ax[axNum])
-
-
-    #-------------------------------------------------------------------------
-    #    Figure 12: lower front quarter
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell9 = KelvinCell(0,0,0,createPart='lowerFrontQuarter')
-            testCell9.plotKelvinCell(ax[axNum])
-
-
-    #-------------------------------------------------------------------------
-    #    Figure 13: lower back quarter
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell10 = KelvinCell(0,0,0,createPart='lowerBackQuarter')
-            testCell10.plotKelvinCell(ax[axNum])
-
-
-    #-------------------------------------------------------------------------
-    #    Figure 14: upper left quarter
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell11 = KelvinCell(0,0,0,createPart='upperLeftQuarter')
-            testCell11.plotKelvinCell(ax[axNum])
-
-
-    #-------------------------------------------------------------------------
-    #    Figure 15: lower left quarter
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell12 = KelvinCell(0,0,0,createPart='lowerLeftQuarter')
-            testCell12.plotKelvinCell(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 16: upper right quarter
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell13 = KelvinCell(0,0,0,createPart='upperRightQuarter')
-            testCell13.plotKelvinCell(ax[axNum])
-
-
-    #-------------------------------------------------------------------------
-    #    Figure 17: upper right quarter
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell14 = KelvinCell(0,0,0,createPart='lowerRightQuarter')
-            testCell14.plotKelvinCell(ax[axNum])
-
-
-
-    #-------------------------------------------------------------------------
-    #    Figure 18: front left quarter
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell15 = KelvinCell(0,0,0,createPart='frontLeftQuarter')
-            testCell15.plotKelvinCell(ax[axNum])
-
-
-    #-------------------------------------------------------------------------
-    #    Figure 19: front right quarter
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell16 = KelvinCell(0,0,0,createPart='frontRightQuarter')
-            testCell16.plotKelvinCell(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 20: Back left quarter
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell17 = KelvinCell(0,0,0,createPart='backLeftQuarter')
-            testCell17.plotKelvinCell(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 21: Back right quarter
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell18 = KelvinCell(0,0,0,createPart='backRightQuarter')
-            testCell18.plotKelvinCell(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 22: Upper front left eighth
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell19 = KelvinCell(0,0,0,createPart='upperFrontLeftEighth')
-            testCell19.plotKelvinCell(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 23: Lower front left eighth
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell20 = KelvinCell(0,0,0,createPart='lowerFrontLeftEighth')
-            testCell20.plotKelvinCell(ax[axNum])
-
-
-    #-------------------------------------------------------------------------
-    #    Figure 24: Upper back left eighth
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell21 = KelvinCell(0,0,0,createPart='upperBackLeftEighth')
-            testCell21.plotKelvinCell(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 25: Lower back left eighth
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell22 = KelvinCell(0,0,0,createPart='lowerBackLeftEighth')
-            testCell22.plotKelvinCell(ax[axNum])
-
-
-
-    #-------------------------------------------------------------------------
-    #    Figure 26: Upper front right eighth
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell23 = KelvinCell(0,0,0,createPart='upperFrontRightEighth')
-            testCell23.plotKelvinCell(ax[axNum])
-
-
-    #-------------------------------------------------------------------------
-    #    Figure 27: lower front right eighth
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell24 = KelvinCell(0,0,0,createPart='lowerFrontRightEighth')
-            testCell24.plotKelvinCell(ax[axNum])
-
-
-    #-------------------------------------------------------------------------
-    #    Figure 28: upper back right eighth
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell25 = KelvinCell(0,0,0,createPart='upperBackRightEighth')
-            testCell25.plotKelvinCell(ax[axNum])
-
-
-
-    #-------------------------------------------------------------------------
-    #    Figure 29: lower back right eighth
-    #-------------------------------------------------------------------------
-        if False:
-            axNum += 1
-            testCell26 = KelvinCell(0,0,0,createPart='lowerBackRightEighth')
-            testCell26.plotKelvinCell(ax[axNum])
-
-
-
-    #-------------------------------------------------------------------------
-    #    Figure 30: Dual complex
-    #-------------------------------------------------------------------------
-        if False and dc:
-            axNum += 1
-            for f in dc.faces:
-                f.simplifyFace()
-            for f in dc.faces:
-
-                f.showLabel = False
-                f.showNormalVec = False
-                f.plotFace(ax[axNum])
-
-
-    #-------------------------------------------------------------------------
-    #    Figure 31: Dual complex
-    #-------------------------------------------------------------------------
-        if True and dc:
-            axNum += 1
-            for n in dc.nodes:
-                n.showLabel = False
-                n.plotNode(ax[axNum])
-            for e in dc.edges:
-                e.showLabel = False
-                e.showArrow = False
-                e.plotEdge(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 32: Volumes
-    #-------------------------------------------------------------------------
-
-        if True:
-            axNum += 1
-            c.plotVolumes(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 33: Border Volumes
-    #-------------------------------------------------------------------------
-
-        if True:
-            axNum += 1
-            for v in c.borderVolumes:
-                v.plotVolume(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 34: Additional Border Faces
-    #-------------------------------------------------------------------------
-        if True:
-            axNum += 1
-            for f in c.additionalBorderFaces:
-                f.plotFace(ax[axNum], showNormalVec=False, showBarycenter=False)
-            c.plotNodes(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 34: Border edges
-    #-------------------------------------------------------------------------
-        if True:
-            axNum += 1
-            c.borderEdges[0].color = tc.TUMRose()
-            for e in c.borderEdges:
-                e.plotEdge(ax[axNum], showArrow=False, showLabel=True)
-
-            for f in c.borderEdges[0].faces:
-                f.plotFace(ax[axNum])
-            c.plotNodes(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 35: Dual faces
-    #-------------------------------------------------------------------------
-        if True and dc:
-            axNum += 1
-            for f in dc.faces:
-                f.showLabel=False
-                f.showNormalVec=False
-                f.showBarycenter=False
-                f.plotFace(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 36: Dual volumes
-    #-------------------------------------------------------------------------
-        if True and dc:
-            axNum += 1
-            for v in dc.borderVolumes:
-                v.showLabel=False
-                v.showNormalVec=False
-                v.showBarycenter=False
-                v.plotVolume(ax[axNum])
-            for n in c.borderNodes:
-                n.plotNode(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 37: Dual volumes
-    #-------------------------------------------------------------------------
-        if True and dc:
-            axNum += 1
-            for v in dc.innerVolumes:
-                v.showLabel=False
-                v.showNormalVec=False
-                v.showBarycenter=False
-                v.plotVolume(ax[axNum])
-            for n in c.innerNodes:
-                n.plotNode(ax[axNum])
-
-    #-------------------------------------------------------------------------
-    #    Figure 38: Dual volumes
-    #-------------------------------------------------------------------------
-        if True and dc:
-            axNum += 1
-            for n in dc.nodes:
-                n.showLabel=False
-                n.plotNode(ax[axNum])
-
-
-
-
-
-
-    #-------------------------------------------------------------------------
-    #    Border volumes test
-    #-------------------------------------------------------------------------
-
-        if False:
-            axNum += 1
+#-------------------------------------------------------------------------
+#    Figure 3: Faces of kelvin cells and inner edges of dual complex
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        for f in faces:
+            f.showLabel=False
+            f.showNormalVec=False
+            f.plotFace(ax[axNum])
+        c.setupAxis(ax[axNum])
+
+
+
+#-------------------------------------------------------------------------
+#    Figure 4: upper half
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell1 = KelvinCell(0,0,0,createPart='upperHalf')
+        testCell1.plotKelvinCell(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 5: lower half
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell2 = KelvinCell(0,0,0,createPart='lowerHalf')
+        testCell2.plotKelvinCell(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 6: front half
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell3 = KelvinCell(0,0,0,createPart='frontHalf')
+        testCell3.plotKelvinCell(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 7: back half
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell4 = KelvinCell(0,0,0,createPart='backHalf')
+        testCell4.plotKelvinCell(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 8: left half
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell5 = KelvinCell(0,0,0,createPart='leftHalf')
+        testCell5.plotKelvinCell(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 9: right half
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell6 = KelvinCell(0,0,0,createPart='rightHalf')
+        testCell6.plotKelvinCell(ax[axNum])
+
+
+#-------------------------------------------------------------------------
+#    Figure 10: upper front quarter
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell7 = KelvinCell(0,0,0,createPart='upperFrontQuarter')
+        testCell7.plotKelvinCell(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 11: upper back quarter
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell8 = KelvinCell(0,0,0,createPart='upperBackQuarter')
+        testCell8.plotKelvinCell(ax[axNum])
+
+
+#-------------------------------------------------------------------------
+#    Figure 12: lower front quarter
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell9 = KelvinCell(0,0,0,createPart='lowerFrontQuarter')
+        testCell9.plotKelvinCell(ax[axNum])
+
+
+#-------------------------------------------------------------------------
+#    Figure 13: lower back quarter
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell10 = KelvinCell(0,0,0,createPart='lowerBackQuarter')
+        testCell10.plotKelvinCell(ax[axNum])
+
+
+#-------------------------------------------------------------------------
+#    Figure 14: upper left quarter
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell11 = KelvinCell(0,0,0,createPart='upperLeftQuarter')
+        testCell11.plotKelvinCell(ax[axNum])
+
+
+#-------------------------------------------------------------------------
+#    Figure 15: lower left quarter
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell12 = KelvinCell(0,0,0,createPart='lowerLeftQuarter')
+        testCell12.plotKelvinCell(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 16: upper right quarter
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell13 = KelvinCell(0,0,0,createPart='upperRightQuarter')
+        testCell13.plotKelvinCell(ax[axNum])
+
+
+#-------------------------------------------------------------------------
+#    Figure 17: upper right quarter
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell14 = KelvinCell(0,0,0,createPart='lowerRightQuarter')
+        testCell14.plotKelvinCell(ax[axNum])
+
+
+
+#-------------------------------------------------------------------------
+#    Figure 18: front left quarter
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell15 = KelvinCell(0,0,0,createPart='frontLeftQuarter')
+        testCell15.plotKelvinCell(ax[axNum])
+
+
+#-------------------------------------------------------------------------
+#    Figure 19: front right quarter
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell16 = KelvinCell(0,0,0,createPart='frontRightQuarter')
+        testCell16.plotKelvinCell(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 20: Back left quarter
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell17 = KelvinCell(0,0,0,createPart='backLeftQuarter')
+        testCell17.plotKelvinCell(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 21: Back right quarter
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell18 = KelvinCell(0,0,0,createPart='backRightQuarter')
+        testCell18.plotKelvinCell(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 22: Upper front left eighth
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell19 = KelvinCell(0,0,0,createPart='upperFrontLeftEighth')
+        testCell19.plotKelvinCell(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 23: Lower front left eighth
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell20 = KelvinCell(0,0,0,createPart='lowerFrontLeftEighth')
+        testCell20.plotKelvinCell(ax[axNum])
+
+
+#-------------------------------------------------------------------------
+#    Figure 24: Upper back left eighth
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell21 = KelvinCell(0,0,0,createPart='upperBackLeftEighth')
+        testCell21.plotKelvinCell(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 25: Lower back left eighth
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell22 = KelvinCell(0,0,0,createPart='lowerBackLeftEighth')
+        testCell22.plotKelvinCell(ax[axNum])
+
+
+
+#-------------------------------------------------------------------------
+#    Figure 26: Upper front right eighth
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell23 = KelvinCell(0,0,0,createPart='upperFrontRightEighth')
+        testCell23.plotKelvinCell(ax[axNum])
+
+
+#-------------------------------------------------------------------------
+#    Figure 27: lower front right eighth
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell24 = KelvinCell(0,0,0,createPart='lowerFrontRightEighth')
+        testCell24.plotKelvinCell(ax[axNum])
+
+
+#-------------------------------------------------------------------------
+#    Figure 28: upper back right eighth
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell25 = KelvinCell(0,0,0,createPart='upperBackRightEighth')
+        testCell25.plotKelvinCell(ax[axNum])
+
+
+
+#-------------------------------------------------------------------------
+#    Figure 29: lower back right eighth
+#-------------------------------------------------------------------------
+    if False:
+        axNum += 1
+        testCell26 = KelvinCell(0,0,0,createPart='lowerBackRightEighth')
+        testCell26.plotKelvinCell(ax[axNum])
+
+
+
+#-------------------------------------------------------------------------
+#    Figure 30: Dual complex
+#-------------------------------------------------------------------------
+    if False and dc:
+        axNum += 1
+        for f in dc.faces:
+            f.simplifyFace()
+        for f in dc.faces:
+
+            f.showLabel = False
+            f.showNormalVec = False
+            f.plotFace(ax[axNum])
+
+
+#-------------------------------------------------------------------------
+#    Figure 31: Dual complex
+#-------------------------------------------------------------------------
+    if True and dc:
+        axNum += 1
+        for n in dc.nodes:
+            n.showLabel = False
+            n.plotNode(ax[axNum])
+        for e in dc.edges:
+            e.showLabel = False
+            e.showArrow = False
+            e.plotEdge(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 32: Volumes
+#-------------------------------------------------------------------------
+
+    if True:
+        axNum += 1
+        c.plotVolumes(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 33: Border Volumes
+#-------------------------------------------------------------------------
+
+    if True:
+        axNum += 1
+        for v in c.borderVolumes:
+            v.plotVolume(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 34: Additional Border Faces
+#-------------------------------------------------------------------------
+    if True:
+        axNum += 1
+        for f in c.additionalBorderFaces:
+            f.plotFace(ax[axNum], showNormalVec=False, showBarycenter=False)
+        c.plotNodes(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 34: Border edges
+#-------------------------------------------------------------------------
+    if True:
+        axNum += 1
+        c.borderEdges[0].color = tc.TUMRose()
+        for e in c.borderEdges:
+            e.plotEdge(ax[axNum], showArrow=False, showLabel=True)
+
+        for f in c.borderEdges[0].faces:
+            f.plotFace(ax[axNum])
+        c.plotNodes(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 35: Dual faces
+#-------------------------------------------------------------------------
+    if True and dc:
+        axNum += 1
+        for f in dc.faces:
+            f.showLabel=False
+            f.showNormalVec=False
+            f.showBarycenter=False
+            f.plotFace(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 36: Dual volumes
+#-------------------------------------------------------------------------
+    if True and dc:
+        axNum += 1
+        for v in dc.borderVolumes:
+            v.showLabel=False
+            v.showNormalVec=False
+            v.showBarycenter=False
+            v.plotVolume(ax[axNum])
+        for n in c.borderNodes:
+            n.plotNode(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 37: Dual volumes
+#-------------------------------------------------------------------------
+    if True and dc:
+        axNum += 1
+        for v in dc.innerVolumes:
+            v.showLabel=False
+            v.showNormalVec=False
+            v.showBarycenter=False
+            v.plotVolume(ax[axNum])
+        for n in c.innerNodes:
+            n.plotNode(ax[axNum])
+
+#-------------------------------------------------------------------------
+#    Figure 38: Dual volumes
+#-------------------------------------------------------------------------
+    if True and dc:
+        axNum += 1
+        for n in dc.nodes:
+            n.showLabel=False
+            n.plotNode(ax[axNum])
+
+
+
+
+
+
+#-------------------------------------------------------------------------
+#    Border volumes test
+#-------------------------------------------------------------------------
+
+    if False:
+        axNum += 1
 #            c.plotComplex(ax[axNum],showLabel=False,showArrow=False)
 #            for e in c.borderEdges2:
 #                e.plotEdge(ax[axNum],showLabel=False,showArrow=False)
 
 
 #            dc.useCategory = 2
-            axNum += 1
-            for f in dc.borderFaces2:
-                f.plotFace(ax[axNum],showLabel=False,showNormalVec=False)
-                f.dualCell3D.plotEdge(ax[axNum],showLabel=False,showArrow=False)
-            dc.plotNodes(ax[axNum],showLabel=False)
+        axNum += 1
+        for f in dc.borderFaces2:
+            f.plotFace(ax[axNum],showLabel=False,showNormalVec=False)
+            f.dualCell3D.plotEdge(ax[axNum],showLabel=False,showArrow=False)
+        dc.plotNodes(ax[axNum],showLabel=False)
 
-        if False:
-            axNum += 1
+    if False:
+        axNum += 1
 #            c.plotNodes(ax[axNum])
 #            volNum = 29
 
 #            dc.plotFaces(ax[axNum],showLabel=False,color=tc.TUMBlack())
-            dc.useCategory = 2
-            for f in dc.borderFaces:
-                f.plotFace(ax[axNum],showLabel=False,showNormalVec=False)
+        dc.useCategory = 2
+        for f in dc.borderFaces:
+            f.plotFace(ax[axNum],showLabel=False,showNormalVec=False)
 
 
 
 
 #            dc.innerVolumes[volNum].plotVolume(ax[axNum],showLabel=True)
 #
-        if False:
-            axNum += 1
-            c.plotVolumes(ax[axNum],showLabel=False)
+    if False:
+        axNum += 1
+        c.plotVolumes(ax[axNum],showLabel=False)
 
-            axNum += 1
-            for e in c.additionalBorderEdges:
-                e.plotEdge(ax[axNum],showLabel=False)
+        axNum += 1
+        for e in c.additionalBorderEdges:
+            e.plotEdge(ax[axNum],showLabel=False)
 
 
 #            axNum += 1
@@ -4288,17 +4296,17 @@ if __name__ == '__main__':
 
 
 
-            axNum += 1
-            for f in c.additionalBorderFaces:
-                f.plotFace(ax[axNum])
+        axNum += 1
+        for f in c.additionalBorderFaces:
+            f.plotFace(ax[axNum])
 
-            from kCells import BaseEdge
-            axNum += 1
-            for cell in c.errorCells:
-                if isinstance(cell,Volume):
-                    cell.plotVolume(ax[axNum])
-                if isinstance(cell,BaseEdge):
-                    cell.plotEdge(ax[axNum])
+        from kCells import BaseEdge
+        axNum += 1
+        for cell in c.errorCells:
+            if isinstance(cell,Volume):
+                cell.plotVolume(ax[axNum])
+            if isinstance(cell,BaseEdge):
+                cell.plotEdge(ax[axNum])
 
 
 #            axNum += 1
@@ -4308,13 +4316,13 @@ if __name__ == '__main__':
 #            axNum += 1
 #            dc.plotFaces(ax[axNum],showLabel=False,showNormalVec=False)
 
-            axNum += 1
-            dc.plotVolumes(ax[axNum],showLabel=False)
+        axNum += 1
+        dc.plotVolumes(ax[axNum],showLabel=False)
 
 
-            axNum += 1
-            for f in dc.additionalBorderFaces:
-                f.plotFace(ax[axNum],showLabel=True,showNormalVec=False)
+        axNum += 1
+        for f in dc.additionalBorderFaces:
+            f.plotFace(ax[axNum],showLabel=True,showNormalVec=False)
 #            axNum += 1
 #            for f in dc.innerFaces:
 #                f.plotFace(ax[axNum],showLabel=False,showNormalVec=False)
@@ -4349,37 +4357,37 @@ if __name__ == '__main__':
 
 
 
-        if False:
-            axNum += 1
+    if False:
+        axNum += 1
 #            dc.plotEdges(ax[axNum],showLabel=False,showArrow=False)
-            for e in dc.innerEdges:
-                e.plotEdge(ax[axNum])
+        for e in dc.innerEdges:
+            e.plotEdge(ax[axNum])
 
-            axNum += 1
-            for e in dc.borderEdges:
-                e.plotEdge(ax[axNum])
+        axNum += 1
+        for e in dc.borderEdges:
+            e.plotEdge(ax[axNum])
 
-            axNum += 1
+        axNum += 1
 #            dc.plotFaces(ax[axNum],showLabel=False,showNormalVec=False)
-            for f in dc.innerFaces:
-                f.plotFace(ax[axNum],showLabel=False,showNormalVec=False)
+        for f in dc.innerFaces:
+            f.plotFace(ax[axNum],showLabel=False,showNormalVec=False)
 
-            axNum += 1
+        axNum += 1
 #            dc.plotFaces(ax[axNum],showLabel=False,showNormalVec=False)
-            for f in dc.borderFaces:
-                f.plotFace(ax[axNum],showLabel=False,showNormalVec=False)
+        for f in dc.borderFaces:
+            f.plotFace(ax[axNum],showLabel=False,showNormalVec=False)
 
 
 
-            testDualBorderFace = dc.borderFaces[0]
-            testPrimalBorderEdge = testDualBorderFace.dualCell3D
-            testPrimalBorderEdge.plotEdge(ax[axNum],color=tc.TUMRose())
-            for f in testPrimalBorderEdge.faces:
-                f.plotFace(ax[axNum])
+        testDualBorderFace = dc.borderFaces[0]
+        testPrimalBorderEdge = testDualBorderFace.dualCell3D
+        testPrimalBorderEdge.plotEdge(ax[axNum],color=tc.TUMRose())
+        for f in testPrimalBorderEdge.faces:
+            f.plotFace(ax[axNum])
 #            for e in dc.borderFaces
 
-            for e in dc.borderFaces[0].edges:
-                e.plotEdge(ax[axNum])
+        for e in dc.borderFaces[0].edges:
+            e.plotEdge(ax[axNum])
 #                for sf in f.simpleFaces:
 
 
@@ -4397,9 +4405,9 @@ if __name__ == '__main__':
 
 
 
-    #-------------------------------------------------------------------------
-    #   Create numenclature for documentation
-    #-------------------------------------------------------------------------
+#-------------------------------------------------------------------------
+#   Create numenclature for documentation
+#-------------------------------------------------------------------------
 
 #        if os.getcwd().endswith('doc'):
 #            kc = KelvinCell(0,0,0)
@@ -4408,13 +4416,13 @@ if __name__ == '__main__':
 
 
 
-    #-------------------------------------------------------------------------
-    #    Generate video
-    #-------------------------------------------------------------------------
-        if False:
-            cc.printBlue('Creating Video')
-            (fig,ax,writer) = pf.getVideo(title='Kelvin cells and dual Complex',fps=15)
-            with writer.saving(fig,'vid/kelvin.mp4',120):
+#-------------------------------------------------------------------------
+#    Generate video
+#-------------------------------------------------------------------------
+    if False:
+        cc.printBlue('Creating Video')
+        (fig,ax,writer) = pf.getVideo(title='Kelvin cells and dual Complex',fps=15)
+        with writer.saving(fig,'vid/kelvin.mp4',120):
 #                for e in dc.innerEdges:
 #                    e.showLabel = False
 #                    e.plotEdge(ax)
@@ -4423,73 +4431,73 @@ if __name__ == '__main__':
 #                    f.showNormalVec=False
 #                    f.plotFace(ax)
 #                c.setupAxis(ax)
-    #            for i in range(50):
-    #                print(i)
-    #                writer.grab_frame()
-    #
-                anz = 2
-                for j in range(anz):
-                    print(j)
-                    ax.clear()
-                    dc.plotVolumes(ax,showLabel=False,color=tc.TUMBlack())
-                    dc.volumes[j].plotVolume(ax,showLabel=True)
+#            for i in range(50):
+#                print(i)
+#                writer.grab_frame()
+#
+            anz = 2
+            for j in range(anz):
+                print(j)
+                ax.clear()
+                dc.plotVolumes(ax,showLabel=False,color=tc.TUMBlack())
+                dc.volumes[j].plotVolume(ax,showLabel=True)
 #                    ax.view_init(30,j*360/anz)
-                    for i in range(15):
-                        print('\t',j,' | ',i)
-                        writer.grab_frame()
+                for i in range(15):
+                    print('\t',j,' | ',i)
+                    writer.grab_frame()
 
 
 
 
-        if False:
-            cc.printBlue('Creating Video')
-            (fig,ax,writer) = pf.getVideo(title='Kelvin cells and dual Complex')
-            with writer.saving(fig,'vid/kelvin2.mp4',120):
-                for i in range(len(dc.innerVolumes[:5])):
-                    print(i+1,'of',len(dc.innerVolumes))
-                    ax.clear()
-                    c.plotGraph(ax,showLabels=False)
-                    v = dc.volumes[i]
-                    v.plotVolume(ax)
-                    for j in range(30):
-                        ax.view_init(30,(i*30+j)*360/(len(dc.innerVolumes)*30))
-                        writer.grab_frame()
+    if False:
+        cc.printBlue('Creating Video')
+        (fig,ax,writer) = pf.getVideo(title='Kelvin cells and dual Complex')
+        with writer.saving(fig,'vid/kelvin2.mp4',120):
+            for i in range(len(dc.innerVolumes[:5])):
+                print(i+1,'of',len(dc.innerVolumes))
+                ax.clear()
+                c.plotGraph(ax,showLabels=False)
+                v = dc.volumes[i]
+                v.plotVolume(ax)
+                for j in range(30):
+                    ax.view_init(30,(i*30+j)*360/(len(dc.innerVolumes)*30))
+                    writer.grab_frame()
 
 
-        if False:
-            cc.printBlue('Creating Video')
-            (fig,ax,writer) = pf.getVideo(title='Kelvin cells and dual Complex')
-            with writer.saving(fig,'vid/kelvin2.mp4',120):
-                kc = addKelvinCells[0]
-                nodesToPlot = []
-                for n in kc.nodes:
-                    if n :
-                        nodesToPlot.append(n)
+    if False:
+        cc.printBlue('Creating Video')
+        (fig,ax,writer) = pf.getVideo(title='Kelvin cells and dual Complex')
+        with writer.saving(fig,'vid/kelvin2.mp4',120):
+            kc = addKelvinCells[0]
+            nodesToPlot = []
+            for n in kc.nodes:
+                if n :
+                    nodesToPlot.append(n)
 
-                for i,pn in enumerate(nodesTocPlot):
-                    print(i+1,'of',len(nodesToPlot))
-                    ax.clear()
-                    for n in nodesToPlot:
-                        n.plotNode(ax)
-                    for e in kc.edges:
-                        if e:
-                            e.plotEdge(ax)
-                    v = pn.dualCell3D
-                    v.plotVolume(ax)
-                    for j in range(30):
-                        ax.view_init(30,(i*30+j)*360/(len(nodesToPlot)*30))
-                        writer.grab_frame()
+            for i,pn in enumerate(nodesTocPlot):
+                print(i+1,'of',len(nodesToPlot))
+                ax.clear()
+                for n in nodesToPlot:
+                    n.plotNode(ax)
+                for e in kc.edges:
+                    if e:
+                        e.plotEdge(ax)
+                v = pn.dualCell3D
+                v.plotVolume(ax)
+                for j in range(30):
+                    ax.view_init(30,(i*30+j)*360/(len(nodesToPlot)*30))
+                    writer.grab_frame()
 
 
 
-        if False:
+    if False:
 
-            res = 130
-            for e in c.edges:
-                e.radius = 1
-            for n in c.nodes:
-                n.radius = 1.3
-            myVTK1 = c.plotVtkVoxels(resolution = res)
+        res = 130
+        for e in c.edges:
+            e.radius = 1
+        for n in c.nodes:
+            n.radius = 1.3
+        myVTK1 = c.plotVtkVoxels(resolution = res)
 
 
 
@@ -4499,27 +4507,27 @@ if __name__ == '__main__':
 #                    for p in f.polygons:
 #                        myVTK1.addActor(p.vtkActor)
 #
-            myVTK1.start()
+        myVTK1.start()
 
-            numberOfCells = myVTK1.extract.GetOutput().GetNumberOfCells()
-            cc.printBlueBackground('           Number of solid Cells:       {}      '.format(numberOfCells))
-            cc.printBlueBackground('           Total number of voxels      {}      '.format(res*res*res))
-            cc.printBlueBackground('           Ratio     {}      '.format(numberOfCells/(res*res*res)))
-
-
+        numberOfCells = myVTK1.extract.GetOutput().GetNumberOfCells()
+        cc.printBlueBackground('           Number of solid Cells:       {}      '.format(numberOfCells))
+        cc.printBlueBackground('           Total number of voxels      {}      '.format(res*res*res))
+        cc.printBlueBackground('           Ratio     {}      '.format(numberOfCells/(res*res*res)))
 
 
 
-        if False:
+
+
+    if False:
 #            for v in c.borderVolumes:
 #                v.plotVolume(ax[axNum],showLabel=False,showBarycenter=False)
 #                v.dualCell3D.plotNode(ax[axNum],showLabel=False)
 
 #            c.plotEdges(ax[axNum],showLabel=False,showArrow=False)
 
-            cc.printBlue(c.xlim,c.ylim,c.zlim)
-            d = c.xlim[1]-c.xlim[0]
-            cc.printBlue(d)
+        cc.printBlue(c.xlim,c.ylim,c.zlim)
+        d = c.xlim[1]-c.xlim[0]
+        cc.printBlue(d)
 
 #            print(c.incidenceMatrix1)
 #            print(c.incidenceMatrix2)
@@ -4530,37 +4538,37 @@ if __name__ == '__main__':
 
 #            c.plotComplex(ax[axNum],showLabel=False,showArrow=False)
 
-            nodes = []
-            edges = []
-            faces = []
-            for p in prisms:
-                for n in p.nodes:
-                    if not n in nodes:
-                        nodes.append(n)
+        nodes = []
+        edges = []
+        faces = []
+        for p in prisms:
+            for n in p.nodes:
+                if not n in nodes:
+                    nodes.append(n)
 
-                for e in p.edges:
-                    if not e in edges:
-                        edges.append(e)
-                for f in p.faces:
-                    if not f in faces:
-                        faces.append(f)
-
-
+            for e in p.edges:
+                if not e in edges:
+                    edges.append(e)
+            for f in p.faces:
+                if not f in faces:
+                    faces.append(f)
 
 
-            axNum += 1
-            c.plotEdges(ax[axNum],showLabel=False,showArrow=False)
-
-            k = myKelvinCells[0]
-            k.volume.plotVolume(ax[axNum])
 
 
-            axNum += 1
-            c.plotVolumes(ax[axNum],showLabel=False)
+        axNum += 1
+        c.plotEdges(ax[axNum],showLabel=False,showArrow=False)
+
+        k = myKelvinCells[0]
+        k.volume.plotVolume(ax[axNum])
 
 
-            axNum += 1
-            dc.plotFaces(ax[axNum],showLabel=False,showNormalVec=False)
+        axNum += 1
+        c.plotVolumes(ax[axNum],showLabel=False)
+
+
+        axNum += 1
+        dc.plotFaces(ax[axNum],showLabel=False,showNormalVec=False)
 
 #            for n in nodes:
 #                n.plotNode(ax[axNum],showLabel=False,showArrow=False)
@@ -4580,19 +4588,19 @@ if __name__ == '__main__':
 #            for n in dc.nodes:
 
 
-        if False:
-            c.checkIncidenceMatrix(dc.incidenceMatrix1ii,c.incidenceMatrix3ii)
-            c.checkIncidenceMatrix(dc.incidenceMatrix1ib,c.incidenceMatrix3bi)
-            c.checkIncidenceMatrix(dc.incidenceMatrix1bi,c.incidenceMatrix3ib)
-            c.checkIncidenceMatrix(dc.incidenceMatrix1bb,c.incidenceMatrix3bb)
+    if False:
+        c.checkIncidenceMatrix(dc.incidenceMatrix1ii,c.incidenceMatrix3ii)
+        c.checkIncidenceMatrix(dc.incidenceMatrix1ib,c.incidenceMatrix3bi)
+        c.checkIncidenceMatrix(dc.incidenceMatrix1bi,c.incidenceMatrix3ib)
+        c.checkIncidenceMatrix(dc.incidenceMatrix1bb,c.incidenceMatrix3bb)
 
-            c.useCategory = 2
-            dc.useCategory = 2
+        c.useCategory = 2
+        dc.useCategory = 2
 #
-            c.checkIncidenceMatrix(dc.incidenceMatrix1ii,c.incidenceMatrix3ii)
-            c.checkIncidenceMatrix(dc.incidenceMatrix1ib,c.incidenceMatrix3bi)
-            c.checkIncidenceMatrix(dc.incidenceMatrix1bi,c.incidenceMatrix3ib)
-            c.checkIncidenceMatrix(dc.incidenceMatrix1bb,c.incidenceMatrix3bb)
+        c.checkIncidenceMatrix(dc.incidenceMatrix1ii,c.incidenceMatrix3ii)
+        c.checkIncidenceMatrix(dc.incidenceMatrix1ib,c.incidenceMatrix3bi)
+        c.checkIncidenceMatrix(dc.incidenceMatrix1bi,c.incidenceMatrix3ib)
+        c.checkIncidenceMatrix(dc.incidenceMatrix1bb,c.incidenceMatrix3bb)
 #
 #
 

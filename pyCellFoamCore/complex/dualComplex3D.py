@@ -25,7 +25,8 @@ from complex.primalComplex3D import PrimalComplex3D
 from kCells import Node,DualNode3D,DualNode2D
 from kCells import Edge,DualEdge3D,DualEdge2D
 from kCells import Face,DualFace3D,DualFace2D
-from kCells import Volume,DualVolume3D
+from kCells.volume.volume import Volume
+from kCells.volume.dualVolume3D import DualVolume3D
 import tools.colorConsole as cc
 
 

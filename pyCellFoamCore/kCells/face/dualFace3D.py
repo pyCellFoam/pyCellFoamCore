@@ -314,9 +314,7 @@ class DualFace3D(Face, DualCell):
                              .format([(e.startNode, e.endNode)
                                       for e in dualEdges]))
 
-                dualEdgesSorted = self.__sortEdges(dualEdges,
-                                                   _log.debug,
-                                                   _log.error)
+                dualEdgesSorted = self.__sortEdges(dualEdges)
                 _log.debug('Sorted dual Edges: {}'.format(dualEdgesSorted))
 
                 if dualEdgesSorted:

@@ -40,7 +40,8 @@ from boundingBox import BoundingBox
 
 #    kCells
 #--------------------------------------------------------------------
-from kCells import Node, Edge, Face, Volume
+from kCells import Node, Edge, Face
+from kCells.volume.volume import Volume
 
 #    Complex & Grids
 #--------------------------------------------------------------------
