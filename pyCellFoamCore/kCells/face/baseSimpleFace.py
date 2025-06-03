@@ -21,13 +21,38 @@
 if __name__ == '__main__':
     import os
     os.chdir('../../')
+    
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging
+
+# ------------------------------------------------------------------------
+#    Third Party Libraries
+# ------------------------------------------------------------------------
+
+import numpy as np
+
+# ------------------------------------------------------------------------
+#    Local Libraries
+# ------------------------------------------------------------------------
 
 import tools.colorConsole as cc
-import numpy as np
+
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 from tools import Arrow3D
 from kCells import BaseSimpleCell
 import tools.tumcolor as tc
+from tools.logging_formatter import set_logging_format
+
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 
 # =============================================================================
@@ -46,14 +71,14 @@ class BaseSimpleFace(BaseSimpleCell):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.logger.debug('Initialized BaseSimpleFace')
+        _log.debug('Initialized BaseSimpleFace')
 
     def deleteFace(self):
         # TODO: check that the face does not belong to a volume before deleting
         for e in self.data.edges:
             e.delFace(self)
         self.data.edges = []
-        self.logger.info('Deleted Face %i', self.num)
+        _log.info('Deleted Face %i', self.num)
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -63,7 +88,7 @@ class BaseSimpleFace(BaseSimpleCell):
         if self.belongsTo:
             return self.belongsTo.showNormalVec
         else:
-            self.logger.warning(
+            _log.warning(
                 'Simple fdge does not belong to a real cell, ' +
                 'using fixed standard value for showNormalVec')
             return True
@@ -74,7 +99,7 @@ class BaseSimpleFace(BaseSimpleCell):
         if self.belongsTo:
             return self.belongsTo.showBarycenter
         else:
-            self.logger.warning(
+            _log.warning(
                 'Simple fdge does not belong to a real cell, ' +
                 'using fixed standard value for showBarycenter')
             return True
@@ -174,7 +199,7 @@ class BaseSimpleFace(BaseSimpleCell):
                             color=color.html)
                 ax.add_artist(a)
         else:
-            self.logger.error('Cannot Plot Face {} because it is empty'
+            _log.error('Cannot Plot Face {} because it is empty'
                               .format(self.infoText))
 
     def plotFaceVtk(self, myVtk, showNormalVec=False, **kwargs):
@@ -232,7 +257,7 @@ class BaseSimpleFace(BaseSimpleCell):
             tikZNode = e.startNode.getTikZNode(pic)
 
             if not tikZNode:
-                self.logger.info(
+                _log.info(
                     '{} has no tikZNode yet, '.format(e.startNode) +
                     'adding it as a simple TikZCoordinate')
                 e.startNode.plotNodeTikZ(pic, showInPlot=False)
@@ -241,7 +266,7 @@ class BaseSimpleFace(BaseSimpleCell):
                 if newTikZNode:
                     nodes.append(newTikZNode)
                 else:
-                    self.logger.error(
+                    _log.error(
                         'Could not get tikz node of node {}'
                         .format(e.startNode))
             else:
@@ -297,7 +322,7 @@ class BaseSimpleFace(BaseSimpleCell):
                                             arrowDiameter,
                                             options=arrowOptions)
             else:
-                self.logger.error('TikZPicture has dimension {}'
+                _log.error('TikZPicture has dimension {}'
                                   .format(pic.dim))
             if showNormalVec:
                 start = pic.addTikZCoordinate(self.tikZName+'Barycenter',
@@ -321,12 +346,12 @@ class BaseSimpleFace(BaseSimpleCell):
                         showNormalVec=False,
                         **kwargs):
         if True:
-            myPrintDebug = self.logger.debug
-            # myPrintInfo = self.logger.info
-            # myPrintWarning = self.logger.warning
-            myPrintError = self.logger.error
+            myPrintDebug = _log.debug
+            # myPrintInfo = _log.info
+            # myPrintWarning = _log.warning
+            myPrintError = _log.error
         else:
-            self.logger.warning('Using prints instead of logger!')
+            _log.warning('Using prints instead of logger!')
             myPrintDebug = cc.printGreen
             # myPrintInfo = cc.printCyan
             # myPrintWarning = cc.printYellow
@@ -444,6 +469,7 @@ class BaseSimpleFace(BaseSimpleCell):
 
 if __name__ == "__main__":
 
+    set_logging_format(logging.DEBUG)
     bsf = BaseSimpleFace()
     print(bsf.showBarycenter)
     print(bsf.showNormalVec)
