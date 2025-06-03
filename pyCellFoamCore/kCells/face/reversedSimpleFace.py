@@ -15,9 +15,26 @@
 if __name__ == '__main__':
     import os
     os.chdir('../../')
+    
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging
+
+
 from kCells.face.baseSimpleFace import BaseSimpleFace
 from kCells.cell import ReversedSimpleCell
 import numpy as np
+from tools.logging_formatter import set_logging_format
+
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 
 # =============================================================================
@@ -49,7 +66,7 @@ class ReversedSimpleFace(BaseSimpleFace, ReversedSimpleCell):
         self.__area = None
         self.__normalVec = None
         self.__nodes = None
-        self.logger.debug('Initialized ReversedSimpleFace')
+        _log.debug('Initialized ReversedSimpleFace')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -59,7 +76,7 @@ class ReversedSimpleFace(BaseSimpleFace, ReversedSimpleCell):
             if self.myReverse:
                 self.__coordinates = np.flipud(self.myReverse.coordinates)
             else:
-                self.logger.error(
+                _log.error(
                     'No reverse defined, cannot give coordinates')
         return self.__coordinates
 
@@ -70,7 +87,7 @@ class ReversedSimpleFace(BaseSimpleFace, ReversedSimpleCell):
             if self.myReverse:
                 self.__nodes = list(reversed(self.myReverse.nodes))
             else:
-                self.logger.error('No reverse defined, cannot give nodes')
+                _log.error('No reverse defined, cannot give nodes')
         return self.__nodes
 
     nodes = property(__getNodes)
@@ -81,7 +98,7 @@ class ReversedSimpleFace(BaseSimpleFace, ReversedSimpleCell):
                 self.__area = [[a for a in reversed(self.myReverse.area[0])],
                                self.myReverse.area[1]]
             else:
-                self.logger.error('No reverse defined, cannot give area')
+                _log.error('No reverse defined, cannot give area')
         return self.__area
 
     area = property(__getArea)
@@ -91,7 +108,7 @@ class ReversedSimpleFace(BaseSimpleFace, ReversedSimpleCell):
             if self.myReverse:
                 self.__normalVec = -self.myReverse.normalVec
             else:
-                self.logger.error('No reverse defined, cannot give normalVec')
+                _log.error('No reverse defined, cannot give normalVec')
         return self.__normalVec
 
     normalVec = property(__getNormalVec)
@@ -100,7 +117,7 @@ class ReversedSimpleFace(BaseSimpleFace, ReversedSimpleCell):
         if self.myReverse:
             return self.myReverse.barycenter
         else:
-            self.logger.error('Reversed simple face does not belong to a ' +
+            _log.error('Reversed simple face does not belong to a ' +
                               'simple face, cannot return barycenter')
             return np.array([0, 0, 0])
 
@@ -111,7 +128,7 @@ class ReversedSimpleFace(BaseSimpleFace, ReversedSimpleCell):
             return [se.myReverse for se in
                     reversed(self.myReverse.simpleEdges)]
         else:
-            self.logger.error(
+            _log.error(
                 'Reversed simple face does not belong to a simple face, ' +
                 'cannot return simpleEdges')
             return []
@@ -144,10 +161,9 @@ class ReversedSimpleFace(BaseSimpleFace, ReversedSimpleCell):
 
 if __name__ == '__main__':
     import tools.colorConsole as cc
-    from tools import MyLogging
 
-    with MyLogging('Edge', debug=True) as ml:
-        rsf = ReversedSimpleFace()
-        cc.printRed(rsf.coordinates)
-        cc.printRed(rsf.area)
-        cc.printRed(rsf.barycenter)
+    set_logging_format(logging.DEBUG)
+    rsf = ReversedSimpleFace()
+    cc.printRed(rsf.coordinates)
+    cc.printRed(rsf.area)
+    cc.printRed(rsf.barycenter)
