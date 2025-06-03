@@ -16,10 +16,26 @@ if __name__ == '__main__':
     import os
     os.chdir('../../')
 
+
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging
+
+
 from kCells.edge.baseSimpleEdge import BaseSimpleEdge
 from kCells.cell import ReversedSimpleCell
 import numpy as np
+from tools.logging_formatter import set_logging_format
 
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -41,7 +57,7 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
 # =============================================================================
     def __init__(self, *args, **kwargs):
         super().__init__(*args, loggerName=__name__, **kwargs)
-        self.logger.debug('Initialized ReversedSimpleEdge')
+        _log.debug('Initialized ReversedSimpleEdge')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -67,7 +83,7 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
         if self.myReverse:
             return self.myReverse.barycenter
         else:
-            self.logger.error('Reversed Simple Edge does not belong to a ' +
+            _log.error('Reversed Simple Edge does not belong to a ' +
                               'Simple Edge, cannot return barycenter')
             return np.array([0, 0, 0])
 
@@ -81,7 +97,7 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
         if self.myReverse:
             return -self.myReverse.directionVec
         else:
-            self.logger.error('Reversed Simple Edge does not belong to a ' +
+            _log.error('Reversed Simple Edge does not belong to a ' +
                               'Simple Edge, cannot return directionVec')
             return np.array([0, 0, 0])
 
@@ -96,7 +112,7 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
         if self.myReverse:
             return -self.myReverse.connectionVec
         else:
-            self.logger.error('Reversed Simple Edge does not belong to a ' +
+            _log.error('Reversed Simple Edge does not belong to a ' +
                               'Simple Edge, cannot return directionVec')
             return np.array([0, 0, 0])
     connectionVec = property(__getConnectionVec)
@@ -111,7 +127,7 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
         if self.myReverse:
             return [-sf for sf in self.myReverse.simpleFaces]
         else:
-            self.logger.error('Reversed Simple Edge does not belong to a ' +
+            _log.error('Reversed Simple Edge does not belong to a ' +
                               'Simple Edge, cannot return simpleFaces')
             return []
     simpleFaces = property(__getSimpleFaces)
@@ -135,7 +151,7 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
         if self.myReverse:
             self.myReverse.addSimpleFace(-simpleFace)
         else:
-            self.logger.error(
+            _log.error(
                 'Cannot add simple face {} '.format(simpleFace.infoText) +
                 'to reversed simple edge {} '.format(self.infoText) +
                 'because it does not belong to a simple edge')
@@ -151,7 +167,7 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
         if self.myReverse:
             self.myReverse.delSimpleFace(-simpleFace)
         else:
-            self.logger.error(
+            _log.error(
                 'Cannot delete simple face {} '.format(simpleFace.infoText) +
                 'from reversed simple edge {} '.format(self.infoText) +
                 'because it does not belong to a simple edge')
@@ -163,6 +179,7 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
 
 
 if __name__ == '__main__':
+    set_logging_format(logging.DEBUG)
     rse = ReversedSimpleEdge()
     print(rse)
     print(rse.barycenter)
