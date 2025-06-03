@@ -27,8 +27,25 @@
 if __name__ == '__main__':
     import os
     os.chdir('../../')
+    
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging
+
+# ------------------------------------------------------------------------
+#    Third Party Libraries
+# ------------------------------------------------------------------------
 
 import numpy as np
+
+# ------------------------------------------------------------------------
+#    Local Libraries
+# ------------------------------------------------------------------------
+
+#    kCells
+# -------------------------------------------------------------------
 
 from kCells.face.reversedSimpleFace import ReversedSimpleFace
 from kCells.face.baseSimpleFace import BaseSimpleFace
@@ -36,11 +53,21 @@ from kCells.cell import SimpleCell
 import tools.colorConsole as cc
 import math
 from scipy.spatial import ConvexHull
-from tools import MyLogging
-import tools.placeFigures as pf
+
 from kCells.node import Node
 from kCells.edge import Edge
 
+#    Tools
+# -------------------------------------------------------------------
+from tools.logging_formatter import set_logging_format
+import tools.placeFigures as pf
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -94,17 +121,17 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
                     se.addSimpleFace(self)
 
             else:
-                self.logger.error('Continuity check failed')
+                _log.error('Continuity check failed')
                 self.__coordinates = []
         else:
-            self.logger.error(
+            _log.error(
                 'Simple face must consist of more than 2 simple edges! {}'
                 .format(self.__simpleEdges))
             self.__coordinates = []
 
 #        self.__polygon = None
 
-        self.logger.debug('Initialized SimpleFace')
+        _log.debug('Initialized SimpleFace')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -153,12 +180,12 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
         # loop over all inner connections
         for e1, e2 in zip(edges[:-1], edges[1:]):
             if e1.endNode != e2.startNode:
-                self.logger.error(
+                _log.error(
                     'Error when building simple face {}: '.format(self) +
                     'simple edge {} '.format(e1) +
                     'and simple edge {} '.format(e2) +
                     'do not connect correctly')
-                self.logger.error(
+                _log.error(
                     'End node of {}: {}, '.format(e1, e1.endNode) +
                     'start node of {}: {}, '.format(e2, e2.startNode) +
                     'they should be the same')
@@ -166,17 +193,17 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
 
         # check connection from last edge to first edge
         if edges[-1].endNode != edges[0].startNode:
-            self.logger.error('Error when building Face {}: '.format(self) +
+            _log.error('Error when building Face {}: '.format(self) +
                               'Edge {} '.format(edges[-1]) +
                               'and Edge {} '.format(edges[0]) +
                               'do not connect correctly')
             ok = False
 
         if not ok:
-            self.logger.error('Simple face {} is not well defined'
+            _log.error('Simple face {} is not well defined'
                               .format(self.infoText))
 
-        self.logger.debug('Continuity ok')
+        _log.debug('Continuity ok')
         return ok
 
 # ------------------------------------------------------------------------
@@ -191,7 +218,7 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
 
         self.__nodes = nodes
         self.__coordinates = np.vstack((tuple(coordinates)))
-        self.logger.debug('Created Coordinates')
+        _log.debug('Created Coordinates')
 
 # ------------------------------------------------------------------------
 #    Check if the given nodes lay in the same plane
@@ -211,7 +238,7 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
                 np.linalg.norm(vec0) < tol:
             y = self.__coordinates[count+2]
             vec0 = np.cross(x-o, y-o)
-            self.logger.debug('vec1: {} x vec2: {} = vec0: {}'
+            _log.debug('vec1: {} x vec2: {} = vec0: {}'
                               .format(x-o, y-o, vec0))
             count += 1
 
@@ -220,7 +247,7 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
             self.__normalVec = vec0
         else:
             self.__normalVec = np.array([0, 0, 0])
-            self.logger.error('Could not find a valid normal vector for {}'
+            _log.error('Could not find a valid normal vector for {}'
                               .format(self))
 
         # Go through all triangles
@@ -233,27 +260,27 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
                 if np.linalg.norm(vec-vec0) > tol \
                         and np.linalg.norm(vec+vec0) > tol:
                     inPlane = False
-                    self.logger.error('Simple face {} is not a plane'
+                    _log.error('Simple face {} is not a plane'
                                       .format(self))
 
         # return result
-        self.logger.debug('Checked planarity')
+        _log.debug('Checked planarity')
 
-        self.logger.debug('SimpleFace: Checking for convexity')
+        _log.debug('SimpleFace: Checking for convexity')
         v1 = np.array([0, 0, 1])
         v2 = self.__normalVec
         angle = np.arccos(np.dot(v1, v2) /
                           (np.linalg.norm(v1) * np.linalg.norm(v2)))
-        self.logger.debug('Angle between normal vector and z direction: {}'
+        _log.debug('Angle between normal vector and z direction: {}'
                           .format(360*angle/math.tau))
         axis = np.cross(v1, v2)
-        self.logger.debug('Axis for rotation: {}'.format(axis))
+        _log.debug('Axis for rotation: {}'.format(axis))
         if np.linalg.norm(axis) < self.tolerance:
             rot = np.eye(3)
-            self.logger.debug('No rotation needed')
+            _log.debug('No rotation needed')
         else:
             rot = self.__rotationMatrix(-angle, axis)
-            self.logger.debug('Rotating with rotation matrix:\r\n {}'
+            _log.debug('Rotating with rotation matrix:\r\n {}'
                               .format(rot))
 
         localCoordinates3D = (rot @ self.__coordinates.transpose()).transpose()
@@ -265,7 +292,7 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
         try:
             hull = ConvexHull(localCoordiantes2D)
         except Exception as e:
-            self.logger.error(
+            _log.error(
                 'Cannot caculate convex hull for simpleface {} in face {}.'
                 .format(self, self.belongsTo) +
                 'Error: {}'.format(e))
@@ -283,7 +310,7 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
                     np.linalg.norm(vec0) < tol:
                 y = convexHullPoints[count+2]
                 vec0 = np.cross(x-o, y-o)
-                self.logger.debug('vec1: {} x vec2: {} = vec0: {}'
+                _log.debug('vec1: {} x vec2: {} = vec0: {}'
                                   .format(x-o, y-o, vec0))
                 count += 1
 
@@ -292,7 +319,7 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
                 comparisonNormalVec = vec0
             else:
                 comparisonNormalVec = np.array([0, 0, 0])
-                self.logger.error(
+                _log.error(
                     'Could not find a valid normal vector of the convex  ' +
                     'hull for {}'.format(self))
 
@@ -300,13 +327,13 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
             if np.linalg.norm(self.__normalVec - comparisonNormalVec) > \
                     self.tolerance:
                 self.__normalVec = -self.__normalVec
-                self.logger.debug('Turning normal vector around')
+                _log.debug('Turning normal vector around')
 
             if np.linalg.norm(self.__normalVec - comparisonNormalVec) > \
                     self.tolerance:
-                self.logger.error('Cannot find correct normal vector')
+                _log.error('Cannot find correct normal vector')
             else:
-                self.logger.debug('Found hopefully correct normal vector')
+                _log.debug('Found hopefully correct normal vector')
 
         return inPlane
 
@@ -324,9 +351,9 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
 
         self.__area = [areas, totalArea]
         if totalArea < self.tolerance:
-            self.logger.error('{}: area is close to zero or negative: {}'
+            _log.error('{}: area is close to zero or negative: {}'
                               .format(self.infoText, totalArea))
-        self.logger.debug('Calculated area')
+        _log.debug('Calculated area')
 
 # ------------------------------------------------------------------------
 #    Calculate barycenter
@@ -341,10 +368,10 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
                 barycenter += (o+x+y)/3*a
 
             self.__barycenter = barycenter/self.area[1]
-            self.logger.debug('Calculated barycenter')
+            _log.debug('Calculated barycenter')
         else:
             self.__barycenter = np.array([0, 0, 0])
-            self.logger.error('Cannot calculate barycenter ' +
+            _log.error('Cannot calculate barycenter ' +
                               'of {} because the area is too small, '
                               .format(self) +
                               'it is only {}'.format(self.area[1]))
@@ -363,7 +390,7 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
         cos = math.cos
         sin = math.sin
         if np.linalg.norm(n) < self.tolerance:
-            self.logger.error('Cannot find rotation matrix')
+            _log.error('Cannot find rotation matrix')
             return np.eye(3)
         else:
             n = n/np.linalg.norm(n)
@@ -393,86 +420,86 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
 # =============================================================================
 if __name__ == '__main__':
 
-    with MyLogging('SimpleFace'):
+    set_logging_format(logging.DEBUG)
 
-        n0 = Node(0, 0, 0)
-        n1 = Node(5, 0, 0)
-        n2 = Node(0, 5, 0)
-        nodes = [n0, n1, n2]
+    n0 = Node(0, 0, 0)
+    n1 = Node(5, 0, 0)
+    n2 = Node(0, 5, 0)
+    nodes = [n0, n1, n2]
 
-        e0 = Edge(n0, n1)
-        e1 = Edge(n1, n2)
-        e2 = Edge(n2, n0)
-        edges = [e0, e1, e2]
+    e0 = Edge(n0, n1)
+    e1 = Edge(n1, n2)
+    e2 = Edge(n2, n0)
+    edges = [e0, e1, e2]
 
-        sf = SimpleFace([e0.simpleEdges[0],
-                         e1.simpleEdges[0],
-                         e2.simpleEdges[0]])
+    sf = SimpleFace([e0.simpleEdges[0],
+                     e1.simpleEdges[0],
+                     e2.simpleEdges[0]])
 
 # ------------------------------------------------------------------------
 #    Plotting
 # ------------------------------------------------------------------------
 
-        # Choose plotting method.
-        # Possible choices: pyplot, VTK, TikZ, animation, doc, None
-        plottingMethod = 'TikZ'
+    # Choose plotting method.
+    # Possible choices: pyplot, VTK, TikZ, animation, doc, None
+    plottingMethod = 'pyplot'
 
 
 #    Disabled
 # --------------------------------------------------------------------
-        if plottingMethod is None or plottingMethod == 'None':
-            cc.printBlue('Plotting disabled')
+    if plottingMethod is None or plottingMethod == 'None':
+        cc.printBlue('Plotting disabled')
 
 #    Pyplot
 # --------------------------------------------------------------------
-        elif plottingMethod == 'pyplot':
-            cc.printBlue('Plot using pyplot')
-            (figs, axes) = pf.getFigures()
+    elif plottingMethod == 'pyplot':
+        cc.printBlue('Plot using pyplot')
+        (figs, axes) = pf.getFigures()
 
-            for n in nodes:
-                n.plotNode(axes[0])
+        for n in nodes:
+            n.plotNode(axes[0])
 
-            for e in edges:
-                e.plotEdge(axes[0])
+        for e in edges:
+            e.plotEdge(axes[0])
 
-            sf.plotFace(axes[0])
+        sf.plotFace(axes[0])
 
 #    VTK
 # --------------------------------------------------------------------
-        elif plottingMethod == 'VTK':
-            cc.printBlue('Plot using VTK')
-            cc.printRed('Not implemented')
+    elif plottingMethod == 'VTK':
+        cc.printBlue('Plot using VTK')
+        cc.printRed('Not implemented')
 
 #    TikZ
 # --------------------------------------------------------------------
-        elif plottingMethod == 'TikZ':
-            cc.printBlue('Plot using TikZ')
-            pf.closeFigures()
-            from tools.tikZPicture.tikZPicture3D import TikZPicture3D
-            tikZPic = TikZPicture3D()
-            origin = tikZPic.addTikZCoordinate('origin', np.array([0, 0, 0]))
-            tikZPic.addTikZCoSy3D(origin)
-            for n in nodes:
-                n.plotNodeTikZ(tikZPic)
-            sf.plotFaceTikZ(tikZPic, showNormalVec=True)
-            tikZPic.writeLaTeXFile('latex',
-                                   'simpleFace',
-                                   compileFile=True,
-                                   openFile=True)
+    elif plottingMethod == 'TikZ':
+        cc.printBlue('Plot using TikZ')
+        pf.closeFigures()
+        from tools.tikZPicture.tikZPicture3D import TikZPicture3D
+        tikZPic = TikZPicture3D()
+        origin = tikZPic.addTikZCoordinate('origin', np.array([0, 0, 0]))
+        tikZPic.addTikZCoSy3D(origin)
+        for n in nodes:
+            n.plotNodeTikZ(tikZPic)
+        sf.plotFaceTikZ(tikZPic, showNormalVec=True)
+        tikZPic.writeLaTeXFile('latex',
+                               'simpleFace',
+                               compileFile=True,
+                               openFile=True)
 
 #    Animation
 # --------------------------------------------------------------------
-        elif plottingMethod == 'animation':
-            cc.printBlue('Creating animation')
-            cc.printRed('Not implemented')
+    elif plottingMethod == 'animation':
+        cc.printBlue('Creating animation')
+        cc.printRed('Not implemented')
 
 #    Documentation
 # --------------------------------------------------------------------
-        elif plottingMethod == 'doc':
-            cc.printBlue('Creating plots for documentation')
-            # test.plotDoc()
+    elif plottingMethod == 'doc':
+        cc.printBlue('Creating plots for documentation')
+        # test.plotDoc()
 
 #    Unknown
 # --------------------------------------------------------------------
-        else:
-            cc.printRed('Unknown plotting method {}'.format(plottingMethod))
+    else:
+        cc.printRed('Unknown plotting method {}'.format(plottingMethod))
