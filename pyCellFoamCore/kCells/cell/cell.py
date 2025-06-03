@@ -25,6 +25,12 @@ if __name__ == '__main__':
     os.chdir('../../')
 
 # ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging
+
+# ------------------------------------------------------------------------
 #    Local Libraries
 # ------------------------------------------------------------------------
 
@@ -37,8 +43,16 @@ from kCells.cell.reversedCell import ReversedCell
 #    Tools
 # -------------------------------------------------------------------
 import tools.tumcolor as tc
-from tools import MyLogging
 import tools.colorConsole as cc
+from tools.logging_formatter import set_logging_format
+
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 
 # =============================================================================
@@ -103,7 +117,7 @@ class Cell(BaseCell, SuperCell):
         self.__showInPlot = True
         self.__grayInTikz = False
         self.__iMorphType = None
-        self.logger.debug('Initialized Cell')
+        _log.debug('Initialized Cell')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -151,9 +165,9 @@ class Cell(BaseCell, SuperCell):
                 self.__categoryTextChanged = True
                 self.updateText()
             else:
-                self.logger.error('Unknwon category {}'.format(str(t)))
+                _log.error('Unknwon category {}'.format(str(t)))
         else:
-            self.logger.error('Attempting to change type of {} from {} to {}'
+            _log.error('Attempting to change type of {} from {} to {}'
                               .format(self.infoText, self.category1, t))
     category1 = property(__getCategory1, __setCategory1)
 
@@ -172,9 +186,9 @@ class Cell(BaseCell, SuperCell):
                 self.__categoryTextChanged = True
                 self.updateText()
             else:
-                self.logger.error('Unknwon category {}'.format(str(t)))
+                _log.error('Unknwon category {}'.format(str(t)))
         else:
-            self.logger.error('Attempting to change type of {} from {} to {}'
+            _log.error('Attempting to change type of {} from {} to {}'
                               .format(self.infoText, self.category2,
                                       t))
 
@@ -193,20 +207,20 @@ class Cell(BaseCell, SuperCell):
         elif self.useCategory == 2:
             return self.__category2
         else:
-            self.logger.error('useCategory is set to '
+            _log.error('useCategory is set to '
                               + '{}'.format(self.useCategory)
                               + ' - this is not ok: only 1 and 2 is allowed')
             return self.__category1
 
     def __setCategory(self, c):
-        self.logger.warning('Setting general category of {}'.format(self)
+        _log.warning('Setting general category of {}'.format(self)
                             + ' - better use category1 or category2')
         if self.useCategory == 1:
             self.category1 = c
         elif self.useCategory == 2:
             self.category2 = c
         else:
-            self.logger.error('useCategory of {}'.format(self)
+            _log.error('useCategory of {}'.format(self)
                               + ' is set to {}'.format(self.useCategory)
                               + ' - Please choose 1 or 2 '
                               + 'before assigning a category')
@@ -225,7 +239,7 @@ class Cell(BaseCell, SuperCell):
             self.__categoryTextChanged = True
             self.updateText()
         else:
-            self.logger.error('Cannot set useCategory of {}'.format(self)
+            _log.error('Cannot set useCategory of {}'.format(self)
                               + ' to {} - It must be either 1 or 2'.format(u))
 
     useCategory = property(__getUseCategory, __setUseCategory)
@@ -271,7 +285,7 @@ class Cell(BaseCell, SuperCell):
         if self.__dualCell3D is None:
             self.__dualCell3D = d
         else:
-            self.logger.error('{} already has a 3D dual'.format(self.infoText))
+            _log.error('{} already has a 3D dual'.format(self.infoText))
 
     dualCell3D = property(__getDualCell3D, __setDualCell3D)
     '''
@@ -286,7 +300,7 @@ class Cell(BaseCell, SuperCell):
         if self.__dualCell2D is None:
             self.__dualCell2D = d
         else:
-            self.logger.error('{} already has a 2D dual'.format(self.infoText))
+            _log.error('{} already has a 2D dual'.format(self.infoText))
 
     dualCell2D = property(__getDualCell2D, __setDualCell2D)
     '''
@@ -301,7 +315,7 @@ class Cell(BaseCell, SuperCell):
         if self.__dualCell1D is None:
             self.__dualCell1D = d
         else:
-            self.logger.error('{} already has a 1D dual'.format(self.infoText))
+            _log.error('{} already has a 1D dual'.format(self.infoText))
 
     dualCell1D = property(__getDualCell1D, __setDualCell1D)
     '''
@@ -315,7 +329,7 @@ class Cell(BaseCell, SuperCell):
         if self.__dualCell0D is None:
             self.__dualCell0D = d
         else:
-            self.logger.error('{} already has a 0D dual'.format(self.infoText))
+            _log.error('{} already has a 0D dual'.format(self.infoText))
 
     dualCell0D = property(__getDualCell0D, __setDualCell0D)
     '''
@@ -329,7 +343,7 @@ class Cell(BaseCell, SuperCell):
         if isinstance(c, tc.TUMcolor):
             self.__color = c
         else:
-            self.logger.error('Cannot set color of {}: '.format(self) +
+            _log.error('Cannot set color of {}: '.format(self) +
                               '{} is not an instance of TUMcolor()'.format(c))
 
     color = property(__getColor, __setColor)
@@ -420,14 +434,14 @@ class Cell(BaseCell, SuperCell):
         else:
             self.__categoryText = ''
         self.__categoryTextChanged = False
-        self.logger.debug('Created category text')
+        _log.debug('Created category text')
 
     def updateGeometry(self):
         '''
         Mark cell to be recomputed before next usage.
 
         '''
-        self.logger.debug('Called update Geometry in Cell {}'
+        _log.debug('Called update Geometry in Cell {}'
                           .format(self.infoText))
         self.__geometryChanged = True
 
@@ -438,34 +452,34 @@ class Cell(BaseCell, SuperCell):
 
 
 if __name__ == '__main__':
-    with MyLogging('Cell', debug=True):
+    set_logging_format(logging.DEBUG)
 
-        cc.printBlue('Create a cell')
-        testC = Cell(loggerName='test')
+    cc.printBlue('Create a cell')
+    testC = Cell(loggerName='test')
 
-        cc.printBlue('Set some attributes of the cell')
-        testC.num = 12
-        testC.label = 'a'
-        testC.isGeometrical = False
-        testC.category1 = 'inner'
-        testC.category2 = 'border'
+    cc.printBlue('Set some attributes of the cell')
+    testC.num = 12
+    testC.label = 'a'
+    testC.isGeometrical = False
+    testC.category1 = 'inner'
+    testC.category2 = 'border'
 
-        cc.printBlue('Get reversed cell')
-        mTestC = -testC
+    cc.printBlue('Get reversed cell')
+    mTestC = -testC
 
-        cc.printBlue('Check that changed variables have been set')
-        print(testC.infoTextChanged)
-        print(mTestC.infoTextChanged)
+    cc.printBlue('Check that changed variables have been set')
+    print(testC.infoTextChanged)
+    print(mTestC.infoTextChanged)
 
-        cc.printBlue('Check label')
-        print(testC.labelText)
+    cc.printBlue('Check label')
+    print(testC.labelText)
 
-        cc.printBlue('Check info text')
-        print(testC.infoText)
+    cc.printBlue('Check info text')
+    print(testC.infoText)
 
-        cc.printBlue('Check category1 of cell and reversed cell')
-        print(testC.category, mTestC.category)
+    cc.printBlue('Check category1 of cell and reversed cell')
+    print(testC.category, mTestC.category)
 
-        cc.printBlue('Check category2 of cell and reversed cell')
-        testC.useCategory = 2
-        print(testC.category, mTestC.category)
+    cc.printBlue('Check category2 of cell and reversed cell')
+    testC.useCategory = 2
+    print(testC.category, mTestC.category)
