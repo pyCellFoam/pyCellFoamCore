@@ -34,6 +34,12 @@ only located at the same geometrical position.
 import os
 if __name__ == '__main__':
     os.chdir('../../')
+    
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging
 
 # ------------------------------------------------------------------------
 #    Local Libraries
@@ -48,7 +54,15 @@ from kCells.cell import DualCell
 # -------------------------------------------------------------------
 import tools.placeFigures as pf
 import tools.colorConsole as cc
+from tools.logging_formatter import set_logging_format
 
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -115,13 +129,13 @@ class DualNode0D(Node, DualCell):
 
         if True:
             if myPrintDebug is None:
-                myPrintDebug = self.logger.debug
-            # myPrintInfo = self.logger.info
-            # myPrintWarning = self.logger.warning
+                myPrintDebug = _log.debug
+            # myPrintInfo = _log.info
+            # myPrintWarning = _log.warning
             if myPrintError is None:
-                myPrintError = self.logger.error
+                myPrintError = _log.error
         else:
-            self.logger.warning('Using prints instead of logger!')
+            _log.warning('Using prints instead of logger!')
             myPrintDebug = cc.printGreen
             # myPrintInfo = cc.printCyan
             # myPrintWarning = cc.printYellow
@@ -197,15 +211,14 @@ class DualNode0D(Node, DualCell):
 
 
 if __name__ == '__main__':
-    from tools import MyLogging
-    with MyLogging('dualNode0D'):
-        n0 = Node(1, 2, 3)
-        dn0 = DualNode0D(n0)
-        n0.xCoordinate = 5
-        (figs, ax) = pf.getFigures(2, 1)
-        n0.plotNode(ax[0])
+    set_logging_format(logging.DEBUG)
+    n0 = Node(1, 2, 3)
+    dn0 = DualNode0D(n0)
+    n0.xCoordinate = 5
+    (figs, ax) = pf.getFigures(2, 1)
+    n0.plotNode(ax[0])
 #        dn0.plotNode(ax[0])
 
-        pf.setLabels(ax[0])
-        if False:
-            DualNode0D.plotDoc()
+    pf.setLabels(ax[0])
+    if False:
+        DualNode0D.plotDoc()
