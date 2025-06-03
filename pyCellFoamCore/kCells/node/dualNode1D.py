@@ -80,6 +80,18 @@ import os
 if __name__ == '__main__':
     os.chdir('../../')
 
+
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging
+
+# ------------------------------------------------------------------------
+#    Third-Party Libraries
+# ------------------------------------------------------------------------
+
+
 # ------------------------------------------------------------------------
 #    Local Libraries
 # ------------------------------------------------------------------------
@@ -96,7 +108,15 @@ from kCells.node.dualNode0D import DualNode0D
 
 import tools.colorConsole as cc
 import tools.placeFigures as pf
+from tools.logging_formatter import set_logging_format
 
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -194,13 +214,13 @@ class DualNode1D(Node, DualCell):
 
         if True:
             if myPrintDebug is None:
-                myPrintDebug = self.logger.debug
-            # myPrintInfo = self.logger.info
-            # myPrintWarning = self.logger.warning
+                myPrintDebug = _log.debug
+            # myPrintInfo = _log.info
+            # myPrintWarning = _log.warning
             if myPrintError is None:
-                myPrintError = self.logger.error
+                myPrintError = _log.error
         else:
-            self.logger.warning('Using prints instead of logger!')
+            _log.warning('Using prints instead of logger!')
             myPrintDebug = cc.printGreen
             # myPrintInfo = cc.printCyan
             # myPrintWarning = cc.printYellow
@@ -307,111 +327,111 @@ if __name__ == "__main__":
 
     from kCells.edge import Edge
     from tools import MyLogging
-    with MyLogging('dualNode2D', False):
+    set_logging_format(logging.DEBUG)
 
-        cc.printBlue('Creating nodes')
-        n0 = Node(0, 0, 0, category='inner')
-        n1 = Node(0, 1, 0, category='inner')
-        n2 = Node(1, 1, 0, category='border')
-        n3 = Node(1, 0, 1, category='border')
-        n4 = Node(1, 0, 0, category='border')
-        n5 = Node(2, 0, 0, category='inner')
-        n6 = Node(2, 1, 0, category='additionalBorder')
+    cc.printBlue('Creating nodes')
+    n0 = Node(0, 0, 0, category='inner')
+    n1 = Node(0, 1, 0, category='inner')
+    n2 = Node(1, 1, 0, category='border')
+    n3 = Node(1, 0, 1, category='border')
+    n4 = Node(1, 0, 0, category='border')
+    n5 = Node(2, 0, 0, category='inner')
+    n6 = Node(2, 1, 0, category='additionalBorder')
 
-        nodes1 = [n0, n1]
-        nodes2 = [n2, n3, n4]
-        nodes3 = [n5, n6]
+    nodes1 = [n0, n1]
+    nodes2 = [n2, n3, n4]
+    nodes3 = [n5, n6]
 
-        cc.printBlue('Creating edges')
-        e0 = Edge(n0, n1)
-        e1 = Edge(n2, n3, geometricNodes=n4)
-        e2 = Edge(n5, n6)
-        edges = [e0, e1, e2]
+    cc.printBlue('Creating edges')
+    e0 = Edge(n0, n1)
+    e1 = Edge(n2, n3, geometricNodes=n4)
+    e2 = Edge(n5, n6)
+    edges = [e0, e1, e2]
 
-        cc.printBlue('Creating dual nodes')
-        dn0 = DualNode1D(e0)
-        dn1 = DualNode1D(e1)
-        dn2 = DualNode1D(e2)
+    cc.printBlue('Creating dual nodes')
+    dn0 = DualNode1D(e0)
+    dn1 = DualNode1D(e1)
+    dn2 = DualNode1D(e2)
 
-        cc.printBlue()
-        cc.printBlue('Example 1')
-        cc.printBlue('-'*30)
-        cc.printWhite('Dual:', dn0, '1D primal:', dn0.dualCell1D)
+    cc.printBlue()
+    cc.printBlue('Example 1')
+    cc.printBlue('-'*30)
+    cc.printWhite('Dual:', dn0, '1D primal:', dn0.dualCell1D)
 
-        cc.printBlue()
-        cc.printBlue('Example 2')
-        cc.printBlue('-'*30)
-        cc.printWhite('Dual:', dn1, '1D primal:', dn1.dualCell1D)
-        cc.printWhite('Dual:', dn1, '0D primal:', dn1.dualCell0D)
+    cc.printBlue()
+    cc.printBlue('Example 2')
+    cc.printBlue('-'*30)
+    cc.printWhite('Dual:', dn1, '1D primal:', dn1.dualCell1D)
+    cc.printWhite('Dual:', dn1, '0D primal:', dn1.dualCell0D)
 
-        cc.printBlue()
-        cc.printBlue('Example 3')
-        cc.printBlue('-'*30)
-        cc.printWhite('Dual:', dn2, '1D primal:', dn2.dualCell1D)
-        cc.printWhite('Dual:', dn2, '0D primal:', dn2.dualCell0D)
+    cc.printBlue()
+    cc.printBlue('Example 3')
+    cc.printBlue('-'*30)
+    cc.printWhite('Dual:', dn2, '1D primal:', dn2.dualCell1D)
+    cc.printWhite('Dual:', dn2, '0D primal:', dn2.dualCell0D)
 
 # ------------------------------------------------------------------------
 #    Plotting
 # ------------------------------------------------------------------------
 
-        # Choose plotting method.
-        # Possible choices: pyplot, VTK, TikZ, animation, doc, None
-        plottingMethod = 'pyplot'
+    # Choose plotting method.
+    # Possible choices: pyplot, VTK, TikZ, animation, doc, None
+    plottingMethod = 'pyplot'
 
 
 #    Disabled
 # --------------------------------------------------------------------
-        if plottingMethod is None or plottingMethod == 'None':
-            cc.printBlue('Plotting disabled')
+    if plottingMethod is None or plottingMethod == 'None':
+        cc.printBlue('Plotting disabled')
 
 #    Pyplot
 # --------------------------------------------------------------------
-        elif plottingMethod == 'pyplot':
-            cc.printBlue('Plot using pyplot')
-            (figs, axes) = pf.getFigures()
-            for n in nodes1:
-                n.plotNode(axes[0])
-            e0.plotEdge(axes[0])
-            dn0.color = tc.TUMRose()
-            dn0.plotNode(axes[0], size=100)
+    elif plottingMethod == 'pyplot':
+        cc.printBlue('Plot using pyplot')
+        (figs, axes) = pf.getFigures()
+        for n in nodes1:
+            n.plotNode(axes[0])
+        e0.plotEdge(axes[0])
+        dn0.color = tc.TUMRose()
+        dn0.plotNode(axes[0], size=100)
 
-            for n in nodes2:
-                n.plotNode(axes[1])
-            e1.plotEdge(axes[1])
-            dn1.color = tc.TUMRose()
-            dn1.plotNode(axes[1], size=100)
+        for n in nodes2:
+            n.plotNode(axes[1])
+        e1.plotEdge(axes[1])
+        dn1.color = tc.TUMRose()
+        dn1.plotNode(axes[1], size=100)
 
-            for n in nodes3:
-                n.plotNode(axes[2])
-            e2.plotEdge(axes[2])
-            dn2.color = tc.TUMRose()
-            dn2.plotNode(axes[2], size=100)
+        for n in nodes3:
+            n.plotNode(axes[2])
+        e2.plotEdge(axes[2])
+        dn2.color = tc.TUMRose()
+        dn2.plotNode(axes[2], size=100)
 
 #    VTK
 # --------------------------------------------------------------------
-        elif plottingMethod == 'VTK':
-            cc.printBlue('Plot using VTK')
-            cc.printRed('Not implemented')
+    elif plottingMethod == 'VTK':
+        cc.printBlue('Plot using VTK')
+        cc.printRed('Not implemented')
 
 #    TikZ
 # --------------------------------------------------------------------
-        elif plottingMethod == 'TikZ':
-            cc.printBlue('Plot using TikZ')
-            cc.printRed('Not implemented')
+    elif plottingMethod == 'TikZ':
+        cc.printBlue('Plot using TikZ')
+        cc.printRed('Not implemented')
 
 #    Animation
 # --------------------------------------------------------------------
-        elif plottingMethod == 'animation':
-            cc.printBlue('Creating animation')
-            cc.printRed('Not implemented')
+    elif plottingMethod == 'animation':
+        cc.printBlue('Creating animation')
+        cc.printRed('Not implemented')
 
 #    Documentation
 # --------------------------------------------------------------------
-        elif plottingMethod == 'doc':
-            cc.printBlue('Creating plots for documentation')
-            DualNode1D.plotDoc()
+    elif plottingMethod == 'doc':
+        cc.printBlue('Creating plots for documentation')
+        DualNode1D.plotDoc()
 
 #    Unknown
 # --------------------------------------------------------------------
-        else:
-            cc.printRed('Unknown plotting method {}'.format(plottingMethod))
+    else:
+        cc.printRed('Unknown plotting method {}'.format(plottingMethod))

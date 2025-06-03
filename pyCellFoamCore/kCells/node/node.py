@@ -668,7 +668,7 @@ class Node(Cell):
         Register the changed geometry in this node and in all connected edges.
 
         '''
-        _log.info('Updating node {}'.format(self))
+        _log.debug('Updating node {}'.format(self))
         for e in self.__edges:
             e.updateGeometry()
         if self.__sphere:
