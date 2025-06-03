@@ -21,8 +21,22 @@ if __name__ == '__main__':
     import os
     os.chdir('../../')
 
-from kCells.cell import BaseCell
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
 
+import logging
+
+from kCells.cell import BaseCell
+from tools.logging_formatter import set_logging_format
+
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -49,7 +63,7 @@ class BaseFace(BaseCell):
 
         '''
         super().__init__(*args, **kwargs)
-        self.logger.debug('Initialized BaseFace')
+        _log.debug('Initialized BaseFace')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -93,20 +107,20 @@ class BaseFace(BaseCell):
         if self.showInPlot:
 
             if not self.simpleFaces:
-                self.logger.warning(
+                _log.warning(
                     'Face {} has no simple faces, maybe it was deleted'
                     .format(self))
             for sf in self.simpleFaces:
                 sf.plotFace(*arg, **kwarg)
         else:
-            self.logger.warning('Plotting of face {} is disabled'.format(self))
+            _log.warning('Plotting of face {} is disabled'.format(self))
 
     def plotFaceVtk(self, *arg, **kwarg):
         if self.geometryChanged:
             self.setUp()
 
         if not self.simpleFaces:
-            self.logger.warning(
+            _log.warning(
                 'Face {} has no simple faces, maybe it was deleted'
                 .format(self))
         for sf in self.simpleFaces:
@@ -116,7 +130,7 @@ class BaseFace(BaseCell):
         if self.geometryChanged:
             self.setUp()
         if not self.simpleFaces:
-            self.logger.warning(
+            _log.warning(
                 'Face {} has no simple faces, maybe it was deleted'
                 .format(self))
         for sf in self.simpleFaces:
@@ -148,4 +162,5 @@ class BaseFace(BaseCell):
 
 
 if __name__ == "__main__":
+    set_logging_format(logging.DEBUG)
     bf = BaseFace()
