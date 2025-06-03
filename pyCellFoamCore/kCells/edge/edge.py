@@ -328,7 +328,7 @@ class Edge(BaseEdge, Cell):
         '''
         if face in self.__faces:
             self.__faces.remove(face)
-            _log.info('Removed simple face {} from simple edge {}'
+            _log.debug('Removed simple face {} from simple edge {}'
                              .format(face.infoText, self.infoText))
         else:
             _log.error('Cannot remove simple face {}'

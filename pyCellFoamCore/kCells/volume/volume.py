@@ -167,7 +167,7 @@ class Volume(Cell):
             self.__calcVolume()
             if self.__volume < 0:
                 newFaces = [-f for f in self.__faces]
-                _log.info('{}: Faces pointed in the wrong direction'.format(self.infoText))
+                _log.debug('{}: Faces pointed in the wrong direction'.format(self.infoText))
                 self.__faces = newFaces
                 self.__calcVolume()
 

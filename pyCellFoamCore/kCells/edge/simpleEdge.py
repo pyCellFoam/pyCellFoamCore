@@ -253,7 +253,7 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
         '''
         if simpleFace in self.__simpleFaces:
             self.__simpleFaces.remove(simpleFace)
-            _log.info(
+            _log.debug(
                 'Removed simple face {} from simple edge {}'
                 .format(simpleFace.infoText, self.infoText))
         else:

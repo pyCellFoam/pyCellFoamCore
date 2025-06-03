@@ -328,7 +328,7 @@ class Face(BaseFace, Cell):
 
         '''
 
-        _log.info('setting up face {}'.format(self))
+        _log.debug('setting up face {}'.format(self))
         for e in self.__edges+self.__geometricEdges:
             e.delFace(self)
 
@@ -711,7 +711,7 @@ class Face(BaseFace, Cell):
 
         tol = 1E-3
         edgesToBeRemoved = []
-        _log.info('{}: Simplifying. Old raw edges: {}'
+        _log.debug('{}: Simplifying. Old raw edges: {}'
                          .format(self.infoText, self.__rawEdges))
         for e in self.__geometricEdges:
             attachedSimpleFaces = []
@@ -830,7 +830,7 @@ class Face(BaseFace, Cell):
 #            self.data.rawEdges.remove(e)
 #            self.data.rawEdges.remove(-e)
 
-        _log.info('{}: Simplified simple faces, new raw edges: {}'
+        _log.debug('{}: Simplified simple faces, new raw edges: {}'
                          .format(self.infoText, self.__rawEdges))
         self.updateGeometry()
 #        ml.setStreamLevel(_log)

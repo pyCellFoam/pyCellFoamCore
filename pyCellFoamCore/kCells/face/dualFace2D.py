@@ -44,6 +44,12 @@ Always remember that the last line has to be blank
 if __name__ == '__main__':
     import os
     os.chdir('../../')
+    
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging    
 
 from kCells.cell import DualCell
 from kCells import Edge, DualEdge3D, DualEdge2D, BaseEdge
@@ -51,7 +57,15 @@ from kCells.face.face import Face
 from kCells import DualNode0D
 import numpy as np
 import tools.colorConsole as cc
+from tools.logging_formatter import set_logging_format
 
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -75,9 +89,6 @@ class DualFace2D(Face, DualCell):
     def __init__(self,
                  node,
                  *args,
-                 myPrintDebug=None,
-                 myPrintError=None,
-                 myPrintInfo=None,
                  **kwargs):
         '''
         :param Node node: Primal node
@@ -88,39 +99,25 @@ class DualFace2D(Face, DualCell):
                          num=node.num,
                          **kwargs)
 
-        if True:
-            if myPrintDebug is None:
-                myPrintDebug = self.logger.debug
-            if myPrintInfo is None:
-                myPrintInfo = self.logger.info
-            # myPrintWarning = self.logger.warning
-            if myPrintError is None:
-                myPrintError = self.logger.error
-        else:
-            self.logger.warning('Using prints instead of logger!')
-            myPrintDebug = cc.printGreen
-            myPrintInfo = cc.printCyan
-            # myPrintWarning = cc.printYellow
-            myPrintError = cc.printRed
 
         error = True
         if node.category1 == 'inner':
             self.category1 = 'inner'
             self.category2 = node.category2
-            myPrintDebug('Assuming 2D complex')
-            myPrintDebug('Creating 2D dual of inner node {}'
+            _log.debug('Assuming 2D complex')
+            _log.debug('Creating 2D dual of inner node {}'
                          .format(node.infoText))
             dualEdges = [e.dualCell2D for e in node.edges]
             dualSortedEdges = self.__sortEdges(dualEdges,
-                                               myPrintDebug,
-                                               myPrintError)
-            myPrintDebug(dualSortedEdges)
+                                               _log.debug,
+                                               _log.error)
+            _log.debug(dualSortedEdges)
             self.edges = dualSortedEdges
             self.setUp()
 
             if np.linalg.norm(self.normalVec-np.array([0, 0, 1])) \
                     > self.tolerance:
-                myPrintDebug('Face pointed in the wrong direction')
+                _log.debug('Face pointed in the wrong direction')
                 self.edges = [e.myReverse for e in reversed(dualSortedEdges)]
                 self.setUp()
 
@@ -128,7 +125,7 @@ class DualFace2D(Face, DualCell):
 
         elif node.category1 == 'border':
 
-            myPrintDebug('Creating 2D dual of border node {}'
+            _log.debug('Creating 2D dual of border node {}'
                          .format(node.infoText))
 
             primEdges = []
@@ -137,7 +134,7 @@ class DualFace2D(Face, DualCell):
                     primEdges.append(e)
 
             if len(primEdges) == 2 and len(primEdges[0].faces) == 1:
-                myPrintDebug('Assuming 2D complex')
+                _log.debug('Assuming 2D complex')
 
                 self.category1 = 'border'
                 self.category2 = 'border'
@@ -147,9 +144,9 @@ class DualFace2D(Face, DualCell):
                         dualEdges.append(e.dualCell2D)
                 dualEdges.append(node.dualCell1D)
                 dualSortedEdges = self.__sortEdges(dualEdges,
-                                                   myPrintDebug,
-                                                   myPrintError)
-                myPrintDebug(dualSortedEdges)
+                                                   _log.debug,
+                                                   _log.error)
+                _log.debug(dualSortedEdges)
 
                 if dualSortedEdges:
                     self.edges = dualSortedEdges
@@ -157,20 +154,20 @@ class DualFace2D(Face, DualCell):
                     error = False
                     if np.linalg.norm(self.normalVec-np.array([0, 0, 1])) \
                             > self.tolerance:
-                        myPrintDebug('Face pointed in the wrong direction')
+                        _log.debug('Face pointed in the wrong direction')
                         self.edges = [e.myReverse
                                       for e in reversed(dualSortedEdges)]
                         self.setUp()
                 else:
-                    self.logger.error('Cannot build face with the edges {}'
+                    _log.error('Cannot build face with the edges {}'
                                       .format(dualSortedEdges))
 
             else:
                 self.category1 = 'additionalBorder'
                 self.category2 = 'additionalBorder'
 
-                myPrintInfo('Dual face of border node in 3D complex')
-                myPrintDebug('Primal (additional) border edges that' +
+                _log.info('Dual face of border node in 3D complex')
+                _log.debug('Primal (additional) border edges that' +
                              ' belong to the node {}'.format(primEdges))
 
                 dualEdges = []
@@ -183,12 +180,10 @@ class DualFace2D(Face, DualCell):
                             DualEdge2D(e)
                         dualEdges.append(e.dualCell2D)
 
-                dualEdgesSorted = self.__sortEdges(dualEdges,
-                                                   myPrintDebug,
-                                                   myPrintError)
+                dualEdgesSorted = self.__sortEdges(dualEdges)
 
                 if dualEdgesSorted:
-                    myPrintDebug('Dual (additional) border edges that ' +
+                    _log.debug('Dual (additional) border edges that ' +
                                  'belong to the node {}'
                                  .format(dualEdgesSorted))
 
@@ -197,7 +192,7 @@ class DualFace2D(Face, DualCell):
                         simpleEdges = e.simpleEdges
                         for se in simpleEdges:
                             dualSimpleEdges.append(se)
-                    myPrintDebug('Simple edges around the dual face: {}'
+                    _log.debug('Simple edges around the dual face: {}'
                                  .format(dualSimpleEdges))
 
                     if node.dualCell0D is None:
@@ -211,11 +206,11 @@ class DualFace2D(Face, DualCell):
                     em = sem.belongsTo
                     e2 = Edge(dualSimpleEdges[0].endNode, centerNode)
                     edgesForFaces.append([e1, em, e2])
-                    myPrintDebug('Creating first triangle with dual edges {}'
+                    _log.debug('Creating first triangle with dual edges {}'
                                  .format([e1.infoText,
                                           sem.infoText,
                                           e2.infoText]))
-                    myPrintDebug('Nodes that should define the simple face: ' +
+                    _log.debug('Nodes that should define the simple face: ' +
                                  '{} {} {} {} {} {}'
                                  .format(e1.startNode,
                                          e1.endNode,
@@ -229,11 +224,11 @@ class DualFace2D(Face, DualCell):
                         em = sem.belongsTo
                         e2 = Edge(sem.endNode, centerNode)
                         edgesForFaces.append([e1, em, e2])
-                        myPrintDebug('Creating triangle with dual edge {}'
+                        _log.debug('Creating triangle with dual edge {}'
                                      .format([e1.infoText,
                                               sem.infoText,
                                               e2.infoText]))
-                        myPrintDebug('Nodes that should define the simple ' +
+                        _log.debug('Nodes that should define the simple ' +
                                      'face: {} {} {} {} {} {}'
                                      .format(e1.startNode,
                                              e1.endNode,
@@ -247,11 +242,11 @@ class DualFace2D(Face, DualCell):
                     em = sem.belongsTo
                     e2 = -edgesForFaces[0][0]
                     edgesForFaces.append([e1, em, e2])
-                    myPrintDebug('Creating last triangle with dual edge {}'
+                    _log.debug('Creating last triangle with dual edge {}'
                                  .format([e1.infoText,
                                           em.infoText,
                                           e2.infoText]))
-                    myPrintDebug('Nodes that should define the simple face: ' +
+                    _log.debug('Nodes that should define the simple face: ' +
                                  '{} {} {} {} {} {}'
                                  .format(e1.startNode,
                                          e1.endNode,
@@ -269,7 +264,7 @@ class DualFace2D(Face, DualCell):
 
         if error:
             self.delete()
-            myPrintError('An error occured during the creation process ' +
+            _log.error('An error occured during the creation process ' +
                          'of dual face --> deleting')
         else:
             self.dualCell2D = node
@@ -283,10 +278,10 @@ class DualFace2D(Face, DualCell):
 #    METHODS
 # =============================================================================
 
-    def __sortEdges(self, edges, myPrintDebug, myPrintError):
+    def __sortEdges(self, edges):
 
         if not all([isinstance(e, BaseEdge) for e in edges]):
-            myPrintError('Need list of edges, but got {}'.format(edges))
+            _log.error('Need list of edges, but got {}'.format(edges))
             return False
 
         edgesSorted = [edges[0], ]
@@ -305,7 +300,7 @@ class DualFace2D(Face, DualCell):
                     edges.remove(e)
 
         if counter >= maxCounter:
-            myPrintError('Cannot find closed circle to define dual Face {}'
+            _log.error('Cannot find closed circle to define dual Face {}'
                          .format(self.infoText))
             return False
 
@@ -323,130 +318,130 @@ if __name__ == "__main__":
     from kCells.node import DualNode3D, DualNode2D
 #    from edge import Edge
     from kCells.face import Face
-    from kCells.volume import Volume
+    from kCells.volume.volume import Volume
     import tools.placeFigures as pf
 #    import tools.colorConsole as cc
 #    from tools import MyLogging
     import tools.myLogging as ml
     import tools.tumcolor as tc
-    with ml.MyLogging('dualFace3D'):
-        n0 = Node(0, 0, 0)
-        n1 = Node(1, 0, 0)
-        n2 = Node(0, 1, 0)
-        n3 = Node(0, 0, 1)
-        n4 = Node(1, 1, 1)
-        n5 = Node(0.8, 1.5, -2)
-        n6 = Node(1, 0, 4)
-        nodes = [n0, n1, n2, n3, n4, n5, n6]
+    set_logging_format(logging.DEBUG)
+    n0 = Node(0, 0, 0)
+    n1 = Node(1, 0, 0)
+    n2 = Node(0, 1, 0)
+    n3 = Node(0, 0, 1)
+    n4 = Node(1, 1, 1)
+    n5 = Node(0.8, 1.5, -2)
+    n6 = Node(1, 0, 4)
+    nodes = [n0, n1, n2, n3, n4, n5, n6]
 
-        for n in nodes:
-            n.useCategory1 = 1
+    for n in nodes:
+        n.useCategory1 = 1
 
-        e0 = Edge(n0, n1)
-        e1 = Edge(n0, n2)
-        e2 = Edge(n0, n3)
-        e3 = Edge(n1, n2)
-        e4 = Edge(n1, n3)
-        e5 = Edge(n2, n3)
-        e6 = Edge(n1, n4)
-        e7 = Edge(n2, n4)
-        e8 = Edge(n3, n4)
-        e9 = Edge(n5, n1)
-        e10 = Edge(n5, n4)
-        e11 = Edge(n5, n2)
-        e12 = Edge(n0, n5)
-        e13 = Edge(n1, n6)
-        e14 = Edge(n3, n6)
-        e15 = Edge(n4, n6)
+    e0 = Edge(n0, n1)
+    e1 = Edge(n0, n2)
+    e2 = Edge(n0, n3)
+    e3 = Edge(n1, n2)
+    e4 = Edge(n1, n3)
+    e5 = Edge(n2, n3)
+    e6 = Edge(n1, n4)
+    e7 = Edge(n2, n4)
+    e8 = Edge(n3, n4)
+    e9 = Edge(n5, n1)
+    e10 = Edge(n5, n4)
+    e11 = Edge(n5, n2)
+    e12 = Edge(n0, n5)
+    e13 = Edge(n1, n6)
+    e14 = Edge(n3, n6)
+    e15 = Edge(n4, n6)
 
-        edges = [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10,
-                 e11, e12, e13, e14, e15]
+    edges = [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10,
+             e11, e12, e13, e14, e15]
 
-        e3.category1 = 'inner'
-        for e in edges:
-            if e.category1 == 'undefined':
-                e.category1 = 'border'
+    e3.category1 = 'inner'
+    for e in edges:
+        if e.category1 == 'undefined':
+            e.category1 = 'border'
 
-        f0 = Face([e0, e3, -e1])
-        f1 = Face([e1, e5, -e2])
-        f2 = Face([e0, e4, -e2])
-        f3 = Face([e3, e5, -e4])
-        f4 = Face([e4, e8, -e6])
-        f5 = Face([e5, e8, -e7])
-        f6 = Face([e3, e7, -e6])
-        f7 = Face([e9, e6, -e10])
-        f8 = Face([e11, e7, -e10])
-        f9 = Face([e9, e3, -e11])
-        f10 = Face([e12, e9, -e0])
-        f11 = Face([e12, e11, -e1])
-        f12 = Face([e4, e14, -e13])
-        f13 = Face([e14, -e15, -e8])
-        f14 = Face([e13, -e15, -e6])
+    f0 = Face([e0, e3, -e1])
+    f1 = Face([e1, e5, -e2])
+    f2 = Face([e0, e4, -e2])
+    f3 = Face([e3, e5, -e4])
+    f4 = Face([e4, e8, -e6])
+    f5 = Face([e5, e8, -e7])
+    f6 = Face([e3, e7, -e6])
+    f7 = Face([e9, e6, -e10])
+    f8 = Face([e11, e7, -e10])
+    f9 = Face([e9, e3, -e11])
+    f10 = Face([e12, e9, -e0])
+    f11 = Face([e12, e11, -e1])
+    f12 = Face([e4, e14, -e13])
+    f13 = Face([e14, -e15, -e8])
+    f14 = Face([e13, -e15, -e6])
 
-        faces = [f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10,
-                 f11, f12, f13, f14]
+    faces = [f0, f1, f2, f3, f4, f5, f6, f7, f8, f9, f10,
+             f11, f12, f13, f14]
 
-        v0 = Volume([-f0, -f1, f2, f3])
-        v1 = Volume([f6, f5, -f4, -f3])
-        v2 = Volume([f9, f8, -f7, -f6])
-        v3 = Volume([f10, -f11, -f9, f0])
-        v4 = Volume([-f14, -f12, f13, f4])
-        volumes = [v0, v1, v2, v3, v4]
-        for v in volumes:
-            v.category = 'inner'
+    v0 = Volume([-f0, -f1, f2, f3])
+    v1 = Volume([f6, f5, -f4, -f3])
+    v2 = Volume([f9, f8, -f7, -f6])
+    v3 = Volume([f10, -f11, -f9, f0])
+    v4 = Volume([-f14, -f12, f13, f4])
+    volumes = [v0, v1, v2, v3, v4]
+    for v in volumes:
+        v.category = 'inner'
 
-        for f in faces:
-            if len(f.volumes) == 2:
-                f.category1 = 'inner'
-            else:
-                f.category1 = 'border'
+    for f in faces:
+        if len(f.volumes) == 2:
+            f.category1 = 'inner'
+        else:
+            f.category1 = 'border'
 
-        (figs, ax) = pf.getFigures(2, 2)
-        for n in nodes:
-            n.plotNode(ax[0])
-        for e in edges:
-            e.plotEdge(ax[0])
-        for f in faces:
-            f.plotFace(ax[0])
+    (figs, ax) = pf.getFigures(2, 2)
+    for n in nodes:
+        n.plotNode(ax[0])
+    for e in edges:
+        e.plotEdge(ax[0])
+    for f in faces:
+        f.plotFace(ax[0])
 
-        for v in volumes:
-            v.plotVolume(ax[1])
+    for v in volumes:
+        v.plotVolume(ax[1])
 
-        dualNodes = []
-        for v in volumes:
-            dualNodes.append(DualNode3D(v))
+    dualNodes = []
+    for v in volumes:
+        dualNodes.append(DualNode3D(v))
 
-        for f in faces:
-            DualNode2D(f)
+    for f in faces:
+        DualNode2D(f)
 
-        dualEdges = []
-        for f in faces:
-            dualEdges.append(DualEdge3D(f))
-        for e in edges:
-            if e.category == 'border':
-                dualEdges.append(DualEdge2D(e))
+    dualEdges = []
+    for f in faces:
+        dualEdges.append(DualEdge3D(f))
+    for e in edges:
+        if e.category == 'border':
+            dualEdges.append(DualEdge2D(e))
 
-        n6.category1 = 'border'
-        df1 = DualFace2D(n6)
+    n6.category1 = 'border'
+    df1 = DualFace2D(n6)
 
-        df1.plotFace(ax[3])
+    df1.plotFace(ax[3])
 
-        red = tc.TUMcolor([255, 0, 0], 'red')
-        for e in n6.edges:
-            de = e.dualCell2D
-            de.color = red
-            de.plotEdge(ax[3])
+    red = tc.TUMcolor([255, 0, 0], 'red')
+    for e in n6.edges:
+        de = e.dualCell2D
+        de.color = red
+        de.plotEdge(ax[3])
 
-        for v in volumes:
-            v.showLabel = False
-            v.plotVolume(ax[2])
-        for n in dualNodes:
-            n.plotNode(ax[2])
+    for v in volumes:
+        v.showLabel = False
+        v.plotVolume(ax[2])
+    for n in dualNodes:
+        n.plotNode(ax[2])
 
-        for de in dualEdges:
-            de.plotEdge(ax[2])
+    for de in dualEdges:
+        de.plotEdge(ax[2])
 
-        for e in edges:
-            e.showArrow = False
-            e.showLabel = False
-            e.plotEdge(ax[3])
+    for e in edges:
+        e.showArrow = False
+        e.showLabel = False
+        e.plotEdge(ax[3])

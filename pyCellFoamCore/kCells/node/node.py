@@ -583,7 +583,7 @@ class Node(Cell):
         '''
         if simpleEdge in self.__simpleEdges:
             self.__simpleEdges.remove(simpleEdge)
-            _log.info('Removed simple edge %s from node %s',
+            _log.debug('Removed simple edge %s from node %s',
                              simpleEdge.infoText, self.infoText)
         else:
             _log.error('Cannot remove simple edge %s from node %s!',
@@ -607,7 +607,7 @@ class Node(Cell):
                               edge.infoText, self.infoText)
         else:
             self.__edges.append(edge)
-            _log.info('Added edge {} to node {}'
+            _log.debug('Added edge {} to node {}'
                              .format(edge.num, self.num))
 
             if not self.isGeometrical:
@@ -637,7 +637,7 @@ class Node(Cell):
 
         if edge in self.__edges:
             self.__edges.remove(edge)
-            _log.info('Removed edge {} from node {}'
+            _log.debug('Removed edge {} from node {}'
                              .format(edge.num, self.num))
 
             if not self.isGeometrical:
