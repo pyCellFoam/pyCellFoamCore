@@ -82,7 +82,7 @@ class SuperCell(SuperBaseCell):
         self.__isDeleted = False
         super().__init__(*args, myReverse=myReverse, **kwargs)
 
-        self.logger.debug('Initialized SuperCell')
+        _log.debug('Initialized SuperCell')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -119,7 +119,7 @@ class SuperCell(SuperBaseCell):
 # ------------------------------------------------------------------------
 
     def __getLabel(self):
-        self.logger.warning('Using standard value for label')
+        _log.warning('Using standard value for label')
         return 'SUPC'
 
     label = property(__getLabel)

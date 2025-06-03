@@ -29,6 +29,13 @@ if __name__ == '__main__':
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
+
+import logging
+
+# ------------------------------------------------------------------------
+#    Third-Party Libraries
+# ------------------------------------------------------------------------
+
 import numpy as np
 
 
@@ -46,7 +53,15 @@ from tools import MyLogging
 import tools.tumcolor as tc
 import tools.colorConsole as cc
 import tools.placeFigures as pf
+from tools.logging_formatter import set_logging_format
 
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -98,8 +113,8 @@ class Node(Cell):
         self.__draw = True
         self.__onBoundingBoxSides = []
         self.__tikZNodes = {}
-        self.logger.info('Created node {}'.format(self.infoText))
-        self.logger.debug('Initialized Node')
+        _log.info('Created node {}'.format(self.infoText))
+        _log.debug('Initialized Node')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -247,7 +262,7 @@ class Node(Cell):
         if tikZPicture in self.tikZNodes:
             return self.tikZNodes[tikZPicture]
         else:
-            self.logger.info('This node does not belong to the' +
+            _log.info('This node does not belong to the' +
                              ' given tikzpicture')
             return None
 
@@ -256,7 +271,7 @@ class Node(Cell):
 
         '''
         if tikZPicture in self.tikZNodes:
-            self.logger.error('This node already belongs to the' +
+            _log.error('This node already belongs to the' +
                               ' given tikzpicture')
         else:
             self.tikZNodes[tikZPicture] = tikZNode
@@ -326,7 +341,7 @@ class Node(Cell):
         '''
         if self.showInPlot:
             if self.isDeleted:
-                self.logger.error('Cannot plot deleted node {}'.format(self))
+                _log.error('Cannot plot deleted node {}'.format(self))
             else:
                 if showLabel is None:
                     showLabel = self.showLabel
@@ -356,7 +371,7 @@ class Node(Cell):
                             self.labelText,
                             color=plotColor)
         else:
-            self.logger.warning('Plotting of node {} is disabled'.format(self))
+            _log.warning('Plotting of node {} is disabled'.format(self))
 
     def plotNodeVtk(self, myVTK, showLabel=None, color=None, **kwargs):
         '''
@@ -482,7 +497,7 @@ class Node(Cell):
 
         '''
         if myPrintInfo is None:
-            myPrintInfo = self.logger.info
+            myPrintInfo = _log.info
 
         (_, side) = boundingBox.distToBoundingBox(self.coordinates)
         projectedCoordinates = side.projectOnBoundingBoxSide(self.coordinates)
@@ -507,7 +522,7 @@ class Node(Cell):
         '''
 
         if myPrintInfo is None:
-            myPrintInfo = self.logger.info
+            myPrintInfo = _log.info
 
         if self.__projectedNode:
             myPrintInfo('Projection was calculated before')
@@ -551,7 +566,7 @@ class Node(Cell):
 
         '''
         if simpleEdge in self.__simpleEdges:
-            self.logger.error('Simple edge %s already belongs to node %s!',
+            _log.error('Simple edge %s already belongs to node %s!',
                               simpleEdge.infoText, self.infoText)
         else:
             self.__simpleEdges.append(simpleEdge)
@@ -568,10 +583,10 @@ class Node(Cell):
         '''
         if simpleEdge in self.__simpleEdges:
             self.__simpleEdges.remove(simpleEdge)
-            self.logger.info('Removed simple edge %s from node %s',
+            _log.info('Removed simple edge %s from node %s',
                              simpleEdge.infoText, self.infoText)
         else:
-            self.logger.error('Cannot remove simple edge %s from node %s!',
+            _log.error('Cannot remove simple edge %s from node %s!',
                               simpleEdge.infoText, self.infoText)
 
     def addEdge(self, edge):
@@ -588,25 +603,25 @@ class Node(Cell):
 
         '''
         if edge in self.__edges:
-            self.logger.error('Edge %s already belongs to node %s!',
+            _log.error('Edge %s already belongs to node %s!',
                               edge.infoText, self.infoText)
         else:
             self.__edges.append(edge)
-            self.logger.info('Added edge {} to node {}'
+            _log.info('Added edge {} to node {}'
                              .format(edge.num, self.num))
 
             if not self.isGeometrical:
                 if edge.startNode == self and edge.endNode == self:
-                    self.logger.error('Start and end cannot be identical')
+                    _log.error('Start and end cannot be identical')
                 elif edge.startNode == self:
                     self.__connectedNodes.append(edge.endNode)
                 elif edge.endNode == self:
                     self.__connectedNodes.append(edge.startNode)
                 elif self in edge.geometricNodes:
-                    self.logger.error('Node {} should be geometric'
+                    _log.error('Node {} should be geometric'
                                       .format(self.infoText))
                 else:
-                    self.logger.error('Cannot find connected node')
+                    _log.error('Cannot find connected node')
 
     def delEdge(self, edge):
         '''
@@ -622,30 +637,30 @@ class Node(Cell):
 
         if edge in self.__edges:
             self.__edges.remove(edge)
-            self.logger.info('Removed edge {} from node {}'
+            _log.info('Removed edge {} from node {}'
                              .format(edge.num, self.num))
 
             if not self.isGeometrical:
                 if edge.startNode == self and edge.endNode == self:
-                    self.logger.error('Start and end cannot be identical')
+                    _log.error('Start and end cannot be identical')
                 elif edge.startNode == self:
                     if edge.endNode in self.connectedNodes:
                         self.__connectedNodes.remove(edge.endNode)
                     else:
-                        self.logger.error(
+                        _log.error(
                             'Node {} should have been connected to node {}'
                             .format(edge.endNode.infoText, self.infoText))
                 elif edge.endNode == self:
                     if edge.startNode in self.connectedNodes:
                         self.__connectedNodes.remove(edge.startNode)
                     else:
-                        self.logger.error(
+                        _log.error(
                             'Node {} should have been connected to node {}'
                             .format(edge.startNode.infoText, self.infoText))
                 else:
-                    self.logger.error('Cannot find connected node')
+                    _log.error('Cannot find connected node')
         else:
-            self.logger.error('Cannot remove edge {} from node {}!'
+            _log.error('Cannot remove edge {} from node {}!'
                               .format(edge.infoText, self.infoText))
 
     def updateGeometry(self):
@@ -653,7 +668,7 @@ class Node(Cell):
         Register the changed geometry in this node and in all connected edges.
 
         '''
-        self.logger.info('Updating node {}'.format(self))
+        _log.info('Updating node {}'.format(self))
         for e in self.__edges:
             e.updateGeometry()
         if self.__sphere:
@@ -688,59 +703,59 @@ class Node(Cell):
 # =============================================================================
 if __name__ == '__main__':
 
-    with MyLogging('Node'):
+    set_logging_format(logging.DEBUG)
 
-        # Choose plotting method. Possible choices: pyplot, VTK, TikZ, None
-        plottingMethod = 'pyplot'
+    # Choose plotting method. Possible choices: pyplot, VTK, TikZ, None
+    plottingMethod = 'pyplot'
 
-        cc.printBlue('Create nodes')
+    cc.printBlue('Create nodes')
 
-        n0 = Node(0, 0, 0)
-        n1 = Node(4, 5, 6, label=r'\hat{R}')
-        n2 = Node(1, 2, 3)
-        n3 = Node(2, 6, 3)
-        n4 = Node(9, 5, 5)
-        n5 = Node(8, 5, 1)
+    n0 = Node(0, 0, 0)
+    n1 = Node(4, 5, 6, label=r'\hat{R}')
+    n2 = Node(1, 2, 3)
+    n3 = Node(2, 6, 3)
+    n4 = Node(9, 5, 5)
+    n5 = Node(8, 5, 1)
 
-        nodes = [n0, n1, n2, n3, n4, n5]
+    nodes = [n0, n1, n2, n3, n4, n5]
 
-        cc.printBlue('Change some parameters')
-        n0.label = 'S'
-        n1.yCoordinate = -2
-        n2.coordinates = np.array([-1, -1, -3])
-        n3.showLabel = False
+    cc.printBlue('Change some parameters')
+    n0.label = 'S'
+    n1.yCoordinate = -2
+    n2.coordinates = np.array([-1, -1, -3])
+    n3.showLabel = False
 
-        cc.printBlue('Create bounding box')
-        # bb = BoundingBox([0, 10], [0, 10], [0, 10])
+    cc.printBlue('Create bounding box')
+    # bb = BoundingBox([0, 10], [0, 10], [0, 10])
 
-        if plottingMethod is None or plottingMethod == 'None':
-            cc.printBlue('Plotting disabled')
+    if plottingMethod is None or plottingMethod == 'None':
+        cc.printBlue('Plotting disabled')
 
-        elif plottingMethod == 'pyplot':
-            cc.printBlue('Plot using pyplot')
-            (figs, axes) = pf.getFigures()
-            for n in nodes:
-                n.plotNode(axes[0])
-            # bb.plotBoundingBox(axes[0])
+    elif plottingMethod == 'pyplot':
+        cc.printBlue('Plot using pyplot')
+        (figs, axes) = pf.getFigures()
+        for n in nodes:
+            n.plotNode(axes[0])
+        # bb.plotBoundingBox(axes[0])
 
-        elif plottingMethod == 'VTK':
-            cc.printBlue('Plot using VTK')
-            # myVTK = MyVTK()
-            # for n in nodes:
-            #     n.plotNodeVtk(myVTK)
-            # bb.plotBoundingBoxVtk(myVTK)
-            # myVTK.start()
-        elif plottingMethod == 'TikZ':
-            cc.printBlue('Plot using TikZ')
-            from tools.tikZPicture.tikZPicture3D import TikZPicture3D
-            tikZPic = TikZPicture3D()
-            origin = tikZPic.addTikZCoordinate('origin', np.array([0, 0, 0]))
-            tikZPic.addTikZCoSy3D(origin)
-            for n in nodes:
-                n.plotNodeTikZ(tikZPic)
-            # bb.plotBoundingBoxTikZ(tikZPic)
-            tikZPic.writeLaTeXFile('latex', 'node',
-                                   compileFile=True, openFile=True)
+    elif plottingMethod == 'VTK':
+        cc.printBlue('Plot using VTK')
+        # myVTK = MyVTK()
+        # for n in nodes:
+        #     n.plotNodeVtk(myVTK)
+        # bb.plotBoundingBoxVtk(myVTK)
+        # myVTK.start()
+    elif plottingMethod == 'TikZ':
+        cc.printBlue('Plot using TikZ')
+        from tools.tikZPicture.tikZPicture3D import TikZPicture3D
+        tikZPic = TikZPicture3D()
+        origin = tikZPic.addTikZCoordinate('origin', np.array([0, 0, 0]))
+        tikZPic.addTikZCoSy3D(origin)
+        for n in nodes:
+            n.plotNodeTikZ(tikZPic)
+        # bb.plotBoundingBoxTikZ(tikZPic)
+        tikZPic.writeLaTeXFile('latex', 'node',
+                               compileFile=True, openFile=True)
 
-        else:
-            cc.printRed('Unknown plotting method {}'.format(plottingMethod))
+    else:
+        cc.printRed('Unknown plotting method {}'.format(plottingMethod))
