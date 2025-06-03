@@ -21,10 +21,25 @@ beginning
 if __name__ == '__main__':
     import os
     os.chdir('../../')
+    
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging
+    
 
 from kCells.cell import ReversedCell
 from kCells.edge.baseEdge import BaseEdge
+from tools.logging_formatter import set_logging_format
 
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -56,7 +71,7 @@ class ReversedEdge(BaseEdge, ReversedCell):
 
         '''
         super().__init__(*args, loggerName=__name__, **kwargs)
-        self.logger.debug('Initialized ReversedEdge')
+        _log.debug('Initialized ReversedEdge')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -66,7 +81,7 @@ class ReversedEdge(BaseEdge, ReversedCell):
         if self.myReverse:
             return [-f for f in reversed(self.myReverse.faces)]
         else:
-            self.logger.warning('No reverse defined')
+            _log.warning('No reverse defined')
             return True
 
     faces = property(__getFaces)
@@ -75,14 +90,14 @@ class ReversedEdge(BaseEdge, ReversedCell):
         if self.myReverse:
             return self.myReverse.showArrow
         else:
-            self.logger.warning('No reverse defined')
+            _log.warning('No reverse defined')
             return True
 
     def __setShowArrow(self, s):
         if self.myReverse:
             self.myReverse.showArrow = s
         else:
-            self.logger.error(
+            _log.error(
                 'Cannot set showArrow because the reversed edge ' +
                 'does not belong to an edge')
 
@@ -94,7 +109,7 @@ class ReversedEdge(BaseEdge, ReversedCell):
         return self.myReverse.endNode
 
     def __setStartNode(self, s):
-        self.logger.debug('Setting start node in edge %s', self)
+        _log.debug('Setting start node in edge %s', self)
         self.myReverse.endNode = s
 
     startNode = property(__getStartNode, __setStartNode)
@@ -105,7 +120,7 @@ class ReversedEdge(BaseEdge, ReversedCell):
         return self.myReverse.startNode
 
     def __setEndNode(self, s):
-        self.logger.debug('Setting end node in edge %s', self)
+        _log.debug('Setting end node in edge %s', self)
         self.myReverse.startNode = s
 
     endNode = property(__getEndNode, __setEndNode)
@@ -122,7 +137,7 @@ class ReversedEdge(BaseEdge, ReversedCell):
         if self.myReverse:
             return [-se for se in reversed(self.myReverse.simpleEdges)]
         else:
-            self.logger.error('No reverse defined')
+            _log.error('No reverse defined')
 
     simpleEdges = property(__getSimpleEdges)
 
@@ -130,7 +145,7 @@ class ReversedEdge(BaseEdge, ReversedCell):
         if self.myReverse:
             return list(reversed(self.myReverse.topologicNodes))
         else:
-            self.logger.error('No reverse defined')
+            _log.error('No reverse defined')
 
     topologicNodes = property(__getTopologicNodes)
 
@@ -138,14 +153,14 @@ class ReversedEdge(BaseEdge, ReversedCell):
         if self.myReverse:
             return -self.myReverse.projectedEdge
         else:
-            self.logger.error('No reverse defined')
+            _log.error('No reverse defined')
     projectedEdge = property(__getProjectedEdge)
 
     def __getProjectionFace(self):
         if self.myReverse:
             return self.myReverse.projectionFace
         else:
-            self.logger.error('No reverse defined')
+            _log.error('No reverse defined')
     projectionFace = property(__getProjectionFace)
 
 # =============================================================================
@@ -158,7 +173,7 @@ class ReversedEdge(BaseEdge, ReversedCell):
         if self.myReverse:
             self.myReverse.addFace(-face)
         else:
-            self.logger.error(
+            _log.error(
                 'Cannot add face {}'.format(face.infoText) +
                 ' to reversed edge {} '.format(self.infoText) +
                 'because it does not belong to an edge')
@@ -170,7 +185,7 @@ class ReversedEdge(BaseEdge, ReversedCell):
         if self.myReverse:
             self.myReverse.delFace(-face)
         else:
-            self.logger.error(
+            _log.error(
                 'Cannot delete face {}'.format(face.infoText) +
                 ' from reversed edge {} '.format(self.infoText) +
                 'because it does not belong to an edge')
@@ -181,6 +196,7 @@ class ReversedEdge(BaseEdge, ReversedCell):
 # =============================================================================
 
 if __name__ == "__main__":
+    set_logging_format(logging.DEBUG)
     re = ReversedEdge()
 #    import tools.placeFigures as pf
 #    from face import Face
