@@ -27,7 +27,7 @@ if __name__ == '__main__':
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
-
+import logging
 
 # ------------------------------------------------------------------------
 #    Local Libraries
@@ -44,7 +44,14 @@ from kCells.cell.superBaseCell import SuperBaseCell
 import tools.tumcolor as tc
 from tools import MyLogging
 import tools.colorConsole as cc
+from tools.logging_formatter import set_logging_format
 
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -70,7 +77,7 @@ class BaseSimpleCell(SuperBaseCell):
         super().__init__(*args, **kwargs)
         self.__belongsTo = belongsTo
         self.__tikZLabelPosition = None
-        self.logger.debug('Initialized BaseSimpleCell')
+        _log.debug('Initialized BaseSimpleCell')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -94,7 +101,7 @@ class BaseSimpleCell(SuperBaseCell):
                  'below right', 'below left', 'above right', 'above left']:
             self.__tikZLabelPosition = t
         else:
-            self.logger.error('Unknown position for TikZ label {}'.format(t))
+            _log.error('Unknown position for TikZ label {}'.format(t))
 
     tikZLabelPosition = property(__getTikZLabelPosition,
                                  __setTikZLabelPosition)
@@ -114,7 +121,7 @@ class BaseSimpleCell(SuperBaseCell):
         if self.belongsTo:
             return self.belongsTo.isGeometrical
         else:
-            self.logger.warning('Simple cell {} '.format(self.infoText) +
+            _log.warning('Simple cell {} '.format(self.infoText) +
                                 'does not belong to a real' +
                                 'cell, using fixed standard value for ' +
                                 'isGeometrical')
@@ -130,7 +137,7 @@ class BaseSimpleCell(SuperBaseCell):
         if self.belongsTo:
             return self.belongsTo.color
         else:
-            self.logger.warning('Simple cell {} '.format(self.infoText) +
+            _log.warning('Simple cell {} '.format(self.infoText) +
                                 'does not belong to a real ' +
                                 'cell, using fixed standard value for ' +
                                 'color')
@@ -145,7 +152,7 @@ class BaseSimpleCell(SuperBaseCell):
         if self.belongsTo:
             return self.belongsTo.num
         else:
-            self.logger.warning('Simple cell does not belong to a real cell,' +
+            _log.warning('Simple cell does not belong to a real cell,' +
                                 ' using fixed standard value for num')
             return super().num
     num = property(__getNum)
@@ -158,7 +165,7 @@ class BaseSimpleCell(SuperBaseCell):
         if self.belongsTo:
             return self.belongsTo.isDual
         else:
-            self.logger.warning('Simple cell does not belong to a real cell,' +
+            _log.warning('Simple cell does not belong to a real cell,' +
                                 ' using fixed standard value for isDual')
             return super().isDual
     isDual = property(__getIsDual)
@@ -172,7 +179,7 @@ class BaseSimpleCell(SuperBaseCell):
         if self.belongsTo:
             return self.belongsTo.categoryText
         else:
-            self.logger.warning('Simple cell does not belong to a real cell,' +
+            _log.warning('Simple cell does not belong to a real cell,' +
                                 ' using fixed standard value for categoryText')
             return super().categoryText
     categoryText = property(__getCategoryText)
@@ -185,7 +192,7 @@ class BaseSimpleCell(SuperBaseCell):
         if self.belongsTo:
             return self.belongsTo.showLabel
         else:
-            self.logger.warning('Simple cell {} '.format(self.infoText) +
+            _log.warning('Simple cell {} '.format(self.infoText) +
                                 'does not belong to a real' +
                                 ' cell, using fixed standard value' +
                                 ' for showLabel')
@@ -200,7 +207,7 @@ class BaseSimpleCell(SuperBaseCell):
         if self.belongsTo:
             return self.belongsTo.grayInTikz
         else:
-            self.logger.warning('Simple cell {}'.format(self.infoText) +
+            _log.warning('Simple cell {}'.format(self.infoText) +
                                 ' does not belong to a real cell, ' +
                                 'using fixed standard value for grayInTikz')
             return False
@@ -220,28 +227,29 @@ class BaseSimpleCell(SuperBaseCell):
 
 
 if __name__ == '__main__':
-    with MyLogging('baseSimpleCell'):
-        cc.printBlue('Create Base Simple Cell')
-        sc1 = BaseSimpleCell()
+    set_logging_format(logging.DEBUG)
+    
+    cc.printBlue('Create Base Simple Cell')
+    sc1 = BaseSimpleCell()
 
-        cc.printBlue('Check if a standard value for isGeometrical is given')
-        print(sc1.isGeometrical)
+    cc.printBlue('Check if a standard value for isGeometrical is given')
+    print(sc1.isGeometrical)
 
-        cc.printBlue('Check if a standard value for color is given')
-        print(sc1.color)
+    cc.printBlue('Check if a standard value for color is given')
+    print(sc1.color)
 
-        cc.printBlue('Check if a standard value for num is given')
-        print(sc1.num)
+    cc.printBlue('Check if a standard value for num is given')
+    print(sc1.num)
 
-        cc.printBlue('Check if a standard value for isDual is given')
-        print(sc1.isDual)
+    cc.printBlue('Check if a standard value for isDual is given')
+    print(sc1.isDual)
 
-        cc.printBlue('Check if a standard value for categoryText is given')
-        print(sc1.categoryText)
+    cc.printBlue('Check if a standard value for categoryText is given')
+    print(sc1.categoryText)
 
-        cc.printBlue('Check that it does not belong to a cell')
-        print('Belongs to:', sc1.belongsTo)
+    cc.printBlue('Check that it does not belong to a cell')
+    print('Belongs to:', sc1.belongsTo)
 
-        cc.printBlue('Check that the label position can be set and read')
-        sc1.tikZLabelPosition = 'below'
-        print('TikZ Label:', sc1.tikZLabelPosition)
+    cc.printBlue('Check that the label position can be set and read')
+    sc1.tikZLabelPosition = 'below'
+    print('TikZ Label:', sc1.tikZLabelPosition)
