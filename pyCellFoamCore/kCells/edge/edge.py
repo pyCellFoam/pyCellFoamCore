@@ -20,6 +20,12 @@ if __name__ == '__main__':
     import os
     os.chdir('../../')
 
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging
+
 from kCells.cell import Cell
 from kCells.node import Node
 from kCells.edge.baseEdge import BaseEdge
@@ -28,6 +34,15 @@ from kCells.edge.reversedEdge import ReversedEdge
 import tools.colorConsole as cc
 import tools.alphaNum as an
 
+from tools.logging_formatter import set_logging_format
+
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -86,8 +101,8 @@ class Edge(BaseEdge, Cell):
             self.startNode.addEdge(self)
             self.endNode.addEdge(self)
 
-            self.logger.info('Created edge {}'.format(self.infoText))
-        self.logger.debug('Initialized Edge')
+            _log.info('Created edge {}'.format(self.infoText))
+        _log.debug('Initialized Edge')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -113,7 +128,7 @@ class Edge(BaseEdge, Cell):
         return self.__startNode
 
     def __setStartNode(self, s):
-        self.logger.debug('Setting start node in edge %s', self)
+        _log.debug('Setting start node in edge %s', self)
 
         # Remove this edge from both nodes, to get connections right
         self.__startNode.delEdge(self)
@@ -134,7 +149,7 @@ class Edge(BaseEdge, Cell):
         return self.__endNode
 
     def __setEndNode(self, s):
-        self.logger.debug('Setting end node in edge %s', self)
+        _log.debug('Setting end node in edge %s', self)
         # Remove this edge from both nodes, to get connections right
         self.__endNode.delEdge(self)
         self.__startNode.delEdge(self)
@@ -220,7 +235,7 @@ class Edge(BaseEdge, Cell):
 # ------------------------------------------------------------------------
 
     def setUp(self):
-        self.logger.info('Setting up edge {}'.format(self))
+        _log.info('Setting up edge {}'.format(self))
         for se in self.__simpleEdges:
             se.delete()
         self.__simpleEdges = []
@@ -230,7 +245,7 @@ class Edge(BaseEdge, Cell):
 
         allNodes = [self.__startNode, *self.__geometricNodes, self.__endNode]
         if self.checkIfDuplicates(allNodes):
-            self.logger.error('Duplicate nodes in definition of {}: {}'
+            _log.error('Duplicate nodes in definition of {}: {}'
                               .format(self, allNodes))
 
         else:
@@ -277,7 +292,7 @@ class Edge(BaseEdge, Cell):
                                    labelSuffix='('+an.alphaNum(num)+')'))
 
             else:
-                self.logger.debug('This edge is not completely defined, ' +
+                _log.debug('This edge is not completely defined, ' +
                                   'maybe its deleted')
 
             if len(self.__simpleEdges) == 1:
@@ -295,7 +310,7 @@ class Edge(BaseEdge, Cell):
 
         '''
         if face in self.__faces:
-            self.logger.error('Face {} already belongs to edge {}!'
+            _log.error('Face {} already belongs to edge {}!'
                               .format(face.infoText, self.infoText))
         else:
             self.__faces.append(face)
@@ -313,10 +328,10 @@ class Edge(BaseEdge, Cell):
         '''
         if face in self.__faces:
             self.__faces.remove(face)
-            self.logger.info('Removed simple face {} from simple edge {}'
+            _log.info('Removed simple face {} from simple edge {}'
                              .format(face.infoText, self.infoText))
         else:
-            self.logger.error('Cannot remove simple face {}'
+            _log.error('Cannot remove simple face {}'
                               .format(face.infoText) +
                               ' from simple edge {}!'.format(self.infoText))
 
@@ -348,7 +363,7 @@ class Edge(BaseEdge, Cell):
 # ------------------------------------------------------------------------
     def delete(self):
         if self.faces:
-            self.logger.error('Cannot delete {} because it belongs to a face'
+            _log.error('Cannot delete {} because it belongs to a face'
                               .format(self))
         else:
             for n in [self.__startNode, self.__endNode, *self.geometricNodes]:
@@ -395,101 +410,101 @@ class Edge(BaseEdge, Cell):
 if __name__ == "__main__":
     import tools.placeFigures as pf
 #    import matplotlib.pyplot as plt
-    from tools import MyLogging
+    # from tools import MyLogging
 #    from kCells import Node
 
-    with MyLogging('Edge') as ml:
+    set_logging_format(logging.DEBUG)
 
-        # Create some figures on second screen
-        (fig, ax) = pf.getFigures(numTotal=6)
+    # Create some figures on second screen
+    (fig, ax) = pf.getFigures(numTotal=6)
 
-        n0 = Node(0, 0, 0)
-        n1 = Node(0, 1, 0)
-        n2 = Node(1, 0, 0)
-        n3 = Node(1, 1, 0)
-        n4 = Node(1.2, 2, 0)
-        n5 = Node(2, 0, 0)
-        n6 = Node(2, 1, 0)
-        n7 = Node(2.2, 2, 0)
-        n8 = Node(2, 3, 0)
-        nodes = [n0, n1, n2, n3, n4, n5, n6, n7, n8]
+    n0 = Node(0, 0, 0)
+    n1 = Node(0, 1, 0)
+    n2 = Node(1, 0, 0)
+    n3 = Node(1, 1, 0)
+    n4 = Node(1.2, 2, 0)
+    n5 = Node(2, 0, 0)
+    n6 = Node(2, 1, 0)
+    n7 = Node(2.2, 2, 0)
+    n8 = Node(2, 3, 0)
+    nodes = [n0, n1, n2, n3, n4, n5, n6, n7, n8]
 
-        ml.logger.info('')
+    # ml.logger.info('')
 
-        e0 = Edge(n0, n1)
+    e0 = Edge(n0, n1)
 
-        e1 = Edge(n2, n4, geometricNodes=[n3, ])
-        e2 = Edge(n5, n8, geometricNodes=[n6, n7])
+    e1 = Edge(n2, n4, geometricNodes=[n3, ])
+    e2 = Edge(n5, n8, geometricNodes=[n6, n7])
 
-        print(e1.simpleEdges)
+    print(e1.simpleEdges)
 
-        edges = [e0, e1, e2]
+    edges = [e0, e1, e2]
 
-        for n in nodes:
-            n.plotNode(ax[0])
-            n.plotNode(ax[1])
+    for n in nodes:
+        n.plotNode(ax[0])
+        n.plotNode(ax[1])
 
-        for e in edges:
-            e.plotEdge(ax[0])
-            me = -e
-            me.plotEdge(ax[1])
-            print(me.simpleEdges[0].directionVec)
+    for e in edges:
+        e.plotEdge(ax[0])
+        me = -e
+        me.plotEdge(ax[1])
+        print(me.simpleEdges[0].directionVec)
 
-        cc.printBlue('change coordinate')
-        cc.printWhite()
-        n1.zCoordinate = 3
+    cc.printBlue('change coordinate')
+    cc.printWhite()
+    n1.zCoordinate = 3
 
-        n10 = Node(1, 0, 1, num=10)
-        n14 = Node(1.2, 2, -1, num=14)
-        nodes.append(n10)
-        nodes.append(n14)
-        cc.printBlue('Check before changing node:')
-        cc.printWhite('start:', e1.startNode,
-                      'end:', e1.endNode,
-                      'n2 is connected to', n2.connectedNodes,
-                      'n4 is connected to', n4.connectedNodes)
-        cc.printWhite()
-        cc.printBlue('Change start node of', e2)
-        print('Edges of n2:', n2.edges)
-        e1.startNode = n10
-        cc.printWhite('start:', e1.startNode,
-                      'end:', e1.endNode,
-                      'n2 is connected to', n2.connectedNodes,
-                      'n4 is connected to', n4.connectedNodes,
-                      'n10 is connected to:', n10.connectedNodes)
-        cc.printWhite()
-        e1.endNode = n14
+    n10 = Node(1, 0, 1, num=10)
+    n14 = Node(1.2, 2, -1, num=14)
+    nodes.append(n10)
+    nodes.append(n14)
+    cc.printBlue('Check before changing node:')
+    cc.printWhite('start:', e1.startNode,
+                  'end:', e1.endNode,
+                  'n2 is connected to', n2.connectedNodes,
+                  'n4 is connected to', n4.connectedNodes)
+    cc.printWhite()
+    cc.printBlue('Change start node of', e2)
+    print('Edges of n2:', n2.edges)
+    e1.startNode = n10
+    cc.printWhite('start:', e1.startNode,
+                  'end:', e1.endNode,
+                  'n2 is connected to', n2.connectedNodes,
+                  'n4 is connected to', n4.connectedNodes,
+                  'n10 is connected to:', n10.connectedNodes)
+    cc.printWhite()
+    e1.endNode = n14
 
-        n11 = Node(2, 1, 0.5, num=11)
-        n12 = Node(2.2, 2, 0.8, num=12)
-        n13 = Node(2.2, 2.3, 0.8, num=13)
-        nodes.append(n11)
-        nodes.append(n12)
-        nodes.append(n13)
-        e2.geometricNodes = [n11, n12, n13]
+    n11 = Node(2, 1, 0.5, num=11)
+    n12 = Node(2.2, 2, 0.8, num=12)
+    n13 = Node(2.2, 2.3, 0.8, num=13)
+    nodes.append(n11)
+    nodes.append(n12)
+    nodes.append(n13)
+    e2.geometricNodes = [n11, n12, n13]
 
-        for n in nodes:
-            n.plotNode(ax[2])
+    for n in nodes:
+        n.plotNode(ax[2])
 
-        for e in edges:
-            e.plotEdge(ax[2])
+    for e in edges:
+        e.plotEdge(ax[2])
 
-        cc.printBlue('barycenter:')
-        for b in e2.barycenter:
-            cc.printGreen('\t', b)
-        cc.printBlue('directionVec:')
-        for d in e2.directionVec:
-            cc.printGreen('\t', d)
+    cc.printBlue('barycenter:')
+    for b in e2.barycenter:
+        cc.printGreen('\t', b)
+    cc.printBlue('directionVec:')
+    for d in e2.directionVec:
+        cc.printGreen('\t', d)
 
-        e2.swap()
-        for n in nodes:
-            n.plotNode(ax[3])
+    e2.swap()
+    for n in nodes:
+        n.plotNode(ax[3])
 
-        for e in edges:
-            e.plotEdge(ax[3])
+    for e in edges:
+        e.plotEdge(ax[3])
 
 # =============================================================================
 #    IMAGES FOR DOCUMENTATION
 # =============================================================================
-        if False:
-            Edge.plotDoc()
+    if False:
+        Edge.plotDoc()
