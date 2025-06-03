@@ -23,6 +23,11 @@ import os
 if __name__ == '__main__':
     os.chdir('../../')
 
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging
 
 # ------------------------------------------------------------------------
 #    Local Libraries
@@ -38,6 +43,15 @@ from kCells.cell.superReversedCell import SuperReversedCell
 # -------------------------------------------------------------------
 from tools import MyLogging
 import tools.colorConsole as cc
+from tools.logging_formatter import set_logging_format
+
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 
 # =============================================================================
@@ -64,7 +78,7 @@ class ReversedSimpleCell(BaseSimpleCell, SuperReversedCell):
 
         '''
         super().__init__(**kwargs)
-        self.logger.debug('Initialized ReversedSimpleCell')
+        _log.debug('Initialized ReversedSimpleCell')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -80,7 +94,7 @@ class ReversedSimpleCell(BaseSimpleCell, SuperReversedCell):
         if self.myReverse:
             self.myReverse.labelSuffix = s
         else:
-            self.logger.error('Cannot set label suffix')
+            _log.error('Cannot set label suffix')
 
     labelSuffix = property(__getLabelSuffix, __setLabelSuffix)
     '''
@@ -99,10 +113,10 @@ class ReversedSimpleCell(BaseSimpleCell, SuperReversedCell):
 
 
 if __name__ == '__main__':
-    with MyLogging('reversedSimpleCell'):
-        cc.printBlue('Create Reversed Simple Cell')
-        rc1 = ReversedSimpleCell()
-        cc.printBlue('Check name of created reversed simple cell')
-        print(rc1)
-        cc.printBlue('Label suffix should not be settable')
-        rc1.labelSuffix = '(t)'
+    set_logging_format(logging.DEBUG)
+    cc.printBlue('Create Reversed Simple Cell')
+    rc1 = ReversedSimpleCell()
+    cc.printBlue('Check name of created reversed simple cell')
+    print(rc1)
+    cc.printBlue('Label suffix should not be settable')
+    rc1.labelSuffix = '(t)'
