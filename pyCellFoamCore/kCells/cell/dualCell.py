@@ -24,6 +24,12 @@ if __name__ == '__main__':
     os.chdir('../../')
 
 # ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging
+
+# ------------------------------------------------------------------------
 #    Local Libraries
 # ------------------------------------------------------------------------
 
@@ -37,6 +43,16 @@ from kCells.cell.cell import Cell
 # -------------------------------------------------------------------
 from tools import MyLogging
 import tools.colorConsole as cc
+from tools.logging_formatter import set_logging_format
+
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
+
 
 
 # =============================================================================
@@ -74,7 +90,7 @@ class DualCell(Cell):
 
         '''
         super().__init__(*args, **kwargs)
-        self.logger.debug('Initialized DualCell')
+        _log.debug('Initialized DualCell')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -93,9 +109,9 @@ class DualCell(Cell):
 
         '''
         if myPrintInfo is None:
-            myPrintInfo = self.logger.info
+            myPrintInfo = _log.info
         if myPrintError is None:
-            self.logger.error
+            _log.error
 
         if self.isGeometrical:
             myPrintInfo('Not copying number for geometrical kCell')
@@ -121,8 +137,8 @@ class DualCell(Cell):
 #    TEST FUNCTIONS
 # =============================================================================
 if __name__ == '__main__':
-    with MyLogging('Cell', debug=True):
-        cc.printBlue('Creat dual cell')
-        test = DualCell()
-        cc.printBlue('Check that the isDual attribute ist set correctly')
-        print(test.isDual, test.myReverse.isDual)
+    set_logging_format(logging.DEBUG)
+    cc.printBlue('Creat dual cell')
+    test = DualCell()
+    cc.printBlue('Check that the isDual attribute ist set correctly')
+    print(test.isDual, test.myReverse.isDual)
