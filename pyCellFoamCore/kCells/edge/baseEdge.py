@@ -19,9 +19,29 @@
 if __name__ == '__main__':
     import os
     os.chdir('../../')
+    
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging
+
+# ------------------------------------------------------------------------
+#    Local Libraries
+# ------------------------------------------------------------------------
 
 from kCells import BaseCell
 import tools.colorConsole as cc
+
+from tools.logging_formatter import set_logging_format
+
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 
 # =============================================================================
@@ -50,7 +70,7 @@ class BaseEdge(BaseCell):
         '''
 
         super().__init__(*args, **kwargs)
-        self.logger.debug('Initialized BaseEdge')
+        _log.debug('Initialized BaseEdge')
 
 # =============================================================================
 #    SETTER AND GETTER
@@ -121,14 +141,14 @@ class BaseEdge(BaseCell):
         if self.showInPlot:
 
             if not self.simpleEdges:
-                self.logger.warning('Edge {} '.format(self) +
+                _log.warning('Edge {} '.format(self) +
                                     'has no simple edges, ' +
                                     'maybe it was deleted')
             for se in self.simpleEdges:
                 se.plotEdge(*args, **kwargs)
 
         else:
-            self.logger.warning('Plotting of edge {} is disabled'.format(self))
+            _log.warning('Plotting of edge {} is disabled'.format(self))
 
     def plotEdgeVtk(self, *args, **kwargs):
         '''
@@ -205,7 +225,5 @@ class BaseEdge(BaseCell):
 
 
 if __name__ == '__main__':
-    from tools import MyLogging
-
-    with MyLogging('Cell', debug=True):
-        e1 = BaseEdge()
+    set_logging_format(logging.DEBUG)
+    e1 = BaseEdge()
