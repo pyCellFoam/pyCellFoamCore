@@ -24,9 +24,14 @@ import os
 if __name__ == '__main__':
     os.chdir('../../')
 
-
 # ------------------------------------------------------------------------
 #    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging
+
+# ------------------------------------------------------------------------
+#    Third-Party Libraries
 # ------------------------------------------------------------------------
 import numpy as np
 
@@ -51,7 +56,15 @@ from kCells.edge.reversedSimpleEdge import ReversedSimpleEdge
 
 import tools.colorConsole as cc
 # from geometricObjects import Cylinder
+from tools.logging_formatter import set_logging_format
 
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -99,7 +112,7 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
         self.__simpleFaces = []
         self.__cylinder = None
 
-        self.logger.debug('Initialized SimpleEdge')
+        _log.debug('Initialized SimpleEdge')
 
 # =============================================================================
 #    GETTER AND SETTER
@@ -205,10 +218,10 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
         else:
             self.__directionVec = np.array([0, 0, 0])
             self.__connectionVec = np.array([0, 0, 0])
-            self.logger.error(
+            _log.error(
                 'Cannot calculate direction vector of {}'.format(self) +
                 ' norm is too small, it is only {}'.format(np.linalg.norm(v)))
-            self.logger.error(
+            _log.error(
                 'Start node {}: {} end node {}: {}'
                 .format(self.startNode,
                         self.startNode.coordinates,
@@ -224,7 +237,7 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
 
         '''
         if simpleFace in self.__simpleFaces:
-            self.logger.error(
+            _log.error(
                 'Simple face {} already belongs to simiple edge {}!'
                 .format(simpleFace.infoText, self.infoText))
         else:
@@ -240,11 +253,11 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
         '''
         if simpleFace in self.__simpleFaces:
             self.__simpleFaces.remove(simpleFace)
-            self.logger.info(
+            _log.info(
                 'Removed simple face {} from simple edge {}'
                 .format(simpleFace.infoText, self.infoText))
         else:
-            self.logger.error(
+            _log.error(
                 'Cannot remove simple face {} from simple edge {}!'
                 .format(simpleFace.infoText, self.infoText))
 
@@ -269,37 +282,35 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
 if __name__ == '__main__':
     from kCells.node import Node
     import tools.placeFigures as pf
-    from tools import MyLogging
+    set_logging_format(logging.DEBUG)
 
-    with MyLogging('Edge', debug=True) as ml:
+    # Create some figures on second screen
+    (fig, ax) = pf.getFigures(numTotal=2)
 
-        # Create some figures on second screen
-        (fig, ax) = pf.getFigures(numTotal=2)
-
-        # Create some nodes
-        n1 = Node(1, 2, -3, num=1)
-        ml.logger.debug('')
-        n2 = Node(2, 2, 4, num=2)
-        ml.logger.debug('')
-        n3 = Node(1, 2, 5, num=3)
-        ml.logger.debug('')
-        n4 = Node(0, 2, 1, num=4)
-        ml.logger.debug('')
+    # Create some nodes
+    n1 = Node(1, 2, -3, num=1)
+    # ml.logger.debug('')
+    n2 = Node(2, 2, 4, num=2)
+    # ml.logger.debug('')
+    n3 = Node(1, 2, 5, num=3)
+    # ml.logger.debug('')
+    n4 = Node(0, 2, 1, num=4)
+    # ml.logger.debug('')
 #
-        nodes = [n1, n2, n3, n4]
+    nodes = [n1, n2, n3, n4]
 #
 #        # Create SimpleEdge
-        se1 = SimpleEdge(n1, n2)
+    se1 = SimpleEdge(n1, n2)
 #
-        cc.printBlue(se1)
+    cc.printBlue(se1)
 #
-        se1.plotEdge(ax[0])
+    se1.plotEdge(ax[0])
 
-        cc.printBlue(se1.directionVec)
-        cc.printBlue(se1.barycenter)
+    cc.printBlue(se1.directionVec)
+    cc.printBlue(se1.barycenter)
 
-        mse1 = -se1
-        mse1.plotEdge(ax[1])
+    mse1 = -se1
+    mse1.plotEdge(ax[1])
 
-        cc.printBlue(mse1.directionVec)
-        cc.printBlue(mse1.barycenter)
+    cc.printBlue(mse1.directionVec)
+    cc.printBlue(mse1.barycenter)
