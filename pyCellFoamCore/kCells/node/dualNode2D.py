@@ -68,6 +68,11 @@ import os
 if __name__ == '__main__':
     os.chdir('../../')
 
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging    
 
 # ------------------------------------------------------------------------
 #    Local Libraries
@@ -84,6 +89,15 @@ import tools.colorConsole as cc
 from kCells.node.node import Node
 from kCells.node.dualNode1D import DualNode1D
 from kCells.node.dualNode0D import DualNode0D
+from tools.logging_formatter import set_logging_format
+
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 
 # =============================================================================
@@ -128,17 +142,11 @@ class DualNode2D(Node, DualCell):
     def __init__(self,
                  face,
                  *args,
-                 myPrintDebug=None,
-                 myPrintError=None,
                  volume=None,
                  **kwargs):
         '''
         :param Face face: Primal face to which a 2D dual is wanted to be
             calculated
-        :param myPrintDebug: alternate printing function to redirect debug
-            messages.
-        :param myPrintError: alternate printing function to redirect error
-            messages.
         :param Volume volume: If this dual node is generated as a special case
             of a higher dimension, the duality is stored also in the volume.
 
@@ -162,21 +170,9 @@ class DualNode2D(Node, DualCell):
             self.category1 = face.category1
             self.category2 = face.category2
 
-        if True:
-            if myPrintDebug is None:
-                myPrintDebug = self.logger.debug
-            # myPrintInfo = self.logger.info
-            # myPrintWarning = self.logger.warning
-            if myPrintError is None:
-                myPrintError = self.logger.error
-        else:
-            self.logger.warning('Using prints instead of logger!')
-            myPrintDebug = cc.printGreen
-            # myPrintInfo = cc.printCyan
-            # myPrintWarning = cc.printYellow
-            myPrintError = cc.printRed
 
-        myPrintDebug('Calculating 2D dual of {}'.format(face))
+
+        _log.debug('Calculating 2D dual of {}'.format(face))
 
 # ------------------------------------------------------------------------
 #    Standard-Case: One simple face
@@ -201,7 +197,7 @@ class DualNode2D(Node, DualCell):
             #         self.yCoordinate = dn.yCoordinate
             #         self.zCoordinate = dn.zCoordinate
             if not len(face.geometricEdges) == 1:
-                myPrintError('Face {} '.format(face.infoText) +
+                _log.error('Face {} '.format(face.infoText) +
                              'has two barycenters and should so have one ' +
                              'geometric edge, but has {}'
                              .format(len(face.geometricEdges)))
@@ -228,12 +224,12 @@ class DualNode2D(Node, DualCell):
             #     self.zCoordinate = coord[2]
 
             if not len(face.geometricNodes) == 1:
-                myPrintError('Face {} '.format(face.infoText) +
+                _log.error('Face {} '.format(face.infoText) +
                              'has three barycenters and should so have one ' +
                              'geometric node, but has {}'
                              .format(len(face.geometricNodes)))
         else:
-            myPrintError('Cannot calculate 2D dual of face {} '
+            _log.error('Cannot calculate 2D dual of face {} '
                          .format(face.infoText) +
                          'that has more than one simple Face, ' +
                          'it has {}'.format(len(face.simpleFaces)))
@@ -245,7 +241,7 @@ class DualNode2D(Node, DualCell):
             volume.dualCell3D = self
             self.dualCell3D = volume
 
-        self.logger.debug('Initialized DualNode2D')
+        _log.debug('Initialized DualNode2D')
 
 # =============================================================================
 #    METHODS
@@ -390,118 +386,118 @@ if __name__ == '__main__':
     from tools import MyLogging
     import tools.tumcolor as tc
 
-    with MyLogging('dualNode2D', False):
+    set_logging_format(logging.DEBUG)
 
-        n0 = Node(0, 0, 0)
-        n1 = Node(1, 0, 0)
-        n2 = Node(0, 1, 0)
-        nodes0 = [n0, n1, n2]
+    n0 = Node(0, 0, 0)
+    n1 = Node(1, 0, 0)
+    n2 = Node(0, 1, 0)
+    nodes0 = [n0, n1, n2]
 
-        n3 = Node(0, 0, 1)
-        n4 = Node(1, 0, 1)
-        n5 = Node(1, 1, 2)
-        n6 = Node(0, 1, 1)
-        nodes1 = [n3, n4, n5, n6]
+    n3 = Node(0, 0, 1)
+    n4 = Node(1, 0, 1)
+    n5 = Node(1, 1, 2)
+    n6 = Node(0, 1, 1)
+    nodes1 = [n3, n4, n5, n6]
 
-        n7 = Node(0, 0, 2)
-        n8 = Node(1, 0, 2)
-        n9 = Node(0, 1, 2)
-        n10 = Node(0, 0, 3)
-        nodes2 = [n7, n8, n9, n10]
+    n7 = Node(0, 0, 2)
+    n8 = Node(1, 0, 2)
+    n9 = Node(0, 1, 2)
+    n10 = Node(0, 0, 3)
+    nodes2 = [n7, n8, n9, n10]
 
-        n11 = Node(0, 0, 4)
-        n12 = Node(1, 0, 4)
-        n13 = Node(0, 1, 4)
-        nodes3 = [n11, n12, n13]
+    n11 = Node(0, 0, 4)
+    n12 = Node(1, 0, 4)
+    n13 = Node(0, 1, 4)
+    nodes3 = [n11, n12, n13]
 
-        e0 = Edge(n0, n1)
-        e1 = Edge(n1, n2)
-        e2 = Edge(n2, n0)
-        edges0 = [e0, e1, e2]
+    e0 = Edge(n0, n1)
+    e1 = Edge(n1, n2)
+    e2 = Edge(n2, n0)
+    edges0 = [e0, e1, e2]
 
-        e3 = Edge(n3, n4)
-        e4 = Edge(n4, n5)
-        e5 = Edge(n5, n6)
-        e6 = Edge(n6, n3)
-        e7 = Edge(n4, n6)
-        edges1 = [e3, e4, e5, e6, e7]
+    e3 = Edge(n3, n4)
+    e4 = Edge(n4, n5)
+    e5 = Edge(n5, n6)
+    e6 = Edge(n6, n3)
+    e7 = Edge(n4, n6)
+    edges1 = [e3, e4, e5, e6, e7]
 
-        e8 = Edge(n7, n8)
-        e9 = Edge(n8, n9)
-        e10 = Edge(n9, n7)
-        e11 = Edge(n8, n10)
-        e12 = Edge(n10, n7)
-        e13 = Edge(n10, n9)
-        edges2 = [e8, e9, e10, e11, e12, e13]
+    e8 = Edge(n7, n8)
+    e9 = Edge(n8, n9)
+    e10 = Edge(n9, n7)
+    e11 = Edge(n8, n10)
+    e12 = Edge(n10, n7)
+    e13 = Edge(n10, n9)
+    edges2 = [e8, e9, e10, e11, e12, e13]
 
-        e14 = Edge(n11, n12, category='additionalBorder')
-        e15 = Edge(n12, n13, category='inner')
-        e16 = Edge(n13, n11, category='inner')
-        edges3 = [e14, e15, e16]
+    e14 = Edge(n11, n12, category='additionalBorder')
+    e15 = Edge(n12, n13, category='inner')
+    e16 = Edge(n13, n11, category='inner')
+    edges3 = [e14, e15, e16]
 
-        f0 = Face([e0, e1, e2])
-        f1 = Face([[e3, e7, e6], [e5, -e7, e4]])
-        f2 = Face([[e8, e9, e10], [-e8, -e12, -e11], [-e10, -e13, e12]])
-        f3 = Face([e14, e15, e16])
+    f0 = Face([e0, e1, e2])
+    f1 = Face([[e3, e7, e6], [e5, -e7, e4]])
+    f2 = Face([[e8, e9, e10], [-e8, -e12, -e11], [-e10, -e13, e12]])
+    f3 = Face([e14, e15, e16])
 
-        dn0 = DualNode2D(f0)
-        dn1 = DualNode2D(f1)
-        dn2 = DualNode2D(f2)
-        dn3 = DualNode2D(f3)
+    dn0 = DualNode2D(f0)
+    dn1 = DualNode2D(f1)
+    dn2 = DualNode2D(f2)
+    dn3 = DualNode2D(f3)
 
-        (figs, ax) = pf.getFigures(2, 2)
-        for n in nodes0:
-            n.plotNode(ax[0])
-        for e in edges0:
-            e.plotEdge(ax[0])
-        f0.plotFace(ax[0])
-        dn0.color = tc.TUMRose()
-        dn0.plotNode(ax[0], size=150)
+    (figs, ax) = pf.getFigures(2, 2)
+    for n in nodes0:
+        n.plotNode(ax[0])
+    for e in edges0:
+        e.plotEdge(ax[0])
+    f0.plotFace(ax[0])
+    dn0.color = tc.TUMRose()
+    dn0.plotNode(ax[0], size=150)
 
-        for n in nodes1:
-            n.plotNode(ax[1])
-        for e in edges1:
-            e.plotEdge(ax[1])
-        f1.plotFace(ax[1])
-        dn1.color = tc.TUMRose()
-        dn1.plotNode(ax[1], size=150)
+    for n in nodes1:
+        n.plotNode(ax[1])
+    for e in edges1:
+        e.plotEdge(ax[1])
+    f1.plotFace(ax[1])
+    dn1.color = tc.TUMRose()
+    dn1.plotNode(ax[1], size=150)
 
-        for n in nodes2:
-            n.plotNode(ax[2])
-        for e in edges2:
-            e.plotEdge(ax[2])
-        f2.plotFace(ax[2])
-        dn2.color = tc.TUMRose()
-        dn2.plotNode(ax[2], size=150)
+    for n in nodes2:
+        n.plotNode(ax[2])
+    for e in edges2:
+        e.plotEdge(ax[2])
+    f2.plotFace(ax[2])
+    dn2.color = tc.TUMRose()
+    dn2.plotNode(ax[2], size=150)
 
-        for n in nodes3:
-            n.plotNode(ax[3])
-        for e in edges3:
-            e.plotEdge(ax[3])
-        f3.plotFace(ax[3])
-        dn3.color = tc.TUMRose()
-        dn3.plotNode(ax[3], size=150)
+    for n in nodes3:
+        n.plotNode(ax[3])
+    for e in edges3:
+        e.plotEdge(ax[3])
+    f3.plotFace(ax[3])
+    dn3.color = tc.TUMRose()
+    dn3.plotNode(ax[3], size=150)
 
-        cc.printBlue()
-        cc.printBlue('Example 1')
-        cc.printBlue('-'*30)
-        cc.printWhite('Dual:', dn0, '2D primal:', dn0.dualCell2D)
+    cc.printBlue()
+    cc.printBlue('Example 1')
+    cc.printBlue('-'*30)
+    cc.printWhite('Dual:', dn0, '2D primal:', dn0.dualCell2D)
 
-        cc.printBlue()
-        cc.printBlue('Example 2')
-        cc.printBlue('-'*30)
-        cc.printWhite('Dual:', dn1, '2D primal:', dn1.dualCell2D)
-        cc.printWhite('Dual:', dn1, '1D primal:', dn1.dualCell1D)
+    cc.printBlue()
+    cc.printBlue('Example 2')
+    cc.printBlue('-'*30)
+    cc.printWhite('Dual:', dn1, '2D primal:', dn1.dualCell2D)
+    cc.printWhite('Dual:', dn1, '1D primal:', dn1.dualCell1D)
 
-        cc.printBlue()
-        cc.printBlue('Example 3')
-        cc.printBlue('-'*30)
-        cc.printWhite('Dual:', dn2, '2D primal:', dn2.dualCell2D)
-        cc.printWhite('Dual:', dn2, '1D primal:', dn2.dualCell1D)
-        cc.printWhite('Dual:', dn2, '0D primal:', dn2.dualCell0D)
+    cc.printBlue()
+    cc.printBlue('Example 3')
+    cc.printBlue('-'*30)
+    cc.printWhite('Dual:', dn2, '2D primal:', dn2.dualCell2D)
+    cc.printWhite('Dual:', dn2, '1D primal:', dn2.dualCell1D)
+    cc.printWhite('Dual:', dn2, '0D primal:', dn2.dualCell0D)
 
-        cc.printBlue()
-        cc.printBlue('Example 4')
-        cc.printBlue('-'*30)
-        cc.printWhite('Dual:', dn3, '2D primal:', dn3.dualCell2D)
-        cc.printWhite('Dual:', dn3, '1D primal:', dn3.dualCell1D)
+    cc.printBlue()
+    cc.printBlue('Example 4')
+    cc.printBlue('-'*30)
+    cc.printWhite('Dual:', dn3, '2D primal:', dn3.dualCell2D)
+    cc.printWhite('Dual:', dn3, '1D primal:', dn3.dualCell1D)
