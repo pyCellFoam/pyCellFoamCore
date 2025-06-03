@@ -235,7 +235,7 @@ class Edge(BaseEdge, Cell):
 # ------------------------------------------------------------------------
 
     def setUp(self):
-        _log.info('Setting up edge {}'.format(self))
+        _log.debug('Setting up edge {}'.format(self))
         for se in self.__simpleEdges:
             se.delete()
         self.__simpleEdges = []

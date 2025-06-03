@@ -24,6 +24,14 @@ beginning
 if __name__== '__main__':
     import os
     os.chdir('../../')
+    
+
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+
+import logging    
+
 import numpy as np
 #import matplotlib.pyplot as plt
 #from mpl_toolkits.mplot3d import Axes3D
@@ -36,6 +44,15 @@ import tools.colorConsole as cc
 
 from kCells import Cell
 
+from tools.logging_formatter import set_logging_format
+
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 
 #==============================================================================
@@ -72,8 +89,8 @@ class Volume(Cell):
         self.__unalignedFaces = unalignedFaces
         self.color =  tc.TUMRose()
         self.setUp()
-        self.logger.info('Created volume {}'.format(self.infoText))
-        self.logger.debug('Initialized Node')
+        _log.info('Created volume {}'.format(self.infoText))
+        _log.debug('Initialized Node')
 
 
 
@@ -150,7 +167,7 @@ class Volume(Cell):
             self.__calcVolume()
             if self.__volume < 0:
                 newFaces = [-f for f in self.__faces]
-                self.logger.info('{}: Faces pointed in the wrong direction'.format(self.infoText))
+                _log.info('{}: Faces pointed in the wrong direction'.format(self.infoText))
                 self.__faces = newFaces
                 self.__calcVolume()
 
@@ -158,7 +175,7 @@ class Volume(Cell):
                 s.addVolume(self)
             self.__calcBarycenter()
             self.geometryChanged = False
-            self.logger.info('Succesfully set up volume {}'.format(self.infoText))
+            _log.debug('Succesfully set up volume {}'.format(self.infoText))
 
         else:
             self.__faces = []
@@ -205,10 +222,10 @@ class Volume(Cell):
 
         faces = self.__rawFaces.copy()
 
-        myPrintDebug = self.logger.debug
+        myPrintDebug = _log.debug
 #        myPrintDebug = cc.printYellow
-        myPrintInfo = self.logger.info
-        myPrintError = self.logger.error
+        myPrintInfo = _log.info
+        myPrintError = _log.error
 
 
         simpleEdges = []
@@ -305,7 +322,7 @@ class Volume(Cell):
 #                print(e.num)
                 for se in e.simpleEdges:
                     if se in simpleEdges:
-                        self.logger.error('Error, simple edge {} occurs twice in volume {} which is not allowed'.format(se.infoText,self))
+                        _log.error('Error, simple edge {} occurs twice in volume {} which is not allowed'.format(se.infoText,self))
                         closed = False
                     else:
                         simpleEdges.append(se)
@@ -313,7 +330,7 @@ class Volume(Cell):
         for se in simpleEdges :
             mse = -se
             if not mse in simpleEdges:
-                self.logger.error('Error, simple edge {} in the volume {} has no counterpart'.format(se.infoText,self.infoText))
+                _log.error('Error, simple edge {} in the volume {} has no counterpart'.format(se.infoText,self.infoText))
                 closed = False
         return closed
 
@@ -396,7 +413,7 @@ class Volume(Cell):
                             bc[d] += sf.area[0][n] * sf.normalVec[d]*((o[d]+x[d])**2+(o[d]+y[d])**2+(x[d]+y[d])**2)
 
             if self.__volume < 1E-3:
-                self.logger.error('{}: volume is close to zero or negative: {}'.format(self.infoText,self.__volume))
+                _log.error('{}: volume is close to zero or negative: {}'.format(self.infoText,self.__volume))
             else:
                 bc = bc/(24*self.__volume)
         self.__barycenter = bc
@@ -490,7 +507,7 @@ class Volume(Cell):
             if showLabel:
                 ax.text(self.barycenter[0],self.barycenter[1],self.barycenter[2],self.labelText,color=self.color.html)
         else:
-            self.logger.error('Cannot plot empty volume {}'.format(self))
+            _log.error('Cannot plot empty volume {}'.format(self))
 
 
 
@@ -571,16 +588,16 @@ if __name__ == "__main__":
     from kCells.edge import Edge
     from kCells.face import Face
 
-    from tools import MyLogging
+    
+    set_logging_format(logging.DEBUG)
 
-    with MyLogging('Volume'):
 
 
 #        # Close all existing figures
 #        plt.close("all")
 #
-        # Create new figures
-        (figs,ax) = pf.getFigures(numTotal = 4)
+    # Create new figures
+    (figs,ax) = pf.getFigures(numTotal = 4)
 #
 #        cc.printBlue('Creating some nodes')
 #        n1 = Node(0,0,0,num=1)
@@ -685,52 +702,52 @@ if __name__ == "__main__":
 #
 #
 #
-        # Create some Nodes
-        n101 = Node(0,0,0)
-        n102 = Node(10,0,0)
-        n103 = Node(0,10,0)
-        n104 = Node(0,0,10)
-        nodes100 = [n101,n102,n103,n104]
-        for n in nodes100:
-            n.plotNode(ax[1])
+    # Create some Nodes
+    n101 = Node(0,0,0)
+    n102 = Node(10,0,0)
+    n103 = Node(0,10,0)
+    n104 = Node(0,0,10)
+    nodes100 = [n101,n102,n103,n104]
+    for n in nodes100:
+        n.plotNode(ax[1])
 
-        e101 = Edge(n101,n102)
-        e102 = Edge(n102,n103)
-        e103 = Edge(n103,n101)
-        e104 = Edge(n101,n104)
-        e105 = Edge(n102,n104)
-        e106 = Edge(n103,n104)
-        edges100 = [e101,e102,e103,e104,e105,e106]
-        for e in edges100:
-            e.plotEdge(ax[1])
+    e101 = Edge(n101,n102)
+    e102 = Edge(n102,n103)
+    e103 = Edge(n103,n101)
+    e104 = Edge(n101,n104)
+    e105 = Edge(n102,n104)
+    e106 = Edge(n103,n104)
+    edges100 = [e101,e102,e103,e104,e105,e106]
+    for e in edges100:
+        e.plotEdge(ax[1])
 
-        f101 = Face([e101,e105,-e104])
-        f102 = Face([e102,e106,-e105])
-        f103 = Face([e103,e104,-e106])
-        f104 = Face([-e103,-e102,-e101])
-        faces100 = [f101,f102,f103,f104]
+    f101 = Face([e101,e105,-e104])
+    f102 = Face([e102,e106,-e105])
+    f103 = Face([e103,e104,-e106])
+    f104 = Face([-e103,-e102,-e101])
+    faces100 = [f101,f102,f103,f104]
 
-        for f in faces100:
-            f.plotFace(ax[1])
+    for f in faces100:
+        f.plotFace(ax[1])
 
-        v101 = Volume([f101,f102,f103,-f104],unalignedFaces=True)
+    v101 = Volume([f101,f102,f103,-f104],unalignedFaces=True)
 
-        v101.plotVolume(ax[0])
+    v101.plotVolume(ax[0])
 
 #        print([f.area[1] for f in Faces100])
 
 
-        pf.setAxesEqual(ax[1])
-        ax[1].view_init(20,140)
+    pf.setAxesEqual(ax[1])
+    ax[1].view_init(20,140)
 
 
 
-        cc.printBlue('Volume of {}: {}'.format(v101,v101.volume))
+    cc.printBlue('Volume of {}: {}'.format(v101,v101.volume))
 
-        v101 = Volume([],unalignedFaces=True)
+    v101 = Volume([],unalignedFaces=True)
 #
-        v101.category = 'inner'
-        print(v101.category,v101.category1,v101.category2)
+    v101.category = 'inner'
+    print(v101.category,v101.category1,v101.category2)
 #
 
 
