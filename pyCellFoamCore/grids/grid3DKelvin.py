@@ -4601,20 +4601,86 @@ if __name__ == '__main__':
         c.checkIncidenceMatrix(dc.incidenceMatrix1ib,c.incidenceMatrix3bi)
         c.checkIncidenceMatrix(dc.incidenceMatrix1bi,c.incidenceMatrix3ib)
         c.checkIncidenceMatrix(dc.incidenceMatrix1bb,c.incidenceMatrix3bb)
+        #
+        
+        
+    if True:
+        axNum += 1
+        testEdges = []
+        for v in c.borderVolumes:
+            for f in v.faces:
+                for e in f.edges:
+                    if e.isReverse:
+                        e = -e
+                        if not e in testEdges:
+                            testEdges.append(e)
+                            
+        for e in testEdges:
+            e.showLabel=True
+            e.plotEdge(ax[axNum])
+                
+
+
+
 
 
 
     if True:
-        for i,n in enumerate(nodes):
-            print(f"n{i} = Node({n.xCoordinate}, {n.yCoordinate}, {n.zCoordinate})")
+        
+        geometricNodesNew = []
+        geometricEdgesNew = []
+        for v in c.volumes:
+            for f in v.faces:
+                for sf in f.simpleFaces:
+                    for se in sf.simpleEdges:
+                        if se.isGeometrical:
+                            if se.isReverse:
+                                if not -se in geometricEdgesNew:
+                                    geometricEdgesNew.append(-se)
+                            else:
+                                if not se in geometricEdgesNew:
+                                    geometricEdgesNew.append(se)
+                        for n in [se.startNode, se.endNode]:
+                            if n.isGeometrical:
+                                if not n in geometricNodesNew:
+                                    geometricNodesNew.append(n)
+        
+        # for v in c.volumes:
+        #     for f in v.faces:
+        #         for e in 
+        
+        # Nodes
+        all_nodes = c.nodes + geometricNodesNew
+        for n in all_nodes:
+            print(f"n{n.num} = Node({n.xCoordinate}, {n.yCoordinate}, {n.zCoordinate})")
 
         print("nodes = [", end="")
-        for i in range(len(nodes)-1):
-            print(f"n{i}", end=", ")
-        print(f"n{len(nodes)-1}]", end="")
-
-
-#
+        for n in all_nodes[:-1]:
+            print(f"n{n.num}", end=", ")
+        print(f"n{all_nodes[-1].num}]")
+        
+        # Edges
+        all_edges = c.edges + geometricEdgesNew 
+        for e in all_edges:
+            print(f"e{e.num} = Edge(n{e.startNode.num}, n{e.endNode.num})")
+        
+        print("edges = [", end="")
+        for e in all_edges[:-1]:
+            print(f"e{e.num}", end=", ")
+        print(f"e{all_edges[-1].num}]")
+        
+        # Faces
+        for f in c.faces:
+            edges_nums = [str(e).replace("_i","").replace("_b","").replace("_B","") for e in f.edges]
+            print(f"f{f.num} = Face([{', '.join(edges_nums)}])")
+            
+        print("faces = [", end="")
+        for f in c.faces[:-1]:
+            print(f"f{f.num}", end=", ")
+        print(f"f{c.faces[-1].num}]")
+        
+        
+        
 #
 
 
