@@ -4676,7 +4676,7 @@ if __name__ == '__main__':
         # Nodes
         all_nodes = c.nodes + c.geometricNodes
         for n in all_nodes:
-            print(f"n{n.num} = Node({n.xCoordinate}, {n.yCoordinate}, {n.zCoordinate})")
+            print(f"n{n.num} = Node({n.xCoordinate}, {n.yCoordinate}, {n.zCoordinate}, num={n.num})")
 
         print("nodes = [", end="")
         for n in all_nodes[:-1]:
@@ -4692,7 +4692,7 @@ if __name__ == '__main__':
                 text_geo_nodes = ", geometricNodes=[" + ", ".join(geo_node_nums) + "]"
 
 
-            print(f"e{e.num} = Edge(n{e.startNode.num}, n{e.endNode.num}{text_geo_nodes})")
+            print(f"e{e.num} = Edge(n{e.startNode.num}, n{e.endNode.num}{text_geo_nodes}, num={e.num})")
 
         print("edges = [", end="")
         for e in all_edges[:-1]:
@@ -4716,7 +4716,7 @@ if __name__ == '__main__':
                 num_edges_text = f"[{num_edges_f[0]}]"
             else:
                 num_edges_text = "[" + ", ".join([f"[{num_f}]" for num_f in num_edges_f]) + "]"
-            print(f"f{f.num} = Face({num_edges_text})")
+            print(f"f{f.num} = Face({num_edges_text}, num={f.num})")
 
         print("faces = [", end="")
         for f in c.faces[:-1]:
@@ -4726,7 +4726,7 @@ if __name__ == '__main__':
 
         # Volumes:
         for v in c.volumes:
-            print(f"v{v.num} = Volume([{', '.join([str(f).replace("_i","").replace("_b","").replace("_B","") for f in v.faces])}])")
+            print(f"v{v.num} = Volume([{', '.join([str(f).replace("_i","").replace("_b","").replace("_B","") for f in v.faces])}], num={v.num})")
 
         print("volumes = [", end="")
         print(", ".join([f"v{v.num}" for v in c.volumes]), end="")
