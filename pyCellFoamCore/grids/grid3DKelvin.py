@@ -4662,78 +4662,107 @@ if __name__ == '__main__':
         #     for f in v.faces:
         #         for e in
 
+        nodes_in_border_volumes = []
 
-        edges_new = []
 
-        for v in c.volumes:
-            for f in v.faces:
-                for e in f.edges:
-                    if e.isReverse:
-                        e = -e
-                    if not e in edges_new:
-                        edges_new.append(e)
+
+        # edges_new = []
+
+        # for v in c.volumes:
+        #     for f in v.faces:
+        #         for e in f.edges:
+        #             if e.isReverse:
+        #                 e = -e
+        #             if not e in edges_new:
+        #                 edges_new.append(e)
 
         # Nodes
         all_nodes = c.nodes + c.geometricNodes
+        new_nodes = []
         for n in all_nodes:
-            print(f"n{n.num} = Node({n.xCoordinate}, {n.yCoordinate}, {n.zCoordinate}, num={n.num})")
+            in_border_volume = n.num in [172, 168, 169, 173]
+            for e in n.edges:
+                if in_border_volume:
+                    break
+                for f in e.faces:
+                    if in_border_volume:
+                        break
+                    for v in f.volumes:
+                        if in_border_volume:
+                            break
+                        if v.category1 == "border":
+                            in_border_volume=True
+
+            if in_border_volume:
+                print(f"n{n.num} = Node({n.xCoordinate}, {n.yCoordinate}, {n.zCoordinate}, num={n.num})")
+                new_nodes.append(n)
 
         print("nodes = [", end="")
-        for n in all_nodes[:-1]:
-            print(f"n{n.num}", end=", ")
-        print(f"n{all_nodes[-1].num}]")
+        print(", ".join([f"n{n.num}" for n in new_nodes]), end="")
+        print("]")
+
+
 
         # Edges
+        new_edges = []
         all_edges = c.edges + c.geometricEdges
         for e in all_edges:
-            text_geo_nodes = ""
-            geo_node_nums = [f"n{n.num}" for n in e.geometricNodes]
-            if geo_node_nums:
-                text_geo_nodes = ", geometricNodes=[" + ", ".join(geo_node_nums) + "]"
+            if e.startNode in new_nodes and e.endNode in new_nodes:
+                text_geo_nodes = ""
+                geo_node_nums = [f"n{n.num}" for n in e.geometricNodes]
+                if geo_node_nums:
+                    text_geo_nodes = ", geometricNodes=[" + ", ".join(geo_node_nums) + "]"
 
 
-            print(f"e{e.num} = Edge(n{e.startNode.num}, n{e.endNode.num}{text_geo_nodes}, num={e.num})")
+                print(f"e{e.num} = Edge(n{e.startNode.num}, n{e.endNode.num}{text_geo_nodes}, num={e.num})")
+                new_edges.append(e)
 
         print("edges = [", end="")
-        for e in all_edges[:-1]:
-            print(f"e{e.num}", end=", ")
-        print(f"e{all_edges[-1].num}]")
+        print(", ".join([f"e{e.num}" for e in new_edges]), end="")
+        print("]")
 
         # Faces
+        new_faces = []
         for f in c.faces:
-            num_edges_text = ""
-            num_edges_f = []
-            for sf in f.simpleFaces:
-                num_edges_sf = []
-                for se in sf.simpleEdges:
-                    if not se.num in num_edges_sf:
-                        if se.isReverse:
-                            num_edges_sf.append(-se.num)
-                        else:
-                            num_edges_sf.append(se.num)
-                num_edges_f.append(", ".join([f"-e{-e_num}" if e_num<0 else f"e{e_num}" for e_num in num_edges_sf]))
-            if len(num_edges_f) == 1:
-                num_edges_text = f"[{num_edges_f[0]}]"
-            else:
-                num_edges_text = "[" + ", ".join([f"[{num_f}]" for num_f in num_edges_f]) + "]"
-            print(f"f{f.num} = Face({num_edges_text}, num={f.num})")
+            edges_no_sign = [-e if e.isReverse else e for e in f.edges]
+            if all([e in new_edges for e in edges_no_sign]):
+                num_edges_text = ""
+                num_edges_f = []
+                for sf in f.simpleFaces:
+                    num_edges_sf = []
+                    for se in sf.simpleEdges:
+                        if not se.num in num_edges_sf:
+                            if se.isReverse:
+                                num_edges_sf.append(-0.1 if se.num==0 else -se.num)
+                            else:
+                                num_edges_sf.append(0.1 if se.num==0 else se.num)
+                    num_edges_f.append(", ".join([f"-e{-int(e_num)}" if e_num<0 else f"e{int(e_num)}" for e_num in num_edges_sf]))
+                if len(num_edges_f) == 1:
+                    num_edges_text = f"[{num_edges_f[0]}]"
+                else:
+                    num_edges_text = "[" + ", ".join([f"[{num_f}]" for num_f in num_edges_f]) + "]"
+                print(f"f{f.num} = Face({num_edges_text}, num={f.num})")
+                new_faces.append(f)
 
         print("faces = [", end="")
-        for f in c.faces[:-1]:
-            print(f"f{f.num}", end=", ")
-        print(f"f{c.faces[-1].num}]")
+        print(", ".join([f"f{f.num}" for f in new_faces]), end="")
+        print("]")
 
 
-        # Volumes:
+        # Volumes
+        new_volumes = []
         for v in c.volumes:
-            print(f"v{v.num} = Volume([{', '.join([str(f).replace("_i","").replace("_b","").replace("_B","") for f in v.faces])}], num={v.num})")
+            faces_no_sign = [-f if f.isReverse else f for f in v.faces]
+            if all([f in new_faces for f in faces_no_sign]):
+                print(f"v{v.num} = Volume([{', '.join([str(f).replace("_i","").replace("_b","").replace("_B","") for f in v.faces])}], num={v.num})")
+                new_volumes.append(v)
 
         print("volumes = [", end="")
-        print(", ".join([f"v{v.num}" for v in c.volumes]), end="")
+        print(", ".join([f"v{v.num}" for v in new_volumes]), end="")
         print("]")
 
         print("volumes_b = [", end="")
-        print(", ".join([f"v{v.num}"  for v in c.volumes if v.category1 == "border"]), end="")
+        print(", ".join([f"v{v.num}"  for v in new_volumes if v.category1 == "border"]), end="")
         print("]")
 
 
