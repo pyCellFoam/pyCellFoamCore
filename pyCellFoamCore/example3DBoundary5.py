@@ -17,6 +17,10 @@ import tools.placeFigures as pf
 from kCells.node.node import Node
 from kCells.edge.edge import Edge
 from kCells.face.face import Face
+from kCells.volume.volume import Volume
+
+from complex.primalComplex3D import PrimalComplex3D
+from complex.dualComplex3D import DualComplex3D
 
 
 
@@ -195,11 +199,11 @@ n164 = Node(15.0, -5.0, 10.0)
 n165 = Node(15.0, -5.0, 0.0)
 n166 = Node(-5.0, -5.0, 10.0)
 n167 = Node(-5.0, -5.0, 0.0)
-n175 = Node(-5.0, -5.0, 15.0)
-n171 = Node(15.0, -5.0, 15.0)
 n170 = Node(15.0, -5.0, -5.0)
+n171 = Node(15.0, -5.0, 15.0)
 n174 = Node(-5.0, -5.0, -5.0)
-nodes = [n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, n13, n14, n15, n16, n17, n18, n19, n20, n21, n22, n23, n24, n25, n26, n27, n28, n29, n30, n31, n32, n33, n34, n35, n36, n37, n38, n39, n40, n41, n42, n43, n44, n45, n46, n47, n48, n49, n50, n51, n52, n53, n54, n55, n56, n57, n58, n59, n60, n61, n62, n63, n64, n65, n66, n67, n68, n69, n70, n71, n72, n73, n74, n75, n76, n77, n78, n79, n80, n81, n82, n83, n84, n85, n86, n87, n88, n89, n90, n91, n92, n93, n94, n95, n96, n97, n98, n99, n100, n101, n102, n103, n104, n105, n106, n107, n108, n109, n110, n111, n112, n113, n114, n115, n116, n117, n118, n119, n120, n121, n122, n123, n124, n125, n126, n127, n128, n129, n130, n131, n132, n133, n134, n135, n136, n137, n138, n139, n140, n141, n142, n143, n144, n145, n148, n149, n152, n153, n154, n155, n156, n157, n158, n159, n160, n161, n162, n163, n168, n169, n172, n173, n146, n147, n150, n151, n164, n165, n166, n167, n175, n171, n170, n174]
+n175 = Node(-5.0, -5.0, 15.0)
+nodes = [n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, n13, n14, n15, n16, n17, n18, n19, n20, n21, n22, n23, n24, n25, n26, n27, n28, n29, n30, n31, n32, n33, n34, n35, n36, n37, n38, n39, n40, n41, n42, n43, n44, n45, n46, n47, n48, n49, n50, n51, n52, n53, n54, n55, n56, n57, n58, n59, n60, n61, n62, n63, n64, n65, n66, n67, n68, n69, n70, n71, n72, n73, n74, n75, n76, n77, n78, n79, n80, n81, n82, n83, n84, n85, n86, n87, n88, n89, n90, n91, n92, n93, n94, n95, n96, n97, n98, n99, n100, n101, n102, n103, n104, n105, n106, n107, n108, n109, n110, n111, n112, n113, n114, n115, n116, n117, n118, n119, n120, n121, n122, n123, n124, n125, n126, n127, n128, n129, n130, n131, n132, n133, n134, n135, n136, n137, n138, n139, n140, n141, n142, n143, n144, n145, n148, n149, n152, n153, n154, n155, n156, n157, n158, n159, n160, n161, n162, n163, n168, n169, n172, n173, n146, n147, n150, n151, n164, n165, n166, n167, n170, n171, n174, n175]
 e0 = Edge(n0, n1)
 e1 = Edge(n1, n2)
 e2 = Edge(n2, n3)
@@ -504,14 +508,14 @@ e338 = Edge(n172, n145)
 e339 = Edge(n173, n158)
 e340 = Edge(n173, n162)
 e341 = Edge(n173, n149)
-e348 = Edge(n16, n20)
-e349 = Edge(n37, n40)
-e350 = Edge(n104, n100)
-e351 = Edge(n84, n80)
-e352 = Edge(n108, n107)
-e353 = Edge(n32, n31)
-e354 = Edge(n95, n94)
-e355 = Edge(n15, n14)
+e348 = Edge(n16, n20, geometricNodes=[n147])
+e349 = Edge(n37, n40, geometricNodes=[n146])
+e350 = Edge(n104, n100, geometricNodes=[n150])
+e351 = Edge(n84, n80, geometricNodes=[n151])
+e352 = Edge(n108, n107, geometricNodes=[n164])
+e353 = Edge(n32, n31, geometricNodes=[n165])
+e354 = Edge(n95, n94, geometricNodes=[n166])
+e355 = Edge(n15, n14, geometricNodes=[n167])
 e271 = Edge(n146, n147)
 e279 = Edge(n150, n151)
 e316 = Edge(n164, n165)
@@ -701,22 +705,86 @@ f198 = Face([e337, e313, -e89, -e266, -e338])
 f199 = Face([e340, e309, -e203, -e300, -e339])
 f200 = Face([e339, e302, -e190, -e275, -e341])
 f201 = Face([e340, e312, -e201, -e278, -e341])
-f220 = Face([e348, e32, e244, e67, -e349, e54, e251, e21])
-f221 = Face([e350, -e163, -e240, -e128, -e351, -e147, -e248, -e176])
-f222 = Face([e352, e179, e249, -e53, -e353, e45, -e261, -e180])
-f223 = Face([e354, e155, e257, -e16, -e355, -e18, -e250, e148])
-f224 = Face([e301, e143, -e154, -e155, -e354, -e148, -e149, e147, e351, e128, e129, e130, -e303])
-f225 = Face([-e350, e176, -e178, -e179, -e352, e290, e161, e162, e163, e180, e181, -e170, -e293])
-f226 = Face([e353, e53, e52, -e54, e349, e286, e57, -e46, -e45, -e67, -e66, -e65, -e287])
-f227 = Face([e355, e16, e15, -e26, -e295, -e348, -e21, e19, e18, e298, -e34, -e33, -e32])
+f220 = Face([[e271, e348, e32, e244, e67, -e349], [-e349, e54, e251, e21, e348, -e271]])
+f221 = Face([[e350, -e163, -e240, -e128, -e351, -e279], [e279, -e351, -e147, -e248, -e176, e350]])
+f222 = Face([[e352, e179, e249, -e53, -e353, -e316], [e316, -e353, e45, -e261, -e180, e352]])
+f223 = Face([[e354, e155, e257, -e16, -e355, -e319], [e319, -e355, -e18, -e250, e148, e354]])
+f224 = Face([[e346, e301, e143, -e154, -e155, -e354, -e345], [e345, -e354, -e148, -e149, e147, e351, -e347], [e347, e351, e128, e129, e130, -e303, -e346]])
+f225 = Face([[e333, -e350, e176, -e178, -e179, -e352, -e334], [e335, e290, e161, e162, e163, -e350, -e333], [e334, -e352, e180, e181, -e170, -e293, -e335]])
+f226 = Face([[e331, e353, e53, e52, -e54, e349, -e330], [e332, e286, e57, -e46, -e45, e353, -e331], [e330, e349, -e67, -e66, -e65, -e287, -e332]])
+f227 = Face([[e342, e355, e16, e15, -e26, -e295, -e343], [e344, -e348, -e21, e19, e18, e355, -e342], [e343, e298, -e34, -e33, -e32, -e348, -e344]])
+
+
+
 faces = [f0, f1, f2, f3, f4, f6, f7, f9, f10, f11, f14, f15, f16, f17, f18, f21, f23, f24, f25, f27, f28, f29, f30, f31, f32, f33, f34, f35, f36, f37, f38, f39, f40, f41, f42, f43, f44, f45, f46, f47, f48, f49, f50, f51, f53, f54, f55, f58, f59, f61, f62, f63, f64, f67, f68, f69, f72, f73, f74, f75, f76, f77, f78, f79, f80, f81, f82, f83, f84, f85, f86, f87, f88, f89, f90, f91, f92, f93, f94, f95, f96, f97, f98, f99, f100, f101, f102, f103, f104, f105, f106, f107, f108, f109, f110, f111, f112, f113, f114, f115, f116, f117, f118, f119, f120, f121, f122, f123, f124, f125, f126, f127, f128, f129, f130, f131, f132, f133, f134, f135, f136, f137, f138, f139, f141, f142, f144, f145, f146, f147, f150, f151, f152, f153, f154, f155, f156, f157, f158, f159, f160, f161, f162, f163, f164, f165, f166, f167, f168, f169, f170, f171, f172, f173, f174, f175, f177, f178, f182, f183, f184, f185, f186, f187, f188, f189, f196, f197, f198, f199, f200, f201, f220, f221, f222, f223, f224, f225, f226, f227]
+
+
+v2 = Volume([f27, f28, f29, f30, f31, -f7, f32, f33, -f34, -f35, -f36, -f37, -f38, -f39])
+v3 = Volume([f40, f41, f42, f43, f44, -f21, f45, f46, -f32, -f47, -f48, -f49, -f50, -f51])
+v6 = Volume([f77, f78, f79, f80, f81, -f59, f82, f83, -f84, -f85, -f86, -f87, -f88, -f27])
+v7 = Volume([f89, f90, f91, f92, f93, -f72, f94, f95, -f82, -f96, -f97, -f98, -f99, -f40])
+v8 = Volume([f100, f75, f99, f85, f62, -f101, f102, f103, -f104, -f17, -f44, -f28, -f2, -f105])
+v9 = Volume([-f100, -f54, -f78, -f93, -f68, -f106, f107, f108, -f109, f110])
+v10 = Volume([f105, f24, f50, f35, f10, -f111, -f112, f113, f114, -f115])
+v11 = Volume([-f116, f76, f61, f101, f117, -f118, -f18, -f1, -f119, f120])
+v12 = Volume([f121, f98, f86, -f122, f123, -f103, -f43, -f29, -f124, -f125])
+v13 = Volume([-f126, f63, f88, f127, -f128, f104, -f3, -f31, f129, f130])
+v14 = Volume([f131, f96, f74, -f132, f133, -f102, -f16, -f41, -f134, -f135])
+v15 = Volume([f124, f49, f36, f137, -f136, f112, -f138, f139])
+v16 = Volume([f119, f25, f9, -f114, f142, -f141, f220])
+v17 = Volume([-f144, f145, -f146, -f108, -f92, -f79, -f121, f147])
+v18 = Volume([-f150, f151, f106, -f69, -f53, f116, f221])
+v19 = Volume([f134, f47, f23, f152, f111, -f153, -f154, f155])
+v20 = Volume([f156, f157, -f107, -f158, -f90, -f67, -f131, -f159])
+v21 = Volume([-f129, f11, f38, f162, -f113, -f161, f163, -f160])
+v22 = Volume([-f165, f167, f109, -f166, -f55, -f81, f126, f164])
+v23 = Volume([-f168, f97, -f133, f122, -f42, f169, f170, -f171])
+v24 = Volume([f173, -f172, f175, f87, -f123, f128, -f30, -f174])
+v25 = Volume([-f177, f73, f132, -f117, -f15, f178, f222])
+v26 = Volume([-f182, f64, f118, -f127, -f4, f183, f223])
+v27 = Volume([-f169, f48, f136, f153, -f184, -f185, -f186])
+v28 = Volume([f187, -f145, -f157, -f91, f189, -f188, f168])
+v31 = Volume([f174, f37, f196, f198, -f162, -f137, -f197])
+v32 = Volume([f200, f199, -f201, -f80, f146, f166, -f173])
+v41 = Volume([f53, f54, f55, f58, f59, -f61, -f62, -f63, -f64, -f0, -f151, -f167, f182, f224])
+v44 = Volume([f67, f68, f69, f72, -f58, -f74, -f73, -f75, -f76, -f14, f150, f158, f177, f225])
+v47 = Volume([f14, f15, f16, f17, f18, f21, -f6, -f23, -f24, -f25, -f178, -f142, -f152, f226])
+v50 = Volume([f0, f1, f2, f3, f4, f6, f7, -f9, -f10, -f11, -f183, f141, f161, f227])
+volumes = [v2, v3, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23, v24, v25, v26, v27, v28, v31, v32, v41, v44, v47, v50]
+
+
+volumes_b = [v11, v16, v18, v25, v26, v41, v44, v47, v50]
+
+for v in volumes_b:
+    v.category1 = "border"
+
+pc = PrimalComplex3D(nodes, edges, faces, volumes)
+dc = DualComplex3D(pc)
+
 (figs,ax) = pf.getFigures(numTotal=8)
 
 for n in nodes:
     n.plotNode(ax[0], showLabel=False)
-    
+
 for e in edges:
     e.plotEdge(ax[1], showLabel=False, showArrow=False)
-    
+
 for f in faces:
     f.plotFace(ax[2], showLabel=False, showNormalVec=False, showBarycenter=False)
+
+for v in volumes:
+    v.plotVolume(ax[3], showLabel=False, showBarycenter=False, showNormalVec=False)
+
+
+for n in dc.nodes:
+    n.plotNode(ax[4], showLabel=False)
+
+for e in  dc.edges:
+    e.plotEdge(ax[5], showLabel=False, showArrow=False)
+
+for f in dc.faces:
+    f.plotFace(ax[6], showLabel=False, showNormalVec=False, showBarycenter=False)
+
+
+
+

@@ -4602,55 +4602,79 @@ if __name__ == '__main__':
         c.checkIncidenceMatrix(dc.incidenceMatrix1bi,c.incidenceMatrix3ib)
         c.checkIncidenceMatrix(dc.incidenceMatrix1bb,c.incidenceMatrix3bb)
         #
-        
-        
+
+
     if True:
         axNum += 1
         testEdges = []
-        for v in c.borderVolumes:
+        # for v in c.borderVolumes:
+        #     for f in v.faces:
+        #         for e in f.edges:
+        #             if e.isReverse:
+        #                 e = -e
+        #                 if not e in testEdges:
+        #                     testEdges.append(e)
+
+
+        v = c.volumes[14]
+        # v.plotVolume(ax[axNum])
+        for f in v.faces:
+            # f.plotFace(ax[axNum])
+            for e in f.edges + f.geometricEdges:
+                if e.isReverse:
+                    e = -e
+                if not e in testEdges:
+                    testEdges.append(e)
+
+        for e in testEdges:
+            e.showLabel=True
+            e.plotEdge(ax[axNum])
+
+
+
+
+
+
+
+
+
+    if True:
+
+        # geometricNodesNew = []
+        # geometricEdgesNew = []
+        # for v in c.volumes:
+        #     for f in v.faces:
+        #         for sf in f.simpleFaces:
+        #             for se in sf.simpleEdges:
+        #                 if se.isGeometrical:
+        #                     if se.isReverse:
+        #                         if not -se in geometricEdgesNew:
+        #                             geometricEdgesNew.append(-se)
+        #                     else:
+        #                         if not se in geometricEdgesNew:
+        #                             geometricEdgesNew.append(se)
+        #                 for n in [se.startNode, se.endNode]:
+        #                     if n.isGeometrical:
+        #                         if not n in geometricNodesNew:
+        #                             geometricNodesNew.append(n)
+
+        # for v in c.volumes:
+        #     for f in v.faces:
+        #         for e in
+
+
+        edges_new = []
+
+        for v in c.volumes:
             for f in v.faces:
                 for e in f.edges:
                     if e.isReverse:
                         e = -e
-                        if not e in testEdges:
-                            testEdges.append(e)
-                            
-        for e in testEdges:
-            e.showLabel=True
-            e.plotEdge(ax[axNum])
-                
+                    if not e in edges_new:
+                        edges_new.append(e)
 
-
-
-
-
-
-    if True:
-        
-        geometricNodesNew = []
-        geometricEdgesNew = []
-        for v in c.volumes:
-            for f in v.faces:
-                for sf in f.simpleFaces:
-                    for se in sf.simpleEdges:
-                        if se.isGeometrical:
-                            if se.isReverse:
-                                if not -se in geometricEdgesNew:
-                                    geometricEdgesNew.append(-se)
-                            else:
-                                if not se in geometricEdgesNew:
-                                    geometricEdgesNew.append(se)
-                        for n in [se.startNode, se.endNode]:
-                            if n.isGeometrical:
-                                if not n in geometricNodesNew:
-                                    geometricNodesNew.append(n)
-        
-        # for v in c.volumes:
-        #     for f in v.faces:
-        #         for e in 
-        
         # Nodes
-        all_nodes = c.nodes + geometricNodesNew
+        all_nodes = c.nodes + c.geometricNodes
         for n in all_nodes:
             print(f"n{n.num} = Node({n.xCoordinate}, {n.yCoordinate}, {n.zCoordinate})")
 
@@ -4658,29 +4682,66 @@ if __name__ == '__main__':
         for n in all_nodes[:-1]:
             print(f"n{n.num}", end=", ")
         print(f"n{all_nodes[-1].num}]")
-        
+
         # Edges
-        all_edges = c.edges + geometricEdgesNew 
+        all_edges = c.edges + c.geometricEdges
         for e in all_edges:
-            print(f"e{e.num} = Edge(n{e.startNode.num}, n{e.endNode.num})")
-        
+            text_geo_nodes = ""
+            geo_node_nums = [f"n{n.num}" for n in e.geometricNodes]
+            if geo_node_nums:
+                text_geo_nodes = ", geometricNodes=[" + ", ".join(geo_node_nums) + "]"
+
+
+            print(f"e{e.num} = Edge(n{e.startNode.num}, n{e.endNode.num}{text_geo_nodes})")
+
         print("edges = [", end="")
         for e in all_edges[:-1]:
             print(f"e{e.num}", end=", ")
         print(f"e{all_edges[-1].num}]")
-        
+
         # Faces
         for f in c.faces:
-            edges_nums = [str(e).replace("_i","").replace("_b","").replace("_B","") for e in f.edges]
-            print(f"f{f.num} = Face([{', '.join(edges_nums)}])")
-            
+            num_edges_text = ""
+            num_edges_f = []
+            for sf in f.simpleFaces:
+                num_edges_sf = []
+                for se in sf.simpleEdges:
+                    if not se.num in num_edges_sf:
+                        if se.isReverse:
+                            num_edges_sf.append(-se.num)
+                        else:
+                            num_edges_sf.append(se.num)
+                num_edges_f.append(", ".join([f"-e{-e_num}" if e_num<0 else f"e{e_num}" for e_num in num_edges_sf]))
+            if len(num_edges_f) == 1:
+                num_edges_text = f"[{num_edges_f[0]}]"
+            else:
+                num_edges_text = "[" + ", ".join([f"[{num_f}]" for num_f in num_edges_f]) + "]"
+            print(f"f{f.num} = Face({num_edges_text})")
+
         print("faces = [", end="")
         for f in c.faces[:-1]:
             print(f"f{f.num}", end=", ")
         print(f"f{c.faces[-1].num}]")
-        
-        
-        
+
+
+        # Volumes:
+        for v in c.volumes:
+            print(f"v{v.num} = Volume([{', '.join([str(f).replace("_i","").replace("_b","").replace("_B","") for f in v.faces])}])")
+
+        print("volumes = [", end="")
+        print(", ".join([f"v{v.num}" for v in c.volumes]), end="")
+        print("]")
+
+        print("volumes_b = [", end="")
+        print(", ".join([f"v{v.num}"  for v in c.volumes if v.category1 == "border"]), end="")
+        print("]")
+
+
+
+
+
+
+
 #
 
 
