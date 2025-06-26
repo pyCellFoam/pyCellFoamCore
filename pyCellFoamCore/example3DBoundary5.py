@@ -758,7 +758,7 @@ volumes_b = [v11, v16, v18, v25, v26, v41, v44, v47, v50]
 for v in volumes_b:
     v.category1 = "border"
 
-pc = PrimalComplex3D(nodes, edges, faces, volumes)
+pc = PrimalComplex3D(nodes, edges, faces, volumes, renumber=False)
 dc = DualComplex3D(pc)
 
 (figs,ax) = pf.getFigures(numTotal=8)
@@ -778,12 +778,21 @@ for v in volumes:
 
 for n in dc.nodes:
     n.plotNode(ax[4], showLabel=False)
+    n.plotNode(ax[1], showLabel=False)
 
 for e in  dc.edges:
     e.plotEdge(ax[5], showLabel=False, showArrow=False)
 
 for f in dc.faces:
     f.plotFace(ax[6], showLabel=False, showNormalVec=False, showBarycenter=False)
+
+
+n_test = nodes[0]
+n_test.plotNode(ax[1])
+n_test.dualCell3D.plotVolume(ax[1])
+n_test.dualCell3D.faces[-1].plotFace(ax[1])
+
+
 
 
 
