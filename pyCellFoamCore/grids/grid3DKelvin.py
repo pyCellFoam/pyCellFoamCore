@@ -248,7 +248,7 @@ Layer 5
 if __name__ == '__main__':
     import os
     os.chdir('../')
-    
+
 import logging
 
 from kCells import Node
@@ -3791,7 +3791,7 @@ class Grid3DKelvin(PrimalComplex3D):
 
 if __name__ == '__main__':
     import random
-    
+
     set_logging_format(logging.DEBUG)
 
 #        c = getComplex(numCells-1,
@@ -3814,7 +3814,7 @@ if __name__ == '__main__':
             v.color = tc.TUMBlack()
 
 
-    if True:
+    if False:
         dc = DualComplex3D(c, createFaces=True, createVolumes=True)
     else:
         dc = False
@@ -4601,6 +4601,19 @@ if __name__ == '__main__':
         c.checkIncidenceMatrix(dc.incidenceMatrix1ib,c.incidenceMatrix3bi)
         c.checkIncidenceMatrix(dc.incidenceMatrix1bi,c.incidenceMatrix3ib)
         c.checkIncidenceMatrix(dc.incidenceMatrix1bb,c.incidenceMatrix3bb)
+
+
+
+    if True:
+        for i,n in enumerate(nodes):
+            print(f"n{i} = Node({n.xCoordinate}, {n.yCoordinate}, {n.zCoordinate})")
+
+        print("nodes = [", end="")
+        for i in range(len(nodes)-1):
+            print(f"n{i}", end=", ")
+        print(f"n{len(nodes)-1}]", end="")
+
+
 #
 #
 
