@@ -13,6 +13,7 @@ import logging
 
 from tools.logging_formatter import set_logging_format
 import tools.placeFigures as pf
+import tools.tumcolor as tc
 
 from kCells.node.node import Node
 from kCells.edge.edge import Edge
@@ -404,7 +405,9 @@ for v in volumes_b:
     v.category1 = "border"
 
 pc = PrimalComplex3D(nodes, edges, faces, volumes, renumber=True)
-dc = DualComplex3D(pc)
+dc = None
+# dc = DualComplex3D(pc)
+
 
 (figs,ax) = pf.getFigures(numTotal=8)
 
@@ -412,28 +415,29 @@ for n in nodes:
     n.plotNode(ax[0], showLabel=False)
 
 for e in edges:
-    e.plotEdge(ax[1], showLabel=False, showArrow=False)
+    e.plotEdge(ax[1], showLabel=True, showArrow=False)
     e.plotEdge(ax[2], showLabel=False, showArrow=False)
 
 for f in faces:
     f.plotFace(ax[2], showLabel=False, showNormalVec=False, showBarycenter=False)
 
+v50.color = tc.TUMBlack()
 for v in volumes:
     v.plotVolume(ax[3], showLabel=False, showBarycenter=False, showNormalVec=False)
 
+if dc:
+    for n in dc.nodes:
+        n.plotNode(ax[4], showLabel=False)
+        n.plotNode(ax[1], showLabel=False)
 
-for n in dc.nodes:
-    n.plotNode(ax[4], showLabel=False)
-    n.plotNode(ax[1], showLabel=False)
+    for e in  dc.edges:
+        e.plotEdge(ax[5], showLabel=False, showArrow=False)
 
-for e in  dc.edges:
-    e.plotEdge(ax[5], showLabel=False, showArrow=False)
+    for f in dc.faces:
+        f.plotFace(ax[6], showLabel=False, showNormalVec=False, showBarycenter=False)
 
-for f in dc.faces:
-    f.plotFace(ax[6], showLabel=False, showNormalVec=False, showBarycenter=False)
-
-for v in dc.volumes:
-    v.plotVolume(ax[7], showLabel=False, showBarycenter=False)
+    for v in dc.volumes:
+        v.plotVolume(ax[7], showLabel=False, showBarycenter=False)
 
 
 # n_test = nodes[0]

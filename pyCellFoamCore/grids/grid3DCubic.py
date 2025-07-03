@@ -23,10 +23,10 @@ if __name__ == '__main__':
     import os
     os.chdir('../')
 
-from kCells import Node
-from kCells import Edge
-from kCells import Face
-from kCells import Volume
+from kCells.node.node import Node
+from kCells.edge.edge import Edge
+from kCells.face.face import Face
+from kCells.volume.volume import Volume
 from complex import PrimalComplex3D, DualComplex3D
 from tools import MyLogging
 import tools.placeFigures as pf
