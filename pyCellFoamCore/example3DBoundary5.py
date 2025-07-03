@@ -403,7 +403,7 @@ volumes.append(v1000)
 for v in volumes_b:
     v.category1 = "border"
 
-pc = PrimalComplex3D(nodes, edges, faces, volumes, renumber=False)
+pc = PrimalComplex3D(nodes, edges, faces, volumes, renumber=True)
 dc = DualComplex3D(pc)
 
 (figs,ax) = pf.getFigures(numTotal=8)
