@@ -30,28 +30,18 @@ set_logging_format(logging.DEBUG)
 
 n0 = Node(0.0, -2.5, 5.0, num=0)
 n1 = Node(2.5, 0.0, 5.0, num=1)
-# n2 = Node(0.0, 2.5, 5.0, num=2)
 n3 = Node(-2.5, 0.0, 5.0, num=3)
 n4 = Node(0.0, -5.0, 2.5, num=4)
 n5 = Node(5.0, 0.0, 2.5, num=5)
-# n6 = Node(0.0, 5.0, 2.5, num=6)
 n7 = Node(-5.0, 0.0, 2.5, num=7)
 n8 = Node(2.5, -5.0, 0.0, num=8)
 n9 = Node(5.0, -2.5, 0.0, num=9)
-# n10 = Node(5.0, 2.5, 0.0, num=10)
-# n11 = Node(2.5, 5.0, 0.0, num=11)
-# n12 = Node(-2.5, 5.0, 0.0, num=12)
-# n13 = Node(-5.0, 2.5, 0.0, num=13)
 n14 = Node(-5.0, -2.5, 0.0, num=14)
 n15 = Node(-2.5, -5.0, 0.0, num=15)
 n16 = Node(0.0, -5.0, -2.5, num=16)
 n17 = Node(5.0, 0.0, -2.5, num=17)
-# n18 = Node(0.0, 5.0, -2.5, num=18)
-# n19 = Node(-5.0, 0.0, -2.5, num=19)
 n20 = Node(0.0, -2.5, -5.0, num=20)
 n21 = Node(2.5, 0.0, -5.0, num=21)
-# n22 = Node(0.0, 2.5, -5.0, num=22)
-# n23 = Node(-2.5, 0.0, -5.0, num=23)
 n153 = Node(15.0, 0.0, -5.0, num=153)
 n155 = Node(15.0, 0.0, 15.0, num=155)
 n157 = Node(-5.0, 0.0, -5.0, num=157)
@@ -68,7 +58,7 @@ n170 = Node(15.0, -5.0, -5.0, num=170)
 n171 = Node(15.0, -5.0, 15.0, num=171)
 n174 = Node(-5.0, -5.0, -5.0, num=174)
 n175 = Node(-5.0, -5.0, 15.0, num=175)
-nodes = [n0, n1, n3, n4, n5, n7, n8, n9, n14, n15, n16, n17, n20, n21, 
+nodes = [n0, n1, n3, n4, n5, n7, n8, n9, n14, n15, n16, n17, n20, n21,
          n153, n155, n157, n159, n168, n169, n172, n173, n147, n151, n165, n167, n170, n171, n174, n175]
 
 n1000 = Node(0.0, 0.0, 15.0, num=1000)
@@ -79,40 +69,21 @@ for n in nodes1000:
 
 
 e0 = Edge(n0, n1, num=0)
-# e1 = Edge(n1, n2, num=1)
-# e2 = Edge(n2, n3, num=2)
 e3 = Edge(n3, n0, num=3)
 e4 = Edge(n4, n0, num=4)
 e5 = Edge(n5, n1, num=5)
-# e6 = Edge(n2, n6, num=6)
 e7 = Edge(n3, n7, num=7)
 e8 = Edge(n9, n8, num=8)
 e9 = Edge(n9, n5, num=9)
-# e10 = Edge(n5, n10, num=10)
-# e11 = Edge(n11, n10, num=11)
-# e12 = Edge(n11, n6, num=12)
-# e13 = Edge(n6, n12, num=13)
-# e14 = Edge(n13, n12, num=14)
-# e15 = Edge(n7, n13, num=15)
 e16 = Edge(n14, n7, num=16)
 e17 = Edge(n15, n14, num=17)
 e18 = Edge(n4, n15, num=18)
 e19 = Edge(n8, n4, num=19)
 e21 = Edge(n8, n16, num=21)
 e22 = Edge(n9, n17, num=22)
-# e23 = Edge(n17, n10, num=23)
-# e24 = Edge(n11, n18, num=24)
-# e25 = Edge(n18, n12, num=25)
-# e26 = Edge(n19, n13, num=26)
 e28 = Edge(n16, n20, num=28)
 e29 = Edge(n17, n21, num=29)
-# e30 = Edge(n22, n18, num=30)
-# e31 = Edge(n23, n19, num=31)
 e32 = Edge(n20, n21, num=32)
-# e33 = Edge(n21, n22, num=33)
-# e34 = Edge(n22, n23, num=34)
-# e295 = Edge(n157, n19, num=295)
-# e298 = Edge(n157, n23, num=298)
 e346 = Edge(n175, n159, num=346)
 e345 = Edge(n175, n167, num=345)
 e347 = Edge(n175, n151, num=347)
@@ -159,8 +130,6 @@ e1027 = Edge(n167, n14, num=1027)
 e1028 = Edge(n7, n159, num=1028)
 e1029 = Edge(n1000, n3, num=1029)
 e1030 = Edge(n1001, n17, num=1030)
-# e1031 = Edge(n21, n23, num=1031)
-# e1032 = Edge(n19, n7, num=1032)
 e1033 = Edge(n17, n5, num=1033)
 e1034 = Edge(n157, n7, num=1034)
 e1035 = Edge(n157, n21, num=1035)
@@ -177,20 +146,11 @@ for e in edges1000:
 # # edges = [e344, -e1024, -e21, e19, e18, e355, -e342]
 
 
-# f0 = Face([e0, e1, e2, e3], num=0)
 f1 = Face([-e19, -e8, e9, e5, -e0, -e4], num=1)
-# f2 = Face([e10, -e11, e12, -e6, -e1, -e5], num=2)
-# f3 = Face([e13, -e14, -e15, -e7, -e2, e6], num=3)
 f4 = Face([-e16, -e17, -e18, e4, -e3, e7], num=4)
-# f6 = Face([e22, e23, -e10, -e9], num=6)
-# f7 = Face([e24, e25, -e13, -e12], num=7)
 f9 = Face([-e21, -e8, e22, e29, -e32, -e28], num=9)
-# f10 = Face([e23, -e11, e24, -e30, -e33, -e29], num=10)
-# f11 = Face([e25, -e14, -e26, -e31, -e34, e30], num=11)
 f141 = Face([e1024, e1025, -e28], num=141)
-# f161 = Face([-e298, e295, -e31], num=161)
 f183 = Face([e1026, e1027, -e17], num=183)
-# f227 = Face([[e342, e1027, e16, e15, -e26, -e295, -e343], [e344, -e1024, -e21, e19, e18, e1026, e1027, -e342], [e343, e298, -e34, -e33, -e32, -e1025, -e1024, -e344]], num=227)
 faces = []
 faces = [f1, f4, f9, f141, f183]
 
@@ -201,8 +161,6 @@ f1000 = Face([e1000,e1001,e1002,e1003], num=1000)
 
 f1005 = Face([e1000,e1005,-e1013,e1016,-e1004], num=1005)
 f1006 = Face([e1001,e1007,-e1023,e1010,-e1005], num=1006)
-# f1007 = Face([e1002,e1006,e295,e26,-e15,e1028,-e1007], num=1007)
-# f1008 = Face([e1003,e1004,-e1017,e33,e34,-e298,-e1006], num=1008)
 f1009 = Face([e1010,-e1013,-e1012,e5,-e1011], num=1009)
 f1010 = Face([e1028,-e1023,e1029,e7], num=1010)
 f1011 = Face([e1021,-e1018,-e1022,-e4], num=1011)
@@ -236,12 +194,9 @@ for f in faces1000:
 
 volumes = []
 
-# v50 = Volume([f0, f1, f2, f3, f4, f6, f7, -f9, -f10, -f11, -f183, f141, f161, f227], num=50)
-# volumes = [v50,]
 
 faces_for_volume = [f1032, f1031, f1, f4, -f9, -f183, f141, f1030, -f1029]
 
-# v1001 = Volume([-f0, -f2, -f3, -f6, -f7, f10, f11, -f161, -f1000, f1005, f1006, f1007, f1008, -f1009, -f1010, f1012, f1013, -f1015, f1016, f1026])
 v1002 = Volume([f1017, f1023, -f1020, -f1026, -f141, f9, -f1016, f1014])
 v1003 = Volume([-f1014, -f1021, f1018, f1011, -f1013, -f1, f1015, f1009, -f1024])
 v1004 = Volume([-f1022, -f1025, f183, -f4, f1010, -f1011, -f1012, -f1019])
@@ -296,7 +251,7 @@ if dc:
 
     for v in dc.volumes:
         v.plotVolume(ax[7], showLabel=False, showBarycenter=False)
-        
+
 for f in faces_for_volume:
     f.plotFace(ax[4])
 
