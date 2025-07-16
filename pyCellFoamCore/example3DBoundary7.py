@@ -210,50 +210,139 @@ volumes_b = [v1002, v1003, v1004, v1006]
 for v in volumes_b:
     v.category1 = "border"
 
-pc = PrimalComplex3D(nodes, edges, faces, volumes, renumber=True)
+pc = PrimalComplex3D(nodes, edges, faces, volumes, renumber=False)
 dc = None
 dc = DualComplex3D(pc)
 
 
-(figs,ax) = pf.getFigures(numTotal=8)
+def plotDefault():
 
-pf.setLabels(ax[0])
+    (figs,ax) = pf.getFigures(numTotal=12)
+    pf.setLabels(ax[0])
 
-for n in nodes:
-    n.plotNode(ax[0], showLabel=True)
-    n.plotNode(ax[3], showLabel=False)
-    n.plotNode(ax[4], showLabel=False)
-
-for e in edges:
-    e.plotEdge(ax[0], showLabel=False, showArrow=False)
-    e.plotEdge(ax[1], showLabel=True, showArrow=True)
-    e.plotEdge(ax[2], showLabel=False, showArrow=False)
-
-for f in faces:
-    f.plotFace(ax[2], showLabel=True, showNormalVec=False, showBarycenter=False)
-
-for v in volumes:
-    v.plotVolume(ax[3], showLabel=False, showBarycenter=False, showNormalVec=False)
-
-
-pf.setAxesEqual(ax[4])
-
-if dc:
-    for n in dc.nodes:
+    for n in nodes:
+        n.plotNode(ax[0], showLabel=True)
+        n.plotNode(ax[3], showLabel=False)
         n.plotNode(ax[4], showLabel=False)
-        n.plotNode(ax[1], showLabel=False)
 
-    for e in  dc.edges:
-        e.plotEdge(ax[5], showLabel=False, showArrow=False)
+    for e in edges:
+        e.plotEdge(ax[0], showLabel=False, showArrow=False)
+        e.plotEdge(ax[1], showLabel=True, showArrow=True)
+        e.plotEdge(ax[2], showLabel=False, showArrow=False)
+
+    for f in faces:
+        f.plotFace(ax[2], showLabel=True, showNormalVec=False, showBarycenter=False)
+
+    for v in volumes:
+        v.plotVolume(ax[3], showLabel=False, showBarycenter=False, showNormalVec=False)
+
+
+    pf.setAxesEqual(ax[4])
+
+    if dc:
+        for n in dc.nodes:
+            n.plotNode(ax[4], showLabel=False)
+            n.plotNode(ax[1], showLabel=False)
+
+        for e in  dc.edges:
+            e.plotEdge(ax[5], showLabel=False, showArrow=False)
+
+        for f in dc.faces:
+            f.plotFace(ax[6], showLabel=False, showNormalVec=False, showBarycenter=False)
+
+        for v in dc.volumes:
+            v.plotVolume(ax[7], showLabel=False, showBarycenter=False)
+
+    for f in faces_for_volume:
+        f.plotFace(ax[4])
+
+    for e in [e17, e28]:
+        e.plotEdge(ax[5])
+        e.dualCell3D.plotFace(ax[5])
+
+
+def plotDualityNodeVolume():
+    (figs,ax) = pf.getFigures(numTotal=len(pc.nodes))
+
+    for (i, n) in enumerate(pc.nodes):
+        n.plotNode(ax[i])
+        if n.dualCell3D:
+            n.dualCell3D.plotVolume(ax[i], showLabel=False, showBarycenter=False)
+        for e in dc.edges:
+            e.plotEdge(ax[i], showLabel=False, showArrow=False)
+
+
+def plotTemp():
+    (figs,ax) = pf.getFigures(numTotal=12)
+    ax_num = 0
+
+    for n in pc.nodes:
+        n.plotNode(ax[ax_num])
 
     for f in dc.faces:
-        f.plotFace(ax[6], showLabel=False, showNormalVec=False, showBarycenter=False)
+        if len(f.volumes) == 0:
+            f.plotFace(ax[ax_num], color=tc.TUMBlack(), showLabel=False, showNormalVec=False, showBarycenter=False)
+            f.dualCell3D.plotEdge(ax[ax_num], color=tc.TUMRose(), showLabel=True, showNormalVec=False)
+        elif len(f.volumes) == 1:
+            f.plotFace(ax[ax_num], showLabel=False, showNormalVec=False, showBarycenter=False)
+        # elif len(f.volumes) == 2:
+        #     f.plotFace(ax[ax_num], color=tc.TUMMustard(), showLabel=False, showNormalVec=False, showBarycenter=False)
+        # else:
+        #     _log.critical("Too many volumes")
+    for e in dc.edges:
+        e.plotEdge(ax[ax_num], showLabel=False, showArrow=False)
 
-    for v in dc.volumes:
-        v.plotVolume(ax[7], showLabel=False, showBarycenter=False)
 
-for f in faces_for_volume:
-    f.plotFace(ax[4])
+select_plot = 2
+match select_plot:
+    case 0:
+        plotDefault()
+    case 1:
+        plotDualityNodeVolume()
+    case 2:
+        plotTemp()
+
+# pf.setLabels(ax[0])
+
+# for n in nodes:
+#     n.plotNode(ax[0], showLabel=True)
+#     n.plotNode(ax[3], showLabel=False)
+#     n.plotNode(ax[4], showLabel=False)
+
+# for e in edges:
+#     e.plotEdge(ax[0], showLabel=False, showArrow=False)
+#     e.plotEdge(ax[1], showLabel=True, showArrow=True)
+#     e.plotEdge(ax[2], showLabel=False, showArrow=False)
+
+# for f in faces:
+#     f.plotFace(ax[2], showLabel=True, showNormalVec=False, showBarycenter=False)
+
+# for v in volumes:
+#     v.plotVolume(ax[3], showLabel=False, showBarycenter=False, showNormalVec=False)
+
+
+# pf.setAxesEqual(ax[4])
+
+# if dc:
+#     for n in dc.nodes:
+#         n.plotNode(ax[4], showLabel=False)
+#         n.plotNode(ax[1], showLabel=False)
+
+#     for e in  dc.edges:
+#         e.plotEdge(ax[5], showLabel=False, showArrow=False)
+
+#     for f in dc.faces:
+#         f.plotFace(ax[6], showLabel=False, showNormalVec=False, showBarycenter=False)
+
+#     for v in dc.volumes:
+#         v.plotVolume(ax[7], showLabel=False, showBarycenter=False)
+
+# for f in faces_for_volume:
+#     f.plotFace(ax[4])
+
+# for e in [e17, e28]:
+#     e.plotEdge(ax[5])
+#     e.dualCell3D.plotFace(ax[5])
 
 
 # n_test = nodes[0]

@@ -27,7 +27,6 @@ from complex.dualComplex3D import DualComplex3D
 
 set_logging_format(logging.DEBUG)
 
-
 # n0 = Node(0.0, -2.5, 5.0, num=0)
 # n1 = Node(2.5, 0.0, 5.0, num=1)
 # n3 = Node(-2.5, 0.0, 5.0, num=3)
