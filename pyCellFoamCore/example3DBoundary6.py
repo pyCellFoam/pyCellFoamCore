@@ -73,7 +73,9 @@ nodes = [n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, n13, n14, n15, n
 
 n1000 = Node(0.0, 0.0, 15.0, num=1000)
 n1001 = Node(15.0, 0.0, 0.0, num=1001)
-nodes1000 = [n1000, n1001]
+n1002 = Node(-3.75, -3.75, 0, num=1002)
+n1003 = Node(0, -3.75, -3.75, num=1003)
+nodes1000 = [n1000, n1001, n1002, n1003]
 for n in nodes1000:
     nodes.append(n)
 
@@ -95,7 +97,7 @@ e13 = Edge(n6, n12, num=13)
 e14 = Edge(n13, n12, num=14)
 e15 = Edge(n7, n13, num=15)
 e16 = Edge(n14, n7, num=16)
-e17 = Edge(n15, n14, num=17)
+# e17 = Edge(n15, n14, num=17)
 e18 = Edge(n4, n15, num=18)
 e19 = Edge(n8, n4, num=19)
 e21 = Edge(n8, n16, num=21)
@@ -104,7 +106,7 @@ e23 = Edge(n17, n10, num=23)
 e24 = Edge(n11, n18, num=24)
 e25 = Edge(n18, n12, num=25)
 e26 = Edge(n19, n13, num=26)
-e28 = Edge(n16, n20, num=28)
+# e28 = Edge(n16, n20, num=28)
 e29 = Edge(n17, n21, num=29)
 e30 = Edge(n22, n18, num=30)
 e31 = Edge(n23, n19, num=31)
@@ -124,7 +126,7 @@ e343 = Edge(n174, n157, num=343)
 e344 = Edge(n174, n147, num=344)
 
 edges = [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15,
-         e16, e17, e18, e19, e21, e22, e23, e24, e25, e26, e28, e29, e30,
+         e16, e18, e19, e21, e22, e23, e24, e25, e26, e29, e30,
          e31, e32, e33, e34, e295, e298, e346, e345, e347,
          e335, e331, e332, e342, e343, e344]
 
@@ -159,11 +161,15 @@ e1027 = Edge(n167, n14, num=1027)
 e1028 = Edge(n7, n159, num=1028)
 e1029 = Edge(n1000, n3, num=1029)
 e1030 = Edge(n1001, n17, num=1030)
+e1031 = Edge(n15, n1002, num=1031)  # e17
+e1032 = Edge(n1002, n14, num=1032)  # e17
+e1033 = Edge(n16, n1003, num=1033)  # e28
+e1034 = Edge(n1003, n20, num=1034)  # e28
 
 edges1000 = [e1000,e1001,e1002,e1003,e1004,e1005,e1006,e1007,e1008,e1009,
              e1010,e1011,e1012,e1013,e1014,e1015,e1016,e1017,e1018,e1019,
              e1020,e1021,e1022,e1023,e1024,e1025,e1026,e1027,e1028,e1029,
-             e1030]
+             e1030, e1031, e1032, e1033, e1034]
 for e in edges1000:
     edges.append(e)
 
@@ -175,15 +181,15 @@ f0 = Face([e0, e1, e2, e3], num=0)
 f1 = Face([-e19, -e8, e9, e5, -e0, -e4], num=1)
 f2 = Face([e10, -e11, e12, -e6, -e1, -e5], num=2)
 f3 = Face([e13, -e14, -e15, -e7, -e2, e6], num=3)
-f4 = Face([-e16, -e17, -e18, e4, -e3, e7], num=4)
+f4 = Face([-e16, -e1032, -e1031, -e18, e4, -e3, e7], num=4)
 f6 = Face([e22, e23, -e10, -e9], num=6)
 f7 = Face([e24, e25, -e13, -e12], num=7)
-f9 = Face([-e21, -e8, e22, e29, -e32, -e28], num=9)
+f9 = Face([-e21, -e8, e22, e29, -e32, -e1034, -e1033], num=9)
 f10 = Face([e23, -e11, e24, -e30, -e33, -e29], num=10)
 f11 = Face([e25, -e14, -e26, -e31, -e34, e30], num=11)
-f141 = Face([e1024, e1025, -e28], num=141)
+f141 = Face([e1024, e1025, -e1034, -e1033], num=141)
 f161 = Face([-e298, e295, -e31], num=161)
-f183 = Face([e1026, e1027, -e17], num=183)
+f183 = Face([e1026, e1027, -e1032, -e1031], num=183)
 f227 = Face([[e342, e1027, e16, e15, -e26, -e295, -e343], [e344, -e1024, -e21, e19, e18, e1026, e1027, -e342], [e343, e298, -e34, -e33, -e32, -e1025, -e1024, -e344]], num=227)
 faces = []
 faces = [f0, f1, f2, f3, f4, f6, f7, f9, f10, f11, f141, f161, f183, f227]
@@ -236,7 +242,7 @@ volumes_b = [v50, v1002, v1003, v1004]
 for v in volumes_b:
     v.category1 = "border"
 
-pc = PrimalComplex3D(nodes, edges, faces, volumes, renumber=True)
+pc = PrimalComplex3D(nodes, edges, faces, volumes, renumber=False)
 dc = None
 dc = DualComplex3D(pc)
 
