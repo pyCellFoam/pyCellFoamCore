@@ -3764,26 +3764,26 @@ class Grid3DKelvin(PrimalComplex3D):
 
         super().__init__(
             nodes,edges,faces,volumes,
-            volumes_to_combine = [
-                (volumes[0], volumes[33]),
-                (volumes[1], volumes[29]),
-                (volumes[4], volumes[34]),
-                (volumes[5], volumes[30]),
-            ],
-            faces_to_combine = [
-                (faces[205], faces[60]),
-                (faces[206], faces[57]),
-                (faces[207], faces[52]),
-                (faces[193], faces[70]),
-                (faces[194], faces[65]),
-                (faces[195], faces[71]),
-                (faces[190], faces[19]),
-                (faces[191], faces[20]),
-                (faces[192], faces[26]),
-                (faces[202], faces[8]),
-                (faces[203], faces[5]),
-                (faces[204], faces[13]),
-            ],
+            # volumes_to_combine = [
+            #     (volumes[0], volumes[33]),
+            #     (volumes[1], volumes[29]),
+            #     (volumes[4], volumes[34]),
+            #     (volumes[5], volumes[30]),
+            # ],
+            # faces_to_combine = [
+            #     (faces[205], faces[60]),
+            #     (faces[206], faces[57]),
+            #     (faces[207], faces[52]),
+            #     (faces[193], faces[70]),
+            #     (faces[194], faces[65]),
+            #     (faces[195], faces[71]),
+            #     (faces[190], faces[19]),
+            #     (faces[191], faces[20]),
+            #     (faces[192], faces[26]),
+            #     (faces[202], faces[8]),
+            #     (faces[203], faces[5]),
+                # (faces[204], faces[13]),
+            # ],
             renumber=False,
             **kwargs
         )
@@ -3804,17 +3804,17 @@ if __name__ == '__main__':
                      fillCube=True,
 #                       borderVolumesBottom=True,
 #                       borderVolumesTop = True,
-                    borderVolumesLeft = True,
-                    borderVolumesRight = True,
-                    borderVolumesFront = True,
-                    borderVolumesBack=True,
+                    # borderVolumesLeft = True,
+                    # borderVolumesRight = True,
+                    # borderVolumesFront = True,
+                    # borderVolumesBack=True,
                    )
     for v in c.volumes:
         if v.category == 'inner':
             v.color = tc.TUMBlack()
 
 
-    if False:
+    if True:
         dc = DualComplex3D(c, createFaces=True, createVolumes=True)
     else:
         dc = False
@@ -3833,7 +3833,7 @@ if __name__ == '__main__':
 
 
 
-    (figs,ax) = pf.getFigures(numTotal=10)
+    (figs,ax) = pf.getFigures(numTotal=16)
     axNum = -1
 
 
@@ -4188,7 +4188,7 @@ if __name__ == '__main__':
 #-------------------------------------------------------------------------
     if True:
         axNum += 1
-        c.borderEdges[0].color = tc.TUMRose()
+        # c.borderEdges[0].color = tc.TUMRose()
         for e in c.borderEdges:
             e.plotEdge(ax[axNum], showArrow=False, showLabel=True)
 
@@ -4381,7 +4381,7 @@ if __name__ == '__main__':
 
         testDualBorderFace = dc.borderFaces[0]
         testPrimalBorderEdge = testDualBorderFace.dualCell3D
-        testPrimalBorderEdge.plotEdge(ax[axNum],color=tc.TUMRose())
+        # testPrimalBorderEdge.plotEdge(ax[axNum],color=tc.TUMRose())
         for f in testPrimalBorderEdge.faces:
             f.plotFace(ax[axNum])
 #            for e in dc.borderFaces
@@ -4399,6 +4399,43 @@ if __name__ == '__main__':
 
 #            axNum += 1
 #            dc.plotVolumes(ax[axNum],showLabel=False,showNormalVec=False)
+
+
+    if True:
+        axNum += 1
+        for v in c.volumes:
+            v.plotVolume(ax[axNum], showLabel=False, showBarycenter=False)
+        for e in c.edges:
+            e.plotEdge(ax[axNum], showLabel=False, showArrow=False)
+        for n in c.nodes:
+            n.plotNode(ax[axNum], showLabel=False)
+        ax[axNum].set_axis_off()
+
+
+        axNum += 1
+        for e in c.edges:
+            e.plotEdge(ax[axNum], showLabel=False, showArrow=False)
+
+        v = dc.volumes[-1]
+
+        v.plotVolume(ax[axNum], showLabel=False, showBarycenter=False)
+        ax[axNum].set_axis_off()
+        nodes_v = []
+        for f in v.faces:
+            for e in f.edges:
+                for n in [e.startNode, e.endNode]:
+                    if not n in nodes_v:
+                        nodes_v.append(n)
+
+        for n in nodes_v:
+            n.plotNode(ax[axNum], showLabel=False)
+
+        n = v.dualCell3D
+        n.color = tc.TUMGreen()
+        n.plotNode(ax[axNum], size=300)
+
+
+
 
 
 

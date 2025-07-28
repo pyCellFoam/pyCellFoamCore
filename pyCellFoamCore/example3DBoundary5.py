@@ -130,6 +130,22 @@ n174 = Node(-5.0, -5.0, -5.0, num=174)
 n175 = Node(-5.0, -5.0, 15.0, num=175)
 nodes = [n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, n13, n14, n15, n16, n17, n18, n19, n20, n21, n22, n23, n24, n25, n26, n27, n28, n29, n30, n31, n32, n33, n34, n35, n36, n37, n38, n39, n40, n41, n42, n43, n80, n81, n82, n83, n84, n85, n86, n87, n88, n89, n90, n91, n92, n93, n94, n95, n96, n97, n98, n99, n100, n101, n102, n103, n104, n105, n106, n107, n108, n109, n110, n111, n112, n113, n114, n115, n153, n155, n157, n159, n168, n169, n172, n173, n146, n147, n150, n151, n164, n165, n166, n167, n170, n171, n174, n175]
 
+
+n1000 = Node(-3.75, -3.75, 0, num=1000)  # n14 n15
+n1001 = Node(0, -3.75, -3.75, num=1001)  # n16 n20
+n1002 = Node(13.75, -3.75, 0, num=1002)  # n31 n32
+n1003 = Node(10, -3.75, -3.75, num=1003)  # n37 n40
+n1004 = Node(0, -3.75, 13.75, num=1004)  # n80 n84
+n1005 = Node(-3.75, -3.75, 10, num=1005)  # n94 n95
+n1006 = Node(10, -3.75, 13.75, num=1006)  # n100 n104
+n1007 = Node(13.75, -3.75, 10, num=1007)  # n107 n108
+
+
+
+nodes1000 = [n1000, n1001, n1002, n1003, n1004, n1005, n1006, n1007]
+
+nodes = nodes + nodes1000
+
 e0 = Edge(n0, n1, num=0)
 e1 = Edge(n1, n2, num=1)
 e2 = Edge(n2, n3, num=2)
@@ -147,7 +163,7 @@ e13 = Edge(n6, n12, num=13)
 e14 = Edge(n13, n12, num=14)
 e15 = Edge(n7, n13, num=15)
 e16 = Edge(n14, n7, num=16)
-e17 = Edge(n15, n14, num=17)
+# e17 = Edge(n15, n14, num=17)
 e18 = Edge(n4, n15, num=18)
 e19 = Edge(n8, n4, num=19)
 e21 = Edge(n8, n16, num=21)
@@ -156,7 +172,7 @@ e23 = Edge(n17, n10, num=23)
 e24 = Edge(n11, n18, num=24)
 e25 = Edge(n18, n12, num=25)
 e26 = Edge(n19, n13, num=26)
-e28 = Edge(n16, n20, num=28)
+# e28 = Edge(n16, n20, num=28)
 e29 = Edge(n17, n21, num=29)
 e30 = Edge(n22, n18, num=30)
 e31 = Edge(n23, n19, num=31)
@@ -171,7 +187,7 @@ e40 = Edge(n28, n24, num=40)
 e41 = Edge(n29, n25, num=41)
 e42 = Edge(n26, n30, num=42)
 e43 = Edge(n27, n5, num=43)
-e44 = Edge(n32, n31, num=44)
+# e44 = Edge(n32, n31, num=44)
 e45 = Edge(n32, n29, num=45)
 e46 = Edge(n29, n33, num=46)
 e47 = Edge(n34, n33, num=47)
@@ -185,7 +201,7 @@ e54 = Edge(n37, n36, num=54)
 e57 = Edge(n38, n33, num=57)
 e58 = Edge(n34, n39, num=58)
 e59 = Edge(n39, n35, num=59)
-e60 = Edge(n37, n40, num=60)
+# e60 = Edge(n37, n40, num=60)
 e61 = Edge(n38, n41, num=61)
 e62 = Edge(n42, n39, num=62)
 e63 = Edge(n43, n17, num=63)
@@ -195,7 +211,7 @@ e67 = Edge(n43, n40, num=67)
 e128 = Edge(n80, n81, num=128)
 e129 = Edge(n81, n82, num=129)
 e130 = Edge(n82, n83, num=130)
-e132 = Edge(n84, n80, num=132)
+# e132 = Edge(n84, n80, num=132)
 e133 = Edge(n85, n81, num=133)
 e134 = Edge(n82, n86, num=134)
 e135 = Edge(n83, n87, num=135)
@@ -207,7 +223,7 @@ e140 = Edge(n91, n86, num=140)
 e141 = Edge(n86, n92, num=141)
 e142 = Edge(n93, n92, num=142)
 e143 = Edge(n87, n93, num=143)
-e145 = Edge(n95, n94, num=145)
+# e145 = Edge(n95, n94, num=145)
 e147 = Edge(n88, n84, num=147)
 e148 = Edge(n96, n95, num=148)
 e149 = Edge(n88, n96, num=149)
@@ -224,11 +240,11 @@ e159 = Edge(n3, n99, num=159)
 e161 = Edge(n101, n102, num=161)
 e162 = Edge(n102, n103, num=162)
 e163 = Edge(n103, n100, num=163)
-e164 = Edge(n104, n100, num=164)
+# e164 = Edge(n104, n100, num=164)
 e165 = Edge(n105, n101, num=165)
 e166 = Edge(n102, n106, num=166)
 e167 = Edge(n103, n85, num=167)
-e168 = Edge(n108, n107, num=168)
+# e168 = Edge(n108, n107, num=168)
 e170 = Edge(n105, n109, num=170)
 e171 = Edge(n110, n109, num=171)
 e172 = Edge(n110, n106, num=172)
@@ -288,7 +304,25 @@ e343 = Edge(n174, n157, num=343)
 e344 = Edge(n174, n147, num=344)
 
 
-edges = [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e21, e22, e23, e24, e25, e26, e28, e29, e30, e31, e32, e33, e34, e36, e37, e38, e39, e40, e41, e42, e43, e44, e45, e46, e47, e48, e49, e50, e51, e52, e53, e54, e57, e58, e59, e60, e61, e62, e63, e65, e66, e67, e128, e129, e130, e132, e133, e134, e135, e136, e137, e138, e139, e140, e141, e142, e143, e145, e147, e148, e149, e150, e151, e152, e153, e154, e155, e156, e157, e158, e159, e161, e162, e163, e164, e165, e166, e167, e168, e170, e171, e172, e173, e174, e175, e176, e178, e179, e180, e181, e182, e183, e184, e185, e186, e187, e240, e244, e248, e249, e250, e251, e257, e261, e286, e287, e290, e293, e295, e298, e301, e303, e348, e349, e350, e351, e352, e353, e354, e355, e271, e279, e316, e319, e346, e345, e347, e333, e334, e335, e331, e330, e332, e342, e343, e344]
+edges = [
+    e0, e1, e2, e3, e4, e5, e6, e7, e8, e9,
+    e10, e11, e12, e13, e14, e15, e16, e18, e19,
+    e21, e22, e23, e24, e25, e26, e29,
+    e30, e31, e32, e33, e34, e36, e37, e38, e39,
+    e40, e41, e42, e43, e45, e46, e47, e48, e49,
+    e50, e51, e52, e53, e54, e57, e58, e59,
+    e61, e62, e63, e65, e66, e67,
+    e128, e129, e130, e133, e134, e135, e136, e137, e138, e139,
+    e140, e141, e142, e143, e147, e148, e149,
+    e150, e151, e152, e153, e154, e155, e156, e157, e158, e159,
+    e161, e162, e163, e165, e166, e167,
+    e170, e171, e172, e173, e174, e175, e176, e178, e179,
+    e180, e181, e182, e183, e184, e185, e186, e187,
+    e240, e244, e248, e249, e250, e251, e257, e261,
+    e286, e287, e290, e293, e295, e298, e301, e303, e348, e349,
+    e350, e351, e352, e353, e354, e355, e271, e279,
+    e316, e319, e346, e345, e347, e333, e334, e335, e331,
+    e330, e332, e342, e343, e344]
 
 e1000 = Edge(n168, n169, num=1000)
 e1001 = Edge(n169, n173, num=1001)
@@ -298,8 +332,28 @@ e1004 = Edge(n168, n153, num=1004)
 e1005 = Edge(n169, n155, num=1005)
 e1006 = Edge(n172, n157, num=1006)
 e1007 = Edge(n173, n159, num=1007)
+e1008 = Edge(n15, n1000, num=1008)  # e17
+e1009 = Edge(n1000, n14, num=1009)  # e17
+e1010 = Edge(n16, n1001, num=1010)  # e28
+e1011 = Edge(n1001, n20, num=1011)  # e28
+e1012 = Edge(n32, n1002, num=1012)  # e44
+e1013 = Edge(n1002, n31, num=1013)  # e44
+e1014 = Edge(n37, n1003, num=1014)  # e60
+e1015 = Edge(n1003, n40, num=1015)  # e60
+e1016 = Edge(n84, n1004, num=1016)  # e132
+e1017 = Edge(n1004, n80, num=1017)  # e132
+e1018 = Edge(n95, n1005, num=1018)  # e145
+e1019 = Edge(n1005, n94, num=1019)  # e145
+e1020 = Edge(n104, n1006, num=1020)  # e164
+e1021 = Edge(n1006, n100, num=1021)  # e164
+e1022 = Edge(n108, n1007, num=1022)  # e168
+e1023 = Edge(n1007, n107, num=1023)  # e168
 
-edges1000 = [e1000,e1001,e1002,e1003,e1004,e1005,e1006,e1007]
+edges1000 = [
+    e1000, e1001, e1002, e1003, e1004, e1005, e1006, e1007, e1008, e1009,
+    e1010, e1011, e1012, e1013, e1014, e1015, e1016, e1017, e1018, e1019,
+    e1020, e1021, e1022, e1023
+]
 for e in edges1000:
     edges.append(e)
 
@@ -308,22 +362,22 @@ f0 = Face([e0, e1, e2, e3], num=0)
 f1 = Face([-e19, -e8, e9, e5, -e0, -e4], num=1)
 f2 = Face([e10, -e11, e12, -e6, -e1, -e5], num=2)
 f3 = Face([e13, -e14, -e15, -e7, -e2, e6], num=3)
-f4 = Face([-e16, -e17, -e18, e4, -e3, e7], num=4)
+f4 = Face([-e16, -e1009, -e1008, -e18, e4, -e3, e7], num=4)
 f6 = Face([e22, e23, -e10, -e9], num=6)
 f7 = Face([e24, e25, -e13, -e12], num=7)
-f9 = Face([-e21, -e8, e22, e29, -e32, -e28], num=9)
+f9 = Face([-e21, -e8, e22, e29, -e32, -e1011, -e1010], num=9)
 f10 = Face([e23, -e11, e24, -e30, -e33, -e29], num=10)
 f11 = Face([e25, -e14, -e26, -e31, -e34, e30], num=11)
 f14 = Face([e36, e37, e38, e39], num=14)
-f15 = Face([-e53, -e44, e45, e41, -e36, -e40], num=15)
+f15 = Face([-e53, -e1013, -e1012, e45, e41, -e36, -e40], num=15)
 f16 = Face([e46, -e47, e48, -e42, -e37, -e41], num=16)
 f17 = Face([e49, -e50, -e10, -e43, -e38, e42], num=17)
 f18 = Face([-e9, -e51, -e52, e40, -e39, e43], num=18)
 f21 = Face([e58, e59, -e49, -e48], num=21)
 f23 = Face([e57, -e47, e58, -e62, -e65, -e61], num=23)
 f24 = Face([e59, -e50, -e23, -e63, -e66, e62], num=24)
-f25 = Face([-e22, -e51, -e54, e60, -e67, e63], num=25)
-f53 = Face([-e147, -e136, e137, e133, -e128, -e132], num=53)
+f25 = Face([-e22, -e51, -e54, e1014, e1015, -e67, e63], num=25)
+f53 = Face([-e147, -e136, e137, e133, -e128, -e1017, -e1016], num=53)
 f54 = Face([e138, -e139, e140, -e134, -e129, -e133], num=54)
 f55 = Face([e141, -e142, -e143, -e135, -e130, e134], num=55)
 f58 = Face([e150, e151, -e138, -e137], num=58)
@@ -331,12 +385,12 @@ f59 = Face([e152, e153, -e141, -e140], num=59)
 f61 = Face([-e149, -e136, e150, e157, -e0, -e156], num=61)
 f62 = Face([e151, -e139, e152, -e158, -e1, -e157], num=62)
 f63 = Face([e153, -e142, -e154, -e159, -e2, e158], num=63)
-f64 = Face([-e155, -e145, -e148, e156, -e3, e159], num=64)
+f64 = Face([-e155, -e1019, -e1018, -e148, e156, -e3, e159], num=64)
 f67 = Face([e170, -e171, e172, -e166, -e161, -e165], num=67)
 f68 = Face([e173, -e174, -e138, -e167, -e162, e166], num=68)
-f69 = Face([-e137, -e175, -e176, e164, -e163, e167], num=69)
+f69 = Face([-e137, -e175, -e176, e1020, e1021, -e163, e167], num=69)
 f72 = Face([e182, e183, -e173, -e172], num=72)
-f73 = Face([-e179, -e168, e180, e185, -e36, -e184], num=73)
+f73 = Face([-e179, -e1023, -e1022, e180, e185, -e36, -e184], num=73)
 f74 = Face([e181, -e171, e182, -e186, -e37, -e185], num=74)
 f75 = Face([e183, -e174, -e151, -e187, -e38, e186], num=75)
 f76 = Face([-e150, -e175, -e178, e184, -e39, e187], num=76)
@@ -350,18 +404,18 @@ f119 = Face([-e251, e51, e8], num=119)
 f120 = Face([e248, e149, e250, -e19, -e251, -e52, -e249, e178], num=120)
 f127 = Face([e257, -e7, e159], num=127)
 f132 = Face([e261, e41, -e185], num=132)
-f141 = Face([e348, -e28], num=141)
-f142 = Face([e349, -e60], num=142)
-f150 = Face([e350, -e164], num=150)
-f151 = Face([e351, -e132], num=151)
+f141 = Face([e348, -e1011, -e1010], num=141)
+f142 = Face([e349, -e1015, -e1014], num=142)
+f150 = Face([e350, -e1021, -e1020], num=150)
+f151 = Face([e351, -e1017, -e1016], num=151)
 f152 = Face([-e287, e286, e61], num=152)
 f158 = Face([-e290, e293, e165], num=158)
 f161 = Face([-e298, e295, -e31], num=161)
 f167 = Face([-e303, e301, -e135], num=167)
-f177 = Face([e352, -e168], num=177)
-f178 = Face([e353, -e44], num=178)
-f182 = Face([e354, -e145], num=182)
-f183 = Face([e355, -e17], num=183)
+f177 = Face([e352, -e1023, -e1022], num=177)
+f178 = Face([e353, -e1013, -e1012], num=178)
+f182 = Face([e354, -e1019, -e1018], num=182)
+f183 = Face([e355, -e1009, -e1008], num=183)
 f220 = Face([[e271, e348, e32, e244, e67, -e349], [-e349, e54, e251, e21, e348, -e271]], num=220)
 f221 = Face([[e350, -e163, -e240, -e128, -e351, -e279], [e279, -e351, -e147, -e248, -e176, e350]], num=221)
 f222 = Face([[e352, e179, e249, -e53, -e353, -e316], [e316, -e353, e45, -e261, -e180, e352]], num=222)
@@ -404,9 +458,9 @@ volumes.append(v1000)
 for v in volumes_b:
     v.category1 = "border"
 
-pc = PrimalComplex3D(nodes, edges, faces, volumes, renumber=True)
+pc = PrimalComplex3D(nodes, edges, faces, volumes, renumber=False)
 dc = None
-# dc = DualComplex3D(pc)
+dc = DualComplex3D(pc)
 
 
 (figs,ax) = pf.getFigures(numTotal=8)

@@ -18,10 +18,10 @@
 #==============================================================================
 #    IMPORTS
 #==============================================================================
-from kCells import Node
-from kCells import Edge
-from kCells import Face
-from kCells import Volume
+from kCells.node.node import Node
+from kCells.edge.edge import Edge
+from kCells.face.face import Face
+from kCells.volume.volume import Volume
 from tools import MyLogging
 from complex import PrimalComplex3D, DualComplex3D
 import tools.placeFigures as pf
@@ -304,7 +304,7 @@ with MyLogging ('simpleExample'):
 
     for e in [e18, -e58, -e24, e42, e57, -e36]:
         e.plotEdge(ax[5])
-    
+
     for e in f38.edges + f24.edges:
         e.plotEdge(ax[6])
 
