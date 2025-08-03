@@ -460,10 +460,10 @@ for v in volumes_b:
 
 pc = PrimalComplex3D(nodes, edges, faces, volumes, renumber=False)
 dc = None
-dc = DualComplex3D(pc)
+# dc = DualComplex3D(pc)
 
 
-(figs,ax) = pf.getFigures(numTotal=8)
+(figs,ax) = pf.getFigures(numTotal=12)
 
 for n in nodes:
     n.plotNode(ax[0], showLabel=False)
@@ -492,6 +492,26 @@ if dc:
 
     for v in dc.volumes:
         v.plotVolume(ax[7], showLabel=False, showBarycenter=False)
+
+
+for v in volumes:
+    if v.category1 == "inner":
+        v.color=tc.TUMBlack()
+    else:
+        v.color = tc.TUMRose()
+
+    v.plotVolume(ax[8], showLabel=False, showBarycenter=False)
+
+for n in nodes:
+    if n.category1 == "border":
+        n.color = tc.TUMGreen()
+    if n.category1 == "additionalBorder":
+        n.color=tc.TUMBlack()
+
+    n.plotNode(ax[8], showLabel=False, size=200)
+
+    ax[8].set_axis_off()
+
 
 
 # n_test = nodes[0]
