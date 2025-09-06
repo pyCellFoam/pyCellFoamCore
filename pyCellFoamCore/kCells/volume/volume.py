@@ -24,13 +24,13 @@ beginning
 if __name__== '__main__':
     import os
     os.chdir('../../')
-    
+
 
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
 
-import logging    
+import logging
 
 import numpy as np
 #import matplotlib.pyplot as plt
@@ -588,7 +588,7 @@ if __name__ == "__main__":
     from kCells.edge import Edge
     from kCells.face import Face
 
-    
+
     set_logging_format(logging.DEBUG)
 
 
@@ -703,20 +703,20 @@ if __name__ == "__main__":
 #
 #
     # Create some Nodes
-    n101 = Node(0,0,0)
-    n102 = Node(10,0,0)
-    n103 = Node(0,10,0)
-    n104 = Node(0,0,10)
+    n101 = Node(0,0,0, num=101)
+    n102 = Node(10,0,0, num=102)
+    n103 = Node(0,10,0, num=103)
+    n104 = Node(0,0,10, num=104)
     nodes100 = [n101,n102,n103,n104]
     for n in nodes100:
         n.plotNode(ax[1])
 
-    e101 = Edge(n101,n102)
-    e102 = Edge(n102,n103)
-    e103 = Edge(n103,n101)
-    e104 = Edge(n101,n104)
-    e105 = Edge(n102,n104)
-    e106 = Edge(n103,n104)
+    e101 = Edge(n101,n102, num=101)
+    e102 = Edge(n102,n103, num=102)
+    e103 = Edge(n103,n101, num=103)
+    e104 = Edge(n101,n104, num=104)
+    e105 = Edge(n102,n104, num=105)
+    e106 = Edge(n103,n104, num=106)
     edges100 = [e101,e102,e103,e104,e105,e106]
     for e in edges100:
         e.plotEdge(ax[1])
@@ -732,22 +732,64 @@ if __name__ == "__main__":
 
     v101 = Volume([f101,f102,f103,-f104],unalignedFaces=True)
 
-    v101.plotVolume(ax[0])
+    # v101.plotVolume(ax[0])
 
 #        print([f.area[1] for f in Faces100])
 
 
+
+
+
+
+    # cc.printBlue('Volume of {}: {}'.format(v101,v101.volume))
+#
+    # v101 = Volume([],unalignedFaces=True)
+
+    # v101.category = 'inner'
+    # print(v101.category,v101.category1,v101.category2)
+
+
+    new_node = Node(5, 0, 0)
+
+    new_edge_1 = Edge(n101, new_node)
+    new_edge_2 = Edge(new_node, n102)
+
+    f101.edges = [new_edge_1,new_edge_2,e105,-e104]
+    f104.edges = [-e103,-e102,-new_edge_2, -new_edge_1]
+
+
+    nodes_in_volume = []
+    edges_in_volume = []
+    faces_in_volume = v101.faces
+
+    for f in faces_in_volume:
+        for e in f.edges:
+            if e.isReverse:
+                e = -e
+            if not e in edges_in_volume:
+                edges_in_volume.append(e)
+
+    for e in edges_in_volume:
+        for n in [e.startNode, e.endNode]:
+            if not n in nodes_in_volume:
+                nodes_in_volume.append(n)
+
+
+    v101.plotVolume(ax[0])
+
+    for n in nodes_in_volume:
+        n.plotNode(ax[2])
+
+    for e in edges_in_volume:
+        e.plotEdge(ax[2])
+
+    for f in faces_in_volume:
+        f.plotFace(ax[2])
+
+
+
     pf.setAxesEqual(ax[1])
     ax[1].view_init(20,140)
-
-
-
-    cc.printBlue('Volume of {}: {}'.format(v101,v101.volume))
-
-    v101 = Volume([],unalignedFaces=True)
-#
-    v101.category = 'inner'
-    print(v101.category,v101.category1,v101.category2)
 #
 
 

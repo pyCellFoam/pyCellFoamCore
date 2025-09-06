@@ -144,7 +144,7 @@ class DualEdge3D(Edge, DualCell):
 # ------------------------------------------------------------------------
 
         if face.category1 == 'inner':
-            myPrintDebug('\nCreating dual edge for inner face {}'.format(face))
+            _log.info('Creating dual edge for inner face %s', face)
 
             # An inner face must belong to two volumes,
             # check this before going on
@@ -187,7 +187,7 @@ class DualEdge3D(Edge, DualCell):
 # ------------------------------------------------------------------------
 
         elif face.category1 == 'border':
-            myPrintDebug('Creating dual edge for border face {}'.format(face))
+            _log.info('Creating dual edge for border face %s', face)
             if len(face.volumes) == 1:
 
                 self.startNode = face.volumes[0].dualCell3D
