@@ -19,6 +19,8 @@ if __name__ == '__main__':
     import os
     os.chdir('../')
 
+import logging
+
 from complex.complex3D import Complex3D
 from complex.primalComplex3D import PrimalComplex3D
 
@@ -28,6 +30,8 @@ from kCells import Face,DualFace3D,DualFace2D
 from kCells.volume.volume import Volume
 from kCells.volume.dualVolume3D import DualVolume3D
 import tools.colorConsole as cc
+
+_log = logging.getLogger(__name__)
 
 
 #==============================================================================
@@ -190,13 +194,14 @@ class DualComplex3D(Complex3D):
 
         # Dual nodes
         if self.__createNodes:
+            _log.info("Create 3D dual nodes")
             for v in self.__primalComplex.volumes:
                 cc.printBlue("Create dual node of {}".format(v))
                 dualNodes.append(DualNode3D(v))
             for f in self.__primalComplex.borderFaces1:
                 dualNodes.append(DualNode2D(f))
         else:
-            self.logger.warning('Creation of nodes has been disabled')
+            _log.warning('Creation of nodes has been disabled')
 
         # return None
 

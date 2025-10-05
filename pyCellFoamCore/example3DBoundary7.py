@@ -63,9 +63,7 @@ nodes = [n0, n1, n3, n4, n5, n7, n8, n9, n14, n15, n16, n17, n20, n21,
 
 n1000 = Node(0.0, 0.0, 15.0, num=1000)
 n1001 = Node(15.0, 0.0, 0.0, num=1001)
-n1002 = Node(0, -3.75, -3.75, num=1002)
-
-nodes1000 = [n1000, n1001, n1002]
+nodes1000 = [n1000, n1001]
 for n in nodes1000:
     nodes.append(n)
 
@@ -83,7 +81,7 @@ e18 = Edge(n4, n15, num=18)
 e19 = Edge(n8, n4, num=19)
 e21 = Edge(n8, n16, num=21)
 e22 = Edge(n9, n17, num=22)
-# e28 = Edge(n16, n20, num=28)
+e28 = Edge(n16, n20, num=28)
 e29 = Edge(n17, n21, num=29)
 e32 = Edge(n20, n21, num=32)
 e346 = Edge(n175, n159, num=346)
@@ -97,7 +95,7 @@ e343 = Edge(n174, n157, num=343)
 e344 = Edge(n174, n147, num=344)
 
 edges = [e0, e3, e4, e5, e7, e8, e9,
-          e16, e17, e18, e19, e21, e22, e29,
+          e16, e17, e18, e19, e21, e22, e28, e29,
           e32, e346, e345, e347,
           e335, e331, e332, e342, e343, e344]
 
@@ -136,13 +134,11 @@ e1033 = Edge(n17, n5, num=1033)
 e1034 = Edge(n157, n7, num=1034)
 e1035 = Edge(n157, n21, num=1035)
 e1036 = Edge(n3, n1, num=1036)
-e1037 = Edge(n16, n1002, num=1037)
-e1038 = Edge(n1002, n20, num=1038)
 
 edges1000 = [e1000,e1001,e1002,e1003,e1004,e1005,e1006,e1007,e1008,e1009,
               e1010,e1011,e1012,e1013,e1014,e1015,e1016,e1017,e1018,e1019,
               e1020,e1021,e1022,e1023,e1024,e1025,e1026,e1027,e1028,e1029,
-              e1030, e1033, e1034, e1035, e1036, e1037, e1038]
+              e1030, e1033, e1034, e1035, e1036]
 for e in edges1000:
     edges.append(e)
 
@@ -152,8 +148,8 @@ for e in edges1000:
 
 f1 = Face([-e19, -e8, e9, e5, -e0, -e4], num=1)
 f4 = Face([-e16, -e17, -e18, e4, -e3, e7], num=4)
-f9 = Face([-e21, -e8, e22, e29, -e32, -e1038, -e1037], num=9)
-f141 = Face([e1024, e1025, -e1038, -e1037], num=141)
+f9 = Face([-e21, -e8, e22, e29, -e32, -e28], num=9)
+f141 = Face([e1024, e1025, -e28], num=141)
 f183 = Face([e1026, e1027, -e17], num=183)
 faces = []
 faces = [f1, f4, f9, f141, f183]
@@ -260,9 +256,9 @@ def plotDefault():
     for f in faces_for_volume:
         f.plotFace(ax[4])
 
-    for e in [e17, e28]:
-        e.plotEdge(ax[5])
-        e.dualCell3D.plotFace(ax[5])
+    # for e in [e17, e28]:
+    #     e.plotEdge(ax[5])
+    #     e.dualCell3D.plotFace(ax[5])
 
 
 def plotDualityNodeVolume():
@@ -304,7 +300,6 @@ match select_plot:
     case 1:
         plotDualityNodeVolume()
     case 2:
-        pc.useCategory = 2
         plotTemp()
 
 # pf.setLabels(ax[0])

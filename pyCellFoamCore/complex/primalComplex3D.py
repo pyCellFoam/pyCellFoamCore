@@ -175,6 +175,8 @@ class PrimalComplex3D(Complex3D):
         self.sortPrimal()
         self.__combineAdditionalBorderFaces()
         self.__categorizeDual()
+        self.__split_edges()
+        self.sortPrimal()
         self.sortDual()
         super().setUp()
 
@@ -799,9 +801,6 @@ class PrimalComplex3D(Complex3D):
 
 
 
-
-
-
 #-------------------------------------------------------------------------
 #    Categorize Primal
 #-------------------------------------------------------------------------
@@ -1018,6 +1017,105 @@ class PrimalComplex3D(Complex3D):
                     e.category2 = 'inner'
                 else:
                     _log.error('Category2 of {} was alreaddy set'.format(e))
+
+#-------------------------------------------------------------------------
+#    Split Edges
+#-------------------------------------------------------------------------
+
+    def __split_edges(self):
+        _log.critical("Split edges")
+        new_edges = []
+        old_edges = []
+        # v = self.volumes[12]
+        # _log.critical("Volume: %s", v)
+        # _log.critical("Faces: %s", v.faces)
+        # for f in v.faces:
+        #     _log.critical("Edges of %s: %s", f, f.edges)
+        # e = self.edges[55]
+        # _log.critical("Edge: %s", e)
+        # _log.critical("Faces in edge: %s", e.faces)
+        # stop = 4
+        # count = 0
+        for e in self.edges:
+            if e.category1 == "inner" and e.startNode.category1 == "additionalBorder" and e.endNode.category1 == "additionalBorder":
+
+                # count += 1
+                _log.critical("")
+                _log.critical("")
+                _log.critical("")
+                _log.critical("")
+                # _log.critical("COUNT = %s", count)
+
+
+                # if count > stop:
+                    # _log.critical("%s > %s: Continue", count, stop)
+                    # continue
+                _log.critical("Edge to split: %s", e)
+
+                new_node = Node(
+                    (e.startNode.xCoordinate + e.endNode.xCoordinate)/2,
+                    (e.startNode.yCoordinate + e.endNode.yCoordinate)/2,
+                    (e.startNode.zCoordinate + e.endNode.zCoordinate)/2,
+                )
+                new_node.category1 = "inner"
+                new_node.category2 = "inner"
+                self.nodes.append(new_node)
+
+                _log.critical("Old nodes: %s and %s. New node: %s",e.startNode.coordinates, e.endNode.coordinates, new_node.coordinates)
+
+                new_edge_1 = Edge(e.startNode, new_node)
+                new_edge_2 = Edge(new_node, e.endNode)
+                new_edge_1.category1 = e.category1
+                new_edge_1.category2 = e.category2
+                new_edge_2.category1 = e.category1
+                new_edge_2.category2 = e.category2
+
+                new_edges.append(new_edge_1)
+                new_edges.append(new_edge_2)
+                old_edges.append(e)
+
+                _log.critical("Faces: %s", e.faces)
+                faces_to_work_on = e.faces[:]
+
+                for f in faces_to_work_on:
+
+                    _log.critical("")
+                    _log.critical("")
+                    _log.critical("Replace edge %s in face %s", e, f)
+
+                    _log.critical("Old edges: %s", f.edges)
+                    new_edges_face = []
+                    if f.isReverse:
+                        _log.critical("Reversed face")
+                        f = -f
+                        _log.critical("Old edges in reversed face: %s", f.edges)
+
+                        for e_ in f.edges:
+                            if e_ == -e:
+                                new_edges_face.append(-new_edge_2)
+                                new_edges_face.append(-new_edge_1)
+                            else:
+                                new_edges_face.append(e_)
+
+
+                    else:
+                        _log.critical("Non-reversed face")
+                        for e_ in f.edges:
+                            if e_ == e:
+                                new_edges_face.append(new_edge_1)
+                                new_edges_face.append(new_edge_2)
+                            else:
+                                new_edges_face.append(e_)
+                    f.edges = new_edges_face
+                    _log.critical("New edges: %s", f.edges)
+
+        for e in old_edges:
+            self.edges.remove(e)
+
+        for e in new_edges:
+            self.edges.append(e)
+
+
 
 
 
