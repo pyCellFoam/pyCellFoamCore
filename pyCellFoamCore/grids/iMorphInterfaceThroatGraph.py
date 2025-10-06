@@ -38,7 +38,9 @@ import numpy as np
 
 #    kCells
 #--------------------------------------------------------------------
-from kCells import Node, Edge, Face, Volume
+from kCells import Node, Edge
+from pyCellFoamCore.kCells.face.face import Face
+from pyCellFoamCore.kCells.volume.volume import Volume
 
 #    Complex & Grids
 #--------------------------------------------------------------------
