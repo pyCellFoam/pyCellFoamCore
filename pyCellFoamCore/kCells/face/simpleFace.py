@@ -27,7 +27,7 @@
 if __name__ == '__main__':
     import os
     os.chdir('../../')
-    
+
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
@@ -106,7 +106,6 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
                          myReverse=ReversedSimpleFace(myReverse=self,
                                                       belongsTo=belongsToRev),
                          belongsTo=belongsTo,
-                         loggerName=__name__,
                          **kwargs)
         self.__simpleEdges = simpleEdges
         self.__normalVec = None

@@ -30,6 +30,7 @@ if __name__ == '__main__':
 from collections import deque
 import itertools
 import numpy as np
+import logging
 
 #-------------------------------------------------------------------------
 #    Local Libraries
@@ -53,7 +54,14 @@ import tools.placeFigures as pf
 from tools import MyLogging
 #import tools.tumcolor as tc
 from boundingBox import BoundingBox
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
+
+#==============================================================================
+#    LOGGING
+#==============================================================================
+
+_log = logging.getLogger(__name__)
 
 #==============================================================================
 #    CLASS DEFINITION
@@ -93,7 +101,7 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
         :param str b: Some String
 
         '''
-
+        _log.info("Initialize iMorphInterfacePlateauCellGraph")
         self.__subPathToNodesFile = subPathToNodesFile
         self.__subPathToTubesFile = subPathToTubesFile
         self.__subPathToNodeThroatsFile = subPathToNodeThroatsFile
@@ -510,7 +518,16 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
 #==============================================================================
 if __name__ == '__main__':
 
-    with MyLogging('IMorphInterfacePlateauCellGraph'):
+    set_logging_format(
+        logging.DEBUG,
+        # log_format_console = "%(filename)30s : %(lineno)5d : %(funcName)20s : %(levelname)8s : %(name)20s : %(message)s",
+    )
+
+    _log.debug("debug")
+    _log.info("info")
+    _log.warning("warning")
+    _log.error("error")
+    _log.critical("critical")
 
 #-------------------------------------------------------------------------
 #    Create some examples
@@ -520,15 +537,16 @@ if __name__ == '__main__':
 #        interface = IMorphInterfaceTubes(r'D:\iMorph\05_iMorph_July_20\data\data\Kelvin\Div 6\Roi2\original\Porous',addBorderCellFaceTypeNodes=True)
 #        interface1 = IMorphInterfaceTubes(r'D:\iMorph\06_iMorph_October_20\data\Sample01\Div6\Roi2\original\Porous')
 #        interface1 = IMorphInterfaceTubes(r'D:\iMorph\06_iMorph_October_20\data\Compare\Div 6\Roi1\original\Porous')
-        # interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\data\Sample18\Div6\Roi1\original\Porous')
+    # interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\data\Sample18\Div6\Roi1\original\Porous')
 #        interface2 = IMorphInterfaceTubes(r'D:\iMorph\06_iMorph_October_20\data\Compare\Div 6\Roi1\original\Porous')
 #        interface = IMorphInterfaceTubes(r'D:\iMorph\06_iMorph_October_20\data\Sample01\Div6\Roi2\original\Porous',addBorderCellFaceTypeNodes=True)
 #        print(interface.pathToNodesFile)
 #        print(interface.pathToTubesFile)
 #        print(interface.pathToNodeThroatsFile)
-        #
+    #
 
-        interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Div6\Cutout2\original\Porous')
+    # interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Div6\Cutout2\original\Porous')
+    interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Acquisition3\Roi2\original\Porous')
 
 
 
@@ -551,60 +569,60 @@ if __name__ == '__main__':
 #    Plotting
 #-------------------------------------------------------------------------
 
-        # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, doc, None
-        plottingMethod = 'pyplot'
+    # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, doc, None
+    plottingMethod = 'pyplot'
 
 
 #    Disabled
 #---------------------------------------------------------------------
-        if plottingMethod is None or plottingMethod == 'None':
-            cc.printBlue('Plotting disabled')
+    if plottingMethod is None or plottingMethod == 'None':
+        cc.printBlue('Plotting disabled')
 
 #    Pyplot
 #---------------------------------------------------------------------
-        elif plottingMethod == 'pyplot':
-            cc.printBlue('Plot using pyplot')
-            (figs,axes) = pf.getFigures()
-            interface1.plotComplex(axes[0],showArrow=False,showLabel=False)
-            names = ['graphNoBoundingBox']
+    elif plottingMethod == 'pyplot':
+        cc.printBlue('Plot using pyplot')
+        (figs,axes) = pf.getFigures()
+        interface1.plotComplex(axes[0],showArrow=False,showLabel=False)
+        names = ['graphNoBoundingBox']
 
-            interface1.plotComplex(axes[1],showArrow=False,showLabel=False)
-            interface1.boundingBox.plotBoundingBox(axes[1])
-            names.append('graphWithBoundingBox')
+        interface1.plotComplex(axes[1],showArrow=False,showLabel=False)
+        interface1.boundingBox.plotBoundingBox(axes[1])
+        names.append('graphWithBoundingBox')
 
-            interface1.plotComplex(axes[2],showArrow=False,showLabel=False)
-            for f in interface1.faces[20:25]:
-                f.plotFace(axes[2],showNormalVec=False,showBarycenter=False,showLabel=False)
-            names.append('graphWithSomeFaces')
+        interface1.plotComplex(axes[2],showArrow=False,showLabel=False)
+        # for f in interface1.faces[20:25]:
+            # f.plotFace(axes[2],showNormalVec=False,showBarycenter=False,showLabel=False)
+        names.append('graphWithSomeFaces')
 
-            interface1.plotComplex(axes[3],showArrow=False,showLabel=False)
-            interface1.plotFaces(axes[3],showNormalVec=False,showLabel=False,showBarycenter=False)
-            names.append('graphWithAllFaces')
-
-
+        # interface1.plotComplex(axes[3],showArrow=False,showLabel=False)
+        interface1.plotFaces(axes[3],showNormalVec=False,showLabel=False,showBarycenter=False)
+        names.append('graphWithAllFaces')
 
 
 
 
 
-            # interface1.plotFaces(axes[0],showNormalVec=False,showLabel=False,showBarycenter=False)
-
-            # interface1.plotComplex(axes[1],showArrow=False,showLabel=False)
-            # interface1.plotFaces(axes[1],showNormalVec=False,showLabel=False,showBarycenter=False)
-
-            # interface1.plotComplex(axes[2],showArrow=False,showLabel=False)
-            # interface1.boundingBox.plotBoundingBox(axes[2])
 
 
-            for i in range(4):
-                axes[i].view_init(120,-90)
-                pf.setAxesEqual(axes[i])
-                pf.exportPNG(figs[i],'export/python_large_{}'.format(names[i]))
-                pf.exportPNG(figs[i],'export/python_small_{}'.format(names[i]),width_mm=240,height_mm=200)
+        # interface1.plotFaces(axes[0],showNormalVec=False,showLabel=False,showBarycenter=False)
 
-            # pf.exportPNG(figs[0],'export/pyhton0')
-            # pf.exportPNG(figs[1],'export/pyhton1')
-            # pf.exportPNG(figs[2],'export/pyhton2')
+        # interface1.plotComplex(axes[1],showArrow=False,showLabel=False)
+        # interface1.plotFaces(axes[1],showNormalVec=False,showLabel=False,showBarycenter=False)
+
+        # interface1.plotComplex(axes[2],showArrow=False,showLabel=False)
+        # interface1.boundingBox.plotBoundingBox(axes[2])
+
+
+        for i in range(4):
+            axes[i].view_init(120,-90)
+            pf.setAxesEqual(axes[i])
+            pf.exportPNG(figs[i],'export/python_large_{}'.format(names[i]))
+            pf.exportPNG(figs[i],'export/python_small_{}'.format(names[i]),width_mm=240,height_mm=200)
+
+        # pf.exportPNG(figs[0],'export/pyhton0')
+        # pf.exportPNG(figs[1],'export/pyhton1')
+        # pf.exportPNG(figs[2],'export/pyhton2')
 
 
 #            interface2.plotComplex(axes[2],showArrow=False,showLabel=False)
@@ -614,32 +632,32 @@ if __name__ == '__main__':
 
 #    VTK
 #---------------------------------------------------------------------
-        elif plottingMethod == 'VTK' :
-            cc.printBlue('Plot using VTK')
-            cc.printRed('Not implemented')
+    elif plottingMethod == 'VTK' :
+        cc.printBlue('Plot using VTK')
+        cc.printRed('Not implemented')
 
 #    TikZ
 #---------------------------------------------------------------------
-        elif plottingMethod == 'TikZ' :
-            cc.printBlue('Plot using TikZ')
-            cc.printRed('Not implemented')
+    elif plottingMethod == 'TikZ' :
+        cc.printBlue('Plot using TikZ')
+        cc.printRed('Not implemented')
 
 #    Animation
 #---------------------------------------------------------------------
-        elif plottingMethod == 'animation':
-            cc.printBlue('Creating animation')
-            cc.printRed('Not implemented')
+    elif plottingMethod == 'animation':
+        cc.printBlue('Creating animation')
+        cc.printRed('Not implemented')
 
 #    Documentation
 #---------------------------------------------------------------------
-        elif plottingMethod == 'doc':
-            cc.printBlue('Creating plots for documentation')
-            test.plotDoc()
+    elif plottingMethod == 'doc':
+        cc.printBlue('Creating plots for documentation')
+        test.plotDoc()
 
 #    Unknown
 #---------------------------------------------------------------------
-        else:
-            cc.printRed('Unknown plotting method {}'.format(plottingMethod))
+    else:
+        cc.printRed('Unknown plotting method {}'.format(plottingMethod))
 
 
 

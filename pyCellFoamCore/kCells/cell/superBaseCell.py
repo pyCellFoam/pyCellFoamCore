@@ -24,7 +24,7 @@ Top parent class that contains the most basic properties of all k-cells.
 import os
 if __name__ == '__main__':
     os.chdir('../../')
-    
+
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
@@ -70,7 +70,7 @@ class SuperBaseCell:
     def __init__(self,
                  *args,
                  myReverse=None,
-                 loggerName='MISSING_LOGGER_NAME',
+                 # loggerName='MISSING_LOGGER_NAME',
                  **kwargs):
         '''
 
@@ -80,15 +80,16 @@ class SuperBaseCell:
             class at the lowest level by loggerName = __name__
 
         '''
-        # Check if a loger name was passed to this class from child classes
-        if loggerName == 'MISSING_LOGGER_NAME':
-            self.__logger = _log
-            _log.warning('Logger name is not set')
-        
-        else:
-            # Create logger
-            self.__logger = myLogging.getLogger(loggerName)
-        
+        # # Check if a loger name was passed to this class from child classes
+        # if loggerName == 'MISSING_LOGGER_NAME':
+        #     self.__logger = _log
+        #     _log.warning('Logger name is not set')
+
+        # else:
+        #     # Create logger
+        #     # self.__logger = myLogging.getLogger(loggerName)
+        #     self.__logger = logging.getLogger(loggerName)
+
 
         self.__myReverse = myReverse
 
@@ -118,12 +119,12 @@ class SuperBaseCell:
 #    SETTER AND GETTER
 # =============================================================================
 
-    def __getLogger(self): return self.__logger
-    logger = property(__getLogger)
-    '''
-    Logger from the logging package to keep track of everything.
+    # def __getLogger(self): return self.__logger
+    # logger = property(__getLogger)
+    # '''
+    # Logger from the logging package to keep track of everything.
 
-    '''
+    # '''
 
     def __getInfoText(self):
         if self.__infoTextChanged:
@@ -399,12 +400,12 @@ class SuperBaseCell:
 #    TEST FUNCTIONS
 # =============================================================================
 if __name__ == "__main__":
-    
+
     set_logging_format(logging.DEBUG)
-    
+
     test_supbc1 = SuperBaseCell()
     test_supbc2 = SuperBaseCell(myReverse=test_supbc1)
-    
+
     logging.debug("%s", test_supbc1)
     logging.debug("%s", test_supbc2)
     logging.debug("%s", -test_supbc1)

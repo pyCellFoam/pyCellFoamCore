@@ -15,7 +15,7 @@
 if __name__ == '__main__':
     import os
     os.chdir('../../')
-    
+
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
@@ -61,7 +61,7 @@ class ReversedSimpleFace(BaseSimpleFace, ReversedSimpleCell):
 # =============================================================================
     def __init__(self, *args, **kwargs):
 
-        super().__init__(*args, loggerName=__name__, **kwargs)
+        super().__init__(*args, **kwargs)
         self.__coordinates = None
         self.__area = None
         self.__normalVec = None

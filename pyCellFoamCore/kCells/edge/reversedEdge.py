@@ -21,13 +21,13 @@ beginning
 if __name__ == '__main__':
     import os
     os.chdir('../../')
-    
+
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
 
 import logging
-    
+
 
 from kCells.cell import ReversedCell
 from kCells.edge.baseEdge import BaseEdge
@@ -70,7 +70,7 @@ class ReversedEdge(BaseEdge, ReversedCell):
         :param str b: Some String
 
         '''
-        super().__init__(*args, loggerName=__name__, **kwargs)
+        super().__init__(*args, **kwargs)
         _log.debug('Initialized ReversedEdge')
 
 # =============================================================================

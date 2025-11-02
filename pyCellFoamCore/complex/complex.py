@@ -27,7 +27,9 @@ if __name__ == '__main__':
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
+import logging
 import numpy as np
+
 
 # ------------------------------------------------------------------------
 #    Local Libraries
@@ -44,9 +46,13 @@ import numpy as np
 
 #    Tools
 # -------------------------------------------------------------------
-from tools import myLogging
 import tools.colorConsole as cc
 
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -73,7 +79,6 @@ class Complex:
             child  class
 
         '''
-        self.__logger = myLogging.getLogger(loggerName)
 
         self.setUp()
 
@@ -88,7 +93,7 @@ class Complex:
     '''
 
     def __getUseCategory(self):
-        self.logger.warning('Using standard value for "useCategory". ' +
+        _log.warning('Using standard value for "useCategory". ' +
                             'This should only be used in child classes')
         return 1
     useCategory = property(__getUseCategory)
@@ -97,7 +102,7 @@ class Complex:
     '''
 
     def __getChangedNumbering(self):
-        self.logger.info('Using standard value for "changedNumbering".')
+        _log.info('Using standard value for "changedNumbering".')
     changedNumbering = property(__getChangedNumbering)
     '''
 
@@ -145,7 +150,7 @@ class Complex:
         '''
 
         '''
-        self.logger.info('Called "Set Up" in Complex class')
+        _log.info('Called "Set Up" in Complex class')
 
 # ------------------------------------------------------------------------
 #    Add a k-cell to a list, if it is not in there yet
@@ -155,7 +160,7 @@ class Complex:
 
         '''
         if cell in listOfCells:
-            self.logger.error('Cannot add {} because it is already in the list'.format(cell))
+            _log.error('Cannot add {} because it is already in the list'.format(cell))
         else:
             listOfCells.append(cell)
 
@@ -175,7 +180,7 @@ class Complex:
         elif self.useCategory == 2:
             return opt2
         else:
-            self.logger.error('useCategory is set to {} - this is not ok: only 1 and 2 is allowed')
+            _log.error('useCategory is set to {} - this is not ok: only 1 and 2 is allowed')
             return None
 
 
@@ -187,7 +192,7 @@ class Complex:
         This function should be implemented in child classes.
 
         '''
-        self.logger.warning('Renumbering is not implemented')
+        _log.warning('Renumbering is not implemented')
 
 # ------------------------------------------------------------------------
 #    Renumber a list (e.g. of kCells)
@@ -217,14 +222,14 @@ class Complex:
                 if entry1<dim1 and entry2<dim2:
                     incidenceMatrix[entry1,entry2] = -1
                 else:
-                    self.logger.error('Cannot assign value [{},{}] in matrix of dimension ({},{})'.format(entry1,entry2,dim1,dim2))
+                    _log.error('Cannot assign value [{},{}] in matrix of dimension ({},{})'.format(entry1,entry2,dim1,dim2))
             if e.endNode in nodes:
                 entry1 = e.endNode.num
                 entry2 = e.num
                 if entry1<dim1 and entry2<dim2:
                     incidenceMatrix[entry1,entry2] = 1
                 else:
-                    self.logger.error('Cannot assign value [{},{}] in matrix of dimension ({},{})'.format(entry1,entry2,dim1,dim2))
+                    _log.error('Cannot assign value [{},{}] in matrix of dimension ({},{})'.format(entry1,entry2,dim1,dim2))
         return incidenceMatrix
 
 # ------------------------------------------------------------------------
@@ -245,14 +250,14 @@ class Complex:
                     if entry1<dim1 and entry2<dim2:
                         incidenceMatrix[entry1,entry2] = 1
                     else:
-                        self.logger.error('Cannot assign value [{},{}] in matrix of dimension ({},{})'.format(entry1,entry2,dim1,dim2))
+                        _log.error('Cannot assign value [{},{}] in matrix of dimension ({},{})'.format(entry1,entry2,dim1,dim2))
                 elif -e in edges:
                     entry1 = e.num
                     entry2 = f.num
                     if entry1<dim1 and entry2<dim2:
                         incidenceMatrix[entry1,entry2] = -1
                     else:
-                        self.logger.error('Cannot assign value [{},{}] in matrix of dimension ({},{})'.format(entry1,entry2,dim1,dim2))
+                        _log.error('Cannot assign value [{},{}] in matrix of dimension ({},{})'.format(entry1,entry2,dim1,dim2))
         return incidenceMatrix
 
 
@@ -274,14 +279,14 @@ class Complex:
                     if entry1<dim1 and entry2<dim2:
                         incidenceMatrix[entry1,entry2] = 1
                     else:
-                        self.logger.error('Cannot assign value [{},{}] in matrix of dimension ({},{})'.format(entry1,entry2,dim1,dim2))
+                        _log.error('Cannot assign value [{},{}] in matrix of dimension ({},{})'.format(entry1,entry2,dim1,dim2))
                 elif -f in faces:
                     entry1 = f.num
                     entry2 = v.num
                     if entry1<dim1 and entry2<dim2:
                         incidenceMatrix[entry1,entry2] = -1
                     else:
-                        self.logger.error('Cannot assign value [{},{}] in matrix of dimension ({},{})'.format(entry1,entry2,dim1,dim2))
+                        _log.error('Cannot assign value [{},{}] in matrix of dimension ({},{})'.format(entry1,entry2,dim1,dim2))
         return incidenceMatrix
 
 

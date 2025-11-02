@@ -98,7 +98,6 @@ class Node(Cell):
                          num=num,
                          label=label,
                          myReverse=False,
-                         loggerName=__name__,
                          **kwargs)
 
         self.__coordinates = np.array([float(x), float(y), float(z)])

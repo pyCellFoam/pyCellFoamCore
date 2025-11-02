@@ -56,7 +56,7 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
 #    INITIALIZATION
 # =============================================================================
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, loggerName=__name__, **kwargs)
+        super().__init__(*args, **kwargs)
         _log.debug('Initialized ReversedSimpleEdge')
 
 # =============================================================================

@@ -22,7 +22,7 @@
 if __name__ == '__main__':
     import os
     os.chdir('../../')
-    
+
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
@@ -67,7 +67,7 @@ class ReversedFace(BaseFace, ReversedCell):
         '''
 
         '''
-        super().__init__(*args, loggerName=__name__, **kwargs)
+        super().__init__(*args, **kwargs)
         _log.debug('Initialized ReversedFace')
 
 # =============================================================================

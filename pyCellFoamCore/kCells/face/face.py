@@ -108,7 +108,7 @@ Important properties
 if __name__ == '__main__':
     import os
     os.chdir('../../')
-    
+
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
@@ -193,7 +193,6 @@ class Face(BaseFace, Cell):
             Face.faceCount += 1
 
         super().__init__(*args,
-                         loggerName=__name__,
                          label=label,
                          num=num,
                          myReverse=ReversedFace(myReverse=self),

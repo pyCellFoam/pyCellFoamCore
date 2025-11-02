@@ -99,7 +99,6 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
                          myReverse=ReversedSimpleEdge(myReverse=self,
                                                       belongsTo=belongsToRev),
                          belongsTo=belongsTo,
-                         loggerName=__name__,
                          **kwargs)
 
         self.__startNode = start

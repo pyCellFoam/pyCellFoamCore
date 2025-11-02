@@ -84,7 +84,6 @@ class Edge(BaseEdge, Cell):
             Edge.edgeCount += 1
 
         super().__init__(*args,
-                         loggerName=__name__,
                          label=label,
                          num=num,
                          myReverse=ReversedEdge(myReverse=self),
@@ -102,6 +101,7 @@ class Edge(BaseEdge, Cell):
             self.endNode.addEdge(self)
 
             _log.info('Created edge {}'.format(self.infoText))
+
         _log.debug('Initialized Edge')
 
 # =============================================================================

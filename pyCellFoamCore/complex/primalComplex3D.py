@@ -93,6 +93,7 @@ class PrimalComplex3D(Complex3D):
         '''
 
         '''
+        _log.info("Initialize PrimalComplex3D")
 
         self.__boundingBox = boundingBox
         self.__renumber = renumber

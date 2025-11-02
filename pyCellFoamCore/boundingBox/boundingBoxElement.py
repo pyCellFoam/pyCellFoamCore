@@ -20,7 +20,13 @@ import os
 if __name__ == '__main__':
     os.chdir('../')
 
-from tools import myLogging
+import logging
+
+#==============================================================================
+#    LOGGING
+#==============================================================================
+
+_log = logging.getLogger(__name__)
 
 #==============================================================================
 #    CLASS DEFINITION
@@ -29,9 +35,9 @@ from tools import myLogging
 class BoundingBoxElement:
     '''
 
-    
+
     '''
-    
+
 #==============================================================================
 #    SLOTS
 #==============================================================================
@@ -45,53 +51,52 @@ class BoundingBoxElement:
         '''
         :param str identifier: A name for the element
         :param str loggerName: A name for the logger instance
-        
+
         '''
         self.__identifier = identifier
-        self.__logger = myLogging.getLogger(loggerName)
-        self.logger.info('Created BoundingBoxElement')
-        
-        
-        
-    
+        _log.info('Created BoundingBoxElement')
+
+
+
+
 #==============================================================================
 #    SETTER AND GETTER
 #==============================================================================
     def __getLogger(self): return self.__logger
     logger = property(__getLogger)
     '''
-    
+
     '''
 
     def __getIdentifier(self): return self.__identifier
     identifier = property(__getIdentifier)
     '''
-    
+
     '''
 
 
 #==============================================================================
 #    MAGIC METHODS
-#==============================================================================    
-    
+#==============================================================================
+
     def  __repr__(self):
         '''
         Show infoText in console
-        
+
         '''
         return self.identifier
-    
-    
 
-    
-    
+
+
+
+
 #==============================================================================
 #    TEST FUNCTIONS
 #==============================================================================
 if __name__ == '__main__':
     from tools import MyLogging
     import tools.colorConsole as cc
-    with MyLogging('BoundingBoxCorner',debug=True):    
+    with MyLogging('BoundingBoxCorner',debug=True):
         cc.printBlue('Create bbElement')
         ele = BoundingBoxElement('testElement',__name__)
         cc.printBlue('Check resulut')
