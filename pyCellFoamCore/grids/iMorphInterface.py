@@ -478,6 +478,9 @@ class IMorphInterface(PrimalComplex3D):
         numberOfClosedThroats = 0
         numberOfUniqueClosedThroats = 0
         numberOfOpenThroats = 0
+        number_of_throats_not_same_side = 0
+        number_of_throats_neighbouring_sides = 0
+        number_of_throats_side_not_found = 0
 
         numberOfThroatsWithLessThan2Nodes = 0
 
@@ -648,7 +651,7 @@ class IMorphInterface(PrimalComplex3D):
                                         (dist1,side1) = self.boundingBox.distToBoundingBox(nodeStart.coordinates)
                                         (dist2,side2) = self.boundingBox.distToBoundingBox(nodeEnd.coordinates)
 
-                                        if dist1 < 0.1 and dist2 < 0.1:
+                                        if dist1 < 0.2 and dist2 < 0.2:
                                             cc.printYellow(side1,side2)
 
                                             if side1 == side2:
@@ -669,9 +672,18 @@ class IMorphInterface(PrimalComplex3D):
                                                             e.color = tc.TUMRose()
 
                                             else:
+                                                number_of_throats_not_same_side += 1
                                                 _log.critical("Nearest sides are not the same")
+                                                
+                                                neighbouring_sides = self.boundingBox.check_neighbouring_sides(side1, side2)
+                                                if neighbouring_sides:
+                                                    _log.critical("Nearest sides are neighbours")
+                                                    number_of_throats_neighbouring_sides += 1
+                                                else:
+                                                    _log.critical("Nearest sides are not neighbours")
                                         else:
-                                            _log.critical("Could not find nearby sides")
+                                            number_of_throats_side_not_found +=1 
+                                            _log.critical("Could not find nearby sides. dist1 = %s, dist2 = %s", dist1, dist2)
 
 
 
@@ -702,6 +714,10 @@ class IMorphInterface(PrimalComplex3D):
         cc.printMagenta()
         cc.printMagenta('Found {} closed throats, of which {} are unique and {} have two or less nodes'.format(numberOfClosedThroats,numberOfUniqueClosedThroats,numberOfThroatsWithLessThan2Nodes))
         cc.printMagenta('Found {} open throats'.format(numberOfOpenThroats))
+        cc.printMagenta()
+        cc.printMagenta('Found {} throats where the nearest boundaries are not on the same side'.format(number_of_throats_not_same_side))
+        cc.printMagenta('Found {} throats that are on neighbouring sides'.format(number_of_throats_neighbouring_sides))
+        cc.printMagenta('Found {} throats where the nearest boundary could not be found'.format(number_of_throats_side_not_found))
         cc.printMagenta()
         cc.printMagenta('X: {}'.format(self.xLim))
         cc.printMagenta('Y: {}'.format(self.yLim))

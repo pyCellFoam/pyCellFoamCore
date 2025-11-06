@@ -519,7 +519,7 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
 if __name__ == '__main__':
 
     set_logging_format(
-        logging.DEBUG,
+        logging.WARNING,
         # log_format_console = "%(filename)30s : %(lineno)5d : %(funcName)20s : %(levelname)8s : %(name)20s : %(message)s",
     )
 
@@ -546,7 +546,7 @@ if __name__ == '__main__':
     #
 
     # interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Div6\Cutout2\original\Porous')
-    interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Acquisition3\Roi2\original\Porous')
+    interface1 = IMorphInterfacePlateauCellGraph(r'C:\_local\TUM\06_iMorph_October_20\database_share\data\Sample01\Acquisition3\Roi2\original\Porous')
 
 
 

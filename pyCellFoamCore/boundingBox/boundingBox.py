@@ -57,6 +57,7 @@ from tools.logging_formatter import set_logging_format
 #==============================================================================
 
 _log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 
 
@@ -412,6 +413,22 @@ class BoundingBox(BoundingBoxElement):
 
         else:
             _log.error('Cannot have {} intersections'.format(len(intersections)))
+            
+    def check_neighbouring_sides(self, side1, side2):
+        _log.debug("Check if sides %s and %s are neighbours", side1, side2)
+        shared_edges = list(set(side1.edges).intersection(set(side2.edges)))
+        _log.debug("shared edges: %s", shared_edges)
+        if len(shared_edges) == 0:
+            _log.debug("edges %s and %s are not neighbours", side1, side2)
+            neighbours = False
+        elif len(shared_edges) == 1:
+            _log.debug("edges %s and %s touch in edge %s", side1, side2, shared_edges[0])
+            neighbours = True
+        else:
+            _log.error("Two sides can only touch in one edge, but %s and %s touch in edges %s", side1, side2, shared_edges)
+            neighbours = False
+            
+        return neighbours
 
 
 
@@ -518,6 +535,8 @@ if __name__ == '__main__':
 
     cc.printBlue('Creating standard bounding box')
     bb = BoundingBox([0,5],[0,6],[0,7],preset='pyplot')
+    cc.printGreen(bb.sides[0], "and", bb.sides[1], ":", bb.check_neighbouring_sides(bb.sides[0], bb.sides[1]))
+    cc.printGreen(bb.sides[0], "and", bb.sides[3], ":", bb.check_neighbouring_sides(bb.sides[0], bb.sides[3]))
 
     cc.printWhite(bb.corners)
     cc.printWhite(bb.edges)
