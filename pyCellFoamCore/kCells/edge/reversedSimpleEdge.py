@@ -153,7 +153,7 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
         else:
             _log.error(
                 'Cannot add simple face {} '.format(simpleFace.infoText) +
-                'to reversed simple edge {} '.format(self.infoText) +
+                'to reversed simple edge {} '.format(self.info_text) +
                 'because it does not belong to a simple edge')
 
 # ------------------------------------------------------------------------
@@ -169,7 +169,7 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
         else:
             _log.error(
                 'Cannot delete simple face {} '.format(simpleFace.infoText) +
-                'from reversed simple edge {} '.format(self.infoText) +
+                'from reversed simple edge {} '.format(self.info_text) +
                 'because it does not belong to a simple edge')
 
 

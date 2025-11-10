@@ -19,13 +19,6 @@ Top parent class that contains the most basic properties of all k-cells.
 # =============================================================================
 
 # ------------------------------------------------------------------------
-#    Change to Main Directory
-# ------------------------------------------------------------------------
-import os
-if __name__ == '__main__':
-    os.chdir('../../')
-
-# ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
 import logging
@@ -37,8 +30,7 @@ import logging
 #    Tools
 # -------------------------------------------------------------------
 
-import tools.myLogging as myLogging
-from tools.logging_formatter import set_logging_format
+from pyCellFoamCore import set_logging_format
 
 # =============================================================================
 #    LOGGING
@@ -47,10 +39,10 @@ from tools.logging_formatter import set_logging_format
 _log = logging.getLogger(__name__)
 _log.setLevel(logging.INFO)
 
+
 # =============================================================================
 #    CLASS DEFINITION
 # =============================================================================
-
 
 class SuperBaseCell:
     '''
@@ -58,79 +50,62 @@ class SuperBaseCell:
 
     '''
 
-# =============================================================================
-#    CLASS VARIABLES
-# =============================================================================
+    # =========================================================================
+    #    CLASS VARIABLES
+    # =========================================================================
 
     allCells = []
 
-# =============================================================================
-#    INITIALIZATION
-# =============================================================================
-    def __init__(self,
-                 *args,
-                 myReverse=None,
-                 # loggerName='MISSING_LOGGER_NAME',
-                 **kwargs):
-        '''
+    # =========================================================================
+    #    INITIALIZATION
+    # =========================================================================
+    def __init__(
+        self,
+        *args,
+        my_reverse=None,
+        **kwargs
+    ):
 
-
-        :param SuperBaseCell myReverse:
-        :param str loggerName: The logger name needs to be passed from the
-            class at the lowest level by loggerName = __name__
-
-        '''
-        # # Check if a loger name was passed to this class from child classes
-        # if loggerName == 'MISSING_LOGGER_NAME':
-        #     self.__logger = _log
-        #     _log.warning('Logger name is not set')
-
-        # else:
-        #     # Create logger
-        #     # self.__logger = myLogging.getLogger(loggerName)
-        #     self.__logger = logging.getLogger(loggerName)
-
-
-        self.__myReverse = myReverse
+        self.__my_reverse = my_reverse
 
         # prepare text changed variables
-        self.__labelTextChanged = True
-        self.__infoTextChanged = True
-
+        self.__label_text_changed = True
+        self.__info_text = ''
+        self.__info_text_changed = True
 
         # Check if there are any non-used positional arguments
         if args:
-            _log.warning('Unused positional arguments {} were passed'
-                                .format(args))
+            _log.warning(
+                'Unused positional arguments %s were passed',
+                args,
+            )
 
         if kwargs:
-            _log.warning('Unused keyword arguments {} were passed'
-                                .format(kwargs))
+            _log.warning(
+                'Unused keyword arguments %s were passed',
+                kwargs,
+            )
 
         if self in SuperBaseCell.allCells:
-            _log.error('Multiple call of SuperBaseCell for {}'
-                              .format(self.infoText))
+            _log.error(
+                'Multiple call of SuperBaseCell for %s',
+                self,
+            )
+
         else:
             SuperBaseCell.allCells.append(self)
 
         _log.debug('Initialized SuperBaseCell')
 
-# =============================================================================
-#    SETTER AND GETTER
-# =============================================================================
+    # =========================================================================
+    #    SETTER AND GETTER
+    # =========================================================================
 
-    # def __getLogger(self): return self.__logger
-    # logger = property(__getLogger)
-    # '''
-    # Logger from the logging package to keep track of everything.
-
-    # '''
-
-    def __getInfoText(self):
-        if self.__infoTextChanged:
-            self.__createInfoText()
-        return self.__infoText
-    infoText = property(__getInfoText)
+    def __get_info_text(self):
+        if self.__info_text_changed:
+            self.__create_info_text()
+        return self.__info_text
+    info_text = property(__get_info_text)
     '''
     This text is used to be displayed in the console to identify the cell in a
     readable way.
@@ -138,8 +113,8 @@ class SuperBaseCell:
     '''
 
     def __getLabelText(self):
-        if self.__labelTextChanged:
-            self.__createLabelText()
+        if self.__label_text_changed:
+            self.__create_label_text()
         return self.__labelText
     labelText = property(__getLabelText)
     '''
@@ -148,8 +123,8 @@ class SuperBaseCell:
     '''
 
     def __getLabelTextShort(self):
-        if self.__labelTextChanged:
-            self.__createLabelText()
+        if self.__label_text_changed:
+            self.__create_label_text()
         return self.__labelTextShort
     labelTextShort = property(__getLabelTextShort)
     '''
@@ -171,14 +146,14 @@ class SuperBaseCell:
 
     '''
 
-    def __getMyReverse(self): return self.__myReverse
+    def __getMyReverse(self): return self.__my_reverse
     myReverse = property(__getMyReverse)
     '''
     Returns the reverse of this cell, can also be accesed by using the - symbol
 
     '''
 
-    def __getLabelTextChanged(self): return self.__labelTextChanged
+    def __getLabelTextChanged(self): return self.__label_text_changed
     labelTextChanged = property(__getLabelTextChanged)
     '''
     This is set to true if some element of the the label text has changed since
@@ -186,7 +161,7 @@ class SuperBaseCell:
 
     '''
 
-    def __getInfoTextChanged(self): return self.__infoTextChanged
+    def __getInfoTextChanged(self): return self.__info_text_changed
     infoTextChanged = property(__getInfoTextChanged)
     '''
     This is set to true if some element of the the info text has changed since
@@ -201,10 +176,10 @@ class SuperBaseCell:
 
     '''
 
-# ------------------------------------------------------------------------
-#    Standard values for properties that will be defined in child classes
-#    but that are needed for methods in this class
-# ------------------------------------------------------------------------
+    # --------------------------------------------------------------------
+    #    Standard values for properties that will be defined in child classes
+    #    but that are needed for methods in this class
+    # --------------------------------------------------------------------
 
     def __getLabel(self):
         _log.warning('Using standard value for label')
@@ -292,32 +267,32 @@ class SuperBaseCell:
 
     '''
 
-# =============================================================================
-#    MAGIC METHODS
-# =============================================================================
+    # =========================================================================
+    #    MAGIC METHODS
+    # =========================================================================
 
     def __neg__(self):
         '''
         Simply Use " - " sign to get the reversed kCell
 
         '''
-        return self.__myReverse
+        return self.__my_reverse
 
     def __repr__(self):
         '''
         Show infoText in console
 
         '''
-        return self.infoText
+        return self.info_text
 
-# =============================================================================
-#    METHODS
-# =============================================================================
+    # =========================================================================
+    #    METHODS
+    # =========================================================================
 
-# ------------------------------------------------------------------------
-#    Create info text
-# ------------------------------------------------------------------------
-    def __createInfoText(self):
+    # --------------------------------------------------------------------
+    #    Create info text
+    # --------------------------------------------------------------------
+    def __create_info_text(self):
         '''
         Parse the text that is displayed in the console. This should be called
         if the infoText is needed and has been changed since the last use.
@@ -327,15 +302,15 @@ class SuperBaseCell:
             label = self.label+'^'
         else:
             label = self.label
-        self.__infoText = r'' + self.labelPrefix+label + '_' + \
-                          self.categoryText+str(self.num)+self.labelSuffix
+        self.__info_text = r'' + self.labelPrefix+label + '_' + \
+            self.categoryText+str(self.num)+self.labelSuffix
         if self.isDeleted:
-            self.__infoText = self.__infoText + '***deleted***'
+            self.__info_text = self.__info_text + '***deleted***'
 
-        self.__infoTextChanged = False
-        _log.debug('Update infoText {}'.format(self.__infoText))
+        self.__info_text_changed = False
+        _log.debug('Update infoText %s', self.__info_text)
 
-    def __createLabelText(self):
+    def __create_label_text(self):
         '''
         Parse the text that is displayed in the plot. This should be called
         if the label text is needed and has been changed since the last use.
@@ -356,7 +331,7 @@ class SuperBaseCell:
             + str(self.num)+self.labelSuffix+'}$'
         self.__labelTextShort = r'$' + self.labelPrefix + label \
             + '_{'+categoryText + str(self.num)+'}$'
-        self.__labelTextChanged = False
+        self.__label_text_changed = False
         _log.debug('Update labelText {}'.format(self.__labelText))
 
     def updateText(self):
@@ -365,8 +340,8 @@ class SuperBaseCell:
         class.
 
         '''
-        self.__labelTextChanged = True
-        self.__infoTextChanged = True
+        self.__label_text_changed = True
+        self.__info_text_changed = True
 
     def tikZCoords(self, v, precission=3):
         '''
@@ -404,7 +379,7 @@ if __name__ == "__main__":
     set_logging_format(logging.DEBUG)
 
     test_supbc1 = SuperBaseCell()
-    test_supbc2 = SuperBaseCell(myReverse=test_supbc1)
+    test_supbc2 = SuperBaseCell(my_reverse=test_supbc1)
 
     logging.debug("%s", test_supbc1)
     logging.debug("%s", test_supbc2)

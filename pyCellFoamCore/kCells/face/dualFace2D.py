@@ -44,12 +44,12 @@ Always remember that the last line has to be blank
 if __name__ == '__main__':
     import os
     os.chdir('../../')
-    
+
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
 
-import logging    
+import logging
 
 from kCells.cell import DualCell
 from kCells import Edge, DualEdge3D, DualEdge2D, BaseEdge
@@ -207,9 +207,9 @@ class DualFace2D(Face, DualCell):
                     e2 = Edge(dualSimpleEdges[0].endNode, centerNode)
                     edgesForFaces.append([e1, em, e2])
                     _log.debug('Creating first triangle with dual edges {}'
-                                 .format([e1.infoText,
+                                 .format([e1.info_text,
                                           sem.infoText,
-                                          e2.infoText]))
+                                          e2.info_text]))
                     _log.debug('Nodes that should define the simple face: ' +
                                  '{} {} {} {} {} {}'
                                  .format(e1.startNode,
@@ -227,7 +227,7 @@ class DualFace2D(Face, DualCell):
                         _log.debug('Creating triangle with dual edge {}'
                                      .format([e1.infoText,
                                               sem.infoText,
-                                              e2.infoText]))
+                                              e2.info_text]))
                         _log.debug('Nodes that should define the simple ' +
                                      'face: {} {} {} {} {} {}'
                                      .format(e1.startNode,
@@ -301,7 +301,7 @@ class DualFace2D(Face, DualCell):
 
         if counter >= maxCounter:
             _log.error('Cannot find closed circle to define dual Face {}'
-                         .format(self.infoText))
+                         .format(self.info_text))
             return False
 
         return edgesSorted

@@ -89,7 +89,7 @@ class Volume(Cell):
         self.__unalignedFaces = unalignedFaces
         self.color =  tc.TUMRose()
         self.setUp()
-        _log.info('Created volume {}'.format(self.infoText))
+        _log.info('Created volume {}'.format(self.info_text))
         _log.debug('Initialized Node')
 
 
@@ -167,7 +167,7 @@ class Volume(Cell):
             self.__calcVolume()
             if self.__volume < 0:
                 newFaces = [-f for f in self.__faces]
-                _log.debug('{}: Faces pointed in the wrong direction'.format(self.infoText))
+                _log.debug('{}: Faces pointed in the wrong direction'.format(self.info_text))
                 self.__faces = newFaces
                 self.__calcVolume()
 
@@ -175,7 +175,7 @@ class Volume(Cell):
                 s.addVolume(self)
             self.__calcBarycenter()
             self.geometryChanged = False
-            _log.debug('Succesfully set up volume {}'.format(self.infoText))
+            _log.debug('Succesfully set up volume {}'.format(self.info_text))
 
         else:
             self.__faces = []
@@ -289,10 +289,10 @@ class Volume(Cell):
 
                                 # Detect possible errors
                                 elif se in simpleEdges and mse in simpleEdges:
-                                    myPrintError('One edge is not allowed to be more than twice (normal and reversed) in the same volume {}'.format(self.infoText))
+                                    myPrintError('One edge is not allowed to be more than twice (normal and reversed) in the same volume {}'.format(self.info_text))
 
                 if not found:
-                    myPrintError('Cannot add one of the faces {} to volume {}'.format(faces,self.infoText))
+                    myPrintError('Cannot add one of the faces {} to volume {}'.format(faces,self.info_text))
                     count = maxCount
 
     #        self.__facesTemp = facesForVolume
@@ -330,7 +330,7 @@ class Volume(Cell):
         for se in simpleEdges :
             mse = -se
             if not mse in simpleEdges:
-                _log.error('Error, simple edge {} in the volume {} has no counterpart'.format(se.infoText,self.infoText))
+                _log.error('Error, simple edge {} in the volume {} has no counterpart'.format(se.infoText,self.info_text))
                 closed = False
         return closed
 
@@ -413,7 +413,7 @@ class Volume(Cell):
                             bc[d] += sf.area[0][n] * sf.normalVec[d]*((o[d]+x[d])**2+(o[d]+y[d])**2+(x[d]+y[d])**2)
 
             if self.__volume < 1E-3:
-                _log.error('{}: volume is close to zero or negative: {}'.format(self.infoText,self.__volume))
+                _log.error('{}: volume is close to zero or negative: {}'.format(self.info_text,self.__volume))
             else:
                 bc = bc/(24*self.__volume)
         self.__barycenter = bc
@@ -856,4 +856,3 @@ if __name__ == "__main__":
 #
 #        v2 = Volume([-f6,f7,f8,f9,f10,f11],2)
 #    #    v2.plotVolume(ax[3])
-

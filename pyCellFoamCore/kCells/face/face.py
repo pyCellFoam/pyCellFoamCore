@@ -213,7 +213,7 @@ class Face(BaseFace, Cell):
         self.triangulationMethod = triangulationMethod
         self.color = tc.TUMGreen()
         self.setUp()
-        _log.info('Created face {}'.format(self.infoText))
+        _log.info('Created face {}'.format(self.info_text))
         _log.debug('Initialized Face')
 
 # =============================================================================
@@ -422,7 +422,7 @@ class Face(BaseFace, Cell):
                         'Nodes before cutting first and last simple edges ' +
                         'in subface {} of face {}: {}'
                         .format(an.alphaNum(num),
-                                self.infoText,
+                                self.info_text,
                                 ', '.join(n.infoText for n in nodes)))
 
                     # Start and end of this list still has to be adjusted
@@ -470,7 +470,7 @@ class Face(BaseFace, Cell):
                                 'close the cycle of edges: {} in face {}'
                                 .format(', '.
                                         join([se.infoText for se in subEdges]),
-                                        self.infoText))
+                                        self.info_text))
                             self.delete()
 
                     # Find all real edges to define real Face
@@ -635,7 +635,7 @@ class Face(BaseFace, Cell):
                         num += 1
                 else:
                     _log.error(
-                        'Subface of {} '.format(self.infoText) +
+                        'Subface of {} '.format(self.info_text) +
                         'is not defined correctly. ' +
                         'Edges {} do not define a '.format(subEdges) +
                         'closed circle')
@@ -695,7 +695,7 @@ class Face(BaseFace, Cell):
 # ------------------------------------------------------------------------
 
     def updateGeometry(self):
-        _log.debug('Update Face{}'.format(self.infoText))
+        _log.debug('Update Face{}'.format(self.info_text))
         super().updateGeometry()
         for v in self.__volumes:
             v.updateGeometry()
@@ -711,7 +711,7 @@ class Face(BaseFace, Cell):
         tol = 1E-3
         edgesToBeRemoved = []
         _log.debug('{}: Simplifying. Old raw edges: {}'
-                         .format(self.infoText, self.__rawEdges))
+                         .format(self.info_text, self.__rawEdges))
         for e in self.__geometricEdges:
             attachedSimpleFaces = []
             for sf in self.__simpleFaces:
@@ -735,7 +735,7 @@ class Face(BaseFace, Cell):
             else:
                 _log.error(
                     '{}: geometric edge {} '
-                    .format(self.infoText, e.infoText) +
+                    .format(self.info_text, e.infoText) +
                     'should belong to a minimum of 2 simple faces, ' +
                     'but only belongs to {}!'
                     .format(len(attachedSimpleFaces)))
@@ -801,7 +801,7 @@ class Face(BaseFace, Cell):
                         found = True
 
                 _log.debug('{}: New pack: {}'
-                                  .format(self.infoText, pack12))
+                                  .format(self.info_text, pack12))
 
 
 #            pack12 = [*pack1, *pack2]
@@ -830,7 +830,7 @@ class Face(BaseFace, Cell):
 #            self.data.rawEdges.remove(-e)
 
         _log.debug('{}: Simplified simple faces, new raw edges: {}'
-                         .format(self.infoText, self.__rawEdges))
+                         .format(self.info_text, self.__rawEdges))
         self.updateGeometry()
 #        ml.setStreamLevel(_log)
 
@@ -888,11 +888,11 @@ class Face(BaseFace, Cell):
 #    Delete the entire face
 # ------------------------------------------------------------------------
     def delete(self):
-        _log.debug('Delete Face {}'.format(self.infoText))
+        _log.debug('Delete Face {}'.format(self.info_text))
         if self.__volumes:
             _log.error(
                 'Cannot delete face {} because it belongs to volumes {}'
-                .format(self.infoText, self.volumes))
+                .format(self.info_text, self.volumes))
         else:
             self.__rawEdges = []
             self.setUp()
@@ -926,7 +926,7 @@ class Face(BaseFace, Cell):
 
         if counter >= maxCounter:
             _log.error('Cannot find closed circle to define face {}'
-                              .format(self.infoText))
+                              .format(self.info_text))
             return False
 
         else:

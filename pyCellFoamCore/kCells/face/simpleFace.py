@@ -200,7 +200,7 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
 
         if not ok:
             _log.error('Simple face {} is not well defined'
-                              .format(self.infoText))
+                              .format(self.info_text))
 
         _log.debug('Continuity ok')
         return ok
@@ -351,7 +351,7 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
         self.__area = [areas, totalArea]
         if totalArea < self.tolerance:
             _log.error('{}: area is close to zero or negative: {}'
-                              .format(self.infoText, totalArea))
+                              .format(self.info_text, totalArea))
         _log.debug('Calculated area')
 
 # ------------------------------------------------------------------------

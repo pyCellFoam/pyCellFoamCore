@@ -21,7 +21,7 @@
 if __name__ == '__main__':
     import os
     os.chdir('../../')
-    
+
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
@@ -115,7 +115,7 @@ class BaseSimpleFace(BaseSimpleCell):
         print('=============================================================')
         print('-------------------------------------------------------------')
         cc.printGreenBackground('   ', end='')
-        print(' Face Number', self.num, self.infoText)
+        print(' Face Number', self.num, self.info_text)
         print('-------------------------------------------------------------')
         print('=============================================================')
         print()
@@ -200,7 +200,7 @@ class BaseSimpleFace(BaseSimpleCell):
                 ax.add_artist(a)
         else:
             _log.error('Cannot Plot Face {} because it is empty'
-                              .format(self.infoText))
+                              .format(self.info_text))
 
     def plotFaceVtk(self, myVtk, showNormalVec=False, **kwargs):
         myVtk.addPolygon(self.coordinates)

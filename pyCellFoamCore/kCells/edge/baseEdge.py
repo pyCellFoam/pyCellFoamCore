@@ -19,7 +19,7 @@
 if __name__ == '__main__':
     import os
     os.chdir('../../')
-    
+
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
@@ -188,7 +188,7 @@ class BaseEdge(BaseCell):
         '''
         print('==========================================================')
         cc.printBlueBackground('   ', end='')
-        print(' Edge ', self.infoText)
+        print(' Edge ', self.info_text)
         print('==========================================================')
         print()
         print('Label:'+self.labelText)

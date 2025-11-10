@@ -168,7 +168,7 @@ class Cell(BaseCell, SuperCell):
                 _log.error('Unknwon category {}'.format(str(t)))
         else:
             _log.error('Attempting to change type of {} from {} to {}'
-                              .format(self.infoText, self.category1, t))
+                              .format(self.info_text, self.category1, t))
     category1 = property(__getCategory1, __setCategory1)
 
     '''
@@ -189,7 +189,7 @@ class Cell(BaseCell, SuperCell):
                 _log.error('Unknwon category {}'.format(str(t)))
         else:
             _log.error('Attempting to change type of {} from {} to {}'
-                              .format(self.infoText, self.category2,
+                              .format(self.info_text, self.category2,
                                       t))
 
     category2 = property(__getCategory2, __setCategory2)
@@ -285,7 +285,7 @@ class Cell(BaseCell, SuperCell):
         if self.__dualCell3D is None:
             self.__dualCell3D = d
         else:
-            _log.error('{} already has a 3D dual'.format(self.infoText))
+            _log.error('{} already has a 3D dual'.format(self.info_text))
 
     dualCell3D = property(__getDualCell3D, __setDualCell3D)
     '''
@@ -300,7 +300,7 @@ class Cell(BaseCell, SuperCell):
         if self.__dualCell2D is None:
             self.__dualCell2D = d
         else:
-            _log.error('{} already has a 2D dual'.format(self.infoText))
+            _log.error('{} already has a 2D dual'.format(self.info_text))
 
     dualCell2D = property(__getDualCell2D, __setDualCell2D)
     '''
@@ -315,7 +315,7 @@ class Cell(BaseCell, SuperCell):
         if self.__dualCell1D is None:
             self.__dualCell1D = d
         else:
-            _log.error('{} already has a 1D dual'.format(self.infoText))
+            _log.error('{} already has a 1D dual'.format(self.info_text))
 
     dualCell1D = property(__getDualCell1D, __setDualCell1D)
     '''
@@ -329,7 +329,7 @@ class Cell(BaseCell, SuperCell):
         if self.__dualCell0D is None:
             self.__dualCell0D = d
         else:
-            _log.error('{} already has a 0D dual'.format(self.infoText))
+            _log.error('{} already has a 0D dual'.format(self.info_text))
 
     dualCell0D = property(__getDualCell0D, __setDualCell0D)
     '''
@@ -442,7 +442,7 @@ class Cell(BaseCell, SuperCell):
 
         '''
         _log.debug('Called update Geometry in Cell {}'
-                          .format(self.infoText))
+                          .format(self.info_text))
         self.__geometryChanged = True
 
 
@@ -475,7 +475,7 @@ if __name__ == '__main__':
     print(testC.labelText)
 
     cc.printBlue('Check info text')
-    print(testC.infoText)
+    print(testC.info_text)
 
     cc.printBlue('Check category1 of cell and reversed cell')
     print(testC.category, mTestC.category)

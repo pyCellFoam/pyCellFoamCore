@@ -80,7 +80,7 @@ class SuperCell(SuperBaseCell):
             myReverse = SuperReversedCell(myReverse=self, **kwargs)
 
         self.__isDeleted = False
-        super().__init__(*args, myReverse=myReverse, **kwargs)
+        super().__init__(*args, my_reverse=myReverse, **kwargs)
 
         _log.debug('Initialized SuperCell')
 

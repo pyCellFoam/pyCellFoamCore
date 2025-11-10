@@ -100,7 +100,7 @@ class Edge(BaseEdge, Cell):
             self.startNode.addEdge(self)
             self.endNode.addEdge(self)
 
-            _log.info('Created edge {}'.format(self.infoText))
+            _log.info('Created edge {}'.format(self.info_text))
 
         _log.debug('Initialized Edge')
 
@@ -311,7 +311,7 @@ class Edge(BaseEdge, Cell):
         '''
         if face in self.__faces:
             _log.error('Face {} already belongs to edge {}!'
-                              .format(face.infoText, self.infoText))
+                              .format(face.infoText, self.info_text))
         else:
             self.__faces.append(face)
 
@@ -329,11 +329,11 @@ class Edge(BaseEdge, Cell):
         if face in self.__faces:
             self.__faces.remove(face)
             _log.debug('Removed simple face {} from simple edge {}'
-                             .format(face.infoText, self.infoText))
+                             .format(face.infoText, self.info_text))
         else:
             _log.error('Cannot remove simple face {}'
                               .format(face.infoText) +
-                              ' from simple edge {}!'.format(self.infoText))
+                              ' from simple edge {}!'.format(self.info_text))
 
 # ------------------------------------------------------------------------
 #

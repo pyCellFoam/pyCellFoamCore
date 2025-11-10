@@ -213,9 +213,9 @@ class DualEdge3D(Edge, DualCell):
 
         # Check direction
         if np.inner(self.directionVec[0], face.normalVec[0]) > 0:
-            myPrintDebug('{}: direction ok'.format(self.infoText))
+            myPrintDebug('{}: direction ok'.format(self.info_text))
         else:
-            myPrintError('{}: direction not ok'.format(self.infoText))
+            myPrintError('{}: direction not ok'.format(self.info_text))
 
         self.dualCell3D = face
         face.dualCell3D = self

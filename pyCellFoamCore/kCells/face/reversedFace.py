@@ -207,7 +207,7 @@ class ReversedFace(BaseFace, ReversedCell):
         else:
             _log.error(
                 'Cannot add volume {}'.format(volume.infoText) +
-                ' to reversed face {} '.format(self.infoText) +
+                ' to reversed face {} '.format(self.info_text) +
                 'because it does not belong to a face')
 
 # ------------------------------------------------------------------------
@@ -219,7 +219,7 @@ class ReversedFace(BaseFace, ReversedCell):
         else:
             _log.error(
                 'Cannot delete volume {} '.format(volume.infoText) +
-                'from reversed face {} '.format(self.infoText) +
+                'from reversed face {} '.format(self.info_text) +
                 'because it does not belong to a face')
 
     def setUp(self):

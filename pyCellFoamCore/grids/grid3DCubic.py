@@ -133,7 +133,7 @@ class Cube:
 # =============================================================================
 
     def  __repr__(self):
-        return '🎲'+self.volume.infoText
+        return '🎲'+self.volume.info_text
 
 # =============================================================================
 #    CUBE METHODS
@@ -941,4 +941,3 @@ if __name__ == '__main__':
         axNum += 1
         for f in dc.additionalBorderFaces:
             f.plotFace(axes[axNum], showLabel=False, showNormalVec=False)
-

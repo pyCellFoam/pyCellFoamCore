@@ -411,7 +411,7 @@ class ReversedCell(BaseCell, SuperReversedCell):
 
         '''
         _log.debug('Called update Geometry in ReversedCell {}'
-                          .format(self.infoText))
+                          .format(self.info_text))
         if self.myReverse:
             self.myReverse.updateGeometry()
 

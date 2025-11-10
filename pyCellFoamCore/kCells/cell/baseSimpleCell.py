@@ -121,7 +121,7 @@ class BaseSimpleCell(SuperBaseCell):
         if self.belongsTo:
             return self.belongsTo.isGeometrical
         else:
-            _log.warning('Simple cell {} '.format(self.infoText) +
+            _log.warning('Simple cell {} '.format(self.info_text) +
                                 'does not belong to a real' +
                                 'cell, using fixed standard value for ' +
                                 'isGeometrical')
@@ -137,7 +137,7 @@ class BaseSimpleCell(SuperBaseCell):
         if self.belongsTo:
             return self.belongsTo.color
         else:
-            _log.warning('Simple cell {} '.format(self.infoText) +
+            _log.warning('Simple cell {} '.format(self.info_text) +
                                 'does not belong to a real ' +
                                 'cell, using fixed standard value for ' +
                                 'color')
@@ -192,7 +192,7 @@ class BaseSimpleCell(SuperBaseCell):
         if self.belongsTo:
             return self.belongsTo.showLabel
         else:
-            _log.warning('Simple cell {} '.format(self.infoText) +
+            _log.warning('Simple cell {} '.format(self.info_text) +
                                 'does not belong to a real' +
                                 ' cell, using fixed standard value' +
                                 ' for showLabel')
@@ -207,7 +207,7 @@ class BaseSimpleCell(SuperBaseCell):
         if self.belongsTo:
             return self.belongsTo.grayInTikz
         else:
-            _log.warning('Simple cell {}'.format(self.infoText) +
+            _log.warning('Simple cell {}'.format(self.info_text) +
                                 ' does not belong to a real cell, ' +
                                 'using fixed standard value for grayInTikz')
             return False
@@ -228,7 +228,7 @@ class BaseSimpleCell(SuperBaseCell):
 
 if __name__ == '__main__':
     set_logging_format(logging.DEBUG)
-    
+
     cc.printBlue('Create Base Simple Cell')
     sc1 = BaseSimpleCell()
 

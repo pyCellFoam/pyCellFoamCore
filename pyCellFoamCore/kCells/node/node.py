@@ -112,7 +112,7 @@ class Node(Cell):
         self.__draw = True
         self.__onBoundingBoxSides = []
         self.__tikZNodes = {}
-        _log.info('Created node {}'.format(self.infoText))
+        _log.info('Created node {}'.format(self.info_text))
         _log.debug('Initialized Node')
 
 # =============================================================================
@@ -566,7 +566,7 @@ class Node(Cell):
         '''
         if simpleEdge in self.__simpleEdges:
             _log.error('Simple edge %s already belongs to node %s!',
-                              simpleEdge.infoText, self.infoText)
+                              simpleEdge.infoText, self.info_text)
         else:
             self.__simpleEdges.append(simpleEdge)
 
@@ -583,10 +583,10 @@ class Node(Cell):
         if simpleEdge in self.__simpleEdges:
             self.__simpleEdges.remove(simpleEdge)
             _log.debug('Removed simple edge %s from node %s',
-                             simpleEdge.infoText, self.infoText)
+                             simpleEdge.infoText, self.info_text)
         else:
             _log.error('Cannot remove simple edge %s from node %s!',
-                              simpleEdge.infoText, self.infoText)
+                              simpleEdge.infoText, self.info_text)
 
     def addEdge(self, edge):
         '''
@@ -603,7 +603,7 @@ class Node(Cell):
         '''
         if edge in self.__edges:
             _log.error('Edge %s already belongs to node %s!',
-                              edge.infoText, self.infoText)
+                              edge.infoText, self.info_text)
         else:
             self.__edges.append(edge)
             _log.debug('Added edge {} to node {}'
@@ -618,7 +618,7 @@ class Node(Cell):
                     self.__connectedNodes.append(edge.startNode)
                 elif self in edge.geometricNodes:
                     _log.error('Node {} should be geometric'
-                                      .format(self.infoText))
+                                      .format(self.info_text))
                 else:
                     _log.error('Cannot find connected node')
 
@@ -648,19 +648,19 @@ class Node(Cell):
                     else:
                         _log.error(
                             'Node {} should have been connected to node {}'
-                            .format(edge.endNode.infoText, self.infoText))
+                            .format(edge.endNode.infoText, self.info_text))
                 elif edge.endNode == self:
                     if edge.startNode in self.connectedNodes:
                         self.__connectedNodes.remove(edge.startNode)
                     else:
                         _log.error(
                             'Node {} should have been connected to node {}'
-                            .format(edge.startNode.infoText, self.infoText))
+                            .format(edge.startNode.infoText, self.info_text))
                 else:
                     _log.error('Cannot find connected node')
         else:
             _log.error('Cannot remove edge {} from node {}!'
-                              .format(edge.infoText, self.infoText))
+                              .format(edge.infoText, self.info_text))
 
     def updateGeometry(self):
         '''
