@@ -37,7 +37,7 @@ import logging
 
 #    kCells
 # -------------------------------------------------------------------
-from kCells.cell.superBaseCell import SuperBaseCell
+from pyCellFoamCore.kCells.cell.super_base_cell import SuperBaseCell
 
 #    Complex & Grids
 # -------------------------------------------------------------------
@@ -93,8 +93,8 @@ class BaseCell(SuperBaseCell):
 #    SETTER AND GETTER
 # =============================================================================
 
-    def __getLabelSuffix(self): return ''
-    labelSuffix = property(__getLabelSuffix)
+    def __get_label_suffix(self): return ''
+    labelSuffix = property(__get_label_suffix)
     '''
     k-cells  have no suffix (only simple cells do)
 
@@ -124,6 +124,6 @@ class BaseCell(SuperBaseCell):
 
 if __name__ == '__main__':
     set_logging_format(logging.DEBUG)
-    
+
     testBC = BaseCell()
     print(testBC)

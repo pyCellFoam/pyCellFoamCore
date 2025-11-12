@@ -63,7 +63,7 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
 #    SETTER AND GETTER
 # =============================================================================
 
-    def __getStartNode(self): return self.myReverse.endNode
+    def __getStartNode(self): return self.my_reverse.endNode
 
     startNode = property(__getStartNode)
     '''
@@ -71,7 +71,7 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
 
     '''
 
-    def __getEndNode(self): return self.myReverse.startNode
+    def __getEndNode(self): return self.my_reverse.startNode
 
     endNode = property(__getEndNode)
     '''
@@ -80,8 +80,8 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
     '''
 
     def __getBarycenter(self):
-        if self.myReverse:
-            return self.myReverse.barycenter
+        if self.my_reverse:
+            return self.my_reverse.barycenter
         else:
             _log.error('Reversed Simple Edge does not belong to a ' +
                               'Simple Edge, cannot return barycenter')
@@ -94,8 +94,8 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
     '''
 
     def __getDirectionVec(self):
-        if self.myReverse:
-            return -self.myReverse.directionVec
+        if self.my_reverse:
+            return -self.my_reverse.directionVec
         else:
             _log.error('Reversed Simple Edge does not belong to a ' +
                               'Simple Edge, cannot return directionVec')
@@ -109,8 +109,8 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
     '''
 
     def __getConnectionVec(self):
-        if self.myReverse:
-            return -self.myReverse.connectionVec
+        if self.my_reverse:
+            return -self.my_reverse.connectionVec
         else:
             _log.error('Reversed Simple Edge does not belong to a ' +
                               'Simple Edge, cannot return directionVec')
@@ -124,8 +124,8 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
     '''
 
     def __getSimpleFaces(self):
-        if self.myReverse:
-            return [-sf for sf in self.myReverse.simpleFaces]
+        if self.my_reverse:
+            return [-sf for sf in self.my_reverse.simpleFaces]
         else:
             _log.error('Reversed Simple Edge does not belong to a ' +
                               'Simple Edge, cannot return simpleFaces')
@@ -148,8 +148,8 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
         Add the negative simple face to the non-reversed simple edge.
 
         '''
-        if self.myReverse:
-            self.myReverse.addSimpleFace(-simpleFace)
+        if self.my_reverse:
+            self.my_reverse.addSimpleFace(-simpleFace)
         else:
             _log.error(
                 'Cannot add simple face {} '.format(simpleFace.infoText) +
@@ -164,8 +164,8 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
         Delete the negative simple face from the non-reversed simple edge.
 
         '''
-        if self.myReverse:
-            self.myReverse.delSimpleFace(-simpleFace)
+        if self.my_reverse:
+            self.my_reverse.delSimpleFace(-simpleFace)
         else:
             _log.error(
                 'Cannot delete simple face {} '.format(simpleFace.infoText) +

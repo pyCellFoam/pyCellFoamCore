@@ -36,7 +36,7 @@ import logging
 
 #    kCells
 # -------------------------------------------------------------------
-from kCells.cell.superBaseCell import SuperBaseCell
+from pyCellFoamCore.kCells.cell.super_base_cell import SuperBaseCell
 from kCells.cell.superReversedCell import SuperReversedCell
 
 
@@ -88,9 +88,9 @@ class SuperCell(SuperBaseCell):
 #    SETTER AND GETTER
 # =============================================================================
 
-    def __getLabelPrefix(self): return ''
+    def __get_label_prefix(self): return ''
 
-    labelPrefix = property(__getLabelPrefix)
+    labelPrefix = property(__get_label_prefix)
     '''
     Positive k-cells get no prefix.
 
@@ -104,9 +104,9 @@ class SuperCell(SuperBaseCell):
 
     '''
 
-    def __getIsDeleted(self): return self.__isDeleted
+    def __get_is_deleted(self): return self.__isDeleted
 
-    isDeleted = property(__getIsDeleted)
+    isDeleted = property(__get_is_deleted)
     '''
     To keep track of deleted cells, they are not completely removed from
     memory but marked as "deleted"
@@ -118,11 +118,11 @@ class SuperCell(SuperBaseCell):
 #    but that are needed for methods in this class
 # ------------------------------------------------------------------------
 
-    def __getLabel(self):
+    def __get_label(self):
         _log.warning('Using standard value for label')
         return 'SUPC'
 
-    label = property(__getLabel)
+    label = property(__get_label)
     '''
     The label is typically just one letter describing the type of the k-cell.
     This should be implemented in child classes. Using standard value here.
@@ -133,16 +133,16 @@ class SuperCell(SuperBaseCell):
 #    METHODS
 # =============================================================================
 
-    def updateText(self):
+    def update_text(self):
         '''
         The label can only be changed in the cell, not in the reversed cell.
         Therefore the updateText() function is not needed to be implemented in
         the ReversedCell class, here is enough.
 
         '''
-        super().updateText()
-        if self.myReverse:
-            self.myReverse.updateText()
+        super().update_text()
+        if self.my_reverse:
+            self.my_reverse.updateText()
 
     def delete(self):
         '''
@@ -152,7 +152,7 @@ class SuperCell(SuperBaseCell):
         '''
 
         self.__isDeleted = True
-        self.updateText()
+        self.update_text()
 
 
 # =============================================================================

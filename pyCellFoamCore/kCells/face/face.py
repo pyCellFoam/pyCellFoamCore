@@ -901,10 +901,10 @@ class Face(BaseFace, Cell):
 # ------------------------------------------------------------------------
 #    Update text
 # ------------------------------------------------------------------------
-    def updateText(self):
+    def update_text(self):
         for sf in self.__simpleFaces:
             sf.updateText()
-        super().updateText()
+        super().update_text()
 
     def __sortRawEdges(self):
         edgesUnsorted = self.__rawEdges[0][:]
@@ -1434,8 +1434,8 @@ if __name__ == '__main__':
         for n in nodes100:
             n.plotNode(ax[axNum])
         for e in edges100:
-            e.myReverse.plotEdge(ax[axNum])
-        f101.myReverse.plotFace(ax[axNum])
+            e.my_reverse.plotEdge(ax[axNum])
+        f101.my_reverse.plotFace(ax[axNum])
         pf.setAxesEqual(ax[axNum])
         ax[axNum].set_title('Case 1 reversed')
 
@@ -1447,8 +1447,8 @@ if __name__ == '__main__':
         for n in nodes600:
             n.plotNode(ax[axNum])
         for e in edges600:
-            e.myReverse.plotEdge(ax[axNum])
-        f601.myReverse.plotFace(ax[axNum])
+            e.my_reverse.plotEdge(ax[axNum])
+        f601.my_reverse.plotFace(ax[axNum])
         pf.setAxesEqual(ax[axNum])
         ax[axNum].set_title('Case 6 reversed')
 

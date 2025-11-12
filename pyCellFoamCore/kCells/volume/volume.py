@@ -134,12 +134,12 @@ class Volume(Cell):
     alignFaces = property(__getAlignFaces)
 #
 #
-    def __getCategory(self): return super().category
+    def __get_category(self): return super().category
     def __setCategory(self,c):
         self.category1 = c
         self.category2 = c
 #        super(Cell,self).category2 = c
-    category = property(__getCategory,__setCategory)
+    category = property(__get_category,__setCategory)
 #
 #    def __getCategory1(self): return super().category1
 #    category1 = property(__getCategory1)
@@ -505,7 +505,7 @@ class Volume(Cell):
             if showBarycenter:
                 ax.scatter(self.__barycenter[0],self.__barycenter[1],self.__barycenter[2],c=self.color.html)
             if showLabel:
-                ax.text(self.barycenter[0],self.barycenter[1],self.barycenter[2],self.labelText,color=self.color.html)
+                ax.text(self.barycenter[0],self.barycenter[1],self.barycenter[2],self.label_text,color=self.color.html)
         else:
             _log.error('Cannot plot empty volume {}'.format(self))
 
@@ -528,15 +528,15 @@ class Volume(Cell):
 
         if showLabel:
             if shortLabel:
-                tikZLabelText = self.labelTextShort
+                tikZLabelText = self.label_text_short
             else:
-                tikZLabelText = self.labelText
+                tikZLabelText = self.label_text
         else:
             tikZLabelText = ''
 
 
 
-        n = pic.addTikZNode(self.tikZName,self.barycenter,content=tikZLabelText,options=labelOptions)
+        n = pic.addTikZNode(self.tikz_name,self.barycenter,content=tikZLabelText,options=labelOptions)
 
 
 
@@ -564,7 +564,7 @@ class Volume(Cell):
             tikzText = ''
 
             if showLabel:
-                tikzText += '\\node{} ({}) at ({}) {{{}}};\n'.format(optionsNodeText,self.tikZName,self.tikzCoords(self.barycenter),self.labelText)
+                tikzText += '\\node{} ({}) at ({}) {{{}}};\n'.format(optionsNodeText,self.tikz_name,self.tikzCoords(self.barycenter),self.label_text)
 
 
             for f in self.faces:

@@ -84,19 +84,19 @@ class ReversedSimpleCell(BaseSimpleCell, SuperReversedCell):
 #    SETTER AND GETTER
 # =============================================================================
 
-    def __getLabelSuffix(self):
-        if self.myReverse:
-            return self.myReverse.labelSuffix
+    def __get_label_suffix(self):
+        if self.my_reverse:
+            return self.my_reverse.labelSuffix
         else:
-            return super().labelSuffix
+            return super().label_suffix
 
     def __setLabelSuffix(self, s):
-        if self.myReverse:
-            self.myReverse.labelSuffix = s
+        if self.my_reverse:
+            self.my_reverse.labelSuffix = s
         else:
             _log.error('Cannot set label suffix')
 
-    labelSuffix = property(__getLabelSuffix, __setLabelSuffix)
+    labelSuffix = property(__get_label_suffix, __setLabelSuffix)
     '''
     The label is stored in the corresponding positive simple cell.
 

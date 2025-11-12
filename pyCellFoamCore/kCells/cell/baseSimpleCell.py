@@ -36,7 +36,7 @@ import logging
 
 #    kCells
 # -------------------------------------------------------------------
-from kCells.cell.superBaseCell import SuperBaseCell
+from pyCellFoamCore.kCells.cell.super_base_cell import SuperBaseCell
 
 
 #    Tools
@@ -106,12 +106,12 @@ class BaseSimpleCell(SuperBaseCell):
     tikZLabelPosition = property(__getTikZLabelPosition,
                                  __setTikZLabelPosition)
 
-    def __getLabel(self):
+    def __get_label(self):
         if self.belongsTo:
             return self.belongsTo.label
         else:
             return 'SIMC'
-    label = property(__getLabel)
+    label = property(__get_label)
     '''
     The label is the same as the k-cell that this simple cell belongs to.
 
@@ -148,41 +148,41 @@ class BaseSimpleCell(SuperBaseCell):
 
     '''
 
-    def __getNum(self):
+    def __get_num(self):
         if self.belongsTo:
             return self.belongsTo.num
         else:
             _log.warning('Simple cell does not belong to a real cell,' +
                                 ' using fixed standard value for num')
             return super().num
-    num = property(__getNum)
+    num = property(__get_num)
     '''
     Using the number of the corresponding k-cell.
 
     '''
 
-    def __getIsDual(self):
+    def __get_is_dual(self):
         if self.belongsTo:
             return self.belongsTo.isDual
         else:
             _log.warning('Simple cell does not belong to a real cell,' +
                                 ' using fixed standard value for isDual')
-            return super().isDual
-    isDual = property(__getIsDual)
+            return super().is_dual
+    isDual = property(__get_is_dual)
     '''
     If the k-cell that the simple cell belongs to is in a dual complex, then
     the simple cell is part of a dual complex, too.
 
     '''
 
-    def __getCategoryText(self):
+    def __get_category_text(self):
         if self.belongsTo:
             return self.belongsTo.categoryText
         else:
             _log.warning('Simple cell does not belong to a real cell,' +
                                 ' using fixed standard value for categoryText')
-            return super().categoryText
-    categoryText = property(__getCategoryText)
+            return super().category_text
+    categoryText = property(__get_category_text)
     '''
     Using the category of the corresponding k-cell.
 

@@ -95,8 +95,8 @@ class DualCell(Cell):
 # =============================================================================
 #    SETTER AND GETTER
 # =============================================================================
-    def __getIsDual(self): return True
-    isDual = property(__getIsDual)
+    def __get_is_dual(self): return True
+    isDual = property(__get_is_dual)
     '''
 
     '''
@@ -141,4 +141,4 @@ if __name__ == '__main__':
     cc.printBlue('Creat dual cell')
     test = DualCell()
     cc.printBlue('Check that the isDual attribute ist set correctly')
-    print(test.isDual, test.myReverse.isDual)
+    print(test.isDual, test.my_reverse.isDual)

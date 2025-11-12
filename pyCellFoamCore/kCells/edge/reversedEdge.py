@@ -78,8 +78,8 @@ class ReversedEdge(BaseEdge, ReversedCell):
 # =============================================================================
 
     def __getFaces(self):
-        if self.myReverse:
-            return [-f for f in reversed(self.myReverse.faces)]
+        if self.my_reverse:
+            return [-f for f in reversed(self.my_reverse.faces)]
         else:
             _log.warning('No reverse defined')
             return True
@@ -87,15 +87,15 @@ class ReversedEdge(BaseEdge, ReversedCell):
     faces = property(__getFaces)
 
     def __getShowArrow(self):
-        if self.myReverse:
-            return self.myReverse.showArrow
+        if self.my_reverse:
+            return self.my_reverse.showArrow
         else:
             _log.warning('No reverse defined')
             return True
 
     def __setShowArrow(self, s):
-        if self.myReverse:
-            self.myReverse.showArrow = s
+        if self.my_reverse:
+            self.my_reverse.showArrow = s
         else:
             _log.error(
                 'Cannot set showArrow because the reversed edge ' +
@@ -104,61 +104,61 @@ class ReversedEdge(BaseEdge, ReversedCell):
     showArrow = property(__getShowArrow, __setShowArrow)
 
     def __getStartNode(self):
-        if self.myReverse.geometryChanged:
-            self.myReverse.setUp()
-        return self.myReverse.endNode
+        if self.my_reverse.geometryChanged:
+            self.my_reverse.setUp()
+        return self.my_reverse.endNode
 
     def __setStartNode(self, s):
         _log.debug('Setting start node in edge %s', self)
-        self.myReverse.endNode = s
+        self.my_reverse.endNode = s
 
     startNode = property(__getStartNode, __setStartNode)
 
     def __getEndNode(self):
-        if self.myReverse.geometryChanged:
-            self.myReverse.setUp()
-        return self.myReverse.startNode
+        if self.my_reverse.geometryChanged:
+            self.my_reverse.setUp()
+        return self.my_reverse.startNode
 
     def __setEndNode(self, s):
         _log.debug('Setting end node in edge %s', self)
-        self.myReverse.startNode = s
+        self.my_reverse.startNode = s
 
     endNode = property(__getEndNode, __setEndNode)
 
     def __getGeometricNodes(self):
-        return list(reversed(self.myReverse.geometricNodes))
+        return list(reversed(self.my_reverse.geometricNodes))
 
     def __setGeometricNodes(self, g):
-        self.myReverse.geometricNodes = list(reversed(g))
+        self.my_reverse.geometricNodes = list(reversed(g))
 
     geometricNodes = property(__getGeometricNodes, __setGeometricNodes)
 
     def __getSimpleEdges(self):
-        if self.myReverse:
-            return [-se for se in reversed(self.myReverse.simpleEdges)]
+        if self.my_reverse:
+            return [-se for se in reversed(self.my_reverse.simpleEdges)]
         else:
             _log.error('No reverse defined')
 
     simpleEdges = property(__getSimpleEdges)
 
     def __getTopologicNodes(self):
-        if self.myReverse:
-            return list(reversed(self.myReverse.topologicNodes))
+        if self.my_reverse:
+            return list(reversed(self.my_reverse.topologicNodes))
         else:
             _log.error('No reverse defined')
 
     topologicNodes = property(__getTopologicNodes)
 
     def __getProjectedEdge(self):
-        if self.myReverse:
-            return -self.myReverse.projectedEdge
+        if self.my_reverse:
+            return -self.my_reverse.projectedEdge
         else:
             _log.error('No reverse defined')
     projectedEdge = property(__getProjectedEdge)
 
     def __getProjectionFace(self):
-        if self.myReverse:
-            return self.myReverse.projectionFace
+        if self.my_reverse:
+            return self.my_reverse.projectionFace
         else:
             _log.error('No reverse defined')
     projectionFace = property(__getProjectionFace)
@@ -170,8 +170,8 @@ class ReversedEdge(BaseEdge, ReversedCell):
 #    Add a face that uses this edge
 # ------------------------------------------------------------------------
     def addFace(self, face):
-        if self.myReverse:
-            self.myReverse.addFace(-face)
+        if self.my_reverse:
+            self.my_reverse.addFace(-face)
         else:
             _log.error(
                 'Cannot add face {}'.format(face.infoText) +
@@ -182,8 +182,8 @@ class ReversedEdge(BaseEdge, ReversedCell):
 #    Delete a face that uses this edge
 # ------------------------------------------------------------------------
     def delFace(self, face):
-        if self.myReverse:
-            self.myReverse.delFace(-face)
+        if self.my_reverse:
+            self.my_reverse.delFace(-face)
         else:
             _log.error(
                 'Cannot delete face {}'.format(face.infoText) +

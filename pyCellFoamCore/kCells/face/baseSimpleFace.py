@@ -119,7 +119,7 @@ class BaseSimpleFace(BaseSimpleCell):
         print('-------------------------------------------------------------')
         print('=============================================================')
         print()
-        print('Label:'+self.labelText)
+        print('Label:'+self.label_text)
         print()
         num_edges = []
         for e in self.edges:
@@ -188,7 +188,7 @@ class BaseSimpleFace(BaseSimpleCell):
                 ax.text(self.barycenter[0]+dx,
                         self.barycenter[1]+dy,
                         self.barycenter[2]+dz,
-                        self.labelText,
+                        self.label_text,
                         color=color.html)
             if showNormalVec:
                 a = Arrow3D(self.barycenter,
@@ -279,9 +279,9 @@ class BaseSimpleFace(BaseSimpleCell):
 
         if showLabel:
             if shortLabel:
-                tikZLabelText = self.labelTextShort
+                tikZLabelText = self.label_text_short
             else:
-                tikZLabelText = self.labelText
+                tikZLabelText = self.label_text
         else:
             tikZLabelText = ''
 
@@ -302,7 +302,7 @@ class BaseSimpleFace(BaseSimpleCell):
                                          directionVecX=v1,
                                          directionVecY=v2)
 
-                n = canv.addTikZNode(self.tikZName,
+                n = canv.addTikZNode(self.tikz_name,
                                      np.array([0, 0]),
                                      content=tikZLabelText,
                                      options=arrowOptions)
@@ -313,7 +313,7 @@ class BaseSimpleFace(BaseSimpleCell):
                                              options=arrowOptions)
 
             elif pic.dim == 2:
-                n = pic.addTikZNode(self.tikZName,
+                n = pic.addTikZNode(self.tikz_name,
                                     self.barycenter[:2],
                                     content=tikZLabelText,
                                     options=arrowOptions)
@@ -325,9 +325,9 @@ class BaseSimpleFace(BaseSimpleCell):
                 _log.error('TikZPicture has dimension {}'
                                   .format(pic.dim))
             if showNormalVec:
-                start = pic.addTikZCoordinate(self.tikZName+'Barycenter',
+                start = pic.addTikZCoordinate(self.tikz_name+'Barycenter',
                                               self.barycenter)
-                end = pic.addTikZCoordinate(self.tikZName+'NormalVec',
+                end = pic.addTikZCoordinate(self.tikz_name+'NormalVec',
                                             self.barycenter+self.normalVec)
 
                 pic.addTikZLine(start, end, normalVecOptions)
@@ -365,9 +365,9 @@ class BaseSimpleFace(BaseSimpleCell):
 
         if showLabel:
             if shortLabel:
-                tikzLabelText = self.labelTextShort
+                tikzLabelText = self.label_text_short
             else:
-                tikzLabelText = self.labelText
+                tikzLabelText = self.label_text
         else:
             tikzLabelText = ''
 
@@ -415,23 +415,23 @@ class BaseSimpleFace(BaseSimpleCell):
                         self.tikzCoords(x),
                         self.tikzCoords(y))
             tikzText += '\t\\node{} ({}) at (0, 0) {{{}}};\n' \
-                .format(optionsNodeText, self.tikZName, tikzLabelText)
+                .format(optionsNodeText, self.tikz_name, tikzLabelText)
             if showArrow:
                 tikzText += '\t\\circledarrow{{{}}}{{{}}}{{{}}}\n' \
                     .format(optionsCircledarrowText,
-                            self.tikZName,
+                            self.tikz_name,
                             arrowDiameter)
             tikzText += '\\end{scope}\n'
         else:
             tikzText = '\\node{} ({}) at ({}) {{{}}};\n' \
                 .format(optionsNodeText,
-                        self.tikZName,
+                        self.tikz_name,
                         self.tikzCoords(o[:2]),
                         tikzLabelText)
             if showArrow:
                 tikzText += '\t\\circledarrow{{{}}}{{{}}}{{{}}}\n' \
                     .format(optionsCircledarrowText,
-                            self.tikZName,
+                            self.tikz_name,
                             arrowDiameter)
 
         if showNormalVec:

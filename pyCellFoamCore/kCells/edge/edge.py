@@ -244,7 +244,7 @@ class Edge(BaseEdge, Cell):
             self.__geometricNodes = [self.__geometricNodes, ]
 
         allNodes = [self.__startNode, *self.__geometricNodes, self.__endNode]
-        if self.checkIfDuplicates(allNodes):
+        if self.check_if_duplicates(allNodes):
             _log.error('Duplicate nodes in definition of {}: {}'
                               .format(self, allNodes))
 
@@ -376,10 +376,10 @@ class Edge(BaseEdge, Cell):
 # ------------------------------------------------------------------------
 #    Update text
 # ------------------------------------------------------------------------
-    def updateText(self):
+    def update_text(self):
         for se in self.__simpleEdges:
             se.updateText()
-        super().updateText()
+        super().update_text()
 
 # ------------------------------------------------------------------------
 #    Plot for Documentation

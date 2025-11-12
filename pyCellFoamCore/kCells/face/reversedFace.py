@@ -75,8 +75,8 @@ class ReversedFace(BaseFace, ReversedCell):
 # =============================================================================
 
     def __getSimpleFaces(self):
-        if self.myReverse:
-            return [-x for x in self.myReverse.simpleFaces]
+        if self.my_reverse:
+            return [-x for x in self.my_reverse.simpleFaces]
         else:
             _log.warning('No reverse defined')
             return []
@@ -84,33 +84,33 @@ class ReversedFace(BaseFace, ReversedCell):
     simpleFaces = property(__getSimpleFaces)
 
     def __getEdges(self):
-        if self.myReverse:
-            return [-x for x in (reversed(self.myReverse.edges))]
+        if self.my_reverse:
+            return [-x for x in (reversed(self.my_reverse.edges))]
         else:
             _log.warning('No reverse defined')
             return []
 
     def __setEdges(self, edges):
-        if self.myReverse:
+        if self.my_reverse:
             if isinstance(edges[0], BaseEdge):
-                self.myReverse.edges = [-x for x in (reversed(edges))]
+                self.my_reverse.edges = [-x for x in (reversed(edges))]
             else:
                 allEdges = []
                 for e in edges:
                     allEdges.append([-x for x in (reversed(e))])
-                self.myReverse.edges = allEdges
+                self.my_reverse.edges = allEdges
         else:
             _log.error('No reverse defined')
 
     edges = property(__getEdges, __setEdges)
 
     def __getRawEdges(self):
-        if self.myReverse:
-            if isinstance(self.myReverse.rawEdges[0], BaseEdge):
-                return [-x for x in (reversed(self.myReverse.rawEdges))]
+        if self.my_reverse:
+            if isinstance(self.my_reverse.rawEdges[0], BaseEdge):
+                return [-x for x in (reversed(self.my_reverse.rawEdges))]
             else:
                 rawEdges = []
-                for re in self.myReverse.rawEdges:
+                for re in self.my_reverse.rawEdges:
                     rawEdges.append([-x for x in reversed(re)])
                 return rawEdges
 
@@ -121,8 +121,8 @@ class ReversedFace(BaseFace, ReversedCell):
     rawEdges = property(__getRawEdges)
 
     def __getGeometricEdges(self):
-        if self.myReverse:
-            return self.myReverse.geometricEdges
+        if self.my_reverse:
+            return self.my_reverse.geometricEdges
         else:
             _log.warning('No reverse defined')
             return []
@@ -130,8 +130,8 @@ class ReversedFace(BaseFace, ReversedCell):
     geometricEdges = property(__getGeometricEdges)
 
     def __getGeometricNodes(self):
-        if self.myReverse:
-            return self.myReverse.geometricNodes
+        if self.my_reverse:
+            return self.my_reverse.geometricNodes
         else:
             _log.warning('No reverse defined')
             return []
@@ -139,15 +139,15 @@ class ReversedFace(BaseFace, ReversedCell):
     geometricNodes = property(__getGeometricNodes)
 
     def __getShowNormalVec(self):
-        if self.myReverse:
-            return self.myReverse.showNormalVec
+        if self.my_reverse:
+            return self.my_reverse.showNormalVec
         else:
             _log.warning('No reverse defined')
             return True
 
     def __setShowNormalVec(self, s):
-        if self.myReverse:
-            self.myReverse.showNormalVec = s
+        if self.my_reverse:
+            self.my_reverse.showNormalVec = s
         else:
             _log.error(
                 'Cannot set showNormalVec because the reversed edge ' +
@@ -156,15 +156,15 @@ class ReversedFace(BaseFace, ReversedCell):
     showNormalVec = property(__getShowNormalVec, __setShowNormalVec)
 
     def __getShowBarycenter(self):
-        if self.myReverse:
-            return self.myReverse.showBarycenter
+        if self.my_reverse:
+            return self.my_reverse.showBarycenter
         else:
             _log.warning('No reverse defined')
             return True
 
     def __setShowBarycenter(self, s):
-        if self.myReverse:
-            self.myReverse.showBarycenter = s
+        if self.my_reverse:
+            self.my_reverse.showBarycenter = s
         else:
             _log.error(
                 'Cannot set showBarycenter because the reversed edge ' +
@@ -173,16 +173,16 @@ class ReversedFace(BaseFace, ReversedCell):
     showBarycenter = property(__getShowBarycenter, __setShowBarycenter)
 
     def __getPolygons(self):
-        if self.myReverse:
-            return self.myReverse.polygons
+        if self.my_reverse:
+            return self.my_reverse.polygons
         else:
             _log.warning('No reverse defined')
             return None
     polygons = property(__getPolygons)
 
     def __getVolumes(self):
-        if self.myReverse:
-            return self.myReverse.volumes
+        if self.my_reverse:
+            return self.my_reverse.volumes
         else:
             _log.warning('No reverse defined')
             return None
@@ -193,8 +193,8 @@ class ReversedFace(BaseFace, ReversedCell):
 # =============================================================================
 
     def simplifyFace(self):
-        if self.myReverse:
-            self.myReverse.simplifyFace()
+        if self.my_reverse:
+            self.my_reverse.simplifyFace()
         else:
             _log.error('No reverse defined')
 
@@ -202,8 +202,8 @@ class ReversedFace(BaseFace, ReversedCell):
 #    Add a volume that uses this face
 # ------------------------------------------------------------------------
     def addVolume(self, volume):
-        if self.myReverse:
-            self.myReverse.addVolume(volume)
+        if self.my_reverse:
+            self.my_reverse.addVolume(volume)
         else:
             _log.error(
                 'Cannot add volume {}'.format(volume.infoText) +
@@ -214,8 +214,8 @@ class ReversedFace(BaseFace, ReversedCell):
 #    Delete a volume that uses this face
 # ------------------------------------------------------------------------
     def delVolume(self, volume):
-        if self.myReverse:
-            self.myReverse.delVolume(volume)
+        if self.my_reverse:
+            self.my_reverse.delVolume(volume)
         else:
             _log.error(
                 'Cannot delete volume {} '.format(volume.infoText) +
@@ -223,7 +223,7 @@ class ReversedFace(BaseFace, ReversedCell):
                 'because it does not belong to a face')
 
     def setUp(self):
-        self.myReverse.setUp()
+        self.my_reverse.setUp()
 
 
 # =============================================================================

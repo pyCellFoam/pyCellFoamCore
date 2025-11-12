@@ -123,7 +123,7 @@ class Cell(BaseCell, SuperCell):
 #    SETTER AND GETTER
 # =============================================================================
 
-    def __getNum(self): return self.__num
+    def __get_num(self): return self.__num
 
     def __setNum(self, n):
         self.__num = n
@@ -136,21 +136,21 @@ class Cell(BaseCell, SuperCell):
                 self.dualCell1D.updateNum()
             if self.dualCell0D:
                 self.dualCell0D.updateNum()
-        self.updateText()
+        self.update_text()
 
-    num = property(__getNum, __setNum)
+    num = property(__get_num, __setNum)
     '''
     Number of this k-cell.
 
     '''
 
-    def __getLabel(self): return self.__label
+    def __get_label(self): return self.__label
 
     def __setLabel(self, s):
         self.__label = s
-        self.updateText()
+        self.update_text()
 
-    label = property(__getLabel, __setLabel)
+    label = property(__get_label, __setLabel)
     '''
     Label (typically one letter) of this k-cell.
 
@@ -163,7 +163,7 @@ class Cell(BaseCell, SuperCell):
             if t in ['inner', 'border', 'additionalBorder', 'undefined']:
                 self.__category1 = t
                 self.__categoryTextChanged = True
-                self.updateText()
+                self.update_text()
             else:
                 _log.error('Unknwon category {}'.format(str(t)))
         else:
@@ -184,7 +184,7 @@ class Cell(BaseCell, SuperCell):
             if t in ['inner', 'border', 'additionalBorder', 'undefined']:
                 self.__category2 = t
                 self.__categoryTextChanged = True
-                self.updateText()
+                self.update_text()
             else:
                 _log.error('Unknwon category {}'.format(str(t)))
         else:
@@ -199,7 +199,7 @@ class Cell(BaseCell, SuperCell):
 
     '''
 
-    def __getCategory(self):
+    def __get_category(self):
         if self.useCategory == 0:
             return ''
         elif self.useCategory == 1:
@@ -225,7 +225,7 @@ class Cell(BaseCell, SuperCell):
                               + ' - Please choose 1 or 2 '
                               + 'before assigning a category')
 
-    category = property(__getCategory, __setCategory)
+    category = property(__get_category, __setCategory)
     '''
     Returns either category 1 or 2, depending on the useCategory variable.
 
@@ -237,7 +237,7 @@ class Cell(BaseCell, SuperCell):
         if u in [1, 2]:
             self.__useCategory = u
             self.__categoryTextChanged = True
-            self.updateText()
+            self.update_text()
         else:
             _log.error('Cannot set useCategory of {}'.format(self)
                               + ' to {} - It must be either 1 or 2'.format(u))
@@ -248,12 +248,12 @@ class Cell(BaseCell, SuperCell):
 
     '''
 
-    def __getCategoryText(self):
+    def __get_category_text(self):
         if self.__categoryTextChanged:
             self.__createCategoryText()
         return self.__categoryText
 
-    categoryText = property(__getCategoryText)
+    categoryText = property(__get_category_text)
     '''
     Shortcut for the category of this k-cell.
 
@@ -376,9 +376,9 @@ class Cell(BaseCell, SuperCell):
 
     '''
 
-    def __getIsDual(self): return False
+    def __get_is_dual(self): return False
 
-    isDual = property(__getIsDual)
+    isDual = property(__get_is_dual)
     '''
     Cells are by standard not dual. This function is overwritten in the
     DualCell parent class that all
@@ -468,11 +468,11 @@ if __name__ == '__main__':
     mTestC = -testC
 
     cc.printBlue('Check that changed variables have been set')
-    print(testC.infoTextChanged)
+    print(testC.info_text_changed)
     print(mTestC.infoTextChanged)
 
     cc.printBlue('Check label')
-    print(testC.labelText)
+    print(testC.label_text)
 
     cc.printBlue('Check info text')
     print(testC.info_text)

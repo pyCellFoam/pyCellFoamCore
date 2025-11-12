@@ -23,7 +23,7 @@ Parent class for all negative (simple) k-Cells.
 import os
 if __name__ == '__main__':
     os.chdir('../../')
-    
+
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
@@ -36,7 +36,7 @@ import logging
 
 #    kCells
 # -------------------------------------------------------------------
-from kCells.cell.superBaseCell import SuperBaseCell
+from pyCellFoamCore.kCells.cell.super_base_cell import SuperBaseCell
 
 
 #    Tools
@@ -79,27 +79,27 @@ class SuperReversedCell(SuperBaseCell):
 #    SETTER AND GETTER
 # =============================================================================
 
-    def __getLabelPrefix(self): return '-'
+    def __get_label_prefix(self): return '-'
 
-    labelPrefix = property(__getLabelPrefix)
+    labelPrefix = property(__get_label_prefix)
     '''
     Negative k-cells get a "-" sign as prefix.
 
     '''
 
-    def __getLabel(self):
-        if self.myReverse is None:
+    def __get_label(self):
+        if self.my_reverse is None:
             return 'NOLABEL'
         else:
-            return self.myReverse.label
+            return self.my_reverse.label
 
     def __setLabel(self, s):
-        if self.myReverse is None:
+        if self.my_reverse is None:
             print('ERROR: no reverse')
         else:
-            self.myReverse.label = s
+            self.my_reverse.label = s
 
-    label = property(__getLabel, __setLabel)
+    label = property(__get_label, __setLabel)
     '''
     The label is stored in the corresponding positive k-cell
 
@@ -112,13 +112,13 @@ class SuperReversedCell(SuperBaseCell):
 
     '''
 
-    def __getIsDeleted(self):
-        if self.myReverse:
-            return self.myReverse.isDeleted
+    def __get_is_deleted(self):
+        if self.my_reverse:
+            return self.my_reverse.isDeleted
         else:
-            return super().isDeleted
+            return super().is_deleted
 
-    isDeleted = property(__getIsDeleted)
+    isDeleted = property(__get_is_deleted)
     '''
     The negative k-cell is always deleted with its positive counterpart.
 
@@ -134,8 +134,8 @@ class SuperReversedCell(SuperBaseCell):
         The negative k-cell is always deleted with its positive counterpart.
 
         '''
-        if self.myReverse:
-            self.myReverse.delete()
+        if self.my_reverse:
+            self.my_reverse.delete()
         else:
             _log.error('Cannot delete reversed cell that does not ' +
                               'belong to a cell')

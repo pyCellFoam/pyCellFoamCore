@@ -69,6 +69,8 @@ class SuperBaseCell:
         self.__my_reverse = my_reverse
 
         # prepare text changed variables
+        self.__label_text = ''
+        self.__label_text_short = ''
         self.__label_text_changed = True
         self.__info_text = ''
         self.__info_text_changed = True
@@ -112,65 +114,69 @@ class SuperBaseCell:
 
     '''
 
-    def __getLabelText(self):
+    def __get_label_text(self):
         if self.__label_text_changed:
             self.__create_label_text()
-        return self.__labelText
-    labelText = property(__getLabelText)
+        return self.__label_text
+    label_text = property(__get_label_text)
     '''
     This text ist used in plots.
 
     '''
 
-    def __getLabelTextShort(self):
+    def __get_label_text_short(self):
         if self.__label_text_changed:
             self.__create_label_text()
-        return self.__labelTextShort
-    labelTextShort = property(__getLabelTextShort)
+        return self.__label_text_short
+    label_text_short = property(__get_label_text_short)
     '''
     Short version of the label text, mostly for TikZ export
 
     '''
 
-    def __getTikZName(self):
+    def __get_tikz_name(self):
         name = self.label.replace('\\', '') \
-            + self.categoryText + str(self.num) \
-            + str(self.labelSuffix.replace('(', '').replace(')', ''))
-        if self.isDual:
+            + self.category_text + str(self.num) \
+            + str(self.label_suffix.replace('(', '').replace(')', ''))
+        if self.is_dual:
             name = 'd' + name
         name = name.replace(',', '_')
         return name
-    tikZName = property(__getTikZName)
+    tikz_name = property(__get_tikz_name)
     '''
     Name of the k-cell in the TikZ-plot.
 
     '''
 
-    def __getMyReverse(self): return self.__my_reverse
-    myReverse = property(__getMyReverse)
+    def __get_my_reverse(self):
+        return self.__my_reverse
+    my_reverse = property(__get_my_reverse)
     '''
     Returns the reverse of this cell, can also be accesed by using the - symbol
 
     '''
 
-    def __getLabelTextChanged(self): return self.__label_text_changed
-    labelTextChanged = property(__getLabelTextChanged)
+    def __get_label_text_changed(self):
+        return self.__label_text_changed
+    label_text_changed = property(__get_label_text_changed)
     '''
     This is set to true if some element of the the label text has changed since
     the last time that the text was compiled.
 
     '''
 
-    def __getInfoTextChanged(self): return self.__info_text_changed
-    infoTextChanged = property(__getInfoTextChanged)
+    def __get_info_text_changed(self):
+        return self.__info_text_changed
+    info_text_changed = property(__get_info_text_changed)
     '''
     This is set to true if some element of the the info text has changed since
     the last time that the text was compiled.
 
     '''
 
-    def __getTolerance(self): return 1E-4
-    tolerance = property(__getTolerance)
+    def __get_tolerance(self):
+        return 1E-4
+    tolerance = property(__get_tolerance)
     '''
     Tolerance used to check for parallelity and perpendicularity.
 
@@ -181,20 +187,20 @@ class SuperBaseCell:
     #    but that are needed for methods in this class
     # --------------------------------------------------------------------
 
-    def __getLabel(self):
+    def __get_label(self):
         _log.warning('Using standard value for label')
         return 'SUPBC'
-    label = property(__getLabel)
+    label = property(__get_label)
     '''
     The label is typically just one letter describing the type of the k-cell.
     This should be implemented in child classes. Using standard value here.
 
     '''
 
-    def __getNum(self):
+    def __get_num(self):
         _log.warning('Using standard value for num')
         return -1
-    num = property(__getNum)
+    num = property(__get_num)
 
     '''
     The k-cells need to be numbered.
@@ -202,30 +208,30 @@ class SuperBaseCell:
 
     '''
 
-    def __getLabelPrefix(self):
+    def __get_label_prefix(self):
         _log.warning('Using standard value for labelPrefix')
         return 'x'
-    labelPrefix = property(__getLabelPrefix)
+    label_prefix = property(__get_label_prefix)
     '''
     A prefix (typically the sign) can be added to the label.
     This should be implemented in child classes. Using standard value here.
 
     '''
 
-    def __getIsDual(self):
+    def __get_is_dual(self):
         _log.warning('Using standard value for isDual')
         return False
-    isDual = property(__getIsDual)
+    is_dual = property(__get_is_dual)
     '''
     This can be used to easily check if a k-cell belongs to the dual complex.
     This should be implemented in child classes. Using standard value here.
 
     '''
 
-    def __getCategory(self):
+    def __get_category(self):
         _log.warning('Using standard value for category')
         return 'NO_CATEGORY'
-    category = property(__getCategory)
+    category = property(__get_category)
     '''
     The category of a k-cell can either be "inner", "border" or
     "additionalBorder".
@@ -233,20 +239,20 @@ class SuperBaseCell:
 
     '''
 
-    def __getCategoryText(self):
+    def __get_category_text(self):
         _log.warning('Using standard value for categoryText')
         return 'NC'
-    categoryText = property(__getCategoryText)
+    category_text = property(__get_category_text)
     '''
     The category is indicated in the label by a shortcut.
     This should be implemented in child classes. Using standard value here.
 
     '''
 
-    def __getLabelSuffix(self):
+    def __get_label_suffix(self):
         _log.warning('Using standard value for labelSuffix')
         return ''
-    labelSuffix = property(__getLabelSuffix)
+    label_suffix = property(__get_label_suffix)
     '''
     A suffix can be added to the label. This is typically a letter indicating
     the simple k-cell used in a k-cell.
@@ -254,10 +260,10 @@ class SuperBaseCell:
 
     '''
 
-    def __getIsDeleted(self):
+    def __get_is_deleted(self):
         _log.warning('Using standard value for isDeleted')
         return False
-    isDeleted = property(__getIsDeleted)
+    is_deleted = property(__get_is_deleted)
     '''
     Instead of deleting an instance completely, the delete function is called
     on a k-cell that is not needed anymore. This makes it possible to keep
@@ -298,13 +304,13 @@ class SuperBaseCell:
         if the infoText is needed and has been changed since the last use.
 
         '''
-        if self.isDual:
+        if self.is_dual:
             label = self.label+'^'
         else:
             label = self.label
-        self.__info_text = r'' + self.labelPrefix+label + '_' + \
-            self.categoryText+str(self.num)+self.labelSuffix
-        if self.isDeleted:
+        self.__info_text = r'' + self.label_prefix+label + '_' + \
+            self.category_text+str(self.num)+self.label_suffix
+        if self.is_deleted:
             self.__info_text = self.__info_text + '***deleted***'
 
         self.__info_text_changed = False
@@ -317,24 +323,25 @@ class SuperBaseCell:
 
         '''
 
-        if self.isDual:
+        if self.is_dual:
             label = r'\hat{'+self.label+'}'
         else:
             label = self.label
 
-        if self.categoryText:
-            categoryText = r'\mathrm{'+self.categoryText+'}'
+        if self.category_text:
+            category_text = r'\mathrm{'+self.category_text+'}'
         else:
-            categoryText = ''
+            category_text = ''
 
-        self.__labelText = r'$' + self.labelPrefix+label + '_{'+categoryText \
-            + str(self.num)+self.labelSuffix+'}$'
-        self.__labelTextShort = r'$' + self.labelPrefix + label \
-            + '_{'+categoryText + str(self.num)+'}$'
+        self.__label_text = r'$' + self.label_prefix+label \
+            + '_{'+category_text \
+            + str(self.num)+self.label_suffix+'}$'
+        self.__label_text_short = r'$' + self.label_prefix + label \
+            + '_{'+category_text + str(self.num)+'}$'
         self.__label_text_changed = False
-        _log.debug('Update labelText {}'.format(self.__labelText))
+        _log.debug('Update labelText %s', self.__label_text)
 
-    def updateText(self):
+    def update_text(self):
         '''
         Call this to update all texts if some part of it has changed in a child
         class.
@@ -343,7 +350,7 @@ class SuperBaseCell:
         self.__label_text_changed = True
         self.__info_text_changed = True
 
-    def tikZCoords(self, v, precission=3):
+    def tikz_coords(self, v, precission=3):
         '''
         Transform given coordinates from a vector into a string that is used
         in the TikZ plot.
@@ -352,22 +359,21 @@ class SuperBaseCell:
         # Give a template for the format of the coordinate.
         # Example: '{:.3}'
         # In the later join function, the braces are replaced by the number
-        coordFormat = r'{:.' + str(precission) + r'}'
+        coord_format = r'{:.' + str(precission) + r'}'
 
         # Use join function to concatenate all coordinates in the wanted format
-        return ','.join([coordFormat.format(x) for x in v])
+        return ','.join([coord_format.format(x) for x in v])
 
-    def checkIfDuplicates(self, listOfElems):
+    def check_if_duplicates(self, list_of_elems):
         '''
         Check if given list contains any duplicates
 
         '''
-        setOfElems = set()
-        for elem in listOfElems:
-            if elem in setOfElems:
+        set_of_elems = set()
+        for elem in list_of_elems:
+            if elem in set_of_elems:
                 return True
-            else:
-                setOfElems.add(elem)
+            set_of_elems.add(elem)
         return False
 
 

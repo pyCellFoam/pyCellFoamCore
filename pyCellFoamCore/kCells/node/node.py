@@ -367,7 +367,7 @@ class Node(Cell):
                     ax.text(self.__coordinates[0]+dx,
                             self.__coordinates[1]+dy,
                             self.__coordinates[2]+dz,
-                            self.labelText,
+                            self.label_text,
                             color=plotColor)
         else:
             _log.warning('Plotting of node {} is disabled'.format(self))
@@ -388,7 +388,7 @@ class Node(Cell):
             myVTK.addScatterPoint(self.xCoordinate,
                                   self.yCoordinate,
                                   self.zCoordinate,
-                                  self.labelText,
+                                  self.label_text,
                                   color=color)
         else:
             myVTK.addScatterPoint(self.xCoordinate,
@@ -461,7 +461,7 @@ class Node(Cell):
                 nodeOptions.append('label = {{{}{}: {}}}'
                                    .format(labelOptionsText,
                                            self.tikZLabelPosition,
-                                           self.labelText))
+                                           self.label_text))
 
         if dim == 2:
             coordinates = self.coordinates[:2]
@@ -470,12 +470,12 @@ class Node(Cell):
 
         if showInPlot:
             self.__setTikZNode(tikZPic,
-                               tikZPic.addTikZNode(self.tikZName,
+                               tikZPic.addTikZNode(self.tikz_name,
                                                    coordinates,
                                                    options=nodeOptions))
         else:
             self.__setTikZNode(tikZPic,
-                               tikZPic.addTikZCoordinate(self.tikZName,
+                               tikZPic.addTikZCoordinate(self.tikz_name,
                                                          coordinates))
 
     def distToBoundingBox(self, boundingBox):

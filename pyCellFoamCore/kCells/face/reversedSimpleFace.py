@@ -73,8 +73,8 @@ class ReversedSimpleFace(BaseSimpleFace, ReversedSimpleCell):
 # =============================================================================
     def __getCoordinates(self):
         if self.__coordinates is None:
-            if self.myReverse:
-                self.__coordinates = np.flipud(self.myReverse.coordinates)
+            if self.my_reverse:
+                self.__coordinates = np.flipud(self.my_reverse.coordinates)
             else:
                 _log.error(
                     'No reverse defined, cannot give coordinates')
@@ -84,8 +84,8 @@ class ReversedSimpleFace(BaseSimpleFace, ReversedSimpleCell):
 
     def __getNodes(self):
         if self.__nodes is None:
-            if self.myReverse:
-                self.__nodes = list(reversed(self.myReverse.nodes))
+            if self.my_reverse:
+                self.__nodes = list(reversed(self.my_reverse.nodes))
             else:
                 _log.error('No reverse defined, cannot give nodes')
         return self.__nodes
@@ -94,9 +94,9 @@ class ReversedSimpleFace(BaseSimpleFace, ReversedSimpleCell):
 
     def __getArea(self):
         if self.__area is None:
-            if self.myReverse:
-                self.__area = [[a for a in reversed(self.myReverse.area[0])],
-                               self.myReverse.area[1]]
+            if self.my_reverse:
+                self.__area = [[a for a in reversed(self.my_reverse.area[0])],
+                               self.my_reverse.area[1]]
             else:
                 _log.error('No reverse defined, cannot give area')
         return self.__area
@@ -105,8 +105,8 @@ class ReversedSimpleFace(BaseSimpleFace, ReversedSimpleCell):
 
     def __getNormalVec(self):
         if self.__normalVec is None:
-            if self.myReverse:
-                self.__normalVec = -self.myReverse.normalVec
+            if self.my_reverse:
+                self.__normalVec = -self.my_reverse.normalVec
             else:
                 _log.error('No reverse defined, cannot give normalVec')
         return self.__normalVec
@@ -114,8 +114,8 @@ class ReversedSimpleFace(BaseSimpleFace, ReversedSimpleCell):
     normalVec = property(__getNormalVec)
 
     def __getBarycenter(self):
-        if self.myReverse:
-            return self.myReverse.barycenter
+        if self.my_reverse:
+            return self.my_reverse.barycenter
         else:
             _log.error('Reversed simple face does not belong to a ' +
                               'simple face, cannot return barycenter')
@@ -124,9 +124,9 @@ class ReversedSimpleFace(BaseSimpleFace, ReversedSimpleCell):
     barycenter = property(__getBarycenter)
 
     def __getSimpleEdges(self):
-        if self.myReverse:
+        if self.my_reverse:
             return [se.myReverse for se in
-                    reversed(self.myReverse.simpleEdges)]
+                    reversed(self.my_reverse.simpleEdges)]
         else:
             _log.error(
                 'Reversed simple face does not belong to a simple face, ' +

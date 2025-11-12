@@ -90,37 +90,37 @@ class ReversedCell(BaseCell, SuperReversedCell):
 #    SETTER AND GETTER
 # =============================================================================
 
-    def __getNum(self):
-        if self.myReverse:
-            return self.myReverse.num
+    def __get_num(self):
+        if self.my_reverse:
+            return self.my_reverse.num
         else:
             return super().num
 
-    def __setNum(self, n): self.myReverse.num = n
+    def __setNum(self, n): self.my_reverse.num = n
 
-    num = property(__getNum, __setNum)
+    num = property(__get_num, __setNum)
     '''
     The number is stored in the non-reversed cell.
 
     '''
 
-    def __getLabel(self):
-        if self.myReverse:
-            return self.myReverse.label
+    def __get_label(self):
+        if self.my_reverse:
+            return self.my_reverse.label
         else:
             return super().label
 
-    def __setLabel(self, s): self.myReverse.label = s
+    def __setLabel(self, s): self.my_reverse.label = s
 
-    label = property(__getLabel, __setLabel)
+    label = property(__get_label, __setLabel)
     '''
     The label is stored in the non-reversed cell.
 
     '''
 
-    def __getColor(self): return self.myReverse.color
+    def __getColor(self): return self.my_reverse.color
 
-    def __setColor(self, c): self.myReverse.color = c
+    def __setColor(self, c): self.my_reverse.color = c
 
     color = property(__getColor, __setColor)
     '''
@@ -128,9 +128,9 @@ class ReversedCell(BaseCell, SuperReversedCell):
 
     '''
 
-    def __getShowLabel(self): return self.myReverse.showLabel
+    def __getShowLabel(self): return self.my_reverse.showLabel
 
-    def __setShowLabel(self, show): self.myReverse.showLabel = show
+    def __setShowLabel(self, show): self.my_reverse.showLabel = show
 
     showLabel = property(__getShowLabel, __setShowLabel)
     '''
@@ -139,15 +139,15 @@ class ReversedCell(BaseCell, SuperReversedCell):
     '''
 
     def __getGeometryChanged(self):
-        if self.myReverse:
-            return self.myReverse.geometryChanged
+        if self.my_reverse:
+            return self.my_reverse.geometryChanged
         else:
             _log.warning('No reverse defined')
             return False
 
     def __setGeometryChanged(self, t):
-        if self.myReverse:
-            self.myReverse.geometryChanged = t
+        if self.my_reverse:
+            self.my_reverse.geometryChanged = t
         else:
             _log.error('Cannot set geometryChanged')
 
@@ -157,27 +157,27 @@ class ReversedCell(BaseCell, SuperReversedCell):
 
     '''
 
-    def __getCategory(self):
-        if self.myReverse:
-            return self.myReverse.category
+    def __get_category(self):
+        if self.my_reverse:
+            return self.my_reverse.category
         else:
             return super().category
 
-    def __setCategory(self, t): self.myReverse.category = t
+    def __setCategory(self, t): self.my_reverse.category = t
 
-    category = property(__getCategory, __setCategory)
+    category = property(__get_category, __setCategory)
     '''
     The category is stored in the non-reversed cell.
 
     '''
 
     def __getCategory1(self):
-        if self.myReverse:
-            return self.myReverse.category1
+        if self.my_reverse:
+            return self.my_reverse.category1
         else:
             return super().category1
 
-    def __setCategory1(self, t): self.myReverse.category1 = t
+    def __setCategory1(self, t): self.my_reverse.category1 = t
 
     category1 = property(__getCategory1, __setCategory1)
     '''
@@ -186,12 +186,12 @@ class ReversedCell(BaseCell, SuperReversedCell):
     '''
 
     def __getCategory2(self):
-        if self.myReverse:
-            return self.myReverse.category2
+        if self.my_reverse:
+            return self.my_reverse.category2
         else:
             return super().category2
 
-    def __setCategory2(self, t): self.myReverse.category2 = t
+    def __setCategory2(self, t): self.my_reverse.category2 = t
 
     category2 = property(__getCategory2, __setCategory2)
     '''
@@ -199,27 +199,27 @@ class ReversedCell(BaseCell, SuperReversedCell):
 
     '''
 
-    def __getCategoryText(self):
-        if self.myReverse:
-            return self.myReverse.categoryText
+    def __get_category_text(self):
+        if self.my_reverse:
+            return self.my_reverse.categoryText
         else:
-            return super().categoryText
-    categoryText = property(__getCategoryText)
+            return super().category_text
+    categoryText = property(__get_category_text)
     '''
     The text for a category is stored in the non-reversed cell.
 
     '''
 
     def __getIsGeometrical(self):
-        if self.myReverse:
-            return self.myReverse.isGeometrical
+        if self.my_reverse:
+            return self.my_reverse.isGeometrical
         else:
             _log.error('No reverse defined')
             return None
 
     def __setIsGeometrical(self, i):
-        if self.myReverse:
-            self.myReverse.isGeometrical = i
+        if self.my_reverse:
+            self.my_reverse.isGeometrical = i
         else:
             _log.error('Cannot set isGeometrical')
 
@@ -229,33 +229,33 @@ class ReversedCell(BaseCell, SuperReversedCell):
 
     '''
 
-    def __getIsDual(self):
-        if self.myReverse:
-            return self.myReverse.isDual
+    def __get_is_dual(self):
+        if self.my_reverse:
+            return self.my_reverse.isDual
         else:
-            return super().isDual
-    isDual = property(__getIsDual)
+            return super().is_dual
+    isDual = property(__get_is_dual)
     '''
     The reversed cell is dual, if the non-reversed cell is dual.
 
     '''
 
     def __getDualCell0D(self):
-        if self.myReverse:
-            if self.myReverse.dualCell0D.myReverse:
-                return self.myReverse.dualCell0D.myReverse
+        if self.my_reverse:
+            if self.my_reverse.dualCell0D.myReverse:
+                return self.my_reverse.dualCell0D.myReverse
             else:
-                return self.myReverse.dualCell0D
+                return self.my_reverse.dualCell0D
         else:
             _log.error('No reverse defined, cannot return dualCell0D')
             return False
 
     def __setDualCell0D(self, d):
-        if self.myReverse:
+        if self.my_reverse:
             if d.myReverse:
-                self.myReverse.dualCell0D = d.myReverse
+                self.my_reverse.dualCell0D = d.myReverse
             else:
-                self.myReverse.dualCell0D = d
+                self.my_reverse.dualCell0D = d
         else:
             _log.error('No reverse defined, cannot set dualCell0D')
 
@@ -266,21 +266,21 @@ class ReversedCell(BaseCell, SuperReversedCell):
     '''
 
     def __getDualCell1D(self):
-        if self.myReverse:
-            if self.myReverse.dualCell1D.myReverse:
-                return self.myReverse.dualCell1D.myReverse
+        if self.my_reverse:
+            if self.my_reverse.dualCell1D.myReverse:
+                return self.my_reverse.dualCell1D.myReverse
             else:
-                return self.myReverse.dualCell1D
+                return self.my_reverse.dualCell1D
         else:
             _log.error('No reverse defined, cannot return dualCell1D')
             return False
 
     def __setDualCell1D(self, d):
-        if self.myReverse:
+        if self.my_reverse:
             if d.myReverse:
-                self.myReverse.dualCell1D = d.myReverse
+                self.my_reverse.dualCell1D = d.myReverse
             else:
-                self.myReverse.dualCell1D = d
+                self.my_reverse.dualCell1D = d
         else:
             _log.error('No reverse defined, cannot set dualCell1D')
 
@@ -291,12 +291,12 @@ class ReversedCell(BaseCell, SuperReversedCell):
     '''
 
     def __getDualCell2D(self):
-        if self.myReverse:
-            if self.myReverse.dualCell2D:
-                if self.myReverse.dualCell2D.myReverse:
-                    return self.myReverse.dualCell2D.myReverse
+        if self.my_reverse:
+            if self.my_reverse.dualCell2D:
+                if self.my_reverse.dualCell2D.myReverse:
+                    return self.my_reverse.dualCell2D.myReverse
                 else:
-                    return self.myReverse.dualCell2D
+                    return self.my_reverse.dualCell2D
             else:
                 return None
         else:
@@ -304,11 +304,11 @@ class ReversedCell(BaseCell, SuperReversedCell):
             return False
 
     def __setDualCell2D(self, d):
-        if self.myReverse:
+        if self.my_reverse:
             if d.myReverse:
-                self.myReverse.dualCell2D = d.myReverse
+                self.my_reverse.dualCell2D = d.myReverse
             else:
-                self.myReverse.dualCell2D = d
+                self.my_reverse.dualCell2D = d
         else:
             _log.error('No reverse defined, cannot set dualCell2D')
 
@@ -319,24 +319,24 @@ class ReversedCell(BaseCell, SuperReversedCell):
     '''
 
     def __getDualCell3D(self):
-        if self.myReverse:
-            if self.myReverse.dualCell3D:
-                if self.myReverse.dualCell3D.myReverse:
-                    return self.myReverse.dualCell3D.myReverse
+        if self.my_reverse:
+            if self.my_reverse.dualCell3D:
+                if self.my_reverse.dualCell3D.myReverse:
+                    return self.my_reverse.dualCell3D.myReverse
                 else:
-                    return self.myReverse.dualCell3D
+                    return self.my_reverse.dualCell3D
             else:
-                return self.myReverse.dualCell3D
+                return self.my_reverse.dualCell3D
         else:
             _log.error('No reverse defined, cannot return dualCell3D')
             return False
 
     def __setDualCell3D(self, d):
-        if self.myReverse:
+        if self.my_reverse:
             if d.myReverse:
-                self.myReverse.dualCell3D = d.myReverse
+                self.my_reverse.dualCell3D = d.myReverse
             else:
-                self.myReverse.dualCell3D = d
+                self.my_reverse.dualCell3D = d
         else:
             _log.error('No reverse defined, cannot set dualCell3D')
 
@@ -347,14 +347,14 @@ class ReversedCell(BaseCell, SuperReversedCell):
     '''
 
     def __getShowInPlot(self):
-        if self.myReverse:
-            return self.myReverse.showInPlot
+        if self.my_reverse:
+            return self.my_reverse.showInPlot
         else:
             _log.error('No reverse defined, cannot return showInPlot')
 
     def __setShowInPlot(self, s):
-        if self.myReverse:
-            self.myReverse.showInPlot = s
+        if self.my_reverse:
+            self.my_reverse.showInPlot = s
         else:
             _log.error('No reverse defined, cannot set showInPlot')
 
@@ -367,14 +367,14 @@ class ReversedCell(BaseCell, SuperReversedCell):
     '''
 
     def __getGrayInTikz(self):
-        if self.myReverse:
-            return self.myReverse.grayInTikz
+        if self.my_reverse:
+            return self.my_reverse.grayInTikz
         else:
             _log.error('No reverse defined, cannot return grayInTikz')
 
     def __setGrayInTikz(self, g):
-        if self.myReverse:
-            self.myReverse.grayInTikz = g
+        if self.my_reverse:
+            self.my_reverse.grayInTikz = g
         else:
             _log.error('No reverse defined, cannot return grayInTikz')
 
@@ -385,14 +385,14 @@ class ReversedCell(BaseCell, SuperReversedCell):
     '''
 
     def __getIMorphType(self):
-        if self.myReverse:
-            return self.myReverse.iMorphType
+        if self.my_reverse:
+            return self.my_reverse.iMorphType
         else:
             _log.error('No reverse defined, cannot return iMorphType')
 
     def __setIMorphType(self, i):
-        if self.myReverse:
-            self.myReverse.iMorphType = i
+        if self.my_reverse:
+            self.my_reverse.iMorphType = i
         else:
             _log.error('No reverse defined, cannot return iMorphType')
 
@@ -412,8 +412,8 @@ class ReversedCell(BaseCell, SuperReversedCell):
         '''
         _log.debug('Called update Geometry in ReversedCell {}'
                           .format(self.info_text))
-        if self.myReverse:
-            self.myReverse.updateGeometry()
+        if self.my_reverse:
+            self.my_reverse.updateGeometry()
 
 
 # =============================================================================

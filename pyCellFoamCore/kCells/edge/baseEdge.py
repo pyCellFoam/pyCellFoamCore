@@ -191,7 +191,7 @@ class BaseEdge(BaseCell):
         print(' Edge ', self.info_text)
         print('==========================================================')
         print()
-        print('Label:'+self.labelText)
+        print('Label:'+self.label_text)
         print()
         print('Defined by Node', self.startNode.num, 'and', self.endNode.num)
         print()

@@ -199,7 +199,7 @@ class BaseSimpleEdge(BaseSimpleCell):
             ax.text(self.barycenter[0]+dx,
                     self.barycenter[1]+dy,
                     self.barycenter[2]+dz,
-                    self.labelText,
+                    self.label_text,
                     color=color.html)
 
 # ------------------------------------------------------------------------
@@ -234,7 +234,7 @@ class BaseSimpleEdge(BaseSimpleCell):
                       color=color.rgb01)
 
         if showLabel:
-            myVtk.addTextAnnotationNumpy(self.barycenter, self.labelText)
+            myVtk.addTextAnnotationNumpy(self.barycenter, self.label_text)
 
         if showArrow:
             myVtk.addArrowCenterDirection(self.barycenter,
@@ -279,9 +279,9 @@ class BaseSimpleEdge(BaseSimpleCell):
         labelText = None
         if showLabel:
             if shortLabel:
-                labelText = self.labelTextShort
+                labelText = self.label_text_short
             else:
-                labelText = self.labelText
+                labelText = self.label_text
 
         lineOptions.append(color.name)
 

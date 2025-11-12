@@ -104,13 +104,13 @@ class SimpleCell(BaseSimpleCell, SuperCell):
 #    SETTER AND GETTER
 # =============================================================================
 
-    def __getLabelSuffix(self): return self.__labelSuffix
+    def __get_label_suffix(self): return self.__labelSuffix
 
     def __setLabelSuffix(self, s):
         self.__labelSuffix = s
-        self.updateText()
+        self.update_text()
 
-    labelSuffix = property(__getLabelSuffix, __setLabelSuffix)
+    labelSuffix = property(__get_label_suffix, __setLabelSuffix)
     '''
     The suffix is used if a k-cell consists of more than one simple cell.
 
@@ -139,7 +139,7 @@ if __name__ == '__main__':
     print(sc2)
 
     cc.printBlue('Check label text')
-    print(sc2.labelText)
+    print(sc2.label_text)
 
     cc.printBlue('Get associated reversed simple cell')
     rsc1 = -sc1
