@@ -38,7 +38,7 @@ from pyCellFoamCore.k_cells.cell.super_base_cell import SuperBaseCell
 
 #    Tools
 # -------------------------------------------------------------------
-from pyCellFoamCore import set_logging_format
+from pyCellFoamCore.tools import set_logging_format
 
 
 # =============================================================================
@@ -75,7 +75,7 @@ class BaseCell(SuperBaseCell):
         if self.__check_tikz_label_position(tikZLabelPosition):
             self.__tikz_label_position = tikZLabelPosition
         else:
-            self.__tikz_label_position = 'left'
+            self.__tikz_label_position = 'below right'
 
         _log.debug('Initialized BaseCell')
 
@@ -108,7 +108,7 @@ class BaseCell(SuperBaseCell):
 # =============================================================================
 
     def __check_tikz_label_position(self, label_position):
-        if self.__tikz_label_position in [
+        if label_position in [
             'left', 'right', 'above', 'below', 'below right', 'below left',
             'above right', 'above left'
         ]:

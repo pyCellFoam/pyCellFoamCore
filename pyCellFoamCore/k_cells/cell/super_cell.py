@@ -16,12 +16,6 @@ Parent class for all positive (simple) k-Cells.
 # =============================================================================
 #    IMPORTS
 # =============================================================================
-# ------------------------------------------------------------------------
-#    Change to Main Directory
-# ------------------------------------------------------------------------
-import os
-if __name__ == '__main__':
-    os.chdir('../../')
 
 # ------------------------------------------------------------------------
 #    Standard Libraries
@@ -37,14 +31,12 @@ import logging
 #    kCells
 # -------------------------------------------------------------------
 from pyCellFoamCore.k_cells.cell.super_base_cell import SuperBaseCell
-from k_cells.cell.superReversedCell import SuperReversedCell
+from pyCellFoamCore.k_cells.cell.superReversedCell import SuperReversedCell
 
 
 #    Tools
 # -------------------------------------------------------------------
-import tools.colorConsole as cc
-from tools import MyLogging
-from tools.logging_formatter import set_logging_format
+from pyCellFoamCore.tools import set_logging_format
 
 
 # =============================================================================
@@ -77,9 +69,9 @@ class SuperCell(SuperBaseCell):
             class at the lowest level by loggerName = __name__
         '''
         if myReverse is None:
-            myReverse = SuperReversedCell(myReverse=self, **kwargs)
+            myReverse = SuperReversedCell(my_reverse=self, **kwargs)
 
-        self.__isDeleted = False
+        self.__is_deleted = False
         super().__init__(*args, my_reverse=myReverse, **kwargs)
 
         _log.debug('Initialized SuperCell')
@@ -88,25 +80,28 @@ class SuperCell(SuperBaseCell):
 #    SETTER AND GETTER
 # =============================================================================
 
-    def __get_label_prefix(self): return ''
+    def __get_label_prefix(self):
+        return ''
 
-    labelPrefix = property(__get_label_prefix)
+    label_prefix = property(__get_label_prefix)
     '''
     Positive k-cells get no prefix.
 
     '''
 
-    def __getIsReverse(self): return False
+    def __get_is_reverse(self):
+        return False
 
-    isReverse = property(__getIsReverse)
+    is_reverse = property(__get_is_reverse)
     '''
     All child k-cells are positive, therefor this is always false.
 
     '''
 
-    def __get_is_deleted(self): return self.__isDeleted
+    def __get_is_deleted(self):
+        return self.__is_deleted
 
-    isDeleted = property(__get_is_deleted)
+    is_deleted = property(__get_is_deleted)
     '''
     To keep track of deleted cells, they are not completely removed from
     memory but marked as "deleted"
@@ -151,7 +146,7 @@ class SuperCell(SuperBaseCell):
 
         '''
 
-        self.__isDeleted = True
+        self.__is_deleted = True
         self.update_text()
 
 
@@ -163,9 +158,8 @@ class SuperCell(SuperBaseCell):
 if __name__ == "__main__":
     set_logging_format(logging.DEBUG)
 
-    cc.printBlue('Create Super Cell')
+    _log.info('Create Super Cell')
     testSUPC = SuperCell()
 
-    cc.printBlue('Check if both, Super Cell and its reverse, ' +
-                 'have been created')
+    _log.info('Check if both, Super Cell and its reverse, have been created')
     print(testSUPC, -testSUPC)

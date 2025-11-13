@@ -30,7 +30,7 @@ import logging
 #    Tools
 # -------------------------------------------------------------------
 
-from pyCellFoamCore import set_logging_format
+from pyCellFoamCore.tools import set_logging_format
 
 # =============================================================================
 #    LOGGING
@@ -83,9 +83,9 @@ class SuperBaseCell:
             )
 
         if kwargs:
-            _log.warning(
+            _log.critical(
                 'Unused keyword arguments %s were passed',
-                kwargs,
+                list(kwargs.keys()),
             )
 
         if self in SuperBaseCell.allCells:
@@ -384,7 +384,7 @@ if __name__ == "__main__":
 
     set_logging_format(logging.DEBUG)
 
-    test_supbc1 = SuperBaseCell()
+    test_supbc1 = SuperBaseCell(bla='blub')
     test_supbc2 = SuperBaseCell(my_reverse=test_supbc1)
 
     logging.debug("%s", test_supbc1)

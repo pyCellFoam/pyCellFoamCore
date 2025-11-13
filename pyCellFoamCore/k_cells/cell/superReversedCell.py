@@ -41,9 +41,7 @@ from pyCellFoamCore.k_cells.cell.super_base_cell import SuperBaseCell
 
 #    Tools
 # -------------------------------------------------------------------
-import tools.colorConsole as cc
-from tools import MyLogging
-from tools.logging_formatter import set_logging_format
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
 # =============================================================================
