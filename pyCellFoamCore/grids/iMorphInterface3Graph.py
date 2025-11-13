@@ -10,7 +10,7 @@
 # Created on:     Wed Jul 15 15:54:16 2020
 
 '''
-This is the explanation of the whole module and will be printed at the very 
+This is the explanation of the whole module and will be printed at the very
 beginning
 
 Use - signs to declare a headline
@@ -60,7 +60,7 @@ if __name__ == '__main__':
 
 #    kCells
 #--------------------------------------------------------------------
-from kCells import Node, Edge
+from k_cells import Node, Edge
 
 #    Complex & Grids
 #--------------------------------------------------------------------
@@ -80,9 +80,9 @@ from tools import MyLogging
 class Name:
     '''
     This is the explanation of this class.
-    
+
     '''
-    
+
 #==============================================================================
 #    SLOTS
 #==============================================================================
@@ -94,19 +94,19 @@ class Name:
 #==============================================================================
     def __init__(self,a=0,b=''):
         '''
-        This is the explanation of the __init__ method. 
-        
+        This is the explanation of the __init__ method.
+
         All parameters should be listed:
-        
+
         :param int a: Some Number
         :param str b: Some String
-        
+
         '''
         self.__a = a
         self.__b = b
-        
-        
-    
+
+
+
 #==============================================================================
 #    SETTER AND GETTER
 #==============================================================================
@@ -114,119 +114,116 @@ class Name:
     def __setA(self,a): self.__a = a
     a = property(__getA,__setA)
 
-    
+
 #==============================================================================
 #    METHODS
 #==============================================================================
-    
+
 #-------------------------------------------------------------------------
 #    Method 1
 #-------------------------------------------------------------------------
     def __method1(self,a=0,b=''):
         '''
-        This is the explanation of the private method 1 
-        
+        This is the explanation of the private method 1
+
         All parameters should be listed, as well as the output values:
-        
+
         :param int a: Some Number
         :param str b: Some String
         :return: Returns maybe something
-        
+
         '''
-        
+
         return -1
 #-------------------------------------------------------------------------
 #    Method 2
 #-------------------------------------------------------------------------
     def method2(self,a,b):
         '''
-        This is the explanation of the public method 2 
-        
+        This is the explanation of the public method 2
+
         All parameters should be listed, as well as the output values:
-        
+
         :param int a: Some Number
         :param str b: Some String
         :return: Returns maybe something
-        
+
         '''
-        
+
         c = a*b
         return c
 
 #-------------------------------------------------------------------------
 #    Plot for Documentation
-#-------------------------------------------------------------------------         
+#-------------------------------------------------------------------------
     @classmethod
-    def plotDoc(cls):    
+    def plotDoc(cls):
         cc.printRed('Not implemented')
-    
+
 #==============================================================================
 #    TEST FUNCTIONS
 #==============================================================================
 if __name__ == '__main__':
-    
+
     with MyLogging('Template'):
 
 #-------------------------------------------------------------------------
 #    Create some examples
 #-------------------------------------------------------------------------
-        
-        
+
+
         test = Name()
         test.a = 5
         print('I am a template for object oriented python modules')
         print(test.method2(4,'abc'))
-    
+
 
 
 #-------------------------------------------------------------------------
 #    Plotting
-#-------------------------------------------------------------------------    
-    
+#-------------------------------------------------------------------------
+
         # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, doc, None
-        plottingMethod = 'None'   
-        
-        
+        plottingMethod = 'None'
+
+
 #    Disabled
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         if plottingMethod is None or plottingMethod == 'None':
             cc.printBlue('Plotting disabled')
-        
+
 #    Pyplot
-#---------------------------------------------------------------------         
+#---------------------------------------------------------------------
         elif plottingMethod == 'pyplot':
             cc.printBlue('Plot using pyplot')
             (figs,axes) = pf.getFigures()
             cc.printRed('Not implemented')
 
 #    VTK
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         elif plottingMethod == 'VTK' :
             cc.printBlue('Plot using VTK')
             cc.printRed('Not implemented')
 
 #    TikZ
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         elif plottingMethod == 'TikZ' :
-            cc.printBlue('Plot using TikZ')            
+            cc.printBlue('Plot using TikZ')
             cc.printRed('Not implemented')
-            
+
 #    Animation
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         elif plottingMethod == 'animation':
             cc.printBlue('Creating animation')
             cc.printRed('Not implemented')
-            
+
 #    Documentation
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         elif plottingMethod == 'doc':
             cc.printBlue('Creating plots for documentation')
             test.plotDoc()
-            
-#    Unknown
-#---------------------------------------------------------------------             
-        else:
-            cc.printRed('Unknown plotting method {}'.format(plottingMethod))        
-        
-    
 
+#    Unknown
+#---------------------------------------------------------------------
+        else:
+            cc.printRed('Unknown plotting method {}'.format(plottingMethod))

@@ -34,7 +34,7 @@ if __name__ == '__main__':
 
 #    kCells
 #--------------------------------------------------------------------
-from kCells import Node,Edge,Face
+from k_cells import Node,Edge,Face
 
 #    Complex & Grids
 #--------------------------------------------------------------------
@@ -58,9 +58,9 @@ import tools.placeFigures as pf
 class Grid2DTriangular(PrimalComplex2D):
     '''
     This is the explanation of this class.
-    
+
     '''
-    
+
 #==============================================================================
 #    SLOTS
 #==============================================================================
@@ -73,13 +73,13 @@ class Grid2DTriangular(PrimalComplex2D):
 #==============================================================================
     def __init__(self,xNum=3,yNum=None,xLen=1,yLen=1):
         '''
-        This is the explanation of the __init__ method. 
-        
+        This is the explanation of the __init__ method.
+
         All parameters should be listed:
-        
+
         :param int a: Some Number
         :param str b: Some String
-        
+
         '''
         self.__xNum = xNum
         if yNum is None:
@@ -88,17 +88,17 @@ class Grid2DTriangular(PrimalComplex2D):
             self.__yNum = yNum
         self.__xLen = xLen
         self.__yLen = yLen
-        
-        
-        super().__init__()
-        
-        
-        
-        
 
-        
-        
-    
+
+        super().__init__()
+
+
+
+
+
+
+
+
 #==============================================================================
 #    SETTER AND GETTER
 #==============================================================================
@@ -115,78 +115,78 @@ class Grid2DTriangular(PrimalComplex2D):
     yLen = property(__getYLen)
 
 
-    
+
 #==============================================================================
 #    METHODS
 #==============================================================================
-    
+
 #-------------------------------------------------------------------------
 #    Set Up
 #-------------------------------------------------------------------------
     def setUp(self):
-        
+
         #    Create Nodes
-        #---------------------------------------------------------------        
+        #---------------------------------------------------------------
         nodes = []
         for x in range(self.xNum):
-            for y in range(self.yNum):            
+            for y in range(self.yNum):
                 nodes.append(Node(x*self.xLen,y*self.yLen,0))
-                
-       
+
+
         #    Create Edges
         #---------------------------------------------------------------
         edges = []
         node_num = 0
         for x in range(self.xNum):
-            for y in range(self.yNum-1):            
+            for y in range(self.yNum-1):
                 edges.append(Edge(nodes[node_num],nodes[node_num + 1]))
                 node_num += 1
-            node_num += 1       
-        
-            
-        
+            node_num += 1
+
+
+
         for y in range(self.yNum):
             node_num = y
             for x in range(self.xNum - 1):
                 edges.append(Edge(nodes[node_num],nodes[node_num + self.yNum]))
                 node_num += self.yNum
-                
-                
+
+
         for y in range(self.yNum-1):
             node_num = y
             for x in range(self.xNum - 1):
                 edges.append(Edge(nodes[node_num],nodes[node_num + self.yNum + 1]))
                 node_num += self.yNum
-                
-        
-                
-    
+
+
+
+
         #    Create Faces
         #---------------------------------------------------------------
         faces = []
         edgeNumRight = 0
         edgeNumTop = 0
         edgeNumLeft = 0
-        
+
         for x in range(self.xNum-1):
             edgeNumBottom = x+self.xNum*(self.yNum-1)
             for y in range(self.yNum-1):
                 edgeNumTop = edgeNumBottom + self.xNum-1
                 edgeNumRight = edgeNumLeft + self.yNum-1
-                
+
                 edgeNumDiagonal = edgeNumBottom + (self.xNum-1)*self.yNum
                 faces.append(Face([edges[edgeNumBottom],edges [edgeNumRight],-edges[edgeNumDiagonal]]))
                 faces.append(Face([edges[edgeNumDiagonal],-edges[edgeNumTop],-edges[edgeNumLeft]]))
                 edgeNumLeft += 1
-                edgeNumBottom += self.xNum - 1            
-                
-                
+                edgeNumBottom += self.xNum - 1
+
+
         #    Set Up Primal Complex
-        #---------------------------------------------------------------        
+        #---------------------------------------------------------------
         self.nodes = nodes
         self.edges = edges
         self.faces = faces
-        
+
         super().setUp()
 
 
@@ -198,21 +198,16 @@ class Grid2DTriangular(PrimalComplex2D):
 #==============================================================================
 if __name__ == '__main__':
     from tools.myLogging import MyLogging
-    
+
     with MyLogging('grid2DQuadratic'):
         (figs,axes) = pf.getFigures()
-        
+
         cc.printBlue('Create triangular grid')
         pc = Grid2DTriangular()
-        
+
         cc.printBlue('Construct dual complex')
         dc = DualComplex2D(pc)
-        
+
         cc.printBlue('Plot both complexes')
         pc.plotComplex(axes[0])
         dc.plotComplex(axes[1])
-        
-        
-
-    
-

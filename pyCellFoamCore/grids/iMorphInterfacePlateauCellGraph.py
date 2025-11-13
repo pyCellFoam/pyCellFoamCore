@@ -39,9 +39,9 @@ import logging
 
 #    kCells
 #--------------------------------------------------------------------
-from kCells import Node, Edge
-from pyCellFoamCore.kCells.face.face import Face
-from pyCellFoamCore.kCells.volume.volume import Volume
+from k_cells import Node, Edge
+from pyCellFoamCore.k_cells.face.face import Face
+from pyCellFoamCore.k_cells.volume.volume import Volume
 
 #    Complex & Grids
 #--------------------------------------------------------------------
@@ -658,6 +658,3 @@ if __name__ == '__main__':
 #---------------------------------------------------------------------
     else:
         cc.printRed('Unknown plotting method {}'.format(plottingMethod))
-
-
-

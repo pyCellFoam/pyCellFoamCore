@@ -42,8 +42,8 @@ from boundingBox import BoundingBox
 
 #    kCells
 #--------------------------------------------------------------------
-from kCells import Node, Edge, Face
-from kCells.volume.volume import Volume
+from k_cells import Node, Edge, Face
+from k_cells.volume.volume import Volume
 
 #    Complex & Grids
 #--------------------------------------------------------------------
@@ -1366,13 +1366,3 @@ if __name__ == '__main__':
 #---------------------------------------------------------------------
     else:
         cc.printRed('Unknown plotting method {}'.format(plottingMethod))
-
-
-
-
-
-
-
-
-
-

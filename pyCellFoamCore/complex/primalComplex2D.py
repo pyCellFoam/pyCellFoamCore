@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
 #    kCells
 #--------------------------------------------------------------------
-from kCells import Node, Edge, Face
+from k_cells import Node, Edge, Face
 
 
 #    Complex & Grids
@@ -47,17 +47,17 @@ from complex.complex2D import Complex2D
 #    Tools
 #--------------------------------------------------------------------
 import tools.colorConsole as cc
-    
-    
+
+
 #==============================================================================
 #    CLASS DEFINITION
 #==============================================================================
 
 class PrimalComplex2D(Complex2D):
     '''
-    
+
     '''
-    
+
 #==============================================================================
 #    SLOTS
 #==============================================================================
@@ -73,19 +73,19 @@ class PrimalComplex2D(Complex2D):
         :param list nodes:
         :param list edges:
         :param list faces:
-            
+
         '''
         self.__dualComplex = None
         self.__useCategory = 1
         self.__changedNumbering = False
         super().__init__(nodes,edges,faces,loggerName = __name__)
-        
+
 
 
     def setUp(self):
         '''
         Setting up the primal 2D complex with the following steps:
-        
+
         1.  Categorize all k-cells (nodes, edges and faces) with categorization
             method 1 (balance equations on primal faces).
         2.  Sort all k-cells into lists according to their category 1.
@@ -95,7 +95,7 @@ class PrimalComplex2D(Complex2D):
         5.  Categorize all k-cells (nodes, edges and faces) with categorization
             method 2 (balance equations on dual faces)
         6.  Sort all k-cells into lists according to their category 2.
-        
+
         '''
         self.__categorizePrimal()
         self.sortPrimal()
@@ -105,9 +105,9 @@ class PrimalComplex2D(Complex2D):
         self.sortDual()
         self.__changedNumbering = True
         super().setUp()
-        
-        
-    
+
+
+
 #==============================================================================
 #    SETTER AND GETTER
 #==============================================================================
@@ -122,7 +122,7 @@ class PrimalComplex2D(Complex2D):
             self.__useCategory = u
             for c in self.nodes+self.edges+self.faces:
                 c.useCategory = u
-            
+
             if self.__dualComplex:
                 for c in self.__dualComplex.nodes+self.__dualComplex.edges+self.__dualComplex.faces:
                     c.useCategory = u
@@ -130,39 +130,39 @@ class PrimalComplex2D(Complex2D):
             self.logger.error('Cannot set useCategory of to {} - It must be either 1 or 2'.format(u))
     useCategory = property(__getUseCategory,__setUseCategory)
     '''
-    
+
     '''
-    
-    
+
+
     def __getChangedNumbering(self): return self.__changedNumbering
     changedNumbering = property(__getChangedNumbering)
     '''
-    
+
     '''
-    
-    
+
+
     def __getDualComplex(self): return self.__dualComplex
-    def __setDualComplex(self,d): 
+    def __setDualComplex(self,d):
         if self.__dualComplex is None:
             self.__dualComplex = d
         else:
             self.logger.error('Dual complex is already set')
     dualComplex = property(__getDualComplex,__setDualComplex)
     '''
-    
+
     '''
 
-    
+
 
 #==============================================================================
 #    METHODS
 #==============================================================================
-    
-    
-    
-    
-             
-    
+
+
+
+
+
+
 
 
 #-------------------------------------------------------------------------
@@ -170,15 +170,15 @@ class PrimalComplex2D(Complex2D):
 #-------------------------------------------------------------------------
     def __categorizePrimal(self):
         '''
-        
+
         '''
-        
+
         # Categorize faces
         for f in self.faces:
             if f.category1 == 'undefined':
                 f.category1 = 'inner'
-                
-        
+
+
         # Categorize edges
         for e in self.edges:
             if e.category1 == 'undefined':
@@ -197,15 +197,15 @@ class PrimalComplex2D(Complex2D):
                     self.logger.error('Edge {} has {} faces, this is too much'.format(e,len(e.faces)))
             else:
                 self.logger.error('Edge {} was already categorized'.format(e))
-                        
+
 
         # Categorize nodes
         for n in self.nodes:
-            
+
             if n.isGeometrical:
                 if not n in self.geometricNodes:
                     self.geometricNodes.append(n)
-                
+
             else:
                 if n.category1 == 'undefined':
                     inner = True
@@ -222,29 +222,29 @@ class PrimalComplex2D(Complex2D):
                         n.category1 = 'border'
                     else:
                         n.category1 = 'additionalBorder'
-                        
-                else:
-                    self.logger.error('Node {} was already categorized'.format(n))     
-         
-            
-            
 
-    
-    
+                else:
+                    self.logger.error('Node {} was already categorized'.format(n))
+
+
+
+
+
+
 #-------------------------------------------------------------------------
 #    Categorize k-cells (balance equations on dual complex)
-#-------------------------------------------------------------------------    
+#-------------------------------------------------------------------------
     def __categorizeDual(self):
         '''
-        
+
         '''
-        
+
         # Categorize faces
         for f in self.faces:
             if f.category2 == 'undefined':
                 f.category2 = f.category1
-                
-                
+
+
         # Categorize edges
         for e in self.edges:
             if e.category2 == 'undefined':
@@ -267,21 +267,21 @@ class PrimalComplex2D(Complex2D):
                             if f.category2 not in ['inner','border']:
                                 self.logger.error('Unknown category2 {} of face {}'.format(f.category2,f))
 
-                        
+
                 else:
                     self.logger.error('Edge {} has {} faces, this is too much'.format(e,len(e.faces)))
             else:
-                self.logger.error('Edge {} was already categorized'.format(e))                
-          
-            
-            
+                self.logger.error('Edge {} was already categorized'.format(e))
+
+
+
         # Categorize nodes
         for n in self.nodes:
-            
+
             if n.isGeometrical:
                 if not n in self.geometricNodes:
                     self.geometricNodes.append(n)
-                
+
             else:
                 if n.category2 == 'undefined':
                     border = False
@@ -295,25 +295,25 @@ class PrimalComplex2D(Complex2D):
                             border = True
                         if any([f.category2 == 'inner' for f in e.faces]):
                             additionalBorder = False
-                    
+
                     if border:
-                        if additionalBorder: 
+                        if additionalBorder:
                             n.category2 = 'additionalBorder'
                         else:
                             n.category2 = 'border'
-                            
+
                     else:
                         n.category2 = 'inner'
                 else:
-                    self.logger.error('Node {} was already categorized'.format(n))              
-    
-    
+                    self.logger.error('Node {} was already categorized'.format(n))
 
-    
-    
+
+
+
+
     def __combineAdditionalBorderEdges(self,myPrintDebug=None,myPrintError=None,myPrintInfo=None):
         '''
-        
+
         '''
         if myPrintDebug == None:
             myPrintDebug = self.logger.debug
@@ -321,14 +321,14 @@ class PrimalComplex2D(Complex2D):
             myPrintError = self.logger.error
         if myPrintInfo == None:
             myPrintInfo = self.logger.info
-            
+
         for f in self.borderFaces1:
             myPrintDebug('Checking  border face {}'.format(f))
-            
+
             edges = [e for e in f.edges if e.category1 == 'additionalBorder']
-            
+
             myPrintDebug('The face belongs to additional border edges {}'.format(edges))
-            
+
             if len(edges) == 0:
                 myPrintError('Border face {} should belong to at least 1 additional border edges, but it has none'.format(f))
             elif len(edges) == 1:
@@ -351,7 +351,7 @@ class PrimalComplex2D(Complex2D):
                 else:
                     myPrintError('Edges {} are not connected'.format(edges))
                     error = True
-                    
+
                 if not error:
                     newEdges = f.edges[:]
                     for e in edges:
@@ -367,49 +367,49 @@ class PrimalComplex2D(Complex2D):
                     f.setUp()
                     for e in edges:
                         e.delete()
-                    
-                        
-                
+
+
+
             else:
                 myPrintError('Border face {} has {} additional border edges, combination of them is not implemented'.format(f,len(edges)))
-                
-        
+
+
 #-------------------------------------------------------------------------
 #    Renumber according to current category in use
-#-------------------------------------------------------------------------  
-                
+#-------------------------------------------------------------------------
+
     def renumber(self):
         '''
-        
+
         '''
         self.renumberList(self.geometricNodes)
         if self.useCategory == 1:
             self.renumberList(self.innerNodes1)
             self.renumberList(self.borderNodes1)
-            self.renumberList(self.additionalBorderNodes1)    
+            self.renumberList(self.additionalBorderNodes1)
             self.renumberList(self.innerEdges1)
             self.renumberList(self.borderEdges1)
-            self.renumberList(self.additionalBorderEdges1)    
+            self.renumberList(self.additionalBorderEdges1)
             self.renumberList(self.innerFaces1)
             self.renumberList(self.borderFaces1)
             self.__changedNumbering = False
-            
+
         elif self.useCategory == 2:
             self.renumberList(self.innerNodes2)
             self.renumberList(self.borderNodes2)
-            self.renumberList(self.additionalBorderNodes2)    
+            self.renumberList(self.additionalBorderNodes2)
             self.renumberList(self.innerEdges2)
             self.renumberList(self.borderEdges2)
-            self.renumberList(self.additionalBorderEdges2)    
+            self.renumberList(self.additionalBorderEdges2)
             self.renumberList(self.innerFaces2)
             self.renumberList(self.borderFaces2)
             self.__changedNumbering = False
-            
+
         else:
             self.logger.error('Unknown useCategory {}'.format(self.useCategory))
-            
-        
-    
+
+
+
 #==============================================================================
 #    TEST FUNCTIONS
 #==============================================================================
@@ -417,79 +417,79 @@ if __name__ == '__main__':
     import tools.placeFigures as pf
 
     from tools.myLogging import MyLogging
-    
-    
+
+
 #-------------------------------------------------------------------------
 #    Check categorization
-#-------------------------------------------------------------------------        
+#-------------------------------------------------------------------------
     def printCategories(c):
         cc.printMagenta('======================================')
         cc.printMagenta('NODES')
         cc.printMagenta('======================================')
-        
+
         cc.printMagenta()
         cc.printMagenta('Inner nodes')
         cc.printMagenta('-----------------------------------')
         cc.printWhite(c.innerNodes)
-        
+
         cc.printMagenta()
         cc.printMagenta('Border nodes')
         cc.printMagenta('-----------------------------------')
         cc.printWhite(c.borderNodes)
-        
+
         cc.printMagenta()
         cc.printMagenta('Additional border nodes')
         cc.printMagenta('-----------------------------------')
         cc.printWhite(c.additionalBorderNodes)
-        
+
         cc.printBlue()
         cc.printBlue()
         cc.printBlue('======================================')
         cc.printBlue('EDGES')
         cc.printBlue('======================================')
-        
-        
+
+
         cc.printBlue()
         cc.printBlue('Inner edges')
         cc.printBlue('-----------------------------------')
         cc.printWhite(c.innerEdges)
-        
+
         cc.printBlue()
         cc.printBlue('Border edges')
         cc.printBlue('-----------------------------------')
         cc.printWhite(c.borderEdges)
-        
+
         cc.printBlue()
         cc.printBlue('Additional border edges')
         cc.printBlue('-----------------------------------')
         cc.printWhite(c.additionalBorderEdges)
-        
-        
+
+
         cc.printGreen()
         cc.printGreen()
         cc.printGreen('======================================')
         cc.printGreen('FACES')
         cc.printGreen('======================================')
-        
+
         cc.printGreen()
         cc.printGreen('Inner faces')
         cc.printGreen('-----------------------------------')
         cc.printWhite(c.innerFaces)
-        
+
         cc.printGreen()
         cc.printGreen('Border faces')
         cc.printGreen('-----------------------------------')
         cc.printWhite(c.borderFaces)
-            
-    
-    
-    
+
+
+
+
     with MyLogging('PrimalComplex2D'):
-        
-        
+
+
 #-------------------------------------------------------------------------
 #    Example 1
-#-------------------------------------------------------------------------        
+#-------------------------------------------------------------------------
         n0 = Node(0,0,0)
         n1 = Node(1,0,0)
         n2 = Node(1.5,0,0)
@@ -497,12 +497,12 @@ if __name__ == '__main__':
         n4 = Node(1,1,0)
         n5 = Node(0,1.5,0)
         n6 = Node(1.5,1.5,0)
-        
-        
-        
+
+
+
         nodes = [n0,n1,n2,n3,n4,n5,n6]
-        
-        
+
+
         e0 = Edge(n0,n1)
         e1 = Edge(n1,n2)
         e2 = Edge(n3,n4)
@@ -513,43 +513,43 @@ if __name__ == '__main__':
         e7 = Edge(n3,n5)
         e8 = Edge(n4,n6)
         edges = [e0,e1,e2,e3,e4,e5,e6,e7,e8]
-        
-        
+
+
         f0 = Face([e0,e5,-e2,-e4])
         f1 = Face([e1,e6,-e8,-e5])
         f2 = Face([e2,e8,-e3,-e7])
-        
+
         f1.category1 = 'border'
         f2.category1 = 'border'
-        
+
         faces = [f0,f1,f2]
-        
-        
+
+
         pc = PrimalComplex2D(nodes,edges,faces)
-        
-        
 
-        
 
-    
+
+
+
+
 
 
 
 #-------------------------------------------------------------------------
 #    Plotting
-#-------------------------------------------------------------------------    
-    
+#-------------------------------------------------------------------------
+
         # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, None
-        plottingMethod = 'TikZ'   
-        
-        
+        plottingMethod = 'TikZ'
+
+
 #    Disabled
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         if plottingMethod is None or plottingMethod == 'None':
             cc.printBlue('Plotting disabled')
-        
+
 #    Pyplot
-#---------------------------------------------------------------------         
+#---------------------------------------------------------------------
         elif plottingMethod == 'pyplot':
             cc.printBlue('Plot using pyplot')
             (figs,axes) = pf.getFigures()
@@ -557,54 +557,48 @@ if __name__ == '__main__':
             pc.plotComplex(axes[0])
             pc.useCategory = 2
             pc.plotComplex(axes[1])
-            
+
 
 #    VTK
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         elif plottingMethod == 'VTK' :
             cc.printBlue('Plot using VTK')
             cc.printRed('Not implemented')
 
 #    TikZ
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         elif plottingMethod == 'TikZ' :
-            cc.printBlue('Plot using TikZ')            
+            cc.printBlue('Plot using TikZ')
             pic = pc.plotComplexTikZ(plotEdges=False,plotFaces=False)
             pic.scale = 2
             file = False
-            
+
             picNodes = pc.plotNodesTikZ()
             picNodes.scale = 2
             picNodes.writeTikZFile(filename='Complex2D0Nodes')
-            
+
             picEdges = pc.plotEdgesTikZ()
             picEdges.scale = 2
             picEdges.writeTikZFile(filename='Complex2D1Edges')
-            
+
             picFaces = pc.plotFacesTikZ()
             picFaces.scale = 2
             picFaces.writeTikZFile(filename='Complex2D2Faces')
-            
-            
+
+
             print(pc.incidenceMatrix1)
             print(pc.incidenceMatrix2)
-            
-            
-            pic.writeLaTeXFile('latex','primalComplex2D',compileFile=file,openFile=file)  
-            
+
+
+            pic.writeLaTeXFile('latex','primalComplex2D',compileFile=file,openFile=file)
+
 #    Animation
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         elif plottingMethod == 'animation':
             cc.printBlue('Creating animation')
             cc.printRed('Not implemented')
 
 #    Unknown
-#---------------------------------------------------------------------             
+#---------------------------------------------------------------------
         else:
-            cc.printRed('Unknown plotting method {}'.format(plottingMethod))      
-        
-        
-        
-        
-        
-        
+            cc.printRed('Unknown plotting method {}'.format(plottingMethod))

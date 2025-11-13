@@ -24,11 +24,11 @@ import logging
 from complex.complex3D import Complex3D
 from complex.primalComplex3D import PrimalComplex3D
 
-from kCells import Node,DualNode3D,DualNode2D
-from kCells import Edge,DualEdge3D,DualEdge2D
-from kCells import Face,DualFace3D,DualFace2D
-from kCells.volume.volume import Volume
-from kCells.volume.dualVolume3D import DualVolume3D
+from k_cells import Node,DualNode3D,DualNode2D
+from k_cells import Edge,DualEdge3D,DualEdge2D
+from k_cells import Face,DualFace3D,DualFace2D
+from k_cells.volume.volume import Volume
+from k_cells.volume.dualVolume3D import DualVolume3D
 import tools.colorConsole as cc
 
 _log = logging.getLogger(__name__)
@@ -868,9 +868,3 @@ if __name__ == '__main__':
 #---------------------------------------------------------------------
         else:
             cc.printRed('Unknown plotting method {}'.format(plottingMethod))
-
-
-
-
-
-

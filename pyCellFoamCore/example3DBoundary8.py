@@ -15,10 +15,10 @@ from tools.logging_formatter import set_logging_format
 import tools.placeFigures as pf
 import tools.tumcolor as tc
 
-from kCells.node.node import Node
-from kCells.edge.edge import Edge
-from kCells.face.face import Face
-from kCells.volume.volume import Volume
+from k_cells.node.node import Node
+from k_cells.edge.edge import Edge
+from k_cells.face.face import Face
+from k_cells.volume.volume import Volume
 
 from complex.primalComplex3D import PrimalComplex3D
 from complex.dualComplex3D import DualComplex3D
@@ -255,9 +255,3 @@ v.plotVolume(ax[7], color=tc.TUMBlack())
 
 #     if not in_volume:
 #         print(n)
-
-
-
-
-
-

@@ -11,7 +11,7 @@
 
 r'''
 
-.. todo::
+# .. todo::
     * Remove prisms from this class (maybe create a child class with these
       prisms) and repace them with the new bounding box.
 
@@ -251,10 +251,10 @@ if __name__ == '__main__':
 
 import logging
 
-from kCells import Node
-from kCells import Edge
-from kCells import Face
-from kCells.volume.volume import Volume
+from k_cells import Node
+from k_cells import Edge
+from k_cells import Face
+from k_cells.volume.volume import Volume
 import math
 import numpy as np
 import tools.colorConsole as cc
@@ -4809,7 +4809,3 @@ if __name__ == '__main__':
 
 
 #
-
-
-
-

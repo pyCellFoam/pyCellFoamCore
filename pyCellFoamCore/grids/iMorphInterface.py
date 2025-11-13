@@ -39,7 +39,7 @@ import logging
 
 #    kCells
 #--------------------------------------------------------------------
-from kCells import Node, Edge, Face
+from k_cells import Node, Edge, Face
 
 #    Complex & Grids
 #--------------------------------------------------------------------
@@ -674,7 +674,7 @@ class IMorphInterface(PrimalComplex3D):
                                             else:
                                                 number_of_throats_not_same_side += 1
                                                 _log.critical("Nearest sides are not the same")
-                                                
+
                                                 neighbouring_sides = self.boundingBox.check_neighbouring_sides(side1, side2)
                                                 if neighbouring_sides:
                                                     _log.critical("Nearest sides are neighbours")
@@ -682,7 +682,7 @@ class IMorphInterface(PrimalComplex3D):
                                                 else:
                                                     _log.critical("Nearest sides are not neighbours")
                                         else:
-                                            number_of_throats_side_not_found +=1 
+                                            number_of_throats_side_not_found +=1
                                             _log.critical("Could not find nearby sides. dist1 = %s, dist2 = %s", dist1, dist2)
 
 
@@ -911,8 +911,3 @@ if __name__ == '__main__':
 #---------------------------------------------------------------------
         else:
             cc.printRed('Unknown plotting method {}'.format(plottingMethod))
-
-
-
-
-
