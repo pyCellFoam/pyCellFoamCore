@@ -18,13 +18,6 @@ Class for primal nodes
 # =============================================================================
 #    IMPORTS
 # =============================================================================
-# ------------------------------------------------------------------------
-#    Change to Main Directory
-# ------------------------------------------------------------------------
-import os
-if __name__ == '__main__':
-    os.chdir('../../')
-
 
 # ------------------------------------------------------------------------
 #    Standard Libraries
@@ -38,22 +31,20 @@ import logging
 
 import numpy as np
 
-
 # ------------------------------------------------------------------------
 #    Local Libraries
 # ------------------------------------------------------------------------
 
 #    kCells
 # -------------------------------------------------------------------
-from k_cells.cell import Cell
+from pyCellFoamCore.k_cells.cell.cell import Cell
 
 #    Tools
 # --------------------------------------------------------------------
-from tools import MyLogging
-import tools.tumcolor as tc
-import tools.colorConsole as cc
-import tools.placeFigures as pf
-from tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.tumcolor as tc
+import pyCellFoamCore.tools.colorConsole as cc
+import pyCellFoamCore.tools.placeFigures as pf
+from pyCellFoamCore.tools import set_logging_format
 
 
 # =============================================================================
@@ -97,7 +88,7 @@ class Node(Cell):
         super().__init__(*args,
                          num=num,
                          label=label,
-                         myReverse=False,
+                         my_reverse=False,
                          **kwargs)
 
         self.__coordinates = np.array([float(x), float(y), float(z)])
@@ -350,7 +341,7 @@ class Node(Cell):
                 else:
                     plotColor = color.html
 
-                if self.isGeometrical:
+                if self.is_geometrical:
                     ax.scatter(self.__coordinates[0],
                                self.__coordinates[1],
                                self.__coordinates[2],
@@ -427,13 +418,13 @@ class Node(Cell):
             showInPlot = self.showInPlot
 
         if draw is None:
-            if self.isGeometrical:
+            if self.is_geometrical:
                 draw = False
             else:
                 draw = self.showInPlot
 
         if fill is None:
-            if self.category == 'additionalBorder' or self.isGeometrical:
+            if self.category == 'additionalBorder' or self.is_geometrical:
                 fill = False
             else:
                 fill = True
@@ -443,7 +434,7 @@ class Node(Cell):
             nodeOptions.append('inner sep=0pt')
             nodeOptions.append('minimum size={}mm'.format(size))
             nodeOptions.append('color={}'.format(color.name))
-            if self.isGeometrical:
+            if self.is_geometrical:
                 nodeOptions.append('densely dashed')
 
             labelOptions.append('color={}'.format(color.name))
@@ -609,7 +600,7 @@ class Node(Cell):
             _log.debug('Added edge {} to node {}'
                              .format(edge.num, self.num))
 
-            if not self.isGeometrical:
+            if not self.is_geometrical:
                 if edge.startNode == self and edge.endNode == self:
                     _log.error('Start and end cannot be identical')
                 elif edge.startNode == self:
@@ -639,7 +630,7 @@ class Node(Cell):
             _log.debug('Removed edge {} from node {}'
                              .format(edge.num, self.num))
 
-            if not self.isGeometrical:
+            if not self.is_geometrical:
                 if edge.startNode == self and edge.endNode == self:
                     _log.error('Start and end cannot be identical')
                 elif edge.startNode == self:
@@ -705,7 +696,7 @@ if __name__ == '__main__':
     set_logging_format(logging.DEBUG)
 
     # Choose plotting method. Possible choices: pyplot, VTK, TikZ, None
-    plottingMethod = 'pyplot'
+    plottingMethod = 'None'
 
     cc.printBlue('Create nodes')
 

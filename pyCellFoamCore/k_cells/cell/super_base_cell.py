@@ -250,7 +250,7 @@ class SuperBaseCell:
     '''
 
     def __get_label_suffix(self):
-        _log.warning('Using standard value for labelSuffix')
+        _log.warning('Using standard value for label_suffix')
         return ''
     label_suffix = property(__get_label_suffix)
     '''

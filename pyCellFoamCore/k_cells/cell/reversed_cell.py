@@ -18,13 +18,6 @@ Parent class for all negative k-Cells.
 # =============================================================================
 
 # ------------------------------------------------------------------------
-#    Change to Main Directory
-# ------------------------------------------------------------------------
-import os
-if __name__ == '__main__':
-    os.chdir('../../')
-
-# ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
 
@@ -44,9 +37,7 @@ from pyCellFoamCore.k_cells.cell.super_cell import SuperReversedCell
 
 #    Tools
 # -------------------------------------------------------------------
-from tools import MyLogging
-import tools.colorConsole as cc
-from tools.logging_formatter import set_logging_format
+from pyCellFoamCore.tools import set_logging_format
 
 
 # =============================================================================
@@ -96,9 +87,9 @@ class ReversedCell(BaseCell, SuperReversedCell):
         else:
             return super().num
 
-    def __setNum(self, n): self.my_reverse.num = n
+    def __set_num(self, n): self.my_reverse.num = n
 
-    num = property(__get_num, __setNum)
+    num = property(__get_num, __set_num)
     '''
     The number is stored in the non-reversed cell.
 
@@ -234,7 +225,7 @@ class ReversedCell(BaseCell, SuperReversedCell):
             return self.my_reverse.isDual
         else:
             return super().is_dual
-    isDual = property(__get_is_dual)
+    is_dual = property(__get_is_dual)
     '''
     The reversed cell is dual, if the non-reversed cell is dual.
 
@@ -421,6 +412,6 @@ class ReversedCell(BaseCell, SuperReversedCell):
 # =============================================================================
 if __name__ == '__main__':
     set_logging_format(logging.DEBUG)
-    cc.printBlue('Create reversed cell')
+    _log.info('Create reversed cell')
     rc = ReversedCell()
     print(rc)

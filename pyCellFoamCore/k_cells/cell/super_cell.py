@@ -31,7 +31,7 @@ import logging
 #    kCells
 # -------------------------------------------------------------------
 from pyCellFoamCore.k_cells.cell.super_base_cell import SuperBaseCell
-from pyCellFoamCore.k_cells.cell.superReversedCell import SuperReversedCell
+from pyCellFoamCore.k_cells.cell.super_reversed_cell import SuperReversedCell
 
 
 #    Tools
@@ -137,7 +137,7 @@ class SuperCell(SuperBaseCell):
         '''
         super().update_text()
         if self.my_reverse:
-            self.my_reverse.updateText()
+            self.my_reverse.update_text()
 
     def delete(self):
         '''

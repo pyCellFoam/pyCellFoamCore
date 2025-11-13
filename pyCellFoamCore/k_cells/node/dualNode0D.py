@@ -29,13 +29,6 @@ only located at the same geometrical position.
 #    IMPORTS
 # =============================================================================
 # ------------------------------------------------------------------------
-#    Change to Main Directory
-# ------------------------------------------------------------------------
-import os
-if __name__ == '__main__':
-    os.chdir('../../')
-
-# ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
 
@@ -47,14 +40,14 @@ import logging
 
 #    kCells
 # -------------------------------------------------------------------
-from k_cells.node.node import Node
-from k_cells.cell import DualCell
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
 
 #    Tools
 # -------------------------------------------------------------------
-import tools.placeFigures as pf
-import tools.colorConsole as cc
-from tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.placeFigures as pf
+import pyCellFoamCore.tools.colorConsole as cc
+from pyCellFoamCore.tools import set_logging_format
 
 
 # =============================================================================
@@ -215,10 +208,10 @@ if __name__ == '__main__':
     n0 = Node(1, 2, 3)
     dn0 = DualNode0D(n0)
     n0.xCoordinate = 5
-    (figs, ax) = pf.getFigures(2, 1)
-    n0.plotNode(ax[0])
-#        dn0.plotNode(ax[0])
+#     (figs, ax) = pf.getFigures(2, 1)
+#     n0.plotNode(ax[0])
+# #        dn0.plotNode(ax[0])
 
-    pf.setLabels(ax[0])
-    if False:
-        DualNode0D.plotDoc()
+#     pf.setLabels(ax[0])
+#     if False:
+#         DualNode0D.plotDoc()

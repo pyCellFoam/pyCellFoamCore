@@ -1,27 +1,21 @@
 # -*- coding: utf-8 -*-
 # =============================================================================
-# SIMPLE CELL
+# REVERSED SIMPLE CELL
 # =============================================================================
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
 #                 Technical University of Munich (TUM)
 # E-Mail:         tobias.scheuermann@tum.de
-# Created on:     Thu Dec  7 14:16:21 2017
+# Created on:     Wed Oct 17 15:25:00 2018
 
 '''
-Parent class for all positive simple cells.
+Parent class for all negative simple cells.
 
 '''
 # =============================================================================
 #    IMPORTS
 # =============================================================================
-# ------------------------------------------------------------------------
-#    Change to Main Directory
-# ------------------------------------------------------------------------
-import os
-if __name__ == '__main__':
-    os.chdir('../../')
 
 # ------------------------------------------------------------------------
 #    Standard Libraries
@@ -29,26 +23,20 @@ if __name__ == '__main__':
 
 import logging
 
-
 # ------------------------------------------------------------------------
 #    Local Libraries
 # ------------------------------------------------------------------------
 
 #    kCells
 # -------------------------------------------------------------------
-from k_cells.cell.baseSimpleCell import BaseSimpleCell
-from pyCellFoamCore.k_cells.cell.super_cell import SuperCell
-from k_cells.cell.reversedSimpleCell import ReversedSimpleCell
-
-#    Complex & Grids
-# -------------------------------------------------------------------
+from pyCellFoamCore.k_cells.cell.base_simple_cell import BaseSimpleCell
+from pyCellFoamCore.k_cells.cell.super_reversed_cell import SuperReversedCell
 
 
 #    Tools
 # -------------------------------------------------------------------
-from tools import MyLogging
-import tools.colorConsole as cc
-from tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.colorConsole as cc
+from pyCellFoamCore.tools import set_logging_format
 
 
 # =============================================================================
@@ -64,55 +52,46 @@ _log.setLevel(logging.INFO)
 # =============================================================================
 
 
-class SimpleCell(BaseSimpleCell, SuperCell):
+class ReversedSimpleCell(BaseSimpleCell, SuperReversedCell):
     '''
-    This class inherits from the BaseSimpleCell and the SuperCell classes.
+    This class inherits from the BaseSimpleCell and the SuperReversedCell
+    classes.
 
     '''
 
 # =============================================================================
 #    INITIALIZATION
 # =============================================================================
-    def __init__(self, *args, myReverse=None, belongsTo=None,
-                 labelSuffix='NO_SUFFIX', **kwargs):
+    def __init__(self, *args, **kwargs):
         '''
-
         :param SuperBaseCell myReverse:
         :param Cell belongsTo: A cell that this simple cell is part of.
-        :param str labelSuffix: The suffix is used if a k-cell consists of more
-            than one simple cell. It can be any str.
         :param str loggerName: The logger name needs to be passed from the
             class at the lowest level by loggerName = __name__
 
         '''
-        if myReverse is None:
-            if belongsTo is not None:
-                belongsToReversed = belongsTo.myReverse
-            else:
-                belongsToReversed = None
-            myReverse = ReversedSimpleCell(myReverse=self,
-                                           belongsTo=belongsToReversed,
-                                           **kwargs)
-        super().__init__(*args,
-                         belongsTo=belongsTo,
-                         myReverse=myReverse,
-                         **kwargs)
-        self.__labelSuffix = labelSuffix
-        _log.debug('Initialized SimpleCell')
+        super().__init__(**kwargs)
+        _log.debug('Initialized ReversedSimpleCell')
 
 # =============================================================================
 #    SETTER AND GETTER
 # =============================================================================
 
-    def __get_label_suffix(self): return self.__labelSuffix
+    def __get_label_suffix(self):
+        if self.my_reverse:
+            return self.my_reverse.label_suffix
+        else:
+            return super().label_suffix
 
-    def __setLabelSuffix(self, s):
-        self.__labelSuffix = s
-        self.update_text()
+    def __set_label_suffix(self, s):
+        if self.my_reverse:
+            self.my_reverse.label_suffix = s
+        else:
+            _log.error('Cannot set label suffix')
 
-    labelSuffix = property(__get_label_suffix, __setLabelSuffix)
+    label_suffix = property(__get_label_suffix, __set_label_suffix)
     '''
-    The suffix is used if a k-cell consists of more than one simple cell.
+    The label is stored in the corresponding positive simple cell.
 
     '''
 
@@ -128,25 +107,9 @@ class SimpleCell(BaseSimpleCell, SuperCell):
 
 if __name__ == '__main__':
     set_logging_format(logging.DEBUG)
-    cc.printBlue('Create a Simple Cell without a suffix')
-    sc1 = SimpleCell()
-    cc.printBlue('Check name')
-    print(sc1)
-
-    cc.printBlue('Create a Simple Cell with a suffix')
-    sc2 = SimpleCell(labelSuffix='(a)')
-    cc.printBlue('Check name')
-    print(sc2)
-
-    cc.printBlue('Check label text')
-    print(sc2.label_text)
-
-    cc.printBlue('Get associated reversed simple cell')
-    rsc1 = -sc1
-
-    cc.printBlue('Change label suffix of the reversed simple cell')
-    rsc1.labelSuffix = '(b)'
-
-    cc.printBlue('Check that the label suffix of the original simple ' +
-                 'cell has changed as well')
-    print(sc1, rsc1)
+    cc.printBlue('Create Reversed Simple Cell')
+    rc1 = ReversedSimpleCell()
+    cc.printBlue('Check name of created reversed simple cell')
+    print(rc1)
+    cc.printBlue('Label suffix should not be settable')
+    rc1.label_suffix = '(t)'

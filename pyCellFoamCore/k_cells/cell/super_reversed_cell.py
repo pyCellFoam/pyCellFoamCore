@@ -1,18 +1,19 @@
 # -*- coding: utf-8 -*-
 # =============================================================================
-# DUAL CELL
+# SUPER REVERSED CELL
 # =============================================================================
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
 #                 Technical University of Munich (TUM)
 # E-Mail:         tobias.scheuermann@tum.de
-# Created on:     Fri Oct 26 10:43:38 2018
+# Created on:     Sat Oct  6 12:18:32 2018
 
 '''
-Parent class for all dual k-Cells.
+Parent class for all negative (simple) k-Cells.
 
 '''
+
 # =============================================================================
 #    IMPORTS
 # =============================================================================
@@ -33,17 +34,15 @@ import logging
 #    Local Libraries
 # ------------------------------------------------------------------------
 
-
 #    kCells
 # -------------------------------------------------------------------
-from k_cells.cell.cell import Cell
+from pyCellFoamCore.k_cells.cell.super_base_cell import SuperBaseCell
 
 
 #    Tools
 # -------------------------------------------------------------------
-from tools import MyLogging
-import tools.colorConsole as cc
-from tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.colorConsole as cc
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
 # =============================================================================
@@ -54,91 +53,102 @@ _log = logging.getLogger(__name__)
 _log.setLevel(logging.INFO)
 
 
-
 # =============================================================================
 #    CLASS DEFINITION
 # =============================================================================
-
-class DualCell(Cell):
+class SuperReversedCell(SuperBaseCell):
     '''
-    This class only inherits from the Cell class.
+    This class only inherits from the SuperBaseCell class.
 
     '''
-
-# =============================================================================
-#    SLOTS
-# =============================================================================
-#    __slots__ = ()
 
 # =============================================================================
 #    INITIALIZATION
 # =============================================================================
     def __init__(self, *args, **kwargs):
         '''
-
-        :param int num: number of this k-cell
-        :param str label: label of this k-cell
-        :param bool showLabel: Should the label be shown in the plot?
-        :param TUMColor color: The color of this cell in the plot.
         :param SuperBaseCell myReverse:
-        :param str category: The category (inner, border, additonal border),
-            that this k-cell belongs to.
-        :param bool isGeometrical: Set, if the k-cell is not part of the
-            topology of the complex.
         :param str loggerName: The logger name needs to be passed from the
             class at the lowest level by loggerName = __name__
-
         '''
         super().__init__(*args, **kwargs)
-        _log.debug('Initialized DualCell')
+        _log.debug('Initialized SuperReversedCell')
 
 # =============================================================================
 #    SETTER AND GETTER
 # =============================================================================
-    def __get_is_dual(self): return True
-    isDual = property(__get_is_dual)
+
+    def __get_label_prefix(self): return '-'
+
+    labelPrefix = property(__get_label_prefix)
     '''
+    Negative k-cells get a "-" sign as prefix.
 
     '''
+
+    def __get_label(self):
+        if self.my_reverse is None:
+            return 'NOLABEL'
+        else:
+            return self.my_reverse.label
+
+    def __setLabel(self, s):
+        if self.my_reverse is None:
+            print('ERROR: no reverse')
+        else:
+            self.my_reverse.label = s
+
+    label = property(__get_label, __setLabel)
+    '''
+    The label is stored in the corresponding positive k-cell
+
+    '''
+
+    def __getIsReverse(self): return True
+    isReverse = property(__getIsReverse)
+    '''
+    All child k-cells are negative, therefor this is always true.
+
+    '''
+
+    def __get_is_deleted(self):
+        if self.my_reverse:
+            return self.my_reverse.isDeleted
+        else:
+            return super().is_deleted
+
+    isDeleted = property(__get_is_deleted)
+    '''
+    The negative k-cell is always deleted with its positive counterpart.
+
+    '''
+
 
 # =============================================================================
 #    METHODS
 # =============================================================================
-    def updateNum(self, myPrintInfo=None, myPrintError=None):
+
+    def delete(self):
         '''
+        The negative k-cell is always deleted with its positive counterpart.
 
         '''
-        if myPrintInfo is None:
-            myPrintInfo = _log.info
-        if myPrintError is None:
-            _log.error
-
-        if self.isGeometrical:
-            myPrintInfo('Not copying number for geometrical kCell')
+        if self.my_reverse:
+            self.my_reverse.delete()
         else:
-            if self.dualCell3D:
-                self.num = self.dualCell3D.num
-                myPrintInfo('Copying number of {} from 3D dual'.format(self))
-            elif self.dualCell2D:
-                self.num = self.dualCell2D.num
-                myPrintInfo('Copying number of {} from 2D dual'.format(self))
-            elif self.dualCell1D:
-                self.num = self.dualCell1D.num
-                myPrintInfo('Copying number of {} from 1D dual'.format(self))
-            elif self.dualCell0D:
-                self.num = self.dualCell0D.num
-                myPrintInfo('Copying number of {} from 0D dual'.format(self))
-            else:
-                myPrintError('{} has no dual - '.format(self)
-                             + 'cannot update number')
+            _log.error('Cannot delete reversed cell that does not ' +
+                              'belong to a cell')
 
 
 # =============================================================================
 #    TEST FUNCTIONS
 # =============================================================================
+
+
 if __name__ == '__main__':
+
     set_logging_format(logging.DEBUG)
-    cc.printBlue('Creat dual cell')
-    test = DualCell()
-    cc.printBlue('Check that the isDual attribute ist set correctly')
-    print(test.isDual, test.my_reverse.isDual)
+    cc.printBlue('Create Super Reversed Cell')
+    testSUPRC = SuperReversedCell()
+    cc.printBlue('The reversed should not be defined')
+    print(-testSUPRC)

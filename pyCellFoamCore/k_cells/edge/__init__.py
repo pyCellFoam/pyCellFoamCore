@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-#==============================================================================
+# =============================================================================
 # EDGE INIT
-#==============================================================================
+# =============================================================================
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -26,24 +26,3 @@ below.
 .. todo:: Draw this structure!!!
 
 '''
-
-if __name__== '__main__':
-    import os
-    os.chdir('../../')
-
-
-# Simple
-from k_cells.edge.baseSimpleEdge import BaseSimpleEdge
-from k_cells.edge.simpleEdge import SimpleEdge
-from k_cells.edge.reversedSimpleEdge import ReversedSimpleEdge
-
-
-# Primal
-from k_cells.edge.baseEdge import BaseEdge
-from k_cells.edge.edge import Edge
-from k_cells.edge.reversedEdge import ReversedEdge
-
-# Dual
-from k_cells.edge.dualEdge1D import DualEdge1D
-from k_cells.edge.dualEdge2D import DualEdge2D
-from k_cells.edge.dualEdge3D import DualEdge3D

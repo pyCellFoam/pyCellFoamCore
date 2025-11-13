@@ -38,7 +38,7 @@ import logging
 
 #    kCells
 # -------------------------------------------------------------------
-from k_cells.cell.baseSimpleCell import BaseSimpleCell
+from pyCellFoamCore.k_cells.cell.base_simple_cell import BaseSimpleCell
 from k_cells.node.node import Node
 
 
@@ -86,8 +86,8 @@ class BaseSimpleEdge(BaseSimpleCell):
 # =============================================================================
 
     def __getShowArrow(self):
-        if self.belongsTo:
-            return self.belongsTo.showArrow
+        if self.belongs_to:
+            return self.belongs_to.showArrow
         else:
             _log.warning('Simple Edge does not belong to a real cell, '
                                 + 'using fixed standard value for showArrow')
@@ -265,7 +265,7 @@ class BaseSimpleEdge(BaseSimpleCell):
         if color is None:
             color = self.color
 
-        if self.grayInTikz:
+        if self.gray_in_tikz:
             showLabel = False
             color = tc.TUMGrayMedium()
             showArrow = False
@@ -308,7 +308,7 @@ class BaseSimpleEdge(BaseSimpleCell):
                                     end,
                                     lineOptions,
                                     intermediateText=labelText,
-                                    intermediatePosition=self.tikZLabelPosition
+                                    intermediatePosition=self.tikz_label_position
                                     )
 
 

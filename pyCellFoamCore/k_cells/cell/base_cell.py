@@ -85,7 +85,7 @@ class BaseCell(SuperBaseCell):
 
     def __get_label_suffix(self):
         return ''
-    labelSuffix = property(__get_label_suffix)
+    label_suffix = property(__get_label_suffix)
     '''
     k-cells  have no suffix (only simple cells do)
 

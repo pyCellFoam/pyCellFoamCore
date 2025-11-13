@@ -42,7 +42,7 @@ import numpy as np
 
 #    kCells
 # -------------------------------------------------------------------
-from k_cells.cell.dualCell import DualCell
+from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
 from k_cells.edge import Edge, DualEdge3D
 from k_cells.face import Face
 from k_cells import DualNode1D

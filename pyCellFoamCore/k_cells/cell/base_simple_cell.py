@@ -17,12 +17,6 @@ Parent class for all simple cells.
 # =============================================================================
 #    IMPORTS
 # =============================================================================
-# ------------------------------------------------------------------------
-#    Change to Main Directory
-# ------------------------------------------------------------------------
-import os
-if __name__ == '__main__':
-    os.chdir('../../')
 
 # ------------------------------------------------------------------------
 #    Standard Libraries
@@ -41,10 +35,9 @@ from pyCellFoamCore.k_cells.cell.super_base_cell import SuperBaseCell
 
 #    Tools
 # -------------------------------------------------------------------
-import tools.tumcolor as tc
-from tools import MyLogging
-import tools.colorConsole as cc
-from tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.tumcolor as tc
+import pyCellFoamCore.tools.colorConsole as cc
+from pyCellFoamCore.tools import set_logging_format
 
 # =============================================================================
 #    LOGGING
@@ -52,6 +45,7 @@ from tools.logging_formatter import set_logging_format
 
 _log = logging.getLogger(__name__)
 _log.setLevel(logging.INFO)
+
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -63,9 +57,9 @@ class BaseSimpleCell(SuperBaseCell):
 
     '''
 
-# =============================================================================
-#    INITIALIZATION
-# =============================================================================
+    # =========================================================================
+    #    INITIALIZATION
+    # =========================================================================
     def __init__(self, *args, belongsTo=None, **kwargs):
         '''
         :param Cell belongsTo: A cell that this simple cell is part of.
@@ -75,40 +69,42 @@ class BaseSimpleCell(SuperBaseCell):
 
         '''
         super().__init__(*args, **kwargs)
-        self.__belongsTo = belongsTo
-        self.__tikZLabelPosition = None
+        self.__belongs_to = belongsTo
+        self.__tikz_label_position = None
         _log.debug('Initialized BaseSimpleCell')
 
-# =============================================================================
-#    SETTER AND GETTER
-# =============================================================================
+    # =========================================================================
+    #    SETTER AND GETTER
+    # =========================================================================
 
-    def __getBelongsTo(self): return self.__belongsTo
-    belongsTo = property(__getBelongsTo)
+    def __get_belongs_to(self): return self.__belongs_to
+    belongs_to = property(__get_belongs_to)
     '''
     This is the k-cell that this simple cell belongs to.
 
     '''
 
-    def __getTikZLabelPosition(self):
-        if self.__tikZLabelPosition is None and self.__belongsTo:
-            return self.__belongsTo.tikZLabelPosition
+    def __get_tikz_label_position(self):
+        if self.__tikz_label_position is None and self.__belongs_to:
+            return self.__belongs_to.tikZLabelPosition
         else:
-            return self.__tikZLabelPosition
+            return self.__tikz_label_position
 
-    def __setTikZLabelPosition(self, t):
+    def __set_tikz_label_position(self, t):
         if t in ['left', 'right', 'above', 'below',
                  'below right', 'below left', 'above right', 'above left']:
-            self.__tikZLabelPosition = t
+            self.__tikz_label_position = t
         else:
-            _log.error('Unknown position for TikZ label {}'.format(t))
+            _log.error('Unknown position for TikZ label %s', t)
 
-    tikZLabelPosition = property(__getTikZLabelPosition,
-                                 __setTikZLabelPosition)
+    tikz_label_position = property(
+        __get_tikz_label_position,
+        __set_tikz_label_position,
+    )
 
     def __get_label(self):
-        if self.belongsTo:
-            return self.belongsTo.label
+        if self.belongs_to:
+            return self.belongs_to.label
         else:
             return 'SIMC'
     label = property(__get_label)
@@ -117,44 +113,48 @@ class BaseSimpleCell(SuperBaseCell):
 
     '''
 
-    def __getIsGeometrical(self):
-        if self.belongsTo:
-            return self.belongsTo.isGeometrical
-        else:
-            _log.warning('Simple cell {} '.format(self.info_text) +
-                                'does not belong to a real' +
-                                'cell, using fixed standard value for ' +
-                                'isGeometrical')
-            return False
-    isGeometrical = property(__getIsGeometrical)
+    def __get_is_geometrical(self):
+        if self.belongs_to:
+            return self.belongs_to.is_geometrical
+
+        _log.warning(
+            "Simple cell does not belong to a real cell, using fixed "
+            "standard value for isGeometrical",
+        )
+        return False
+    isGeometrical = property(__get_is_geometrical)
     '''
     If the k-cell that the simple cell belongs to is geometrical, then the
     simple cell is geometrical, too.
 
     '''
 
-    def __getColor(self):
-        if self.belongsTo:
-            return self.belongsTo.color
-        else:
-            _log.warning('Simple cell {} '.format(self.info_text) +
-                                'does not belong to a real ' +
-                                'cell, using fixed standard value for ' +
-                                'color')
-            return tc.TUMOrange()
-    color = property(__getColor)
+    def __get_color(self):
+        if self.belongs_to:
+            return self.belongs_to.color
+
+        _log.warning(
+            "Simple cell does not belong to a real cell, using fixed "
+            "standard value for color",
+        )
+
+        return tc.TUMOrange()
+    color = property(__get_color)
     '''
     Using the color of the corresponding k-cell.
 
     '''
 
     def __get_num(self):
-        if self.belongsTo:
-            return self.belongsTo.num
-        else:
-            _log.warning('Simple cell does not belong to a real cell,' +
-                                ' using fixed standard value for num')
-            return super().num
+        if self.belongs_to:
+            return self.belongs_to.num
+
+        _log.warning(
+            "Simple cell does not belong to a real cell, using fixed "
+            "standard value for num",
+        )
+        return super().num
+
     num = property(__get_num)
     '''
     Using the number of the corresponding k-cell.
@@ -162,13 +162,16 @@ class BaseSimpleCell(SuperBaseCell):
     '''
 
     def __get_is_dual(self):
-        if self.belongsTo:
-            return self.belongsTo.isDual
-        else:
-            _log.warning('Simple cell does not belong to a real cell,' +
-                                ' using fixed standard value for isDual')
-            return super().is_dual
-    isDual = property(__get_is_dual)
+        if self.belongs_to:
+            return self.belongs_to.isDual
+
+        _log.warning(
+            "Simple cell does not belong to a real cell, using fixed "
+            "standard value for isDual",
+        )
+        return super().is_dual
+
+    is_dual = property(__get_is_dual)
     '''
     If the k-cell that the simple cell belongs to is in a dual complex, then
     the simple cell is part of a dual complex, too.
@@ -176,42 +179,48 @@ class BaseSimpleCell(SuperBaseCell):
     '''
 
     def __get_category_text(self):
-        if self.belongsTo:
-            return self.belongsTo.categoryText
-        else:
-            _log.warning('Simple cell does not belong to a real cell,' +
-                                ' using fixed standard value for categoryText')
-            return super().category_text
-    categoryText = property(__get_category_text)
+        if self.belongs_to:
+            return self.belongs_to.categoryText
+
+        _log.warning(
+            "Simple cell does not belong to a real cell, using fixed "
+            "standard value for categoryText",
+        )
+        return super().category_text
+
+    category_text = property(__get_category_text)
     '''
     Using the category of the corresponding k-cell.
 
     '''
 
-    def __getShowLabel(self):
-        if self.belongsTo:
-            return self.belongsTo.showLabel
-        else:
-            _log.warning('Simple cell {} '.format(self.info_text) +
-                                'does not belong to a real' +
-                                ' cell, using fixed standard value' +
-                                ' for showLabel')
-            return True
-    showLabel = property(__getShowLabel)
+    def __get_show_label(self):
+        if self.belongs_to:
+            return self.belongs_to.showLabel
+
+        _log.warning(
+            "Simple cell does not belong to a real cell, using fixed "
+            "standard value for showLabel",
+        )
+        return True
+
+    showLabel = property(__get_show_label)
     '''
     Showing label in the plot, if this is wanted for the corresponding k-cell.
 
     '''
 
-    def __getGrayInTikz(self):
-        if self.belongsTo:
-            return self.belongsTo.grayInTikz
-        else:
-            _log.warning('Simple cell {}'.format(self.info_text) +
-                                ' does not belong to a real cell, ' +
-                                'using fixed standard value for grayInTikz')
-            return False
-    grayInTikz = property(__getGrayInTikz)
+    def __get_gray_in_tikz(self):
+        if self.belongs_to:
+            return self.belongs_to.gray_in_tikz
+
+        _log.warning(
+            "Simple cell does not belong to a real cell, using fixed "
+            "standard value for gray_in_tikz",
+        )
+        return False
+
+    gray_in_tikz = property(__get_gray_in_tikz)
     '''
 
     '''
@@ -242,14 +251,14 @@ if __name__ == '__main__':
     print(sc1.num)
 
     cc.printBlue('Check if a standard value for isDual is given')
-    print(sc1.isDual)
+    print(sc1.is_dual)
 
     cc.printBlue('Check if a standard value for categoryText is given')
-    print(sc1.categoryText)
+    print(sc1.category_text)
 
     cc.printBlue('Check that it does not belong to a cell')
-    print('Belongs to:', sc1.belongsTo)
+    print('Belongs to:', sc1.belongs_to)
 
     cc.printBlue('Check that the label position can be set and read')
-    sc1.tikZLabelPosition = 'below'
-    print('TikZ Label:', sc1.tikZLabelPosition)
+    sc1.tikz_label_position = 'below'
+    print('TikZ Label:', sc1.tikz_label_position)

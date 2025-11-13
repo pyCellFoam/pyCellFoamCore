@@ -16,25 +16,29 @@
 # =============================================================================
 #    IMPORTS
 # =============================================================================
-if __name__ == '__main__':
-    import os
-    os.chdir('../../')
 
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
-
 import logging
 
-from k_cells.cell import Cell
-from k_cells.node import Node
-from k_cells.edge.baseEdge import BaseEdge
-from k_cells.edge.simpleEdge import SimpleEdge
-from k_cells.edge.reversedEdge import ReversedEdge
-import tools.colorConsole as cc
-import tools.alphaNum as an
+# ------------------------------------------------------------------------
+#    Local Libraries
+# ------------------------------------------------------------------------
 
-from tools.logging_formatter import set_logging_format
+#    kCells
+# -------------------------------------------------------------------
+from pyCellFoamCore.k_cells.cell.cell import Cell
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.edge.baseEdge import BaseEdge
+from pyCellFoamCore.k_cells.edge.simpleEdge import SimpleEdge
+from pyCellFoamCore.k_cells.edge.reversedEdge import ReversedEdge
+
+#    Tools
+# -------------------------------------------------------------------
+import pyCellFoamCore.tools.colorConsole as cc
+import pyCellFoamCore.tools.alphaNum as an
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
 # =============================================================================
@@ -44,11 +48,10 @@ from tools.logging_formatter import set_logging_format
 _log = logging.getLogger(__name__)
 _log.setLevel(logging.INFO)
 
+
 # =============================================================================
 #    CLASS DEFINITION
 # =============================================================================
-
-
 class Edge(BaseEdge, Cell):
     '''
 
@@ -57,9 +60,9 @@ class Edge(BaseEdge, Cell):
     '''
     edgeCount = 0
 
-# =============================================================================
-#    INITIALIZATION
-# =============================================================================
+    # =========================================================================
+    #    INITIALIZATION
+    # =========================================================================
     def __init__(self,
                  start,
                  end,
@@ -104,9 +107,9 @@ class Edge(BaseEdge, Cell):
 
         _log.debug('Initialized Edge')
 
-# =============================================================================
-#    SETTER AND GETTER
-# =============================================================================
+    # =========================================================================
+    #    SETTER AND GETTER
+    # =========================================================================
 
     def __getShowArrow(self): return self.__showArrow
 
@@ -183,7 +186,7 @@ class Edge(BaseEdge, Cell):
             g = [g, ]
         self.__geometricNodes = g
         for n in self.__geometricNodes:
-            n.isGeometrical = True
+            n.is_geometrical = True
         self.updateGeometry()
 
     geometricNodes = property(__getGeometricNodes, __setGeometricNodes)
@@ -265,7 +268,7 @@ class Edge(BaseEdge, Cell):
                                    labelSuffix='('+an.alphaNum(num)+')'))
                 else:
                     for n in self.__geometricNodes:
-                        n.isGeometrical = True
+                        n.is_geometrical = True
                         n.addEdge(self)
                     self.__simpleEdges.append(
                         SimpleEdge(start=self.__startNode,

@@ -18,16 +18,8 @@ Parent class for all positive k-Cells
 # =============================================================================
 
 # ------------------------------------------------------------------------
-#    Change to Main Directory
-# ------------------------------------------------------------------------
-import os
-if __name__ == '__main__':
-    os.chdir('../../')
-
-# ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
-
 import logging
 
 # ------------------------------------------------------------------------
@@ -38,13 +30,13 @@ import logging
 # -------------------------------------------------------------------
 from pyCellFoamCore.k_cells.cell.base_cell import BaseCell
 from pyCellFoamCore.k_cells.cell.super_cell import SuperCell
-from k_cells.cell.reversedCell import ReversedCell
+from pyCellFoamCore.k_cells.cell.reversed_cell import ReversedCell
 
 #    Tools
 # -------------------------------------------------------------------
-import tools.tumcolor as tc
-import tools.colorConsole as cc
-from tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.tumcolor as tc
+import pyCellFoamCore.tools.colorConsole as cc
+from pyCellFoamCore.tools import set_logging_format
 
 
 # =============================================================================
@@ -66,18 +58,18 @@ class Cell(BaseCell, SuperCell):
 
     '''
 
-# =============================================================================
-#    INITIALIZATION
-# =============================================================================
+    # =========================================================================
+    #    INITIALIZATION
+    # =========================================================================
     def __init__(self,
                  *args,
                  num=-2,
                  label='c',
-                 showLabel=True,
+                 show_label=True,
                  color=tc.TUMBlue(),
-                 myReverse=None,
+                 my_reverse=None,
                  category='undefined',
-                 isGeometrical=False,
+                 is_geometrical=False,
                  **kwargs):
         '''
 
@@ -95,39 +87,39 @@ class Cell(BaseCell, SuperCell):
 
         '''
 
-        if myReverse is None:
-            myReverse = ReversedCell(myReverse=self, **kwargs)
+        if my_reverse is None:
+            my_reverse = ReversedCell(my_reverse=self, **kwargs)
 
         self.__label = label
         self.__num = num
         self.__category1 = category
         self.__category2 = category
-        self.__categoryText = ''
-        self.__categoryTextChanged = True
-        super().__init__(*args, myReverse=myReverse, **kwargs)
-        self.__showLabel = showLabel
+        self.__category_text = ''
+        self.__category_text_changed = True
+        super().__init__(*args, myReverse=my_reverse, **kwargs)
+        self.__show_label = show_label
         self.color = color
-        self.__dualCell3D = None
-        self.__dualCell2D = None
-        self.__dualCell1D = None
-        self.__dualCell0D = None
-        self.__isGeometrical = isGeometrical
-        self.__useCategory = 1
-        self.__geometryChanged = True
-        self.__showInPlot = True
-        self.__grayInTikz = False
-        self.__iMorphType = None
+        self.__dual_cell_3d = None
+        self.__dual_cell_2d = None
+        self.__dual_cell_1d = None
+        self.__dual_cell_0d = None
+        self.__is_geometrical = is_geometrical
+        self.__use_category = 1
+        self.__geometry_changed = True
+        self.__show_in_plot = True
+        self.__gray_in_tikz = False
+        self.__imorph_type = None
         _log.debug('Initialized Cell')
 
-# =============================================================================
-#    SETTER AND GETTER
-# =============================================================================
+    # =========================================================================
+    #    SETTER AND GETTER
+    # =========================================================================
 
     def __get_num(self): return self.__num
 
-    def __setNum(self, n):
+    def __set_num(self, n):
         self.__num = n
-        if not self.isDual:
+        if not self.is_dual:
             if self.dualCell3D:
                 self.dualCell3D.updateNum()
             if self.dualCell2D:
@@ -138,38 +130,43 @@ class Cell(BaseCell, SuperCell):
                 self.dualCell0D.updateNum()
         self.update_text()
 
-    num = property(__get_num, __setNum)
+    num = property(__get_num, __set_num)
     '''
     Number of this k-cell.
 
     '''
 
-    def __get_label(self): return self.__label
+    def __get_label(self):
+        return self.__label
 
-    def __setLabel(self, s):
+    def __set_label(self, s):
         self.__label = s
         self.update_text()
 
-    label = property(__get_label, __setLabel)
+    label = property(__get_label, __set_label)
     '''
     Label (typically one letter) of this k-cell.
 
     '''
 
-    def __getCategory1(self): return self.__category1
+    def __get_category1(self): return self.__category1
 
-    def __setCategory1(self, t):
+    def __set_category1(self, t):
         if self.__category1 == 'undefined' or t == 'undefined':
             if t in ['inner', 'border', 'additionalBorder', 'undefined']:
                 self.__category1 = t
-                self.__categoryTextChanged = True
+                self.__category_text_changed = True
                 self.update_text()
             else:
-                _log.error('Unknwon category {}'.format(str(t)))
+                _log.error('Unknwon category %s', t)
         else:
-            _log.error('Attempting to change type of {} from {} to {}'
-                              .format(self.info_text, self.category1, t))
-    category1 = property(__getCategory1, __setCategory1)
+            _log.error(
+                'Attempting to change type of %s from %s to %s',
+                self,
+                self.category1,
+                t,
+            )
+    category1 = property(__get_category1, __set_category1)
 
     '''
     Category 1 is used if the volums in the primal complex are used as control
@@ -177,22 +174,23 @@ class Cell(BaseCell, SuperCell):
 
     '''
 
-    def __getCategory2(self): return self.__category2
+    def __get_category2(self):
+        return self.__category2
 
-    def __setCategory2(self, t):
+    def __set_category2(self, t):
         if self.__category2 == 'undefined' or t == 'undefined':
             if t in ['inner', 'border', 'additionalBorder', 'undefined']:
                 self.__category2 = t
-                self.__categoryTextChanged = True
+                self.__category_text_changed = True
                 self.update_text()
             else:
-                _log.error('Unknwon category {}'.format(str(t)))
+                _log.error('Unknwon category %s', t)
         else:
             _log.error('Attempting to change type of {} from {} to {}'
                               .format(self.info_text, self.category2,
                                       t))
 
-    category2 = property(__getCategory2, __setCategory2)
+    category2 = property(__get_category2, __set_category2)
     '''
     Category 2 is used if the volums in the dual complex are used as control
     volumes.
@@ -231,12 +229,12 @@ class Cell(BaseCell, SuperCell):
 
     '''
 
-    def __getUseCategory(self): return self.__useCategory
+    def __getUseCategory(self): return self.__use_category
 
     def __setUseCategory(self, u):
         if u in [1, 2]:
-            self.__useCategory = u
-            self.__categoryTextChanged = True
+            self.__use_category = u
+            self.__category_text_changed = True
             self.update_text()
         else:
             _log.error('Cannot set useCategory of {}'.format(self)
@@ -249,27 +247,27 @@ class Cell(BaseCell, SuperCell):
     '''
 
     def __get_category_text(self):
-        if self.__categoryTextChanged:
+        if self.__category_text_changed:
             self.__createCategoryText()
-        return self.__categoryText
+        return self.__category_text
 
-    categoryText = property(__get_category_text)
+    category_text = property(__get_category_text)
     '''
     Shortcut for the category of this k-cell.
 
     '''
 
-    def __getCategoryTextChanged(self): return self.__categoryTextChanged
+    def __getCategoryTextChanged(self): return self.__category_text_changed
 
-    categoryTextChanged = property(__getCategoryTextChanged)
+    category_text_changed = property(__getCategoryTextChanged)
     '''
     If the category has changed, its shortcut needs to be changed, too.
 
     '''
 
-    def __getGeometryChanged(self): return self.__geometryChanged
+    def __getGeometryChanged(self): return self.__geometry_changed
 
-    def __setGeometryChanged(self, g): self.__geometryChanged = g
+    def __setGeometryChanged(self, g): self.__geometry_changed = g
 
     geometryChanged = property(__getGeometryChanged, __setGeometryChanged)
     '''
@@ -279,11 +277,11 @@ class Cell(BaseCell, SuperCell):
     '''
 
     def __getDualCell3D(self):
-        return self.__dualCell3D
+        return self.__dual_cell_3d
 
     def __setDualCell3D(self, d):
-        if self.__dualCell3D is None:
-            self.__dualCell3D = d
+        if self.__dual_cell_3d is None:
+            self.__dual_cell_3d = d
         else:
             _log.error('{} already has a 3D dual'.format(self.info_text))
 
@@ -294,11 +292,11 @@ class Cell(BaseCell, SuperCell):
     '''
 
     def __getDualCell2D(self):
-        return self.__dualCell2D
+        return self.__dual_cell_2d
 
     def __setDualCell2D(self, d):
-        if self.__dualCell2D is None:
-            self.__dualCell2D = d
+        if self.__dual_cell_2d is None:
+            self.__dual_cell_2d = d
         else:
             _log.error('{} already has a 2D dual'.format(self.info_text))
 
@@ -309,11 +307,11 @@ class Cell(BaseCell, SuperCell):
     '''
 
     def __getDualCell1D(self):
-        return self.__dualCell1D
+        return self.__dual_cell_1d
 
     def __setDualCell1D(self, d):
-        if self.__dualCell1D is None:
-            self.__dualCell1D = d
+        if self.__dual_cell_1d is None:
+            self.__dual_cell_1d = d
         else:
             _log.error('{} already has a 1D dual'.format(self.info_text))
 
@@ -323,11 +321,11 @@ class Cell(BaseCell, SuperCell):
 
     '''
 
-    def __getDualCell0D(self): return self.__dualCell0D
+    def __getDualCell0D(self): return self.__dual_cell_0d
 
     def __setDualCell0D(self, d):
-        if self.__dualCell0D is None:
-            self.__dualCell0D = d
+        if self.__dual_cell_0d is None:
+            self.__dual_cell_0d = d
         else:
             _log.error('{} already has a 0D dual'.format(self.info_text))
 
@@ -352,9 +350,9 @@ class Cell(BaseCell, SuperCell):
 
     '''
 
-    def __getShowLabel(self): return self.__showLabel
+    def __getShowLabel(self): return self.__show_label
 
-    def __setShowLabel(self, show): self.__showLabel = show
+    def __setShowLabel(self, show): self.__show_label = show
 
     showLabel = property(__getShowLabel, __setShowLabel)
     '''
@@ -362,15 +360,15 @@ class Cell(BaseCell, SuperCell):
 
     '''
 
-    def __getIsGeometrical(self): return self.__isGeometrical
+    def __get_is_geometrical(self): return self.__is_geometrical
 
-    def __setIsGeometrical(self, i):
-        self.__isGeometrical = i
+    def __set_is_geometrical(self, i):
+        self.__is_geometrical = i
         if i:
             self.category1 = 'undefined'
             self.category2 = 'undefined'
 
-    isGeometrical = property(__getIsGeometrical, __setIsGeometrical)
+    is_geometrical = property(__get_is_geometrical, __set_is_geometrical)
     '''
     True, if the k-cell is not part of the topology of the complex.
 
@@ -378,16 +376,16 @@ class Cell(BaseCell, SuperCell):
 
     def __get_is_dual(self): return False
 
-    isDual = property(__get_is_dual)
+    is_dual = property(__get_is_dual)
     '''
     Cells are by standard not dual. This function is overwritten in the
     DualCell parent class that all
 
     '''
 
-    def __getShowInPlot(self): return self.__showInPlot
+    def __getShowInPlot(self): return self.__show_in_plot
 
-    def __setShowInPlot(self, s): self.__showInPlot = s
+    def __setShowInPlot(self, s): self.__show_in_plot = s
 
     showInPlot = property(__getShowInPlot, __setShowInPlot)
     '''
@@ -397,9 +395,9 @@ class Cell(BaseCell, SuperCell):
 
     '''
 
-    def __getGrayInTikz(self): return self.__grayInTikz
+    def __getGrayInTikz(self): return self.__gray_in_tikz
 
-    def __setGrayInTikz(self, g): self.__grayInTikz = g
+    def __setGrayInTikz(self, g): self.__gray_in_tikz = g
 
     grayInTikz = property(__getGrayInTikz, __setGrayInTikz)
     '''
@@ -407,18 +405,18 @@ class Cell(BaseCell, SuperCell):
 
     '''
 
-    def __getIMorphType(self): return self.__iMorphType
+    def __getIMorphType(self): return self.__imorph_type
 
-    def __setIMorphType(self, i): self.__iMorphType = i
+    def __setIMorphType(self, i): self.__imorph_type = i
 
     iMorphType = property(__getIMorphType, __setIMorphType)
     '''
 
     '''
 
-# =============================================================================
-#    METHODS
-# =============================================================================
+    # =========================================================================
+    #    METHODS
+    # =========================================================================
 
     def __createCategoryText(self):
         '''
@@ -426,14 +424,14 @@ class Cell(BaseCell, SuperCell):
 
         '''
         if self.category == 'inner':
-            self.__categoryText = 'i'
+            self.__category_text = 'i'
         elif self.category == 'border':
-            self.__categoryText = 'b'
+            self.__category_text = 'b'
         elif self.category == 'additionalBorder':
-            self.__categoryText = 'B'
+            self.__category_text = 'B'
         else:
-            self.__categoryText = ''
-        self.__categoryTextChanged = False
+            self.__category_text = ''
+        self.__category_text_changed = False
         _log.debug('Created category text')
 
     def updateGeometry(self):
@@ -443,7 +441,7 @@ class Cell(BaseCell, SuperCell):
         '''
         _log.debug('Called update Geometry in Cell {}'
                           .format(self.info_text))
-        self.__geometryChanged = True
+        self.__geometry_changed = True
 
 
 # =============================================================================
@@ -455,12 +453,12 @@ if __name__ == '__main__':
     set_logging_format(logging.DEBUG)
 
     cc.printBlue('Create a cell')
-    testC = Cell(loggerName='test')
+    testC = Cell()
 
     cc.printBlue('Set some attributes of the cell')
     testC.num = 12
     testC.label = 'a'
-    testC.isGeometrical = False
+    testC.is_geometrical = False
     testC.category1 = 'inner'
     testC.category2 = 'border'
 
@@ -469,7 +467,7 @@ if __name__ == '__main__':
 
     cc.printBlue('Check that changed variables have been set')
     print(testC.info_text_changed)
-    print(mTestC.infoTextChanged)
+    print(mTestC.info_text_changed)
 
     cc.printBlue('Check label')
     print(testC.label_text)

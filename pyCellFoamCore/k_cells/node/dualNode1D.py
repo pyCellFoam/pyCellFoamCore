@@ -73,13 +73,6 @@ dual node is at this geometric node, meaning it is its 0D dual.
 # =============================================================================
 #    IMPORTS
 # =============================================================================
-# ------------------------------------------------------------------------
-#    Change to Main Directory
-# ------------------------------------------------------------------------
-import os
-if __name__ == '__main__':
-    os.chdir('../../')
-
 
 # ------------------------------------------------------------------------
 #    Standard Libraries
@@ -99,16 +92,18 @@ import logging
 
 #    kCells
 # -------------------------------------------------------------------
-from k_cells.node.node import Node
-from k_cells.cell import DualCell
-from k_cells.node.dualNode0D import DualNode0D
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
+from pyCellFoamCore.k_cells.node.dualNode0D import DualNode0D
+from pyCellFoamCore.k_cells.edge.edge import Edge
 
 #    Tools
 # -------------------------------------------------------------------
 
-import tools.colorConsole as cc
-import tools.placeFigures as pf
-from tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.colorConsole as cc
+import pyCellFoamCore.tools.placeFigures as pf
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.tumcolor as tc
 
 
 # =============================================================================
@@ -323,10 +318,9 @@ class DualNode1D(Node, DualCell):
 
 
 if __name__ == "__main__":
-    import tools.tumcolor as tc
 
-    from k_cells.edge import Edge
-    from tools import MyLogging
+
+
     set_logging_format(logging.DEBUG)
 
     cc.printBlue('Creating nodes')
@@ -376,7 +370,7 @@ if __name__ == "__main__":
 
     # Choose plotting method.
     # Possible choices: pyplot, VTK, TikZ, animation, doc, None
-    plottingMethod = 'pyplot'
+    plottingMethod = 'None'
 
 
 #    Disabled
