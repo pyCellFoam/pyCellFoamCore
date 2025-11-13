@@ -37,7 +37,7 @@ import logging
 #    kCells
 # -------------------------------------------------------------------
 from k_cells.cell.baseSimpleCell import BaseSimpleCell
-from k_cells.cell.superCell import SuperCell
+from pyCellFoamCore.k_cells.cell.super_cell import SuperCell
 from k_cells.cell.reversedSimpleCell import ReversedSimpleCell
 
 #    Complex & Grids

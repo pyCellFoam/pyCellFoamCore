@@ -37,7 +37,7 @@ import logging
 #    kCells
 # -------------------------------------------------------------------
 from pyCellFoamCore.k_cells.cell.base_cell import BaseCell
-from k_cells.cell.superCell import SuperCell
+from pyCellFoamCore.k_cells.cell.super_cell import SuperCell
 from k_cells.cell.reversedCell import ReversedCell
 
 #    Tools
