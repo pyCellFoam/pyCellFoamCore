@@ -45,6 +45,7 @@ import pyCellFoamCore.tools.tumcolor as tc
 import pyCellFoamCore.tools.colorConsole as cc
 import pyCellFoamCore.tools.placeFigures as pf
 from pyCellFoamCore.tools import set_logging_format
+from pyCellFoamCore.tools.tikZPicture.tikZPicture3D import TikZPicture3D
 
 
 # =============================================================================
@@ -710,7 +711,7 @@ class NodePlotly:
             y=y_coords,
             z=z_coords,
             mode='markers+text' if show_label else 'markers',
-            text=labels,  # if show_label else None,
+            text=labels,
             textposition='top center',
             textfont=dict(size=12),
             marker=dict(
@@ -723,8 +724,6 @@ class NodePlotly:
         plotly_fig.add_trace(scatter)
 
 
-
-
 # =============================================================================
 #    TEST FUNCTIONS
 # =============================================================================
@@ -733,7 +732,7 @@ if __name__ == '__main__':
     set_logging_format(logging.DEBUG)
 
     # Choose plotting method. Possible choices: pyplot, VTK, TikZ, None, plotly
-    plottingMethod = 'plotly'
+    plotting_method = 'plotly'
 
     cc.printBlue('Create nodes')
 
@@ -746,10 +745,9 @@ if __name__ == '__main__':
 
     nodes = [n0, n1, n2, n3, n4, n5]
 
-
-    cc.printBlue('Create 00 random nodes')
+    cc.printBlue('Create 1000 random nodes')
     random_nodes = []
-    for i in range(10):
+    for i in range(1000):
         x = random.uniform(-10, 10)
         y = random.uniform(-10, 10)
         z = random.uniform(-10, 10)
@@ -767,26 +765,26 @@ if __name__ == '__main__':
     cc.printBlue('Create bounding box')
     # bb = BoundingBox([0, 10], [0, 10], [0, 10])
 
-    if plottingMethod is None or plottingMethod == 'None':
+    if plotting_method is None or plotting_method == 'None':
         cc.printBlue('Plotting disabled')
 
-    elif plottingMethod == 'pyplot':
+    elif plotting_method == 'pyplot':
         cc.printBlue('Plot using pyplot')
         (figs, axes) = pf.getFigures()
         for n in nodes:
             n.plotNode(axes[0])
         # bb.plotBoundingBox(axes[0])
 
-    elif plottingMethod == 'VTK':
+    elif plotting_method == 'VTK':
         cc.printBlue('Plot using VTK')
         # myVTK = MyVTK()
         # for n in nodes:
         #     n.plotNodeVtk(myVTK)
         # bb.plotBoundingBoxVtk(myVTK)
         # myVTK.start()
-    elif plottingMethod == 'TikZ':
+    elif plotting_method == 'TikZ':
         cc.printBlue('Plot using TikZ')
-        from tools.tikZPicture.tikZPicture3D import TikZPicture3D
+
         tikZPic = TikZPicture3D()
         origin = tikZPic.addTikZCoordinate('origin', np.array([0, 0, 0]))
         tikZPic.addTikZCoSy3D(origin)
@@ -796,12 +794,12 @@ if __name__ == '__main__':
         tikZPic.writeLaTeXFile('latex', 'node',
                                compileFile=True, openFile=True)
 
-    elif plottingMethod == 'plotly':
+    elif plotting_method == 'plotly':
         cc.printBlue('Plot using Plotly')
-        plotly_fig = go.Figure()
+        fig = go.Figure()
         node_plotly = NodePlotly(random_nodes)
-        node_plotly.plot_nodes_plotly(plotly_fig,  show_label=False)
-        plotly_fig.update_layout(
+        node_plotly.plot_nodes_plotly(fig,  show_label=False)
+        fig.update_layout(
             scene=dict(
                 xaxis_title='X Axis',
                 yaxis_title='Y Axis',
@@ -811,7 +809,7 @@ if __name__ == '__main__':
             paper_bgcolor='white',
             plot_bgcolor='white'
         )
-        plotly_fig.show()
+        fig.show()
 
     else:
-        cc.printRed('Unknown plotting method {}'.format(plottingMethod))
+        _log.error("Unknown plotting method %s", plotting_method)

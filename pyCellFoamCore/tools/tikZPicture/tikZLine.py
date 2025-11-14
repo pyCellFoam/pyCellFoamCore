@@ -10,7 +10,7 @@
 # Created on:     Mon Mar 23 11:01:25 2020
 
 '''
-This is the explanation of the whole module and will be printed at the very 
+This is the explanation of the whole module and will be printed at the very
 beginning
 
 Use - signs to declare a headline
@@ -45,8 +45,8 @@ if __name__ == '__main__':
     os.chdir('../../')
 import numpy as np
 
-import tools.colorConsole as cc
-from tools.tikZPicture.tikZElement import TikZElement
+import pyCellFoamCore.tools.colorConsole as cc
+from pyCellFoamCore.tools.tikZPicture.tikZElement import TikZElement
 
 #==============================================================================
 #    CLASS DEFINITION
@@ -55,9 +55,9 @@ from tools.tikZPicture.tikZElement import TikZElement
 class TikZLine(TikZElement):
     '''
     This is the explanation of this class.
-    
+
     '''
-    
+
 #==============================================================================
 #    SLOTS
 #==============================================================================
@@ -72,13 +72,13 @@ class TikZLine(TikZElement):
 #==============================================================================
     def __init__(self,start,end,options=None,intermediateText=None,intermediatePosition='above',**kwargs):
         '''
-        This is the explanation of the __init__ method. 
-        
+        This is the explanation of the __init__ method.
+
         All parameters should be listed:
-        
+
         :param int a: Some Number
         :param str b: Some String
-        
+
         '''
         super().__init__(**kwargs)
         self.__start = start
@@ -86,9 +86,9 @@ class TikZLine(TikZElement):
         self.__options = options
         self.__intermediateText = intermediateText
         self.__intermediatePosition = intermediatePosition
-        
-        
-    
+
+
+
 #==============================================================================
 #    SETTER AND GETTER
 #==============================================================================
@@ -104,14 +104,14 @@ class TikZLine(TikZElement):
             optionsText = ''
         else:
             optionsText = '['+','.join(self.__options)+']'
-            
+
         if self.intermediateText is None:
             intermediateTikZText = ''
         else:
             intermediateTikZText = 'node[{}]{{{}}}'.format(self.intermediatePosition,self.intermediateText)
         text = self.tikZPrefix + '\\draw{} ({}.center) -- {}({}.center);\n'.format(optionsText,self.start.name,intermediateTikZText,self.end.name)
         return text
-    tikZText = property(__getTikZText)   
+    tikZText = property(__getTikZText)
 
 
     def __getIntermediateText(self): return self.__intermediateText
@@ -121,33 +121,33 @@ class TikZLine(TikZElement):
     intermediatePosition = property(__getIntermediatePosition)
 
 
-    
+
 #==============================================================================
 #    METHODS
 #==============================================================================
-    
+
 #-------------------------------------------------------------------------
 #    Method 1
 #-------------------------------------------------------------------------
-    
-    
+
+
 #==============================================================================
 #    TEST FUNCTIONS
 #==============================================================================
 if __name__ == '__main__':
-   
-    
-    
+
+
+
     from tools import MyLogging
     from tools.tikZPicture.tikZPicture3D import TikZPicture3D
-    
+
     with MyLogging('TikZPicture3D',debug=True):
-        
+
         tikzpic3D = TikZPicture3D()
-        
+
         a = 5
-        
-        
+
+
         # Creat some coordinates
         c1 = tikzpic3D.addTikZCoordinate('c1',np.array([0,0,0]))
         c2 = tikzpic3D.addTikZCoordinate('c2',np.array([0,0,a]))
@@ -157,12 +157,12 @@ if __name__ == '__main__':
         c6 = tikzpic3D.addTikZCoordinate('c6',np.array([a,0,a]))
         c7 = tikzpic3D.addTikZCoordinate('c7',np.array([a,a,a]))
         c8 = tikzpic3D.addTikZCoordinate('c8',np.array([a,a,0]))
-        
-        
-        
+
+
+
         tikzpic3D.addTikZLine(c1,c2,options=['TUMBlue','->-'],intermediate='X')
-    
-        
+
+
 #        # Create a polygon, with all possible parameters
 #        p1 = tikzpic3D.addTikZPolygon(coordinates = [c1,c2,c3,c4],
 #                                      command = 'filldraw',
@@ -170,16 +170,14 @@ if __name__ == '__main__':
 #                                      cycle = True)
 #        # Create another polygon
 #        p2 = tikzpic3D.addTikZPolygon([c1,c2,c5],'draw',['dashed','TUMGreen'],True)
-#        
-#        
+#
+#
 #        # Create another polygon with minimal number of parameters
 #        p3 = tikzpic3D.addTikZPolygon([c5,c6,c7,c8])
 #    #    p3 = tikzpic3D.addTikZPolygon(coordinates = [c5,c6,c7,c8],
 #    #                                  cycle = True)
-#        
-        
+#
+
         # Create LaTeX file
         tikzpic3D.writeLaTeXFile('latex','tikZLine',compileFile=True,openFile=True)
         print(tikzpic3D.tikZText)
-        
-        

@@ -21,20 +21,20 @@ if __name__ == '__main__':
     os.chdir('../../')
 import numpy as np
 
-import tools.colorConsole as cc
-from tools.tikZPicture.tikZElement import TikZElement
+import pyCellFoamCore.tools.colorConsole as cc
+from pyCellFoamCore.tools.tikZPicture.tikZElement import TikZElement
 #==============================================================================
 #    CLASS DEFINITION
 #==============================================================================
 
 class TikZPolygon(TikZElement):
     '''
-    
+
     '''
 
 #==============================================================================
 #    CLASS VARIABLES
-#==============================================================================    
+#==============================================================================
     commandList = ['draw','fill','filldraw']
 #==============================================================================
 #    SLOTS
@@ -49,7 +49,7 @@ class TikZPolygon(TikZElement):
 #==============================================================================
     def __init__(self,coordinates,command='draw',options=None,cycle=False,**kwargs):
         '''
-        
+
         '''
         super().__init__(**kwargs)
         self.__command = None
@@ -58,14 +58,14 @@ class TikZPolygon(TikZElement):
         self.__options = options
         self.__cycle = cycle
         self.logger.info('Created TikZPolygon')
-        
-        
-    
+
+
+
 #==============================================================================
 #    SETTER AND GETTER
 #==============================================================================
     def __getCommand(self): return self.__command
-    def __setCommand(self,c): 
+    def __setCommand(self,c):
         if c in self.commandList:
             self.__command = c
         else:
@@ -77,34 +77,34 @@ class TikZPolygon(TikZElement):
             optionsText = ''
         else:
             optionsText = '['+','.join(self.__options)+']'
-        
-        
+
+
         text = self.tikZPrefix + '\\{}{} {}'.format(self.command,optionsText,' -- '.join(['('+x.name+'.center)' for x in self.__coordinates]))
         if self.__cycle:
             text += ' -- cycle'
         text += ';\n'
         return text
-    tikZText = property(__getTikZText)   
+    tikZText = property(__getTikZText)
 
-    
+
 #==============================================================================
 #    TEST FUNCTIONS
 #==============================================================================
 if __name__ == '__main__':
-    
-    
+
+
     import logging
-    
+
     from tools import MyLogging
     from tools.tikZPicture.tikZPicture3D import TikZPicture3D
-    
+
     with MyLogging('TikZPicture3D',shLevel=logging.DEBUG):
-        
+
         tikzpic3D = TikZPicture3D()
-        
+
         a = 5
-        
-        
+
+
         # Creat some coordinates
         c1 = tikzpic3D.addTikZCoordinate('c1',np.array([0,0,0]))
         c2 = tikzpic3D.addTikZCoordinate('c2',np.array([0,0,a]))
@@ -114,8 +114,8 @@ if __name__ == '__main__':
         c6 = tikzpic3D.addTikZCoordinate('c6',np.array([a,0,a]))
         c7 = tikzpic3D.addTikZCoordinate('c7',np.array([a,a,a]))
         c8 = tikzpic3D.addTikZCoordinate('c8',np.array([a,a,0]))
-    
-        
+
+
         # Create a polygon, with all possible parameters
         tikzpic3D.addTikZPolygon(coordinates = [c1,c2,c3,c4],
                                       command = 'filldraw',
@@ -123,15 +123,13 @@ if __name__ == '__main__':
                                       cycle = True)
         # Create another polygon
         tikzpic3D.addTikZPolygon([c1,c2,c5],'draw',['dashed','TUMGreen'],True)
-        
-        
+
+
         # Create another polygon with minimal number of parameters
         tikzpic3D.addTikZPolygon([c5,c6,c7,c8])
     #    p3 = tikzpic3D.addTikZPolygon(coordinates = [c5,c6,c7,c8],
     #                                  cycle = True)
-        
-        
+
+
         # Create LaTeX file
         tikzpic3D.writeLaTeXFile('latex','tikZPolygon',compileFile=True,openFile=True)
-    
-
