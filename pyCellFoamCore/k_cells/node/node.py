@@ -22,14 +22,14 @@ Class for primal nodes
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
-
 import logging
+import random
 
 # ------------------------------------------------------------------------
 #    Third-Party Libraries
 # ------------------------------------------------------------------------
-
 import numpy as np
+import plotly.graph_objects as go
 
 # ------------------------------------------------------------------------
 #    Local Libraries
@@ -689,14 +689,51 @@ class Node(Cell):
 
 
 # =============================================================================
+#    PLOTLY CLASS FOR FAST PLOTTING
+# =============================================================================
+
+class NodePlotly:
+    def __init__(self, nodes):
+        self.nodes = nodes
+
+    def plot_nodes_plotly(self, plotly_fig, show_label=True):
+        x_coords = [node.xCoordinate for node in self.nodes]
+        y_coords = [node.yCoordinate for node in self.nodes]
+        z_coords = [node.zCoordinate for node in self.nodes]
+
+        # Convert LaTeX labels to Unicode
+        labels = [node.label_text.replace('$', '') for node in self.nodes]
+
+        # Add markers with text labels
+        scatter = go.Scatter3d(
+            x=x_coords,
+            y=y_coords,
+            z=z_coords,
+            mode='markers+text' if show_label else 'markers',
+            text=labels,  # if show_label else None,
+            textposition='top center',
+            textfont=dict(size=12),
+            marker=dict(
+                size=5,
+                color='orange',
+                opacity=0.8
+            ),
+            showlegend=False
+        )
+        plotly_fig.add_trace(scatter)
+
+
+
+
+# =============================================================================
 #    TEST FUNCTIONS
 # =============================================================================
 if __name__ == '__main__':
 
     set_logging_format(logging.DEBUG)
 
-    # Choose plotting method. Possible choices: pyplot, VTK, TikZ, None
-    plottingMethod = 'None'
+    # Choose plotting method. Possible choices: pyplot, VTK, TikZ, None, plotly
+    plottingMethod = 'plotly'
 
     cc.printBlue('Create nodes')
 
@@ -708,6 +745,18 @@ if __name__ == '__main__':
     n5 = Node(8, 5, 1)
 
     nodes = [n0, n1, n2, n3, n4, n5]
+
+
+    cc.printBlue('Create 00 random nodes')
+    random_nodes = []
+    for i in range(10):
+        x = random.uniform(-10, 10)
+        y = random.uniform(-10, 10)
+        z = random.uniform(-10, 10)
+        node = Node(x, y, z)
+        random_nodes.append(node)
+
+
 
     cc.printBlue('Change some parameters')
     n0.label = 'S'
@@ -746,6 +795,23 @@ if __name__ == '__main__':
         # bb.plotBoundingBoxTikZ(tikZPic)
         tikZPic.writeLaTeXFile('latex', 'node',
                                compileFile=True, openFile=True)
+
+    elif plottingMethod == 'plotly':
+        cc.printBlue('Plot using Plotly')
+        plotly_fig = go.Figure()
+        node_plotly = NodePlotly(random_nodes)
+        node_plotly.plot_nodes_plotly(plotly_fig,  show_label=False)
+        plotly_fig.update_layout(
+            scene=dict(
+                xaxis_title='X Axis',
+                yaxis_title='Y Axis',
+                zaxis_title='Z Axis'
+            ),
+            font=dict(family='Arial'),
+            paper_bgcolor='white',
+            plot_bgcolor='white'
+        )
+        plotly_fig.show()
 
     else:
         cc.printRed('Unknown plotting method {}'.format(plottingMethod))
