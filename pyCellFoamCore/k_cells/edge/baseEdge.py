@@ -23,6 +23,12 @@
 import logging
 
 # ------------------------------------------------------------------------
+#    Third-Party Libraries
+# ------------------------------------------------------------------------
+
+import plotly.graph_objects as go
+
+# ------------------------------------------------------------------------
 #    Local Libraries
 # ------------------------------------------------------------------------
 
@@ -213,6 +219,92 @@ class BaseEdge(BaseCell):
         print()
         print()
 
+# =============================================================================
+#    PLOTLY CLASS FOR FAST PLOTTING
+# =============================================================================
+
+class EdgePlotly:
+    def __init__(self, edges):
+        self.edges = edges
+
+    def plot_edges_plotly(self, fig=None, show_label=True, show_barycenter=True):
+
+
+        if fig is None:
+            fig = go.Figure()
+
+        lines_x = []
+        lines_y = []
+        lines_z = []
+        lines_colors = []
+
+        barycenters_x = []
+        barycenters_y = []
+        barycenters_z = []
+        barycenter_colors = []
+        labels = []
+
+        for edge in self.edges:
+            for se in edge.simpleEdges:
+                sn = se.startNode
+                en = se.endNode
+                lines_x.extend([sn.xCoordinate, en.xCoordinate, None])
+                lines_y.extend([sn.yCoordinate, en.yCoordinate, None])
+                lines_z.extend([sn.zCoordinate, en.zCoordinate, None])
+                barycenters_x.append(se.barycenter[0])
+                barycenters_y.append(se.barycenter[1])
+                barycenters_z.append(se.barycenter[2])
+                barycenter_colors.append(se.color.html)
+                labels.append(se.label_text.replace("$", ""))
+                lines_colors.extend([se.color.html, se.color.html, "#000000"])
+
+        fig.add_trace(go.Scatter3d(
+            x=lines_x,
+            y=lines_y,
+            z=lines_z,
+            mode='lines',
+            line=dict(color=lines_colors, width=2),
+            hoverinfo='skip',
+            showlegend=False,
+        ))
+
+        if show_barycenter or show_label:
+            if show_barycenter and not show_label:
+                mode = 'markers'
+            elif not show_barycenter and show_label:
+                mode = 'text'
+            else:
+                mode = 'markers+text'
+
+            fig.add_trace(go.Scatter3d(
+                x=barycenters_x,
+                y=barycenters_y,
+                z=barycenters_z,
+                mode=mode,
+                text=labels,
+                textposition='top center',
+                marker=dict(
+                    size=4,
+                    color=barycenter_colors,
+                    symbol='circle'
+                ),
+                showlegend=False,
+            ))
+
+
+        # fig.update_layout(scene=dict(
+        #     xaxis=dict(showspikes=False),
+        #     yaxis=dict(showspikes=False),
+        #     zaxis=dict(showspikes=False)
+        # ))
+
+        fig.update_layout(scene=dict(
+            xaxis_title='X Axis',
+            yaxis_title='Y Axis',
+            zaxis_title='Z Axis'
+        ))
+
+        return fig
 
 # =============================================================================
 #    TEST FUNCTIONS

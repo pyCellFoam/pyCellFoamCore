@@ -24,9 +24,14 @@ Parent class for all k-Cells.
 import logging
 
 # ------------------------------------------------------------------------
+#    Third-Party Libraries
+# ------------------------------------------------------------------------
+import numpy as np
+import plotly.graph_objects as go
+
+# ------------------------------------------------------------------------
 #    Local Libraries
 # ------------------------------------------------------------------------
-
 
 #    kCells
 # -------------------------------------------------------------------
@@ -65,7 +70,7 @@ class BaseCell(SuperBaseCell):
     def __init__(self, *args, tikZLabelPosition='below right', **kwargs):
         '''
 
-        :param SuperBaseCell myReverse:
+        :param SuperBaseCell my_reverse:
         :param str loggerName: The logger name needs to be passed from the
             class at the lowest level by loggerName = __name__
 
@@ -116,6 +121,35 @@ class BaseCell(SuperBaseCell):
 
         _log.error('Unknown position for TikZ label %s', label_position)
         return False
+
+
+# =============================================================================
+#    PLOTLY CLASS FOR FAST PLOTTING
+# =============================================================================
+
+class BaseCellPlotly:
+    '''
+    Class for fast plotting of k-Cells using Plotly.
+
+    '''
+
+    def __init__(self):
+        pass
+
+    def _create_plotly_figure(self):
+        plotly_figure = go.Figure()
+        plotly_figure.update_layout(
+            scene={
+                "xaxis_title": "X Axis",
+                "yaxis_title": "Y Axis",
+                "zaxis_title": "Z Axis",
+            },
+            paper_bgcolor='white',
+            plot_bgcolor='white'
+        )
+
+        return plotly_figure
+
 
 
 # =============================================================================

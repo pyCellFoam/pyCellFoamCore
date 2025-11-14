@@ -60,19 +60,19 @@ class SuperCell(SuperBaseCell):
 # =============================================================================
 #    INITIALIZATION
 # =============================================================================
-    def __init__(self, *args, myReverse=None, **kwargs):
+    def __init__(self, *args, my_reverse=None, **kwargs):
         '''
 
 
-        :param SuperBaseCell myReverse:
+        :param SuperBaseCell my_reverse:
         :param str loggerName: The logger name needs to be passed from the
             class at the lowest level by loggerName = __name__
         '''
-        if myReverse is None:
-            myReverse = SuperReversedCell(my_reverse=self, **kwargs)
+        if my_reverse is None:
+            my_reverse = SuperReversedCell(my_reverse=self, **kwargs)
 
         self.__is_deleted = False
-        super().__init__(*args, my_reverse=myReverse, **kwargs)
+        super().__init__(*args, my_reverse=my_reverse, **kwargs)
 
         _log.debug('Initialized SuperCell')
 

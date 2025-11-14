@@ -125,7 +125,7 @@ class ReversedSimpleFace(BaseSimpleFace, ReversedSimpleCell):
 
     def __getSimpleEdges(self):
         if self.my_reverse:
-            return [se.myReverse for se in
+            return [se.my_reverse for se in
                     reversed(self.my_reverse.simpleEdges)]
         else:
             _log.error(

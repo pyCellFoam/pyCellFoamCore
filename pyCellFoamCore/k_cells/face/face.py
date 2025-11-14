@@ -195,7 +195,7 @@ class Face(BaseFace, Cell):
         super().__init__(*args,
                          label=label,
                          num=num,
-                         myReverse=ReversedFace(myReverse=self),
+                         my_reverse=ReversedFace(my_reverse=self),
                          **kwargs)
 
         self.__rawEdges = rawEdges[:]
@@ -518,7 +518,7 @@ class Face(BaseFace, Cell):
                             self.__simpleFaces.append(
                                 SimpleFace(localSimpleEdges,
                                            belongsTo=self,
-                                           labelSuffix='('
+                                           label_suffix='('
                                            + an.alphaNum(num)
                                            + ')'))
                             num += 1
@@ -556,7 +556,7 @@ class Face(BaseFace, Cell):
                                 self.__simpleFaces.append(
                                     SimpleFace(localSimpleEdges,
                                                belongsTo=self,
-                                               labelSuffix='('
+                                               label_suffix='('
                                                + an.alphaNum(num)
                                                + ')'))
                                 num += 1
@@ -571,7 +571,7 @@ class Face(BaseFace, Cell):
                             self.__simpleFaces.append(
                                 SimpleFace(localSimpleEdges,
                                            belongsTo=self,
-                                           labelSuffix='('
+                                           label_suffix='('
                                            + an.alphaNum(num)
                                            + ')'))
 
@@ -610,7 +610,7 @@ class Face(BaseFace, Cell):
                                                 ge2.simpleEdges[0],
                                                 -ge1.simpleEdges[0]],
                                                belongsTo=self,
-                                               labelSuffix='('
+                                               label_suffix='('
                                                + an.alphaNum(num) + ')'))
 
                             num += 1
@@ -621,7 +621,7 @@ class Face(BaseFace, Cell):
                                             ge2.simpleEdges[0],
                                             -ge1.simpleEdges[0]],
                                            belongsTo=self,
-                                           labelSuffix='('
+                                           label_suffix='('
                                            + an.alphaNum(num)+')'))
 
                         else:
@@ -631,7 +631,7 @@ class Face(BaseFace, Cell):
                         self.__simpleFaces.append(
                             SimpleFace(simpleEdges,
                                        belongsTo=self,
-                                       labelSuffix='('+an.alphaNum(num)+')'))
+                                       label_suffix='('+an.alphaNum(num)+')'))
                         num += 1
                 else:
                     _log.error(
@@ -642,7 +642,7 @@ class Face(BaseFace, Cell):
 
             self.__edges = allEdges
             if len(self.__simpleFaces) == 1:
-                self.__simpleFaces[0].labelSuffix = ''
+                self.__simpleFaces[0].label_suffix = ''
 
             borderNodes = []
             for e in allEdges:
@@ -716,7 +716,7 @@ class Face(BaseFace, Cell):
             attachedSimpleFaces = []
             for sf in self.__simpleFaces:
                 if any([se in sf.simpleEdges for se in e.simpleEdges]) \
-                        or any([se.myReverse in sf.simpleEdges
+                        or any([se.my_reverse in sf.simpleEdges
                                 for se in e.simpleEdges]):
                     attachedSimpleFaces.append(sf)
             _log.debug('geometric edge {} is attached to {}'

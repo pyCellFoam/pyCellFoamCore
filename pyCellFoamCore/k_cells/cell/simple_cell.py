@@ -66,11 +66,11 @@ class SimpleCell(BaseSimpleCell, SuperCell):
 # =============================================================================
 #    INITIALIZATION
 # =============================================================================
-    def __init__(self, *args, myReverse=None, belongsTo=None,
+    def __init__(self, *args, my_reverse=None, belongsTo=None,
                  label_suffix='NO_SUFFIX', **kwargs):
         '''
 
-        :param SuperBaseCell myReverse:
+        :param SuperBaseCell my_reverse:
         :param Cell belongsTo: A cell that this simple cell is part of.
         :param str label_suffix: The suffix is used if a k-cell consists of more
             than one simple cell. It can be any str.
@@ -78,17 +78,17 @@ class SimpleCell(BaseSimpleCell, SuperCell):
             class at the lowest level by loggerName = __name__
 
         '''
-        if myReverse is None:
+        if my_reverse is None:
             if belongsTo is not None:
-                belongsToReversed = belongsTo.myReverse
+                belongsToReversed = belongsTo.my_reverse
             else:
                 belongsToReversed = None
-            myReverse = ReversedSimpleCell(myReverse=self,
+            my_reverse = ReversedSimpleCell(my_reverse=self,
                                            belongsTo=belongsToReversed,
                                            **kwargs)
         super().__init__(*args,
                          belongsTo=belongsTo,
-                         myReverse=myReverse,
+                         my_reverse=my_reverse,
                          **kwargs)
         self.__label_suffix = label_suffix
         _log.debug('Initialized SimpleCell')

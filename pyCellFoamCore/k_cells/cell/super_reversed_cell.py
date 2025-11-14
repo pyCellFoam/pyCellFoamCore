@@ -67,7 +67,7 @@ class SuperReversedCell(SuperBaseCell):
 # =============================================================================
     def __init__(self, *args, **kwargs):
         '''
-        :param SuperBaseCell myReverse:
+        :param SuperBaseCell my_reverse:
         :param str loggerName: The logger name needs to be passed from the
             class at the lowest level by loggerName = __name__
         '''

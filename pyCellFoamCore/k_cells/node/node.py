@@ -38,6 +38,7 @@ import plotly.graph_objects as go
 #    kCells
 # -------------------------------------------------------------------
 from pyCellFoamCore.k_cells.cell.cell import Cell
+from pyCellFoamCore.k_cells.cell.base_cell import BaseCellPlotly
 
 #    Tools
 # --------------------------------------------------------------------
@@ -575,10 +576,10 @@ class Node(Cell):
         if simpleEdge in self.__simpleEdges:
             self.__simpleEdges.remove(simpleEdge)
             _log.debug('Removed simple edge %s from node %s',
-                             simpleEdge.infoText, self.info_text)
+                             simpleEdge.info_text, self.info_text)
         else:
             _log.error('Cannot remove simple edge %s from node %s!',
-                              simpleEdge.infoText, self.info_text)
+                              simpleEdge.info_text, self.info_text)
 
     def addEdge(self, edge):
         '''
@@ -693,14 +694,20 @@ class Node(Cell):
 #    PLOTLY CLASS FOR FAST PLOTTING
 # =============================================================================
 
-class NodePlotly:
+class NodePlotly(BaseCellPlotly):
     def __init__(self, nodes):
+        super().__init__()
         self.nodes = nodes
 
-    def plot_nodes_plotly(self, plotly_fig, show_label=True):
+    def plot_nodes_plotly(self, fig=None, show_label=True):
+
+        if fig is None:
+            fig = self._create_plotly_figure()
+
         x_coords = [node.xCoordinate for node in self.nodes]
         y_coords = [node.yCoordinate for node in self.nodes]
         z_coords = [node.zCoordinate for node in self.nodes]
+        colors = [node.color.html for node in self.nodes]
 
         # Convert LaTeX labels to Unicode
         labels = [node.label_text.replace('$', '') for node in self.nodes]
@@ -716,12 +723,13 @@ class NodePlotly:
             textfont=dict(size=12),
             marker=dict(
                 size=5,
-                color='orange',
+                color=colors,
                 opacity=0.8
             ),
             showlegend=False
         )
-        plotly_fig.add_trace(scatter)
+        fig.add_trace(scatter)
+        return fig
 
 
 # =============================================================================
@@ -752,6 +760,8 @@ if __name__ == '__main__':
         y = random.uniform(-10, 10)
         z = random.uniform(-10, 10)
         node = Node(x, y, z)
+        if i < 100:
+            node.color = tc.TUMBlue()
         random_nodes.append(node)
 
 
@@ -796,20 +806,9 @@ if __name__ == '__main__':
 
     elif plotting_method == 'plotly':
         cc.printBlue('Plot using Plotly')
-        fig = go.Figure()
         node_plotly = NodePlotly(random_nodes)
-        node_plotly.plot_nodes_plotly(fig,  show_label=False)
-        fig.update_layout(
-            scene=dict(
-                xaxis_title='X Axis',
-                yaxis_title='Y Axis',
-                zaxis_title='Z Axis'
-            ),
-            font=dict(family='Arial'),
-            paper_bgcolor='white',
-            plot_bgcolor='white'
-        )
-        fig.show()
+        plotly_fig = node_plotly.plot_nodes_plotly(show_label=False)
+        plotly_fig.show()
 
     else:
         _log.error("Unknown plotting method %s", plotting_method)

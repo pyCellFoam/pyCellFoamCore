@@ -21,6 +21,8 @@
 #    Standard Libraries
 # ------------------------------------------------------------------------
 import logging
+import random
+from unittest import case
 
 # ------------------------------------------------------------------------
 #    Local Libraries
@@ -30,7 +32,7 @@ import logging
 # -------------------------------------------------------------------
 from pyCellFoamCore.k_cells.cell.cell import Cell
 from pyCellFoamCore.k_cells.node.node import Node
-from pyCellFoamCore.k_cells.edge.baseEdge import BaseEdge
+from pyCellFoamCore.k_cells.edge.baseEdge import BaseEdge, EdgePlotly
 from pyCellFoamCore.k_cells.edge.simpleEdge import SimpleEdge
 from pyCellFoamCore.k_cells.edge.reversedEdge import ReversedEdge
 
@@ -39,6 +41,7 @@ from pyCellFoamCore.k_cells.edge.reversedEdge import ReversedEdge
 import pyCellFoamCore.tools.colorConsole as cc
 import pyCellFoamCore.tools.alphaNum as an
 from pyCellFoamCore.tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.tumcolor as tc
 
 
 # =============================================================================
@@ -89,7 +92,7 @@ class Edge(BaseEdge, Cell):
         super().__init__(*args,
                          label=label,
                          num=num,
-                         myReverse=ReversedEdge(myReverse=self),
+                         my_reverse=ReversedEdge(my_reverse=self),
                          **kwargs)
         self.__geometricNodes = geometricNodes
         self.__startNode = start
@@ -265,7 +268,7 @@ class Edge(BaseEdge, Cell):
                         SimpleEdge(start=self.__startNode,
                                    end=self.__endNode,
                                    belongsTo=self,
-                                   labelSuffix='('+an.alphaNum(num)+')'))
+                                   label_suffix='('+an.alphaNum(num)+')'))
                 else:
                     for n in self.__geometricNodes:
                         n.is_geometrical = True
@@ -274,7 +277,7 @@ class Edge(BaseEdge, Cell):
                         SimpleEdge(start=self.__startNode,
                                    end=self.__geometricNodes[0],
                                    belongsTo=self,
-                                   labelSuffix='('+an.alphaNum(num)+')'))
+                                   label_suffix='('+an.alphaNum(num)+')'))
                     num += 1
                     if num > 25:
                         num = 0
@@ -284,7 +287,7 @@ class Edge(BaseEdge, Cell):
                             SimpleEdge(start=n1,
                                        end=n2,
                                        belongsTo=self,
-                                       labelSuffix='('+an.alphaNum(num)+')'))
+                                       label_suffix='('+an.alphaNum(num)+')'))
                         num += 1
                         if num > 25:
                             num = 0
@@ -292,14 +295,14 @@ class Edge(BaseEdge, Cell):
                         SimpleEdge(start=self.__geometricNodes[-1],
                                    end=self.__endNode,
                                    belongsTo=self,
-                                   labelSuffix='('+an.alphaNum(num)+')'))
+                                   label_suffix='('+an.alphaNum(num)+')'))
 
             else:
                 _log.debug('This edge is not completely defined, ' +
                                   'maybe its deleted')
 
             if len(self.__simpleEdges) == 1:
-                self.__simpleEdges[0].labelSuffix = ''
+                self.__simpleEdges[0].label_suffix = ''
         self.geometryChanged = False
 
 # ------------------------------------------------------------------------
@@ -405,13 +408,14 @@ class Edge(BaseEdge, Cell):
         pf.exportPNG(figs[0], 'doc/_static/edge1')
 
 
+
 # =============================================================================
 #    TEST FUNCTIONS
 # =============================================================================
 
 
 if __name__ == "__main__":
-    import tools.placeFigures as pf
+    # import tools.placeFigures as pf
 #    import matplotlib.pyplot as plt
     # from tools import MyLogging
 #    from kCells import Node
@@ -419,7 +423,7 @@ if __name__ == "__main__":
     set_logging_format(logging.DEBUG)
 
     # Create some figures on second screen
-    (fig, ax) = pf.getFigures(numTotal=6)
+
 
     n0 = Node(0, 0, 0)
     n1 = Node(0, 1, 0)
@@ -442,16 +446,6 @@ if __name__ == "__main__":
     print(e1.simpleEdges)
 
     edges = [e0, e1, e2]
-
-    for n in nodes:
-        n.plotNode(ax[0])
-        n.plotNode(ax[1])
-
-    for e in edges:
-        e.plotEdge(ax[0])
-        me = -e
-        me.plotEdge(ax[1])
-        print(me.simpleEdges[0].directionVec)
 
     cc.printBlue('change coordinate')
     cc.printWhite()
@@ -486,25 +480,77 @@ if __name__ == "__main__":
     nodes.append(n13)
     e2.geometricNodes = [n11, n12, n13]
 
-    for n in nodes:
-        n.plotNode(ax[2])
+    e2.color = tc.TUMOrange()
 
-    for e in edges:
-        e.plotEdge(ax[2])
+    random_nodes = []
+    for i in range(1000):
+        x = random.uniform(-10, 10)
+        y = random.uniform(-10, 10)
+        z = random.uniform(-10, 10)
+        node = Node(x, y, z)
+        random_nodes.append(node)
 
-    cc.printBlue('barycenter:')
-    for b in e2.barycenter:
-        cc.printGreen('\t', b)
-    cc.printBlue('directionVec:')
-    for d in e2.directionVec:
-        cc.printGreen('\t', d)
+    random_edges = []
+    for (n1, n2) in zip(random_nodes[:-1], random_nodes[1:]):
+        random_edges.append(Edge(n1, n2))
 
-    e2.swap()
-    for n in nodes:
-        n.plotNode(ax[3])
+    for e in random_edges[100:110]:
+        e.color = tc.TUMOrange()
 
-    for e in edges:
-        e.plotEdge(ax[3])
+    # for n in nodes:
+    #     n.plotNode(ax[2])
+
+    # for e in edges:
+    #     e.plotEdge(ax[2])
+
+    # cc.printBlue('barycenter:')
+    # for b in e2.barycenter:
+    #     cc.printGreen('\t', b)
+    # cc.printBlue('directionVec:')
+    # for d in e2.directionVec:
+    #     cc.printGreen('\t', d)
+
+    # e2.swap()
+    # for n in nodes:
+    #     n.plotNode(ax[3])
+
+    # for e in edges:
+    #     e.plotEdge(ax[3])
+
+    # Choose plotting method. Possible choices: pyplot, VTK, TikZ, None, plotly
+    plotting_method = "plotly"
+
+    match plotting_method:
+        case "pyplot":
+            (fig, ax) = pf.getFigures(numTotal=6)
+
+            for n in nodes:
+                n.plotNode(ax[0])
+                n.plotNode(ax[1])
+
+            for e in edges:
+                e.plotEdge(ax[0])
+                me = -e
+                me.plotEdge(ax[1])
+                print(me.simpleEdges[0].directionVec)
+
+        case "VTK":
+            _log.warning("Not implemented yet.")
+        case "TikZ":
+            _log.warning("Not implemented yet.")
+        case "plotly":
+            edge_plotly = EdgePlotly(random_edges)
+            plotly_fig = edge_plotly.plot_edges_plotly(show_label=False, show_barycenter=True)
+            plotly_fig.show()
+        case "None":
+            _log.info("No plotting selected.")
+        case _:
+            _log.error(
+                "Unknown plotting '%s' method selected.",
+                plotting_method,
+            )
+
+
 
 # =============================================================================
 #    IMAGES FOR DOCUMENTATION

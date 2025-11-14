@@ -42,9 +42,9 @@ import numpy as np
 
 #    kCells
 # -------------------------------------------------------------------
-from k_cells.cell import SimpleCell
-from k_cells.edge.baseSimpleEdge import BaseSimpleEdge
-from k_cells.edge.reversedSimpleEdge import ReversedSimpleEdge
+from pyCellFoamCore.k_cells.cell.simple_cell import SimpleCell
+from pyCellFoamCore.k_cells.edge.baseSimpleEdge import BaseSimpleEdge
+from pyCellFoamCore.k_cells.edge.reversedSimpleEdge import ReversedSimpleEdge
 
 #    Complex & Grids
 # -------------------------------------------------------------------
@@ -54,9 +54,9 @@ from k_cells.edge.reversedSimpleEdge import ReversedSimpleEdge
 # -------------------------------------------------------------------
 
 
-import tools.colorConsole as cc
+import pyCellFoamCore.tools.colorConsole as cc
 # from geometricObjects import Cylinder
-from tools.logging_formatter import set_logging_format
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
 # =============================================================================
@@ -94,9 +94,9 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
         if belongsTo is None:
             belongsToRev = None
         else:
-            belongsToRev = belongsTo.myReverse
+            belongsToRev = belongsTo.my_reverse
         super().__init__(*args,
-                         myReverse=ReversedSimpleEdge(myReverse=self,
+                         my_reverse=ReversedSimpleEdge(my_reverse=self,
                                                       belongsTo=belongsToRev),
                          belongsTo=belongsTo,
                          **kwargs)

@@ -70,7 +70,7 @@ class DualCell(Cell):
         :param str label: label of this k-cell
         :param bool showLabel: Should the label be shown in the plot?
         :param TUMColor color: The color of this cell in the plot.
-        :param SuperBaseCell myReverse:
+        :param SuperBaseCell my_reverse:
         :param str category: The category (inner, border, additonal border),
             that this k-cell belongs to.
         :param bool isGeometrical: Set, if the k-cell is not part of the

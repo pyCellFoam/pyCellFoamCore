@@ -101,9 +101,9 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
         if belongsTo is None:
             belongsToRev = None
         else:
-            belongsToRev = belongsTo.myReverse
+            belongsToRev = belongsTo.my_reverse
         super().__init__(*args,
-                         myReverse=ReversedSimpleFace(myReverse=self,
+                         my_reverse=ReversedSimpleFace(my_reverse=self,
                                                       belongsTo=belongsToRev),
                          belongsTo=belongsTo,
                          **kwargs)

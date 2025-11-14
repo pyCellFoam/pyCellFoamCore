@@ -77,7 +77,7 @@ class Cell(BaseCell, SuperCell):
         :param str label: label of this k-cell
         :param bool showLabel: Should the label be shown in the plot?
         :param TUMColor color: The color of this cell in the plot.
-        :param SuperBaseCell myReverse:
+        :param SuperBaseCell my_reverse:
         :param str category: The category (inner, border, additonal border),
             that this k-cell belongs to.
         :param bool isGeometrical: Set, if the k-cell is not part of the
@@ -96,7 +96,7 @@ class Cell(BaseCell, SuperCell):
         self.__category2 = category
         self.__category_text = ''
         self.__category_text_changed = True
-        super().__init__(*args, myReverse=my_reverse, **kwargs)
+        super().__init__(*args, my_reverse=my_reverse, **kwargs)
         self.__show_label = show_label
         self.color = color
         self.__dual_cell_3d = None

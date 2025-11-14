@@ -39,7 +39,7 @@ import logging
 #    kCells
 # -------------------------------------------------------------------
 from pyCellFoamCore.k_cells.cell.base_simple_cell import BaseSimpleCell
-from k_cells.node.node import Node
+from pyCellFoamCore.k_cells.node.node import Node
 
 
 #    Complex & Grids
@@ -48,10 +48,9 @@ from k_cells.node.node import Node
 
 #    Tools
 # -------------------------------------------------------------------
-import tools.tumcolor as tc
-from tools import Arrow3D
-from tools import MyLogging
-from tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.tumcolor as tc
+from pyCellFoamCore.tools.arrow3D import Arrow3D
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
 # =============================================================================

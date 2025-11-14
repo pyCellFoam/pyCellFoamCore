@@ -63,7 +63,7 @@ class BaseSimpleCell(SuperBaseCell):
     def __init__(self, *args, belongsTo=None, **kwargs):
         '''
         :param Cell belongsTo: A cell that this simple cell is part of.
-        :param SuperBaseCell myReverse:
+        :param SuperBaseCell my_reverse:
         :param str loggerName: The logger name needs to be passed from the
             class at the lowest level by loggerName = __name__
 
@@ -163,7 +163,7 @@ class BaseSimpleCell(SuperBaseCell):
 
     def __get_is_dual(self):
         if self.belongs_to:
-            return self.belongs_to.isDual
+            return self.belongs_to.is_dual
 
         _log.warning(
             "Simple cell does not belong to a real cell, using fixed "
@@ -180,7 +180,7 @@ class BaseSimpleCell(SuperBaseCell):
 
     def __get_category_text(self):
         if self.belongs_to:
-            return self.belongs_to.categoryText
+            return self.belongs_to.category_text
 
         _log.warning(
             "Simple cell does not belong to a real cell, using fixed "

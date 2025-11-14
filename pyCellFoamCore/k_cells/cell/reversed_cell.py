@@ -69,7 +69,7 @@ class ReversedCell(BaseCell, SuperReversedCell):
     def __init__(self, *args, **kwargs):
         '''
 
-        :param SuperBaseCell myReverse:
+        :param SuperBaseCell my_reverse:
         :param str loggerName: The logger name needs to be passed from the
             class at the lowest level by loggerName = __name__
 
@@ -233,8 +233,8 @@ class ReversedCell(BaseCell, SuperReversedCell):
 
     def __getDualCell0D(self):
         if self.my_reverse:
-            if self.my_reverse.dualCell0D.myReverse:
-                return self.my_reverse.dualCell0D.myReverse
+            if self.my_reverse.dualCell0D.my_reverse:
+                return self.my_reverse.dualCell0D.my_reverse
             else:
                 return self.my_reverse.dualCell0D
         else:
@@ -243,8 +243,8 @@ class ReversedCell(BaseCell, SuperReversedCell):
 
     def __setDualCell0D(self, d):
         if self.my_reverse:
-            if d.myReverse:
-                self.my_reverse.dualCell0D = d.myReverse
+            if d.my_reverse:
+                self.my_reverse.dualCell0D = d.my_reverse
             else:
                 self.my_reverse.dualCell0D = d
         else:
@@ -258,8 +258,8 @@ class ReversedCell(BaseCell, SuperReversedCell):
 
     def __getDualCell1D(self):
         if self.my_reverse:
-            if self.my_reverse.dualCell1D.myReverse:
-                return self.my_reverse.dualCell1D.myReverse
+            if self.my_reverse.dualCell1D.my_reverse:
+                return self.my_reverse.dualCell1D.my_reverse
             else:
                 return self.my_reverse.dualCell1D
         else:
@@ -268,8 +268,8 @@ class ReversedCell(BaseCell, SuperReversedCell):
 
     def __setDualCell1D(self, d):
         if self.my_reverse:
-            if d.myReverse:
-                self.my_reverse.dualCell1D = d.myReverse
+            if d.my_reverse:
+                self.my_reverse.dualCell1D = d.my_reverse
             else:
                 self.my_reverse.dualCell1D = d
         else:
@@ -284,8 +284,8 @@ class ReversedCell(BaseCell, SuperReversedCell):
     def __getDualCell2D(self):
         if self.my_reverse:
             if self.my_reverse.dualCell2D:
-                if self.my_reverse.dualCell2D.myReverse:
-                    return self.my_reverse.dualCell2D.myReverse
+                if self.my_reverse.dualCell2D.my_reverse:
+                    return self.my_reverse.dualCell2D.my_reverse
                 else:
                     return self.my_reverse.dualCell2D
             else:
@@ -296,8 +296,8 @@ class ReversedCell(BaseCell, SuperReversedCell):
 
     def __setDualCell2D(self, d):
         if self.my_reverse:
-            if d.myReverse:
-                self.my_reverse.dualCell2D = d.myReverse
+            if d.my_reverse:
+                self.my_reverse.dualCell2D = d.my_reverse
             else:
                 self.my_reverse.dualCell2D = d
         else:
@@ -312,8 +312,8 @@ class ReversedCell(BaseCell, SuperReversedCell):
     def __getDualCell3D(self):
         if self.my_reverse:
             if self.my_reverse.dualCell3D:
-                if self.my_reverse.dualCell3D.myReverse:
-                    return self.my_reverse.dualCell3D.myReverse
+                if self.my_reverse.dualCell3D.my_reverse:
+                    return self.my_reverse.dualCell3D.my_reverse
                 else:
                     return self.my_reverse.dualCell3D
             else:
@@ -324,8 +324,8 @@ class ReversedCell(BaseCell, SuperReversedCell):
 
     def __setDualCell3D(self, d):
         if self.my_reverse:
-            if d.myReverse:
-                self.my_reverse.dualCell3D = d.myReverse
+            if d.my_reverse:
+                self.my_reverse.dualCell3D = d.my_reverse
             else:
                 self.my_reverse.dualCell3D = d
         else:

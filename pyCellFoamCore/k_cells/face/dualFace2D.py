@@ -118,7 +118,7 @@ class DualFace2D(Face, DualCell):
             if np.linalg.norm(self.normalVec-np.array([0, 0, 1])) \
                     > self.tolerance:
                 _log.debug('Face pointed in the wrong direction')
-                self.edges = [e.myReverse for e in reversed(dualSortedEdges)]
+                self.edges = [e.my_reverse for e in reversed(dualSortedEdges)]
                 self.setUp()
 
             error = False
@@ -155,7 +155,7 @@ class DualFace2D(Face, DualCell):
                     if np.linalg.norm(self.normalVec-np.array([0, 0, 1])) \
                             > self.tolerance:
                         _log.debug('Face pointed in the wrong direction')
-                        self.edges = [e.myReverse
+                        self.edges = [e.my_reverse
                                       for e in reversed(dualSortedEdges)]
                         self.setUp()
                 else:
