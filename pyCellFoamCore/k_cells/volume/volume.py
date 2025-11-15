@@ -764,7 +764,7 @@ if __name__ == "__main__":
 
     for f in faces_in_volume:
         for e in f.edges:
-            if e.isReverse:
+            if e.is_reverse:
                 e = -e
             if not e in edges_in_volume:
                 edges_in_volume.append(e)

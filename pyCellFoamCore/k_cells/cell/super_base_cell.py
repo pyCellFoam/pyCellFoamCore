@@ -209,7 +209,7 @@ class SuperBaseCell:
     '''
 
     def __get_label_prefix(self):
-        _log.warning('Using standard value for labelPrefix')
+        _log.warning('Using standard value for label_prefix')
         return 'x'
     label_prefix = property(__get_label_prefix)
     '''
@@ -219,7 +219,7 @@ class SuperBaseCell:
     '''
 
     def __get_is_dual(self):
-        _log.warning('Using standard value for isDual')
+        _log.warning('Using standard value for is_dual')
         return False
     is_dual = property(__get_is_dual)
     '''
@@ -240,7 +240,7 @@ class SuperBaseCell:
     '''
 
     def __get_category_text(self):
-        _log.warning('Using standard value for categoryText')
+        _log.warning('Using standard value for category_text')
         return 'NC'
     category_text = property(__get_category_text)
     '''
@@ -261,7 +261,7 @@ class SuperBaseCell:
     '''
 
     def __get_is_deleted(self):
-        _log.warning('Using standard value for isDeleted')
+        _log.warning('Using standard value for is_deleted')
         return False
     is_deleted = property(__get_is_deleted)
     '''

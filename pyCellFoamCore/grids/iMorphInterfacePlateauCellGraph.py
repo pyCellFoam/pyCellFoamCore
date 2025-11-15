@@ -406,7 +406,7 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
                                             myPrintDebug('Found all edges {}'.format(edgesForFace))
                                             newFace = Face(edgesForFace,triangulate=True,sortEdges=True)
                                             faces.append(newFace)
-                                            if newFace.isDeleted:
+                                            if newFace.is_deleted:
                                                 myPrintError('Face creation was not succesful')
 #                                                for e in edgesForFace:
 #                                                    e.color = tc.TUMBlack()

@@ -47,20 +47,20 @@ import numpy as np
 #    kCells
 # -------------------------------------------------------------------
 
-from k_cells.face.reversedSimpleFace import ReversedSimpleFace
-from k_cells.face.baseSimpleFace import BaseSimpleFace
-from k_cells.cell import SimpleCell
-import tools.colorConsole as cc
+from pyCellFoamCore.k_cells.face.reversedSimpleFace import ReversedSimpleFace
+from pyCellFoamCore.k_cells.face.baseSimpleFace import BaseSimpleFace
+from pyCellFoamCore.k_cells.cell.simple_cell import SimpleCell
+import pyCellFoamCore.tools.colorConsole as cc
 import math
 from scipy.spatial import ConvexHull
 
-from k_cells.node import Node
-from k_cells.edge import Edge
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.edge.edge import Edge
 
 #    Tools
 # -------------------------------------------------------------------
-from tools.logging_formatter import set_logging_format
-import tools.placeFigures as pf
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.placeFigures as pf
 
 # =============================================================================
 #    LOGGING
@@ -293,7 +293,7 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
         except Exception as e:
             _log.error(
                 'Cannot caculate convex hull for simpleface {} in face {}.'
-                .format(self, self.belongsTo) +
+                .format(self, self.belongs_to) +
                 'Error: {}'.format(e))
             hull = False
 

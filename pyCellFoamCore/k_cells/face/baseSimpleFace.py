@@ -38,13 +38,13 @@ import numpy as np
 #    Local Libraries
 # ------------------------------------------------------------------------
 
-import tools.colorConsole as cc
+import pyCellFoamCore.tools.colorConsole as cc
 
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
-from tools import Arrow3D
-from k_cells import BaseSimpleCell
-import tools.tumcolor as tc
-from tools.logging_formatter import set_logging_format
+from pyCellFoamCore.tools.arrow3D import Arrow3D
+from pyCellFoamCore.k_cells.cell.base_simple_cell import BaseSimpleCell
+import pyCellFoamCore.tools.tumcolor as tc
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
 # =============================================================================
@@ -85,8 +85,8 @@ class BaseSimpleFace(BaseSimpleCell):
 # =============================================================================
 
     def __getShowNormalVec(self):
-        if self.belongsTo:
-            return self.belongsTo.showNormalVec
+        if self.belongs_to:
+            return self.belongs_to.showNormalVec
         else:
             _log.warning(
                 'Simple fdge does not belong to a real cell, ' +
@@ -96,8 +96,8 @@ class BaseSimpleFace(BaseSimpleCell):
     showNormalVec = property(__getShowNormalVec)
 
     def __getShowBarycenter(self):
-        if self.belongsTo:
-            return self.belongsTo.showBarycenter
+        if self.belongs_to:
+            return self.belongs_to.showBarycenter
         else:
             _log.warning(
                 'Simple fdge does not belong to a real cell, ' +
@@ -123,7 +123,7 @@ class BaseSimpleFace(BaseSimpleCell):
         print()
         num_edges = []
         for e in self.edges:
-            if e.isReverse:
+            if e.is_reverse:
                 num_edges.append(-e.num)
             else:
                 num_edges.append(e.num)

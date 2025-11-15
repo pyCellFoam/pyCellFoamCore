@@ -192,29 +192,29 @@ class ReversedCell(BaseCell, SuperReversedCell):
 
     def __get_category_text(self):
         if self.my_reverse:
-            return self.my_reverse.categoryText
+            return self.my_reverse.category_text
         else:
             return super().category_text
-    categoryText = property(__get_category_text)
+    category_text = property(__get_category_text)
     '''
     The text for a category is stored in the non-reversed cell.
 
     '''
 
-    def __getIsGeometrical(self):
+    def __getis_geometrical(self):
         if self.my_reverse:
-            return self.my_reverse.isGeometrical
+            return self.my_reverse.is_geometrical
         else:
             _log.error('No reverse defined')
             return None
 
-    def __setIsGeometrical(self, i):
+    def __setis_geometrical(self, i):
         if self.my_reverse:
-            self.my_reverse.isGeometrical = i
+            self.my_reverse.is_geometrical = i
         else:
-            _log.error('Cannot set isGeometrical')
+            _log.error('Cannot set is_geometrical')
 
-    isGeometrical = property(__getIsGeometrical, __setIsGeometrical)
+    is_geometrical = property(__getis_geometrical, __setis_geometrical)
     '''
     The reversed cell is geometrical, if the non-reversed cell is geometrical.
 
@@ -222,7 +222,7 @@ class ReversedCell(BaseCell, SuperReversedCell):
 
     def __get_is_dual(self):
         if self.my_reverse:
-            return self.my_reverse.isDual
+            return self.my_reverse.is_dual
         else:
             return super().is_dual
     is_dual = property(__get_is_dual)

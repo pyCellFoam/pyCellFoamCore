@@ -73,7 +73,7 @@ class DualCell(Cell):
         :param SuperBaseCell my_reverse:
         :param str category: The category (inner, border, additonal border),
             that this k-cell belongs to.
-        :param bool isGeometrical: Set, if the k-cell is not part of the
+        :param bool is_geometrical: Set, if the k-cell is not part of the
             topology of the complex.
         :param str loggerName: The logger name needs to be passed from the
             class at the lowest level by loggerName = __name__
@@ -130,5 +130,5 @@ if __name__ == '__main__':
     set_logging_format(logging.DEBUG)
     cc.printBlue('Creat dual cell')
     test = DualCell()
-    cc.printBlue('Check that the isDual attribute ist set correctly')
-    print(test.is_dual, test.my_reverse.isDual)
+    cc.printBlue('Check that the is_dual attribute ist set correctly')
+    print(test.is_dual, test.my_reverse.is_dual)

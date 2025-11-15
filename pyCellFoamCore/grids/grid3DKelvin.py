@@ -3707,13 +3707,13 @@ class Grid3DKelvin(PrimalComplex3D):
                         nodes.append(n)
 
                 for e in p.edges:
-                    if e.isReverse:
+                    if e.is_reverse:
                         e = -e
                     if not e in edges:
                         edges.append(e)
 
                 for f in p.faces:
-                    if f.isReverse:
+                    if f.is_reverse:
                         f = -f
                     if not f in faces:
                         faces.append(f)
@@ -4647,7 +4647,7 @@ if __name__ == '__main__':
         # for v in c.borderVolumes:
         #     for f in v.faces:
         #         for e in f.edges:
-        #             if e.isReverse:
+        #             if e.is_reverse:
         #                 e = -e
         #                 if not e in testEdges:
         #                     testEdges.append(e)
@@ -4658,7 +4658,7 @@ if __name__ == '__main__':
         for f in v.faces:
             # f.plotFace(ax[axNum])
             for e in f.edges + f.geometricEdges:
-                if e.isReverse:
+                if e.is_reverse:
                     e = -e
                 if not e in testEdges:
                     testEdges.append(e)
@@ -4683,15 +4683,15 @@ if __name__ == '__main__':
         #     for f in v.faces:
         #         for sf in f.simpleFaces:
         #             for se in sf.simpleEdges:
-        #                 if se.isGeometrical:
-        #                     if se.isReverse:
+        #                 if se.is_geometrical:
+        #                     if se.is_reverse:
         #                         if not -se in geometricEdgesNew:
         #                             geometricEdgesNew.append(-se)
         #                     else:
         #                         if not se in geometricEdgesNew:
         #                             geometricEdgesNew.append(se)
         #                 for n in [se.startNode, se.endNode]:
-        #                     if n.isGeometrical:
+        #                     if n.is_geometrical:
         #                         if not n in geometricNodesNew:
         #                             geometricNodesNew.append(n)
 
@@ -4708,7 +4708,7 @@ if __name__ == '__main__':
         # for v in c.volumes:
         #     for f in v.faces:
         #         for e in f.edges:
-        #             if e.isReverse:
+        #             if e.is_reverse:
         #                 e = -e
         #             if not e in edges_new:
         #                 edges_new.append(e)
@@ -4761,7 +4761,7 @@ if __name__ == '__main__':
         # Faces
         new_faces = []
         for f in c.faces:
-            edges_no_sign = [-e if e.isReverse else e for e in f.edges]
+            edges_no_sign = [-e if e.is_reverse else e for e in f.edges]
             if all([e in new_edges for e in edges_no_sign]):
                 num_edges_text = ""
                 num_edges_f = []
@@ -4769,7 +4769,7 @@ if __name__ == '__main__':
                     num_edges_sf = []
                     for se in sf.simpleEdges:
                         if not se.num in num_edges_sf:
-                            if se.isReverse:
+                            if se.is_reverse:
                                 num_edges_sf.append(-0.1 if se.num==0 else -se.num)
                             else:
                                 num_edges_sf.append(0.1 if se.num==0 else se.num)
@@ -4789,7 +4789,7 @@ if __name__ == '__main__':
         # Volumes
         new_volumes = []
         for v in c.volumes:
-            faces_no_sign = [-f if f.isReverse else f for f in v.faces]
+            faces_no_sign = [-f if f.is_reverse else f for f in v.faces]
             if all([f in new_faces for f in faces_no_sign]):
                 print(f"v{v.num} = Volume([{', '.join([str(f).replace("_i","").replace("_b","").replace("_B","") for f in v.faces])}], num={v.num})")
                 new_volumes.append(v)

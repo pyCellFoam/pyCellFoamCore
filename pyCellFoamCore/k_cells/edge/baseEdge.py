@@ -291,13 +291,6 @@ class EdgePlotly:
                 showlegend=False,
             ))
 
-
-        # fig.update_layout(scene=dict(
-        #     xaxis=dict(showspikes=False),
-        #     yaxis=dict(showspikes=False),
-        #     zaxis=dict(showspikes=False)
-        # ))
-
         fig.update_layout(scene=dict(
             xaxis_title='X Axis',
             yaxis_title='Y Axis',

@@ -332,7 +332,7 @@ class Node(Cell):
 
         '''
         if self.showInPlot:
-            if self.isDeleted:
+            if self.is_deleted:
                 _log.error('Cannot plot deleted node {}'.format(self))
             else:
                 if showLabel is None:

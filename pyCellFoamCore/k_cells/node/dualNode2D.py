@@ -210,10 +210,10 @@ class DualNode2D(Node, DualCell):
             # # find all geometric Nodes
             # geometricNodes = []
             # for e in face.geometricEdges:
-            #     if e.startNode.isGeometrical:
+            #     if e.startNode.is_geometrical:
             #         if e.startNode not in geometricNodes:
             #             geometricNodes.append(e.startNode)
-            #     if e.endNode.isGeometrical:
+            #     if e.endNode.is_geometrical:
             #         if e.endNode not in geometricNodes:
             #             geometricNodes.append(e.endNode)
 

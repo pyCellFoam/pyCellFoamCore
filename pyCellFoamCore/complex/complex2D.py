@@ -804,7 +804,7 @@ class Complex2D(Complex):
                     self.nodes.append(n)
 
         for n in self.nodes:
-            if n.isGeometrical:
+            if n.is_geometrical:
                 if not n in self.geometricNodes:
                     self.geometricNodes.append(n)
 
@@ -868,7 +868,7 @@ class Complex2D(Complex):
 
         # Sort nodes
         for n in self.nodes:
-            if n.isGeometrical:
+            if n.is_geometrical:
                 self.logger.error('Geometrical nodes should not be in the list of nodes anymore')
 
         for n in self.nodes:

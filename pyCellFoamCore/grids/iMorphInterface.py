@@ -594,7 +594,7 @@ class IMorphInterface(PrimalComplex3D):
 #                                                 _log.debug('Found all edges {}'.format(edgesForFace))
 #                                                 newFace = Face(edgesForFace,triangulate=True,sortEdges=True)
 #                                                 faces.append(newFace)
-#                                                 if newFace.isDeleted:
+#                                                 if newFace.is_deleted:
 #                                                     _log.error('Face creation was not succesful')
 # #                                                for e in edgesForFace:
 # #                                                    e.color = tc.TUMBlack()

@@ -165,7 +165,7 @@ class BaseSimpleEdge(BaseSimpleCell):
                               'with the wanted color {} '.format(color) +
                               '- it must be an instance of TUMcolor()')
 
-        if self.isGeometrical:
+        if self.is_geometrical:
             linestyle = '--'
             linewidth = 1
         else:
@@ -272,7 +272,7 @@ class BaseSimpleEdge(BaseSimpleCell):
         if showArrow:
             lineOptions.append('->-')
 
-        if self.isGeometrical:
+        if self.is_geometrical:
             lineOptions.append('densely dashed')
 
         labelText = None

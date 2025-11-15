@@ -565,7 +565,7 @@ class PrimalComplex3D(Complex3D):
                         edgesOfFace = []
                         for f in facesToCombine:
                             for sf in f.simpleFaces:
-                                edgesOfFace.append([se.belongsTo for se in sf.simpleEdges])
+                                edgesOfFace.append([se.belongs_to for se in sf.simpleEdges])
                         _log.debug('Creating new face with the edges {}'.format(edgesOfFace))
                         newFace = Face(edgesOfFace)
                         newFace.category1 = 'additionalBorder'
@@ -573,7 +573,7 @@ class PrimalComplex3D(Complex3D):
                         v.faces = [*facesToStay,newFace]  # TODO better: v.faces = faces.ToStay.append(newFace)
                         v.setUp()
                         for f in facesToCombine:
-                            if f.isReverse:
+                            if f.is_reverse:
                                 f = -f
                             if f in self.faces:
                                 self.faces.remove(f)
@@ -704,7 +704,7 @@ class PrimalComplex3D(Complex3D):
                                     _log.debug('newEdges: {}'.format(allEdges))
                                     f.edges=allEdges
                                     f.setUp()
-                                if e0.isReverse:
+                                if e0.is_reverse:
                                     if -e0 in self.additionalBorderEdges1:
                                         self.additionalBorderEdges1.remove(-e0)
                                     else:
@@ -722,7 +722,7 @@ class PrimalComplex3D(Complex3D):
                                         self.edges.remove(e0)
                                     else:
                                         _log.error('Edge {} should have been in edges but was not there'.format(e0))
-                                if e1.isReverse:
+                                if e1.is_reverse:
                                     if -e1 in self.additionalBorderEdges1:
                                         self.additionalBorderEdges1.remove(-e1)
                                     else:
@@ -761,7 +761,7 @@ class PrimalComplex3D(Complex3D):
             _log.debug('Removing geometric nodes')
             nodesToRemove = []
             for n in self.nodes:
-                if n.isGeometrical:
+                if n.is_geometrical:
                     nodesToRemove.append(n)
                     _log.debug('Eliminating node {}'.format(n.infoText))
                     if n in self.additionalBorderNodes1:
@@ -782,7 +782,7 @@ class PrimalComplex3D(Complex3D):
             _log.debug('Removing geometric nodes')
             edgesToRemove = []
             for e in self.edges:
-                if e.isGeometrical:
+                if e.is_geometrical:
                     edgesToRemove.append(e)
                     _log.debug('Eliminating edge {}'.format(e))
                     if e in self.additionalBorderEdges1:
@@ -1086,7 +1086,7 @@ class PrimalComplex3D(Complex3D):
 
                     _log.critical("Old edges: %s", f.edges)
                     new_edges_face = []
-                    if f.isReverse:
+                    if f.is_reverse:
                         _log.critical("Reversed face")
                         f = -f
                         _log.critical("Old edges in reversed face: %s", f.edges)

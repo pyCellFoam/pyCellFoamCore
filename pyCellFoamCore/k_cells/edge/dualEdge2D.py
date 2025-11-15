@@ -240,7 +240,7 @@ class DualEdge2D(Edge, DualCell):
             _log.error('An error occured during the creation process ' +
                               'of dual Edge --> deleting')
         else:
-            if edge.isReverse:
+            if edge.is_reverse:
                 self.dualCell2D = -edge
                 edge.dualCell2D = -self
             else:

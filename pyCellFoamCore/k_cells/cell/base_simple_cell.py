@@ -119,10 +119,10 @@ class BaseSimpleCell(SuperBaseCell):
 
         _log.warning(
             "Simple cell does not belong to a real cell, using fixed "
-            "standard value for isGeometrical",
+            "standard value for is_geometrical",
         )
         return False
-    isGeometrical = property(__get_is_geometrical)
+    is_geometrical = property(__get_is_geometrical)
     '''
     If the k-cell that the simple cell belongs to is geometrical, then the
     simple cell is geometrical, too.
@@ -167,7 +167,7 @@ class BaseSimpleCell(SuperBaseCell):
 
         _log.warning(
             "Simple cell does not belong to a real cell, using fixed "
-            "standard value for isDual",
+            "standard value for is_dual",
         )
         return super().is_dual
 
@@ -184,7 +184,7 @@ class BaseSimpleCell(SuperBaseCell):
 
         _log.warning(
             "Simple cell does not belong to a real cell, using fixed "
-            "standard value for categoryText",
+            "standard value for category_text",
         )
         return super().category_text
 
@@ -241,8 +241,8 @@ if __name__ == '__main__':
     cc.printBlue('Create Base Simple Cell')
     sc1 = BaseSimpleCell()
 
-    cc.printBlue('Check if a standard value for isGeometrical is given')
-    print(sc1.isGeometrical)
+    cc.printBlue('Check if a standard value for is_geometrical is given')
+    print(sc1.is_geometrical)
 
     cc.printBlue('Check if a standard value for color is given')
     print(sc1.color)
@@ -250,10 +250,10 @@ if __name__ == '__main__':
     cc.printBlue('Check if a standard value for num is given')
     print(sc1.num)
 
-    cc.printBlue('Check if a standard value for isDual is given')
+    cc.printBlue('Check if a standard value for is_dual is given')
     print(sc1.is_dual)
 
-    cc.printBlue('Check if a standard value for categoryText is given')
+    cc.printBlue('Check if a standard value for category_text is given')
     print(sc1.category_text)
 
     cc.printBlue('Check that it does not belong to a cell')

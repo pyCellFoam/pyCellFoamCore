@@ -384,7 +384,7 @@ class Edge(BaseEdge, Cell):
 # ------------------------------------------------------------------------
     def update_text(self):
         for se in self.__simpleEdges:
-            se.updateText()
+            se.update_text()
         super().update_text()
 
 # ------------------------------------------------------------------------

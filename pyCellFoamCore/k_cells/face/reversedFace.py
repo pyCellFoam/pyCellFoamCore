@@ -29,10 +29,10 @@ if __name__ == '__main__':
 
 import logging
 
-from k_cells.face.baseFace import BaseFace
-from k_cells.edge import BaseEdge
-from k_cells.cell import ReversedCell
-from tools.logging_formatter import set_logging_format
+from pyCellFoamCore.k_cells.face.baseFace import BaseFace
+from pyCellFoamCore.k_cells.edge.baseEdge import BaseEdge
+from pyCellFoamCore.k_cells.cell.reversed_cell import ReversedCell
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
 # =============================================================================

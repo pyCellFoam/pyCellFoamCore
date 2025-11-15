@@ -162,16 +162,16 @@ class DualNode3D(Node, DualCell):
                                   belongsTo,
                                   volume=volume)
             elif len(additionalBorderFace.simpleFaces) == 2:
-                edges1 = [se.belongsTo for se in
+                edges1 = [se.belongs_to for se in
                           additionalBorderFace.simpleFaces[0].simpleEdges]
-                edges2 = [se.belongsTo for se in
+                edges2 = [se.belongs_to for se in
                           additionalBorderFace.simpleFaces[1].simpleEdges]
                 rimEdge = None
                 for e in edges1:
                     me = -e
                     if me in edges2:
                         if rimEdge is None:
-                            if e.isReverse:
+                            if e.is_reverse:
                                 rimEdge = me
                             else:
                                 rimEdge = e
@@ -211,7 +211,7 @@ class DualNode3D(Node, DualCell):
                                       volume=volume,
                                       face=additionalBorderFace,
                                       edge=[e for e in geometricNode.edges
-                                            if e.isGeometrical])
+                                            if e.is_geometrical])
                 else:
                     return super(DualNode3D, cls).__new__(cls)
             else:
@@ -296,9 +296,9 @@ class DualNode3D(Node, DualCell):
                                  .format(additionalBorderFace.infoText) +
                                  'has two simple faces, putting dual node ' +
                                  'in the barycenter of the connecting edge')
-                    edges1 = [se.belongsTo for se in additionalBorderFace
+                    edges1 = [se.belongs_to for se in additionalBorderFace
                               .simpleFaces[0].simpleEdges]
-                    edges2 = [se.belongsTo for se in additionalBorderFace
+                    edges2 = [se.belongs_to for se in additionalBorderFace
                               .simpleFaces[1].simpleEdges]
                     _log.debug(edges1, edges2)
 
@@ -307,7 +307,7 @@ class DualNode3D(Node, DualCell):
                         me = -e
                         if me in edges2:
                             if rimEdge is None:
-                                if e.isReverse:
+                                if e.is_reverse:
                                     rimEdge = me
                                 else:
                                     rimEdge = e

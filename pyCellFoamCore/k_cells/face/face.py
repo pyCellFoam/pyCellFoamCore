@@ -103,13 +103,6 @@ Important properties
 # =============================================================================
 
 # ------------------------------------------------------------------------
-#    Change to Main Directory
-# ------------------------------------------------------------------------
-if __name__ == '__main__':
-    import os
-    os.chdir('../../')
-
-# ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
 import logging
@@ -125,20 +118,21 @@ import numpy as np
 
 #    kCells
 # -------------------------------------------------------------------
-from k_cells.node import Node
-from k_cells.edge import BaseEdge, Edge
-from k_cells.face.baseFace import BaseFace
-from k_cells.cell import Cell
-from k_cells.face.simpleFace import SimpleFace
-from k_cells.face.reversedFace import ReversedFace
+from pyCellFoamCore.k_cells.node.node import Node, NodePlotly
+from pyCellFoamCore.k_cells.edge.baseEdge import BaseEdge, EdgePlotly
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.face.baseFace import BaseFace, FacePlotly
+from pyCellFoamCore.k_cells.cell.cell import Cell
+from pyCellFoamCore.k_cells.face.simpleFace import SimpleFace
+from pyCellFoamCore.k_cells.face.reversedFace import ReversedFace
 
 #    Tools
 # -------------------------------------------------------------------
-import tools.alphaNum as an
-import tools.tumcolor as tc
-import tools.placeFigures as pf
-import tools.colorConsole as cc
-from tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.alphaNum as an
+import pyCellFoamCore.tools.tumcolor as tc
+import pyCellFoamCore.tools.placeFigures as pf
+import pyCellFoamCore.tools.colorConsole as cc
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
 # =============================================================================
@@ -369,7 +363,7 @@ class Face(BaseFace, Cell):
 
                 # Go through the other raw Edges of this set
                 for e in subEdges[1:]:
-                    _log.debug('Adding edge {}'.format(e.infoText))
+                    _log.debug("Adding edge %s", e)
                     found = False
                     # Go through all the already found simple edges,
                     # but in inversed direction
@@ -423,7 +417,7 @@ class Face(BaseFace, Cell):
                         'in subface {} of face {}: {}'
                         .format(an.alphaNum(num),
                                 self.info_text,
-                                ', '.join(n.infoText for n in nodes)))
+                                ', '.join(str(n) for n in nodes)))
 
                     # Start and end of this list still has to be adjusted
                     count = 0
@@ -469,7 +463,7 @@ class Face(BaseFace, Cell):
                                 'Removed all simple edges while trying to ' +
                                 'close the cycle of edges: {} in face {}'
                                 .format(', '.
-                                        join([se.infoText for se in subEdges]),
+                                        join([se for se in subEdges]),
                                         self.info_text))
                             self.delete()
 
@@ -479,12 +473,12 @@ class Face(BaseFace, Cell):
                         # If the reversed edge is also part of the same face,
                         # this is a geometrical edge, otherwise it is a real
                         # edge
-                        if e not in allEdges and not e.isGeometrical:
+                        if e not in allEdges and not e.is_geometrical:
                             me = -e
                             if me in allEdges:
                                 allEdges.remove(me)
                                 try:
-                                    e.isGeometrical = True
+                                    e.is_geometrical = True
                                 except Exception as ex:
                                     _log.error(
                                         'Error "{}"'.format(ex) +
@@ -512,7 +506,7 @@ class Face(BaseFace, Cell):
                             se2 = simpleEdges[1]
                             ge2 = Edge(se2.endNode,
                                        se1.startNode,
-                                       isGeometrical=True)
+                                       is_geometrical=True)
                             localSimpleEdges = [se1, se2, ge2.simpleEdges[0]]
 
                             self.__simpleFaces.append(
@@ -537,7 +531,7 @@ class Face(BaseFace, Cell):
                                     edgesToDo.pop()
                                     ge2 = Edge(ge1.endNode,
                                                nextSimpleEdge.startNode,
-                                               isGeometrical=True)
+                                               is_geometrical=True)
                                     localSimpleEdges = [ge1.simpleEdges[0],
                                                         ge2.simpleEdges[0],
                                                         nextSimpleEdge]
@@ -548,7 +542,7 @@ class Face(BaseFace, Cell):
                                     edgesToDo.pop(0)
                                     ge2 = Edge(nextSimpleEdge.endNode,
                                                ge1.startNode,
-                                               isGeometrical=True)
+                                               is_geometrical=True)
                                     localSimpleEdges = [nextSimpleEdge,
                                                         ge2.simpleEdges[0],
                                                         ge1.simpleEdges[0]]
@@ -589,7 +583,7 @@ class Face(BaseFace, Cell):
                             newNode = Node(newCoords[0],
                                            newCoords[1],
                                            newCoords[2],
-                                           isGeometrical=True)
+                                           is_geometrical=True)
                             self.__centerNodes.append(newNode)
 
                             allNodes.append(newNode)
@@ -598,13 +592,13 @@ class Face(BaseFace, Cell):
                             currentSimpleEdge = simpleEdges[0]
                             ge2 = Edge(currentSimpleEdge.startNode,
                                        newNode,
-                                       isGeometrical=True)
+                                       is_geometrical=True)
                             ge2Save = ge2
                             for (num, se) in enumerate(simpleEdges[:-1]):
                                 ge1 = ge2
                                 ge2 = Edge(se.endNode,
                                            newNode,
-                                           isGeometrical=True)
+                                           is_geometrical=True)
                                 self.__simpleFaces.append(
                                     SimpleFace([se,
                                                 ge2.simpleEdges[0],
@@ -652,18 +646,18 @@ class Face(BaseFace, Cell):
 
             for n in allNodes:
                 if n not in borderNodes:
-                    n.isGeometrical = True
+                    n.is_geometrical = True
 
             self.__geometricEdges = []
 
             for sf in self.__simpleFaces:
                 for se in sf.simpleEdges:
-                    e = se.belongsTo
-#                        cc.printGreen(se.belongsTo)
+                    e = se.belongs_to
+#                        cc.printGreen(se.belongs_to)
 #                        pass
 #                for group in self.__rawEdges:
 #                    for e in group:
-                    if e.isReverse:
+                    if e.is_reverse:
                         e = -e
                     if e not in allEdges and -e not in allEdges  \
                             and e not in self.__geometricEdges:
@@ -671,7 +665,7 @@ class Face(BaseFace, Cell):
 
             self.__geometricNodes = []
             for n in allNodes:
-                if n.isGeometrical and n not in self.__geometricNodes:
+                if n.is_geometrical and n not in self.__geometricNodes:
                     self.__geometricNodes.append(n)
 
             for e in [*self.__edges, *self.__geometricEdges]:
@@ -735,7 +729,7 @@ class Face(BaseFace, Cell):
             else:
                 _log.error(
                     '{}: geometric edge {} '
-                    .format(self.info_text, e.infoText) +
+                    .format(self.info_text, e) +
                     'should belong to a minimum of 2 simple faces, ' +
                     'but only belongs to {}!'
                     .format(len(attachedSimpleFaces)))
@@ -903,7 +897,7 @@ class Face(BaseFace, Cell):
 # ------------------------------------------------------------------------
     def update_text(self):
         for sf in self.__simpleFaces:
-            sf.updateText()
+            sf.update_text()
         super().update_text()
 
     def __sortRawEdges(self):
@@ -1049,20 +1043,47 @@ if __name__ == '__main__':
 
     set_logging_format(logging.DEBUG)
 
-    # Create figures on second screen
-    (figs, ax) = pf.getFigures(numTotal=9)
+    # # Create figures on second screen
+    # (figs, ax) = pf.getFigures(numTotal=9)
 
-    plotCase = 3
+    n0 = Node(0, 0, 0, num=0)
+    n1 = Node(1, 0, 0, num=1)
+    n2 = Node(0, 1, 0, num=2)
+    n3 = Node(1, 1, 0, num=3)
+    n4 = Node(1.5, 0.5, 0, num=4)
+    n5 = Node(0, 0.5, 1, num=5)
 
-    axNum = -1
+    nodes = [n0, n1, n2, n3, n4, n5]
 
-    if plotCase == 0:
-        Face.plotDoc()
+    e0 = Edge(n0, n1, num=0)
+    e1 = Edge(n1, n4, num=1)
+    e2 = Edge(n4, n3, num=2)
+    e3 = Edge(n3, n2, num=3)
+    e4 = Edge(n2, n0, num=4)
+    e5 = Edge(n0, n5, num=5)
+    e6 = Edge(n5, n2, num=6)
 
-# ------------------------------------------------------------------------
-#    Case 1
-# ------------------------------------------------------------------------
-    if plotCase == 1:
+    edges = [e0, e1, e2, e3, e4, e5, e6]
+    f0 = Face([e0, e1, e2, e3, e4], num=0)
+    f1 = Face([e4, e5, e6], num=1)
+
+    faces = [f0, f1]
+
+
+
+
+
+    if False:
+        plotCase = -1
+
+        # axNum = -1
+
+        if plotCase == 0:
+            Face.plotDoc()
+
+    # ------------------------------------------------------------------------
+    #    Case 1
+    # ------------------------------------------------------------------------
 
         cc.printBlue('Create case 1: no special things')
 
@@ -1081,18 +1102,19 @@ if __name__ == '__main__':
         # Create face
         f101 = Face([e101, e102, e103], num=1)
 
-        # Plot
-        axNum += 1
-        for n in nodes100:
-            n.plotNode(ax[axNum])
-        for e in edges100:
-            e.plotEdge(ax[axNum])
-        f101.plotFace(ax[axNum])
-        ax[axNum].set_title('Case 1')
+        if plotCase == 1:
+            # Plot
+            axNum += 1
+            for n in nodes100:
+                n.plotNode(ax[axNum])
+            for e in edges100:
+                e.plotEdge(ax[axNum])
+            f101.plotFace(ax[axNum])
+            ax[axNum].set_title('Case 1')
 
-# ------------------------------------------------------------------------
-#    Case 2
-# ------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
+    #    Case 2
+    # ------------------------------------------------------------------------
         cc.printBlue('Create case 2: geometric node in plane')
 
         # Create some nodes
@@ -1111,18 +1133,19 @@ if __name__ == '__main__':
         # Create face
         f201 = Face([e201, e202, e203], num=2)
 
-        # Plot
-        axNum += 1
-        for n in nodes200:
-            n.plotNode(ax[axNum])
-        for e in edges200:
-            e.plotEdge(ax[axNum])
-        f201.plotFace(ax[axNum])
-        ax[axNum].set_title('Case 2')
+        if plotCase == 2:
+            # Plot
+            axNum += 1
+            for n in nodes200:
+                n.plotNode(ax[axNum])
+            for e in edges200:
+                e.plotEdge(ax[axNum])
+            f201.plotFace(ax[axNum])
+            ax[axNum].set_title('Case 2')
 
-# ------------------------------------------------------------------------
-#    Case 3
-# ------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
+    #    Case 3
+    # ------------------------------------------------------------------------
         cc.printBlue('Create case 3: geometric node out of plane')
 
         # Create some nodes
@@ -1142,18 +1165,20 @@ if __name__ == '__main__':
         # Create face
         f301 = Face([[e301, e302, -e304], [e302, e303, e304]], num=3)
 
-        # Plot
-        axNum += 1
-        for n in nodes300:
-            n.plotNode(ax[axNum])
-        for e in edges300:
-            e.plotEdge(ax[axNum])
-        f301.plotFace(ax[axNum])
-        ax[axNum].set_title('Case 3')
+        if plotCase == 3:
 
-# ------------------------------------------------------------------------
-#    Case 4
-# ------------------------------------------------------------------------
+            # Plot
+            axNum += 1
+            for n in nodes300:
+                n.plotNode(ax[axNum])
+            for e in edges300:
+                e.plotEdge(ax[axNum])
+            f301.plotFace(ax[axNum])
+            ax[axNum].set_title('Case 3')
+
+    # ------------------------------------------------------------------------
+    #    Case 4
+    # ------------------------------------------------------------------------
         cc.printBlue('Create case 4: topological node out of plane')
 
         # Create some nodes
@@ -1174,18 +1199,19 @@ if __name__ == '__main__':
         # Create face
         f401 = Face([[e401, e402, e405], [-e405, e403, e404]], num=4)
 
-        # Plot
-        axNum += 1
-        for n in nodes400:
-            n.plotNode(ax[axNum])
-        for e in edges400:
-            e.plotEdge(ax[axNum])
-        f401.plotFace(ax[axNum])
-        ax[axNum].set_title('Case 4')
+        if plotCase == 4:
+            # Plot
+            axNum += 1
+            for n in nodes400:
+                n.plotNode(ax[axNum])
+            for e in edges400:
+                e.plotEdge(ax[axNum])
+            f401.plotFace(ax[axNum])
+            ax[axNum].set_title('Case 4')
 
-# ------------------------------------------------------------------------
-#    Case 5
-# ------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
+    #    Case 5
+    # ------------------------------------------------------------------------
         cc.printBlue('Create case 5: geometrical node inside face')
 
         # Create some nodes
@@ -1205,23 +1231,24 @@ if __name__ == '__main__':
         edges500 = [e501, e502, e503, e504, e505, e506]
 
         f501 = Face([[e501, e505, -e504],
-                     [e502, e506, -e505],
-                     [e503, e504, -e506]],
+                        [e502, e506, -e505],
+                        [e503, e504, -e506]],
                     num=5)
 
-        # Plot
-        axNum += 1
-        f501.setUp()
-        for n in nodes500:
-            n.plotNode(ax[axNum])
-        for e in edges500:
-            e.plotEdge(ax[axNum])
-        f501.plotFace(ax[axNum])
-        ax[axNum].set_title('Case 5')
+        if plotCase == 5:
+            # Plot
+            axNum += 1
+            f501.setUp()
+            for n in nodes500:
+                n.plotNode(ax[axNum])
+            for e in edges500:
+                e.plotEdge(ax[axNum])
+            f501.plotFace(ax[axNum])
+            ax[axNum].set_title('Case 5')
 
-# ------------------------------------------------------------------------
-#    Case 6
-# ------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
+    #    Case 6
+    # ------------------------------------------------------------------------
         cc.printBlue('Create case 6: several geometrical nodes')
 
         # Create some nodes
@@ -1247,26 +1274,27 @@ if __name__ == '__main__':
         edges600 = [e601, e602, e603, e604, e605, e606, e607, e608, e609]
 
         f601 = Face([[e603, e608, e607],
-                     [-e607, e608, e602],
-                     [e601, e605, -e604],
-                     [e602, -e609, -e605],
-                     [e609, -e608, -e606],
-                     [e609, e606, -e608],
-                     [e603, e604, -e609]],
+                        [-e607, e608, e602],
+                        [e601, e605, -e604],
+                        [e602, -e609, -e605],
+                        [e609, -e608, -e606],
+                        [e609, e606, -e608],
+                        [e603, e604, -e609]],
                     num=601)
 
-        # Plot
-        axNum += 1
-        for n in nodes600:
-            n.plotNode(ax[axNum])
-        for e in edges600:
-            e.plotEdge(ax[axNum])
-        f601.plotFace(ax[axNum])
-        ax[axNum].set_title('Case 6')
+        if plotCase == 6:
+            # Plot
+            axNum += 1
+            for n in nodes600:
+                n.plotNode(ax[axNum])
+            for e in edges600:
+                e.plotEdge(ax[axNum])
+            f601.plotFace(ax[axNum])
+            ax[axNum].set_title('Case 6')
 
-# ------------------------------------------------------------------------
-#    Case 7
-# ------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
+    #    Case 7
+    # ------------------------------------------------------------------------
         cc.printBlue('Create case 7: fancy')
 
         # Create some nodes
@@ -1294,27 +1322,28 @@ if __name__ == '__main__':
         edges700 = [e701, e702, e703, e704, e705, e706, e707, e708, e709]
 
         f701 = Face([[e701, -e702],
-                     [e701, -e704, e702],
-                     [e702, -e705, -e706],
-                     [e703, -e708, -e705, e702, e704],
-                     [e705, -e708],
-                     [e709, -e707, e708],
-                     [e708, -e707, -e709]],
+                        [e701, -e704, e702],
+                        [e702, -e705, -e706],
+                        [e703, -e708, -e705, e702, e704],
+                        [e705, -e708],
+                        [e709, -e707, e708],
+                        [e708, -e707, -e709]],
                     num=701)
 
-        # Plot
-        axNum += 1
-        for n in nodes700:
-            n.plotNode(ax[axNum])
-        for e in edges700:
-            e.plotEdge(ax[axNum])
-        f701.plotFace(ax[axNum])
-        ax[axNum].set_title('Case 7')
-#        f701.simplifyFace()
+        if plotCase == 7:
+            # Plot
+            axNum += 1
+            for n in nodes700:
+                n.plotNode(ax[axNum])
+            for e in edges700:
+                e.plotEdge(ax[axNum])
+            f701.plotFace(ax[axNum])
+            ax[axNum].set_title('Case 7')
+    #        f701.simplifyFace()
 
-# ------------------------------------------------------------------------
-#    Case 8
-# ------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
+    #    Case 8
+    # ------------------------------------------------------------------------
         cc.printBlue('Create case 8: simplification')
         n801 = Node(0, 0, 0, num=801)
         n802 = Node(1, 0, 0, num=802)
@@ -1331,130 +1360,138 @@ if __name__ == '__main__':
 
         f801 = Face([[e801, e802, -e805], [e805, e803, e804]], num=801)
         cc.printYellow('Geometric edges before simplification:',
-                       f801.geometricEdges)
+                        f801.geometricEdges)
         mf = -f801
 
-        # Plot
-        axNum += 1
-        for n in nodes800:
-            n.plotNode(ax[axNum])
-        for e in edges800:
-            e.plotEdge(ax[axNum])
+        if plotCase == 8:
+            # Plot
+            axNum += 1
+            for n in nodes800:
+                n.plotNode(ax[axNum])
+            for e in edges800:
+                e.plotEdge(ax[axNum])
 
-        f801.plotFace(ax[axNum])
-        ax[axNum].set_title('Case 8 before')
+            f801.plotFace(ax[axNum])
+            ax[axNum].set_title('Case 8 before')
 
-        mf.simplifyFace()
+            mf.simplifyFace()
 
-        axNum += 1
-        for n in nodes800:
-            n.plotNode(ax[axNum])
-        for e in f801.edges:
-            e.plotEdge(ax[axNum])
-        f801.plotFace(ax[axNum])
-        ax[axNum].set_title('Case 8 after')
-        cc.printYellow('Geometric edges after simplification:',
-                       f801.geometricEdges)
+            axNum += 1
+            for n in nodes800:
+                n.plotNode(ax[axNum])
+            for e in f801.edges:
+                e.plotEdge(ax[axNum])
+            f801.plotFace(ax[axNum])
+            ax[axNum].set_title('Case 8 after')
+            cc.printYellow('Geometric edges after simplification:',
+                        f801.geometricEdges)
 
-# ------------------------------------------------------------------------
-#    Case 1 changes
-# ------------------------------------------------------------------------
-    if plotCase == 2:
+    # ------------------------------------------------------------------------
+    #    Case 1 changes
+    # ------------------------------------------------------------------------
+        if plotCase == 1:
 
-        cc.printBlue('Change case 1: one coordinate in one node of face')
-        cc.printYellow('Checking normal vector before and after changing')
-        cc.printGreen(f101.normalVec)
-        n101.zCoordinate = 3
-        cc.printGreen(f101.normalVec)
-        # Plot
-        axNum += 1
-        for n in nodes100:
-            n.plotNode(ax[axNum])
-        for e in edges100:
-            e.plotEdge(ax[axNum])
-        f101.plotFace(ax[axNum])
-        pf.setAxesEqual(ax[axNum])
-        ax[axNum].set_title('Case 1 changed')
+            cc.printBlue('Change case 1: one coordinate in one node of face')
+            cc.printYellow('Checking normal vector before and after changing')
+            cc.printGreen(f101.normalVec)
+            n101.zCoordinate = 3
+            cc.printGreen(f101.normalVec)
+            # Plot
+            axNum += 1
+            for n in nodes100:
+                n.plotNode(ax[axNum])
+            for e in edges100:
+                e.plotEdge(ax[axNum])
+            f101.plotFace(ax[axNum])
+            pf.setAxesEqual(ax[axNum])
+            ax[axNum].set_title('Case 1 changed')
 
-# ------------------------------------------------------------------------
-#    Case 2 changes
-# ------------------------------------------------------------------------
-        cc.printBlue('Change case 2: one coordinate in all nodes')
-        for n in nodes200:
-            n.zCoordinate = 2
+    # ------------------------------------------------------------------------
+    #    Case 2 changes
+    # ------------------------------------------------------------------------
+        if plotCase == 2:
+            cc.printBlue('Change case 2: one coordinate in all nodes')
+            for n in nodes200:
+                n.zCoordinate = 2
 
-        # Plot
-        axNum += 1
-        for n in nodes200:
-            n.plotNode(ax[axNum])
-        for e in edges200:
-            e.plotEdge(ax[axNum])
-        f201.plotFace(ax[axNum])
-        ax[axNum].set_title('Case 2 changed')
+            # Plot
+            axNum += 1
+            for n in nodes200:
+                n.plotNode(ax[axNum])
+            for e in edges200:
+                e.plotEdge(ax[axNum])
+            f201.plotFace(ax[axNum])
+            ax[axNum].set_title('Case 2 changed')
 
-# ------------------------------------------------------------------------
-#    Case 3 changes
-# ------------------------------------------------------------------------
-        cc.printBlue('Change case 3: replace one node')
-        n305 = Node(0.5, 1, -0.5, num=5)
-        e302.endNode = n305
-        e303.startNode = n305
-        nodes300.append(n305)
+    # ------------------------------------------------------------------------
+    #    Case 3 changes
+    # ------------------------------------------------------------------------
+        if plotCase == 3:
+            cc.printBlue('Change case 3: replace one node')
+            n305 = Node(0.5, 1, -0.5, num=5)
+            e302.endNode = n305
+            e303.startNode = n305
+            nodes300.append(n305)
 
-        # Plot
-        axNum += 1
-        for n in nodes300:
-            n.plotNode(ax[axNum])
-        for e in edges300:
-            e.plotEdge(ax[axNum])
-        f301.plotFace(ax[axNum])
-        ax[axNum].set_title('Case 3 changed')
+            # Plot
+            axNum += 1
+            for n in nodes300:
+                n.plotNode(ax[axNum])
+            for e in edges300:
+                e.plotEdge(ax[axNum])
+            f301.plotFace(ax[axNum])
+            ax[axNum].set_title('Case 3 changed')
 
-# ------------------------------------------------------------------------
-#    Case 4 changes
-# ------------------------------------------------------------------------
-        cc.printBlue('Change case 4: replace an edge')
-        n405 = Node(0.5, -0.5, -0.5, num=405)
-        nodes400.append(n405)
+    # ------------------------------------------------------------------------
+    #    Case 4 changes
+    # ------------------------------------------------------------------------
+        if plotCase == 4:
+            cc.printBlue('Change case 4: replace an edge')
+            n405 = Node(0.5, -0.5, -0.5, num=405)
+            nodes400.append(n405)
 
-        # Plot
-        axNum += 1
-        for n in nodes400:
-            n.plotNode(ax[axNum])
-        for e in edges400:
-            e.plotEdge(ax[axNum])
-        f401.plotFace(ax[axNum])
-        ax[axNum].set_title('Case 4 changed')
+            # Plot
+            axNum += 1
+            for n in nodes400:
+                n.plotNode(ax[axNum])
+            for e in edges400:
+                e.plotEdge(ax[axNum])
+            f401.plotFace(ax[axNum])
+            ax[axNum].set_title('Case 4 changed')
 
-# ------------------------------------------------------------------------
-#    Case 1 reversed
-# ------------------------------------------------------------------------
-        cc.printBlue('Reverse case 1')
-        axNum += 1
-        for n in nodes100:
-            n.plotNode(ax[axNum])
-        for e in edges100:
-            e.my_reverse.plotEdge(ax[axNum])
-        f101.my_reverse.plotFace(ax[axNum])
-        pf.setAxesEqual(ax[axNum])
-        ax[axNum].set_title('Case 1 reversed')
+    # ------------------------------------------------------------------------
+    #    Case 1 reversed
+    # ------------------------------------------------------------------------
 
-# ------------------------------------------------------------------------
-#    Case 6 reversed
-# ------------------------------------------------------------------------
-        cc.printBlue('Reverse case 6')
-        axNum += 1
-        for n in nodes600:
-            n.plotNode(ax[axNum])
-        for e in edges600:
-            e.my_reverse.plotEdge(ax[axNum])
-        f601.my_reverse.plotFace(ax[axNum])
-        pf.setAxesEqual(ax[axNum])
-        ax[axNum].set_title('Case 6 reversed')
+        if plotCase == 1:
+            cc.printBlue('Reverse case 1')
+            axNum += 1
+            for n in nodes100:
+                n.plotNode(ax[axNum])
+            for e in edges100:
+                e.my_reverse.plotEdge(ax[axNum])
+            f101.my_reverse.plotFace(ax[axNum])
+            pf.setAxesEqual(ax[axNum])
+            ax[axNum].set_title('Case 1 reversed')
 
-# ------------------------------------------------------------------------
-#    Check setter and getter
-# ------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
+    #    Case 6 reversed
+    # ------------------------------------------------------------------------
+
+        if plotCase == 6:
+            cc.printBlue('Reverse case 6')
+            axNum += 1
+            for n in nodes600:
+                n.plotNode(ax[axNum])
+            for e in edges600:
+                e.my_reverse.plotEdge(ax[axNum])
+            f601.my_reverse.plotFace(ax[axNum])
+            pf.setAxesEqual(ax[axNum])
+            ax[axNum].set_title('Case 6 reversed')
+
+    # ------------------------------------------------------------------------
+    #    Check setter and getter
+    # ------------------------------------------------------------------------
         cc.printBlue('Check some values')
         cc.printYellow('edges:', f601.edges)
         cc.printYellow('geometricEdges:', f601.geometricEdges)
@@ -1479,12 +1516,12 @@ if __name__ == '__main__':
             cc.printGreen('\t', v)
         mf601.showNormalVec = True
         cc.printGreen('showNormalVec:',
-                      mf601.showNormalVec,
-                      f601.showNormalVec)
+                        mf601.showNormalVec,
+                        f601.showNormalVec)
         mf601.showBarycenter = True
         cc.printGreen('showBarycenter:',
-                      mf601.showBarycenter,
-                      f601.showBarycenter)
+                        mf601.showBarycenter,
+                        f601.showBarycenter)
         cc.printGreen('Barycenter:')
         for b in f601.barycenter:
             cc.printGreen('\t', b)
@@ -1516,19 +1553,21 @@ if __name__ == '__main__':
         f900 = Face([e900, e901, e902, e903])
         f901 = Face([e906, e907, e904, e905])
         faces900 = [f900, f901]
-        axNum += 1
-        for n in nodes900:
-            n.plotNode(ax[axNum])
-        for e in edges900:
-            e.plotEdge(ax[axNum])
-        for f in faces900:
-            f.plotFace(ax[axNum])
-        ax[axNum].set_title('Non-convex face')
 
-# ------------------------------------------------------------------------
-#    Automatic triangulation
-# ------------------------------------------------------------------------
-    if plotCase == 3:
+        if plotCase == 9:
+            axNum += 1
+            for n in nodes900:
+                n.plotNode(ax[axNum])
+            for e in edges900:
+                e.plotEdge(ax[axNum])
+            for f in faces900:
+                f.plotFace(ax[axNum])
+            ax[axNum].set_title('Non-convex face')
+
+    # ------------------------------------------------------------------------
+    #    Automatic triangulation
+    # ------------------------------------------------------------------------
+
 
         cc.printBlue('Automatic triangulation')
         n1000 = Node(0, 0, -1)
@@ -1540,7 +1579,7 @@ if __name__ == '__main__':
         n1006 = Node(0, 1, 0)
         n1007 = Node(1, -1, 0)
         nodes1000 = [n1000, n1001, n1002, n1003,
-                     n1004, n1005, n1006, n1007]
+                        n1004, n1005, n1006, n1007]
 
         e1000 = Edge(n1000, n1001)
         e1001 = Edge(n1001, n1002, geometricNodes=[n1007, ])
@@ -1553,45 +1592,46 @@ if __name__ == '__main__':
         edges1000 = [e1000, e1001, e1002, e1003, e1004, e1005, e1006]
 
         f1000 = Face([[e1000, -e1006, e1005],
-                      [e1001, e1002, e1003, e1004, e1006]],
-                     triangulate=True,
-                     triangulationMethod='alternating')
+                        [e1001, e1002, e1003, e1004, e1006]],
+                        triangulate=True,
+                        triangulationMethod='alternating')
 
         f1001 = Face([e1000, e1001, e1002, e1003, e1004, e1005],
-                     triangulate=True,
-                     triangulationMethod='alternating')
+                        triangulate=True,
+                        triangulationMethod='alternating')
         f1002 = Face([e1000, e1001, e1002, e1003, e1004, e1005],
-                     triangulate=True,
-                     triangulationMethod='center')
+                        triangulate=True,
+                        triangulationMethod='center')
 
-        axNum += 1
-        for n in nodes1000:
-            n.plotNode(ax[axNum])
+        if plotCase == 10:
+            axNum += 1
+            for n in nodes1000:
+                n.plotNode(ax[axNum])
 
 
-#            edges1000.remove(e1006)
-#            for e in edges1000:
-#                e.plotEdge(ax[axNum])
-#
-        for e in [*f1000.edges, *f1000.geometricEdges]:
-            e.plotEdge(ax[axNum])
-        f1000.plotFace(ax[axNum])
+    #            edges1000.remove(e1006)
+    #            for e in edges1000:
+    #                e.plotEdge(ax[axNum])
+    #
+            for e in [*f1000.edges, *f1000.geometricEdges]:
+                e.plotEdge(ax[axNum])
+            f1000.plotFace(ax[axNum])
 
-        axNum += 1
-        for e in [*f1001.edges, *f1001.geometricEdges]:
-            e.plotEdge(ax[axNum])
-        f1001.plotFace(ax[axNum])
+            axNum += 1
+            for e in [*f1001.edges, *f1001.geometricEdges]:
+                e.plotEdge(ax[axNum])
+            f1001.plotFace(ax[axNum])
 
-        axNum += 1
-        for e in [*f1002.edges, *f1002.geometricEdges]:
-            e.plotEdge(ax[axNum])
-        f1002.plotFace(ax[axNum])
-        for n in f1002.geometricNodes:
-            n.plotNode(ax[axNum])
+            axNum += 1
+            for e in [*f1002.edges, *f1002.geometricEdges]:
+                e.plotEdge(ax[axNum])
+            f1002.plotFace(ax[axNum])
+            for n in f1002.geometricNodes:
+                n.plotNode(ax[axNum])
 
-# ------------------------------------------------------------------------
-#    Automatic edge sorting
-# ------------------------------------------------------------------------
+    # ------------------------------------------------------------------------
+    #    Automatic edge sorting
+    # ------------------------------------------------------------------------
 
         n1100 = Node(0, 0, 0)
         n1101 = Node(1, 0, 0)
@@ -1610,26 +1650,28 @@ if __name__ == '__main__':
         edges1100 = [e1100, e1101, e1102, e1103, e1104]
 
         f1100 = Face([e1100, -e1101, e1103, e1104, e1102],
-                     sortEdges=True,
-                     triangulate=True)
-#            f1100 = Face([e1100, e1101, e1102, e1103, e1104])
+                        sortEdges=True,
+                        triangulate=True)
+    #            f1100 = Face([e1100, e1101, e1102, e1103, e1104])
 
-        axNum += 1
-        for n in nodes1100:
-            n.plotNode(ax[axNum])
+        if plotCase == 11:
+            axNum += 1
+            for n in nodes1100:
+                n.plotNode(ax[axNum])
 
-        for e in edges1100:
-            e.plotEdge(ax[axNum])
+            for e in edges1100:
+                e.plotEdge(ax[axNum])
 
-        f1100.plotFace(ax[axNum])
+            f1100.plotFace(ax[axNum])
 
 # ------------------------------------------------------------------------
 #    Figure Setup
 # ------------------------------------------------------------------------
 
-    for a in ax:
-        pf.setAxesEqual(a)
-        pf.setLabels(a)
+        if plotCase >= 0:
+            for a in ax:
+                pf.setAxesEqual(a)
+                pf.setLabels(a)
 
     if False:
         import tools.myVTK as myv
@@ -1642,3 +1684,40 @@ if __name__ == '__main__':
 
     # TODO: Was passiert, wenn man in einer
     # reversedFace Kanten austauscht???
+
+    # Choose plotting method. Possible choices: pyplot, VTK, TikZ, None, plotly
+    PLOTTING_METHOD = "plotly"
+
+    match PLOTTING_METHOD:
+        case "pyplot":
+            (fig, ax) = pf.getFigures(numTotal=6)
+            _log.warning("Not implemented yet.")
+
+        case "VTK":
+            _log.warning("Not implemented yet.")
+
+        case "TikZ":
+            _log.warning("Not implemented yet.")
+
+        case "plotly":
+            node_plotly = NodePlotly(nodes)
+            plotly_fig_nodes = node_plotly.plot_nodes_plotly()
+            plotly_fig_nodes.show()
+
+            edge_plotly = EdgePlotly(edges)
+            plotly_fig_edges = edge_plotly.plot_edges_plotly()
+            plotly_fig_edges.show()
+
+
+            face_plotly = FacePlotly(faces)
+            plotly_fig = face_plotly.plot_faces_plotly()
+            plotly_fig.show()
+
+        case "None":
+            _log.info("No plotting selected.")
+
+        case _:
+            _log.error(
+                "Unknown plotting '%s' method selected.",
+                PLOTTING_METHOD,
+            )

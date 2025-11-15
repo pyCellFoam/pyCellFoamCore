@@ -111,7 +111,7 @@ class DualVolume3D(Volume,DualCell):
         _log.info('Creating dual volume of node {}'.format(node.infoText))
         unalignedFaces = []
         for e in node.edges:
-            if not e.isGeometrical and not e.category1 == 'additionalBorder':
+            if not e.is_geometrical and not e.category1 == 'additionalBorder':
                 if not e.dualCell3D:
                     DualFace3D(e)
                 unalignedFaces.append(e.dualCell3D)

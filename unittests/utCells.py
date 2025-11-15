@@ -86,8 +86,8 @@ class TestCellMethods(unittest.TestCase):
         testSUPC.delete()
 
         # Check if the SuperCell and its reversed have been deleted
-        self.assertTrue(testSUPC.isDeleted)
-        self.assertTrue(mtestSUPC.isDeleted)
+        self.assertTrue(testSUPC.is_deleted)
+        self.assertTrue(mtestSUPC.is_deleted)
 
 #-------------------------------------------------------------------------
 #    Super Reversed Cell
@@ -126,7 +126,7 @@ class TestCellMethods(unittest.TestCase):
         # Change some properties
         testC.num = 12
         testC.label = 'a'
-        testC.isGeometrical = False
+        testC.is_geometrical = False
         testC.category1 = 'inner'
         testC.category2 = 'border'
 
@@ -154,7 +154,7 @@ class TestCellMethods(unittest.TestCase):
 
 
         # Check that a standard cell is stored as non-dual
-        self.assertFalse(testC.isDual)
+        self.assertFalse(testC.is_dual)
 
 
 
@@ -183,7 +183,7 @@ class TestCellMethods(unittest.TestCase):
         # Change some properties
         testC.num = 13
         testC.label = 'd'
-        testC.isGeometrical = True
+        testC.is_geometrical = True
 
         # Create a BaseSimpleCell that belongs to the previously created Cell
         testBSC = BaseSimpleCell(belongsTo = testC,loggerName='test')
@@ -191,7 +191,7 @@ class TestCellMethods(unittest.TestCase):
         # Check that the properties are equal
         self.assertEqual(testC.num,testBSC.num)
         self.assertEqual(testC.label,testBSC.label)
-        self.assertEqual(testC.isGeometrical,testBSC.isGeometrical)
+        self.assertEqual(testC.is_geometrical,testBSC.is_geometrical)
 
 
 
@@ -233,7 +233,7 @@ class TestCellMethods(unittest.TestCase):
         testDC = DualCell(loggerName='test')
 
         # Check that the variable is set correctly
-        self.assertTrue(testDC.isDual)
+        self.assertTrue(testDC.is_dual)
 
 
 

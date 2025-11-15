@@ -88,7 +88,7 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
         :param int num: number of the edge
         :param str label: text the edge is labelled with when plotted
         :param bool isAdditional: Should be changed!
-        :param bool isDual: Does this edge belong to a dual complex
+        :param bool is_dual: Does this edge belong to a dual complex
 
         '''
         if belongsTo is None:

@@ -226,7 +226,7 @@ class DualEdge3D(Edge, DualCell):
         if self.category1 == 'inner':
             for e in face.edges:
                 if e.category1 == 'additionalBorder':
-                    if e.isReverse:
+                    if e.is_reverse:
                         e.dualCell2D = -self
                     else:
                         e.dualCell2D = self

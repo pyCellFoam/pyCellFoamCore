@@ -203,7 +203,7 @@ class DualFace2D(Face, DualCell):
 
                     e1 = Edge(centerNode, dualSimpleEdges[0].startNode)
                     sem = dualSimpleEdges[0]
-                    em = sem.belongsTo
+                    em = sem.belongs_to
                     e2 = Edge(dualSimpleEdges[0].endNode, centerNode)
                     edgesForFaces.append([e1, em, e2])
                     _log.debug('Creating first triangle with dual edges {}'
@@ -221,7 +221,7 @@ class DualFace2D(Face, DualCell):
 
                     for sem in dualSimpleEdges[1:-1]:
                         e1 = -e2
-                        em = sem.belongsTo
+                        em = sem.belongs_to
                         e2 = Edge(sem.endNode, centerNode)
                         edgesForFaces.append([e1, em, e2])
                         _log.debug('Creating triangle with dual edge {}'
@@ -239,7 +239,7 @@ class DualFace2D(Face, DualCell):
 
                     e1 = -e2
                     sem = dualSimpleEdges[-1]
-                    em = sem.belongsTo
+                    em = sem.belongs_to
                     e2 = -edgesForFaces[0][0]
                     edgesForFaces.append([e1, em, e2])
                     _log.debug('Creating last triangle with dual edge {}'

@@ -154,37 +154,60 @@ def plot_triangles_matplotlib_optimized(n=1000):
 
 
 def plot_triangles_plotly_scatter(n=5000):
-    """Alternative Plotly method using scatter3d - very fast for many triangles"""
+    """Alternative Plotly method using Mesh3d with filled surfaces"""
     if not PLOTLY_AVAILABLE:
         print("Plotly not available.")
         return
 
-    print(f"Generating {n} triangles as scatter plot...")
+    print(f"Generating {n} triangles with filled surfaces...")
     start_time = time.time()
 
     triangles, colors = generate_multiple_triangles_vectorized(n)
 
-    # Flatten all vertices
-    all_vertices = triangles.reshape(-1, 3)
-    all_colors = np.repeat(colors, 3, axis=0)  # Repeat each color 3 times for 3 vertices
+    # Prepare data for Plotly Mesh3d
+    x_data = []
+    y_data = []
+    z_data = []
+    i_data = []  # Triangle vertex indices
+    j_data = []
+    k_data = []
+    triangle_colors = []
 
-    # Create scatter plot
-    fig = go.Figure(data=go.Scatter3d(
-        x=all_vertices[:, 0],
-        y=all_vertices[:, 1],
-        z=all_vertices[:, 2],
-        mode='markers',
-        marker=dict(
-            size=3,
-            color=all_colors,
-            opacity=0.8
-        ),
-        text=[f'Triangle {i//3 + 1}, Vertex {i%3 + 1}' for i in range(len(all_vertices))],
-        hovertemplate='<b>%{text}</b><br>X: %{x}<br>Y: %{y}<br>Z: %{z}<extra></extra>'
-    ))
+    vertex_count = 0
+    for tri_idx, triangle in enumerate(triangles):
+        # Add vertices
+        x_data.extend(triangle[:, 0])
+        y_data.extend(triangle[:, 1])
+        z_data.extend(triangle[:, 2])
+
+        # Define triangle face indices
+        i_data.append(vertex_count)
+        j_data.append(vertex_count + 1)
+        k_data.append(vertex_count + 2)
+        vertex_count += 3
+
+        # Color for this triangle
+        color = colors[tri_idx]
+        color_str = f'rgb({int(color[0]*255)}, {int(color[1]*255)}, {int(color[2]*255)})'
+        triangle_colors.append(color_str)
+
+    # Create Plotly 3D mesh with filled surfaces
+    fig = go.Figure(data=[
+        go.Mesh3d(
+            x=x_data,
+            y=y_data,
+            z=z_data,
+            i=i_data,
+            j=j_data,
+            k=k_data,
+            facecolor=triangle_colors,
+            opacity=0.8,
+            showscale=False
+        )
+    ])
 
     fig.update_layout(
-        title=f'{n} Random Triangles as Scatter Points (Ultra Fast)',
+        title=f'{n} Random Triangles with Filled Surfaces (Ultra Fast)',
         scene=dict(
             xaxis_title='X',
             yaxis_title='Y',
@@ -195,7 +218,145 @@ def plot_triangles_plotly_scatter(n=5000):
     )
 
     total_time = time.time() - start_time
-    print(f"Scatter plot visualization time: {total_time:.3f} seconds")
+    print(f"Filled triangles visualization time: {total_time:.3f} seconds")
+
+    fig.show()
+
+
+# =====================================================================
+# SQUARE PLOTTING FUNCTIONS
+# =====================================================================
+
+def generate_random_square_3d():
+    """Generate a random square with 4 vertices in 3D space"""
+    # Generate a base point
+    base_x = random.uniform(-10, 10)
+    base_y = random.uniform(-10, 10)
+    base_z = random.uniform(-10, 10)
+
+    # Generate two edge vectors
+    size = random.uniform(0.5, 3.0)
+
+    # Random orientation
+    angle1 = random.uniform(0, 2*np.pi)
+    angle2 = random.uniform(0, 2*np.pi)
+
+    # Create two perpendicular vectors
+    v1 = np.array([
+        size * np.cos(angle1),
+        size * np.sin(angle1),
+        size * random.uniform(-0.5, 0.5)
+    ])
+
+    v2 = np.array([
+        size * np.cos(angle2),
+        size * np.sin(angle2),
+        size * random.uniform(-0.5, 0.5)
+    ])
+
+    # Make v2 perpendicular to v1 (Gram-Schmidt)
+    v2 = v2 - (np.dot(v2, v1) / np.dot(v1, v1)) * v1
+    v2 = v2 / np.linalg.norm(v2) * size
+
+    # Generate 4 vertices of the square
+    base = np.array([base_x, base_y, base_z])
+    vertices = np.array([
+        base,
+        base + v1,
+        base + v1 + v2,
+        base + v2
+    ])
+
+    return vertices
+
+
+def generate_multiple_squares_vectorized(n):
+    """Generate n squares using vectorized numpy operations"""
+    squares = []
+    for _ in range(n):
+        squares.append(generate_random_square_3d())
+
+    squares = np.array(squares)
+    colors = np.random.rand(n, 3)  # RGB colors for each square
+    return squares, colors
+
+
+def plot_squares_plotly(n=1000):
+    """Plot squares using Plotly Mesh3d with filled surfaces"""
+    if not PLOTLY_AVAILABLE:
+        print("Plotly not available. Please install with: pip install plotly")
+        return
+
+    print(f"Generating {n} squares with filled surfaces...")
+    start_time = time.time()
+
+    # Generate squares
+    squares, colors = generate_multiple_squares_vectorized(n)
+
+    # Prepare data for Plotly Mesh3d
+    # Each square needs to be split into 2 triangles
+    x_data = []
+    y_data = []
+    z_data = []
+    i_data = []  # Triangle vertex indices
+    j_data = []
+    k_data = []
+    triangle_colors = []
+
+    vertex_count = 0
+    for sq_idx, square in enumerate(squares):
+        # Add all 4 vertices
+        x_data.extend(square[:, 0])
+        y_data.extend(square[:, 1])
+        z_data.extend(square[:, 2])
+
+        # Define two triangles to form the square
+        # Triangle 1: vertices 0, 1, 2
+        i_data.append(vertex_count)
+        j_data.append(vertex_count + 1)
+        k_data.append(vertex_count + 2)
+
+        # Triangle 2: vertices 0, 2, 3
+        i_data.append(vertex_count)
+        j_data.append(vertex_count + 2)
+        k_data.append(vertex_count + 3)
+
+        vertex_count += 4
+
+        # Color for this square (same for both triangles)
+        color = colors[sq_idx]
+        color_str = f'rgb({int(color[0]*255)}, {int(color[1]*255)}, {int(color[2]*255)})'
+        triangle_colors.append(color_str)
+        triangle_colors.append(color_str)  # Same color for second triangle
+
+    # Create Plotly 3D mesh with filled surfaces
+    fig = go.Figure(data=[
+        go.Mesh3d(
+            x=x_data,
+            y=y_data,
+            z=z_data,
+            i=i_data,
+            j=j_data,
+            k=k_data,
+            facecolor=triangle_colors,
+            opacity=0.8,
+            showscale=False
+        )
+    ])
+
+    fig.update_layout(
+        title=f'{n} Random 3D Squares with Filled Surfaces',
+        scene=dict(
+            xaxis_title='X',
+            yaxis_title='Y',
+            zaxis_title='Z'
+        ),
+        width=1000,
+        height=800
+    )
+
+    total_time = time.time() - start_time
+    print(f"Square visualization time: {total_time:.3f} seconds")
 
     fig.show()
 
@@ -225,7 +386,7 @@ def benchmark_methods():
             start = time.time()
             try:
                 plot_triangles_plotly(n)
-                print(f"   ✓ Completed in {time.time() - start:.3f} seconds")
+                print(f"   ✓ Completed in {time.time() - start:.3f} secon44ds")
             except Exception as e:
                 print(f"   ✗ Failed: {e}")
 
@@ -634,19 +795,21 @@ def main():
     print("2. Matplotlib Optimized Triangles (good for <1000 triangles)")
     print("3. Plotly Mesh3d Triangles (excellent for 1000s of triangles)")
     print("4. Plotly Scatter Triangles (ultra-fast for 5000+ triangles)")
+    print("\n--- SQUARE METHODS ---")
+    print("5. Plotly Squares (1000 random squares with filled surfaces)")
     print("\n--- LINE METHODS ---")
-    print("5. Matplotlib Lines (good for <1000 lines)")
-    print("6. Matplotlib Vectorized Lines (good for <5000 lines)")
-    print("7. Plotly Interactive Lines (excellent for 10000s of lines)")
-    print("8. Plotly Ultra-Fast Lines (single trace, 50000+ lines)")
-    print("9. Plotly Gradient Lines (colorful line segments)")
+    print("6. Matplotlib Lines (good for <1000 lines)")
+    print("7. Matplotlib Vectorized Lines (good for <5000 lines)")
+    print("8. Plotly Interactive Lines (excellent for 10000s of lines)")
+    print("9. Plotly Ultra-Fast Lines (single trace, 50000+ lines)")
+    print("10. Plotly Gradient Lines (colorful line segments)")
     print("\n--- SPECIAL OPTIONS ---")
-    print("10. Benchmark different methods")
-    print("11. Quick triangle demo")
-    print("12. Quick line demo")
+    print("11. Benchmark different methods")
+    print("12. Quick triangle demo")
+    print("13. Quick line demo")
 
     try:
-        choice = input("\nEnter choice (1-12, or press Enter for triangle demo): ").strip()
+        choice = input("\nEnter choice (1-13, or press Enter for triangle demo): ").strip()
 
         # Triangle methods
         if choice == "1":
@@ -671,30 +834,38 @@ def main():
             else:
                 print("Plotly not available. Please install with: pip install plotly")
 
-        # Line methods
+        # Square methods
         elif choice == "5":
+            if PLOTLY_AVAILABLE:
+                n = int(input("Number of squares (default 1000): ") or "1000")
+                plot_squares_plotly(n)
+            else:
+                print("Plotly not available. Please install with: pip install plotly")
+
+        # Line methods
+        elif choice == "6":
             n = int(input("Number of lines (recommended <1000): ") or "500")
             plot_lines_matplotlib_3d(n)
 
-        elif choice == "6":
+        elif choice == "7":
             n = int(input("Number of lines (recommended <5000): ") or "2000")
             plot_lines_matplotlib_vectorized(n)
 
-        elif choice == "7":
+        elif choice == "8":
             if PLOTLY_AVAILABLE:
                 n = int(input("Number of lines (can handle 10000s): ") or "5000")
                 plot_lines_plotly(n)
             else:
                 print("Plotly not available. Please install with: pip install plotly")
 
-        elif choice == "8":
+        elif choice == "9":
             if PLOTLY_AVAILABLE:
                 n = int(input("Number of lines (can handle 50000+): ") or "20000")
                 plot_lines_plotly_single_trace(n)
             else:
                 print("Plotly not available. Please install with: pip install plotly")
 
-        elif choice == "9":
+        elif choice == "10":
             if PLOTLY_AVAILABLE:
                 n = int(input("Number of gradient lines (recommended <20000): ") or "5000")
                 plot_lines_plotly_colored_segments(n)
@@ -702,10 +873,10 @@ def main():
                 print("Plotly not available. Please install with: pip install plotly")
 
         # Special options
-        elif choice == "10":
+        elif choice == "11":
             benchmark_methods()
 
-        elif choice == "12":
+        elif choice == "13":
             print("\n=== Quick Line Demo ===")
             print("Showing 10000 lines with Plotly ultra-fast method...")
             if PLOTLY_AVAILABLE:

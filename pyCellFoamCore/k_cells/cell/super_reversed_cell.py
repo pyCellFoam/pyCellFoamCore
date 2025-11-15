@@ -80,7 +80,7 @@ class SuperReversedCell(SuperBaseCell):
 
     def __get_label_prefix(self): return '-'
 
-    labelPrefix = property(__get_label_prefix)
+    label_prefix = property(__get_label_prefix)
     '''
     Negative k-cells get a "-" sign as prefix.
 
@@ -104,8 +104,8 @@ class SuperReversedCell(SuperBaseCell):
 
     '''
 
-    def __getIsReverse(self): return True
-    isReverse = property(__getIsReverse)
+    def __getis_reverse(self): return True
+    is_reverse = property(__getis_reverse)
     '''
     All child k-cells are negative, therefor this is always true.
 
@@ -113,11 +113,11 @@ class SuperReversedCell(SuperBaseCell):
 
     def __get_is_deleted(self):
         if self.my_reverse:
-            return self.my_reverse.isDeleted
+            return self.my_reverse.is_deleted
         else:
             return super().is_deleted
 
-    isDeleted = property(__get_is_deleted)
+    is_deleted = property(__get_is_deleted)
     '''
     The negative k-cell is always deleted with its positive counterpart.
 

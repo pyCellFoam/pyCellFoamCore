@@ -80,7 +80,7 @@ class Cell(BaseCell, SuperCell):
         :param SuperBaseCell my_reverse:
         :param str category: The category (inner, border, additonal border),
             that this k-cell belongs to.
-        :param bool isGeometrical: Set, if the k-cell is not part of the
+        :param bool is_geometrical: Set, if the k-cell is not part of the
             topology of the complex.
         :param str loggerName: The logger name needs to be passed from the
             class at the lowest level by loggerName = __name__
@@ -248,7 +248,7 @@ class Cell(BaseCell, SuperCell):
 
     def __get_category_text(self):
         if self.__category_text_changed:
-            self.__createCategoryText()
+            self.__createcategory_text()
         return self.__category_text
 
     category_text = property(__get_category_text)
@@ -257,9 +257,9 @@ class Cell(BaseCell, SuperCell):
 
     '''
 
-    def __getCategoryTextChanged(self): return self.__category_text_changed
+    def __getcategory_textChanged(self): return self.__category_text_changed
 
-    category_text_changed = property(__getCategoryTextChanged)
+    category_text_changed = property(__getcategory_textChanged)
     '''
     If the category has changed, its shortcut needs to be changed, too.
 
@@ -418,7 +418,7 @@ class Cell(BaseCell, SuperCell):
     #    METHODS
     # =========================================================================
 
-    def __createCategoryText(self):
+    def __createcategory_text(self):
         '''
         Give the shortcut for the category that this cell belongs to.
 

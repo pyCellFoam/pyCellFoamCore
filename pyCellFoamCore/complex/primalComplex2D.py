@@ -202,7 +202,7 @@ class PrimalComplex2D(Complex2D):
         # Categorize nodes
         for n in self.nodes:
 
-            if n.isGeometrical:
+            if n.is_geometrical:
                 if not n in self.geometricNodes:
                     self.geometricNodes.append(n)
 
@@ -278,7 +278,7 @@ class PrimalComplex2D(Complex2D):
         # Categorize nodes
         for n in self.nodes:
 
-            if n.isGeometrical:
+            if n.is_geometrical:
                 if not n in self.geometricNodes:
                     self.geometricNodes.append(n)
 
@@ -356,7 +356,7 @@ class PrimalComplex2D(Complex2D):
                     newEdges = f.edges[:]
                     for e in edges:
                         newEdges.remove(e)
-                        if e.isReverse:
+                        if e.is_reverse:
                             e = -e
                         self.edges.remove(e)
                     newEdges.append(newEdge)

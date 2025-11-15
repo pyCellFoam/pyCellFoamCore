@@ -131,7 +131,7 @@ class SuperCell(SuperBaseCell):
     def update_text(self):
         '''
         The label can only be changed in the cell, not in the reversed cell.
-        Therefore the updateText() function is not needed to be implemented in
+        Therefore the update_text() function is not needed to be implemented in
         the ReversedCell class, here is enough.
 
         '''

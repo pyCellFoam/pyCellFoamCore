@@ -134,7 +134,7 @@ class DualFace3D(Face, DualCell):
             # Find edges to define simple faces
             edgesForFaces = []
             sem = simpleEdgesForFaces[0]
-            em = sem.belongsTo
+            em = sem.belongs_to
             e1 = Edge(centerNode, sem.startNode)
             e2 = Edge(sem.endNode, centerNode)
             _log.debug('Creating first triangle with dual edges {}'
@@ -152,7 +152,7 @@ class DualFace3D(Face, DualCell):
 
             for sem in simpleEdgesForFaces[1:-1]:
                 e1 = -e2
-                em = sem.belongsTo
+                em = sem.belongs_to
                 e2 = Edge(sem.endNode, centerNode)
                 _log.debug('Creating triangle with dual edge {}'
                              .format([e1.infoText, em.infoText, e2.info_text]))
@@ -168,7 +168,7 @@ class DualFace3D(Face, DualCell):
 
             e1 = -e2
             e2 = -edgesForFaces[0][0]
-            em = simpleEdgesForFaces[-1].belongsTo
+            em = simpleEdgesForFaces[-1].belongs_to
             _log.debug('Creating last triangle with dual edge {}'
                          .format([e1.infoText, em.infoText, e2.infoText]))
             _log.debug('Nodes that should define the simple face: ' +
@@ -237,7 +237,7 @@ class DualFace3D(Face, DualCell):
                     # Find edges to define simple faces
                     edgesForFaces = []
                     sem = simpleEdgesForFaces[2]
-                    em = sem.belongsTo
+                    em = sem.belongs_to
                     e1 = edge.dualCell2D
                     e2 = Edge(sem.endNode, centerNode)
                     _log.debug('Creating first triangle with dual edges {}'
@@ -255,7 +255,7 @@ class DualFace3D(Face, DualCell):
                                          e2.endNode))
                     for sem in simpleEdgesForFaces[3:-1]:
                         e1 = -e2
-                        em = sem.belongsTo
+                        em = sem.belongs_to
                         e2 = Edge(sem.endNode, centerNode)
                         _log.debug('Creating triangle with dual edge {}'
                                      .format([e1.infoText,
@@ -273,7 +273,7 @@ class DualFace3D(Face, DualCell):
 
                     e1 = -e2
                     e2 = edge.dualCell2D
-                    em = simpleEdgesForFaces[-1].belongsTo
+                    em = simpleEdgesForFaces[-1].belongs_to
                     _log.debug('Creating last triangle with dual edge {}'
                                  .format([e1.infoText,
                                           em.infoText,
@@ -343,7 +343,7 @@ class DualFace3D(Face, DualCell):
                         edgesForFaces = []
                         sem = simpleEdgesForFaces[1]
                         centerNode = edge.dualCell2D.startNode
-                        em = sem.belongsTo
+                        em = sem.belongs_to
                         e1 = edge.dualCell2D
                         e2 = Edge(sem.endNode, centerNode)
                         _log.debug('Creating first triangle with dual ' +
@@ -361,7 +361,7 @@ class DualFace3D(Face, DualCell):
                                              e2.endNode))
                         for sem in simpleEdgesForFaces[2:-2]:
                             e1 = -e2
-                            em = sem.belongsTo
+                            em = sem.belongs_to
                             e2 = Edge(sem.endNode, centerNode)
                             _log.debug(
                                 'Creating triangle with dual edge {}'
@@ -382,8 +382,8 @@ class DualFace3D(Face, DualCell):
                         #  TODO: !!!! ATTENTION: WHAT HAPPENS IF THE LAST TWO
                         # SIMPLE EDGES BELONG TO THE SAME EDGE???
                         e1 = -e2
-                        em = simpleEdgesForFaces[-2].belongsTo
-                        e2 = simpleEdgesForFaces[-1].belongsTo
+                        em = simpleEdgesForFaces[-2].belongs_to
+                        e2 = simpleEdgesForFaces[-1].belongs_to
                         edgesForFaces.append([e1, em, e2])
 
                     self.category1 = 'border'

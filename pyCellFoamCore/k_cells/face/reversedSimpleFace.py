@@ -23,10 +23,10 @@ if __name__ == '__main__':
 import logging
 
 
-from k_cells.face.baseSimpleFace import BaseSimpleFace
-from k_cells.cell import ReversedSimpleCell
+from pyCellFoamCore.k_cells.face.baseSimpleFace import BaseSimpleFace
+from pyCellFoamCore.k_cells.cell.reversed_simple_cell import ReversedSimpleCell
 import numpy as np
-from tools.logging_formatter import set_logging_format
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
 # =============================================================================
