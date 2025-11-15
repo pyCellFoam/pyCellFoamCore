@@ -44,7 +44,7 @@ from pyCellFoamCore.tools.logging_formatter import set_logging_format
 # =============================================================================
 
 _log = logging.getLogger(__name__)
-_log.setLevel(logging.DEBUG)
+_log.setLevel(logging.INFO)
 
 # =============================================================================
 #    CLASS DEFINITION

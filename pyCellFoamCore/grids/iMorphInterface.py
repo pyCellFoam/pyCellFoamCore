@@ -17,17 +17,11 @@
 #==============================================================================
 #    IMPORTS
 #==============================================================================
-#-------------------------------------------------------------------------
-#    Change to Main Directory
-#-------------------------------------------------------------------------
-import os
-if __name__ == '__main__':
-    os.chdir('../')
-
 
 #-------------------------------------------------------------------------
 #    Standard Libraries
 #-------------------------------------------------------------------------
+import os
 import numpy as np
 from collections import deque
 import logging
@@ -486,10 +480,12 @@ class IMorphInterface(PrimalComplex3D):
 
         numberOfThroatsWithLessThan2Nodes = 0
 
-
+        idx_add_nodes = 10000
 
         createClosedThroats = True
         createOpenThroats = True
+
+
 
         currentLineNumber = 0
         if not error:
@@ -520,7 +516,7 @@ class IMorphInterface(PrimalComplex3D):
                                 if throat[0] == throat [-1]:
 
                                     numberOfClosedThroats += 1
-                                    _log.info("Checking closed throat %s with nodes: %s", numberOfClosedThroats, throat)
+                                    _log.debug("Checking closed throat %s with nodes: %s", numberOfClosedThroats, throat)
 
                                     throatNodes = throat[:-1]
 
@@ -545,7 +541,7 @@ class IMorphInterface(PrimalComplex3D):
                                     if throatExistsAlready:
                                         _log.debug('Throat with nodes {} already exists'.format(throat))
                                     else:
-                                        _log.debug('Creating throat with nodes {}'.format(throat))
+                                        _log.info('Creating closed throat with nodes {}'.format(throat))
                                         numberOfUniqueClosedThroats += 1
                                         closedThroats.append(throatNodes)
                                         # _log.debug('Nodes in current throat: {}'.format(throat))
@@ -625,7 +621,7 @@ class IMorphInterface(PrimalComplex3D):
                                 else:
 
                                     numberOfOpenThroats += 1
-                                    _log.info("Checking open throat %s with nodes: %s", numberOfOpenThroats, throat)
+                                    _log.debug("Checking open throat %s with nodes: %s", numberOfOpenThroats, throat)
 
 
 
@@ -634,9 +630,9 @@ class IMorphInterface(PrimalComplex3D):
                                     throatExistsAlready = self.__checkExists(throat,openThroats)
 
                                     if throatExistsAlready:
-                                        _log.critical('Open throat with nodes {} already exists'.format(throat))
+                                        _log.debug('Open throat with nodes {} already exists'.format(throat))
                                     else:
-                                        _log.critical('Creating open throat with nodes {}'.format(throat))
+                                        _log.info('Creating open throat with nodes {}'.format(throat))
                                         openThroats.append(throat)
 
 
@@ -657,6 +653,7 @@ class IMorphInterface(PrimalComplex3D):
                                             cc.printYellow(side1,side2)
 
                                             if side1 == side2:
+                                                _log.critical("Nearest sides are the same: %s", side1)
                                                 newEdge = Edge(nodeEnd,nodeStart)
                                                 edgesForFace.append(newEdge)
                                                 newEdge.color = tc.TUMBlack()
@@ -677,10 +674,41 @@ class IMorphInterface(PrimalComplex3D):
                                                 number_of_throats_not_same_side += 1
                                                 _log.critical("Nearest sides are not the same")
 
-                                                neighbouring_sides = self.boundingBox.check_neighbouring_sides(side1, side2)
-                                                if neighbouring_sides:
-                                                    _log.critical("Nearest sides are neighbours")
+                                                touching_edge = self.boundingBox.check_neighbouring_sides(side1, side2)
+                                                if touching_edge is not None:
+                                                    _log.critical("Nearest sides are neighbours touching in edge %s", touching_edge)
                                                     number_of_throats_neighbouring_sides += 1
+
+                                                    intermediateNodeCoordinates = touching_edge.get_intermediate_point(nodeStart.coordinates, nodeEnd.coordinates)
+                                                    intermediateNode = Node(intermediateNodeCoordinates[0], intermediateNodeCoordinates[1], intermediateNodeCoordinates[2], num=idx_add_nodes)
+                                                    idx_add_nodes += 1
+                                                    intermediateNode.color = tc.TUMBlack()
+                                                    _log.critical("Creating intermediate node at %s", intermediateNode.coordinates)
+
+                                                    self.nodes.append(intermediateNode)
+
+                                                    new_edge1 = Edge(nodeStart, intermediateNode)
+                                                    new_edge2 = Edge(intermediateNode, nodeEnd)
+                                                    new_edge1.color = tc.TUMMustard()
+                                                    new_edge2.color = tc.TUMMustard()
+
+                                                    self.edges.append(new_edge1)
+                                                    self.edges.append(new_edge2)
+
+                                                    edgesForFace.append(new_edge1)
+                                                    edgesForFace.append(new_edge2)
+
+                                                    if edgesForFace is not None and createOpenThroats:
+                                                        if len(edgesForFace) > 2:
+                                                            newFace = Face(edgesForFace,triangulate=True,sortEdges=True)
+                                                            newFace.color = tc.TUMLightBlue()
+                                                            faces.append(newFace)
+                                                        else:
+                                                            for e in edgesForFace:
+                                                                e.color = tc.TUMRose()
+
+
+
                                                 else:
                                                     _log.critical("Nearest sides are not neighbours")
                                         else:
@@ -880,7 +908,7 @@ if __name__ == '__main__':
 
 #    VTK
 #---------------------------------------------------------------------
-        elif plottingMethod == 'VTK' :
+        elif plottingMethod == 'VTK':
             cc.printBlue('Plot using VTK')
             cc.printRed('Not implemented')
 #            myVTK = MyVTK()

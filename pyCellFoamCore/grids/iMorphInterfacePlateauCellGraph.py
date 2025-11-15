@@ -523,7 +523,7 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
 if __name__ == '__main__':
 
     set_logging_format(
-        logging.WARNING,
+        logging.DEBUG,
         # log_format_console = "%(filename)30s : %(lineno)5d : %(funcName)20s : %(levelname)8s : %(name)20s : %(message)s",
     )
 
@@ -663,7 +663,7 @@ if __name__ == '__main__':
         cc.printBlue('Plot using plotly')
 
         node_plotly = NodePlotly(interface1.nodes)
-        plotly_fig_nodes = node_plotly.plot_nodes_plotly(show_label=False)
+        plotly_fig_nodes = node_plotly.plot_nodes_plotly(show_label=True)
         plotly_fig_nodes.show()
 
         edge_plotly = EdgePlotly(interface1.edges)

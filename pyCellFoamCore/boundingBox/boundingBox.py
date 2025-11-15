@@ -420,13 +420,13 @@ class BoundingBox(BoundingBoxElement):
         _log.debug("shared edges: %s", shared_edges)
         if len(shared_edges) == 0:
             _log.debug("edges %s and %s are not neighbours", side1, side2)
-            neighbours = False
+            neighbours = None
         elif len(shared_edges) == 1:
             _log.debug("edges %s and %s touch in edge %s", side1, side2, shared_edges[0])
-            neighbours = True
+            neighbours = shared_edges[0]
         else:
             _log.error("Two sides can only touch in one edge, but %s and %s touch in edges %s", side1, side2, shared_edges)
-            neighbours = False
+            neighbours = None
 
         return neighbours
 
