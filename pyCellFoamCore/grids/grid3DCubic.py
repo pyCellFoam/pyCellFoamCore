@@ -19,20 +19,29 @@ The construction of the grid is done in the PrimalComplex3DCubic class.
 # =============================================================================
 #    IMPORTS
 # =============================================================================
-if __name__ == '__main__':
-    import os
-    os.chdir('../')
-
-from k_cells.node.node import Node
-from k_cells.edge.edge import Edge
-from k_cells.face.face import Face
-from k_cells.volume.volume import Volume
-from complex import PrimalComplex3D, DualComplex3D
-from tools import MyLogging
-import tools.placeFigures as pf
+import logging
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.face.face import Face
+from pyCellFoamCore.k_cells.volume.volume import Volume
+from pyCellFoamCore.complex.primalComplex3D import PrimalComplex3D
+from pyCellFoamCore.complex.dualComplex3D import DualComplex3D
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.placeFigures as pf
 import numpy as np
-import tools.colorConsole as cc
-import tools.tumcolor as tc
+import pyCellFoamCore.tools.colorConsole as cc
+import pyCellFoamCore.tools.tumcolor as tc
+
+from pyCellFoamCore.k_cells.node.node import NodePlotly
+from pyCellFoamCore.k_cells.edge.baseEdge import EdgePlotly
+from pyCellFoamCore.k_cells.face.baseFace import FacePlotly
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 
 # =============================================================================
@@ -921,23 +930,35 @@ class Grid3DCubic(PrimalComplex3D):
 # =============================================================================
 
 if __name__ == '__main__':
-    with MyLogging('complexGeometry'):
 
-#        nbc = False
-        pc = Grid3DCubic(3, yNum=4, zNum=4, borderVolumesRight=True)
+    set_logging_format(logging.DEBUG)
+    pc = Grid3DCubic(3, yNum=5, zNum=5, borderVolumesRight=True)
 
-        dc = DualComplex3D(pc)
+    # dc = DualComplex3D(pc)
+
+    node_plotly = NodePlotly(pc.nodes)
+    plotly_fig_nodes = node_plotly.plot_nodes_plotly(show_label=False)
+    plotly_fig_nodes.show()
+
+    edge_plotly = EdgePlotly(pc.edges)
+    plotly_fig_edges = edge_plotly.plot_edges_plotly(show_label=True, show_barycenter=False)
+    plotly_fig_edges.show()
+
+    face_plotly = FacePlotly(pc.faces)
+    plotly_fig_faces = face_plotly.plot_faces_plotly(show_label=True, show_barycenter=False)
+    plotly_fig_faces.show()
 
 
-        axNum = -1
-        (figs, axes) = pf.getFigures()
 
-        axNum += 1
-        pc.plotComplex(axes[axNum], showLabel=False, showNormalVec=False, showArrow=False)
+    # axNum = -1
+    # (figs, axes) = pf.getFigures()
 
-        axNum += 1
-        dc.plotComplex(axes[axNum], showLabel=False, showNormalVec=False, showArrow=False)
+    # axNum += 1
+    # pc.plotComplex(axes[axNum], showLabel=False, showNormalVec=False, showArrow=False)
 
-        axNum += 1
-        for f in dc.additionalBorderFaces:
-            f.plotFace(axes[axNum], showLabel=False, showNormalVec=False)
+    # axNum += 1
+    # dc.plotComplex(axes[axNum], showLabel=False, showNormalVec=False, showArrow=False)
+
+    # axNum += 1
+    # for f in dc.additionalBorderFaces:
+    #     f.plotFace(axes[axNum], showLabel=False, showNormalVec=False)

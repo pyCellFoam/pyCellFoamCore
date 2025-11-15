@@ -26,12 +26,12 @@ import numpy as np
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 
-from boundingBox.boundingBoxElement import BoundingBoxElement
-from boundingBox.boundingBoxEdge import BoundingBoxEdge
-import tools.tumcolor as tc
-from tools import Arrow3D
+from pyCellFoamCore.boundingBox.boundingBoxElement import BoundingBoxElement
+from pyCellFoamCore.boundingBox.boundingBoxEdge import BoundingBoxEdge
+import pyCellFoamCore.tools.tumcolor as tc
+from pyCellFoamCore.tools.arrow3D import Arrow3D
 
-import tools.colorConsole as cc
+import pyCellFoamCore.tools.colorConsole as cc
 
 #==============================================================================
 #    LOGGING
@@ -185,7 +185,7 @@ class BoundingBoxSide(BoundingBoxElement):
 
     def  __repr__(self):
         '''
-        Show infoText in console
+        Show info_text in console
 
         '''
         return 'BBFace<{}>'.format(self.identifier)

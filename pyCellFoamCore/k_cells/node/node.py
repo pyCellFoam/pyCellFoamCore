@@ -559,7 +559,7 @@ class Node(Cell):
         '''
         if simpleEdge in self.__simpleEdges:
             _log.error('Simple edge %s already belongs to node %s!',
-                              simpleEdge.infoText, self.info_text)
+                              simpleEdge.info_text, self.info_text)
         else:
             self.__simpleEdges.append(simpleEdge)
 
@@ -596,7 +596,7 @@ class Node(Cell):
         '''
         if edge in self.__edges:
             _log.error('Edge %s already belongs to node %s!',
-                              edge.infoText, self.info_text)
+                              edge.info_text, self.info_text)
         else:
             self.__edges.append(edge)
             _log.debug('Added edge {} to node {}'
@@ -641,19 +641,19 @@ class Node(Cell):
                     else:
                         _log.error(
                             'Node {} should have been connected to node {}'
-                            .format(edge.endNode.infoText, self.info_text))
+                            .format(edge.endNode.info_text, self.info_text))
                 elif edge.endNode == self:
                     if edge.startNode in self.connectedNodes:
                         self.__connectedNodes.remove(edge.startNode)
                     else:
                         _log.error(
                             'Node {} should have been connected to node {}'
-                            .format(edge.startNode.infoText, self.info_text))
+                            .format(edge.startNode.info_text, self.info_text))
                 else:
                     _log.error('Cannot find connected node')
         else:
             _log.error('Cannot remove edge {} from node {}!'
-                              .format(edge.infoText, self.info_text))
+                              .format(edge.info_text, self.info_text))
 
     def updateGeometry(self):
         '''

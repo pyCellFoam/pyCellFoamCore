@@ -72,7 +72,7 @@ class TikZNode(TikZCoordinate):
 #==============================================================================
     def  __repr__(self):
         '''
-        Show infoText in console
+        Show info_text in console
 
         '''
         return 'TikZNode ({}) at ({}) {{{}}}'.format(self.name,self.coordinatesTikZ,self.__content)

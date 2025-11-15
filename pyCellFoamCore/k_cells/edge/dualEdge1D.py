@@ -189,13 +189,13 @@ class DualEdge1D(Edge, DualCell):
                             self.geometricNodes = []
                         error = False
                 else:
-                    myPrintError('Node {} is border '.format(node.infoText) +
+                    myPrintError('Node {} is border '.format(node.info_text) +
                                  'and should therefor belong to two ' +
                                  'border edges, ' +
                                  'but belongs to {}'.format(len(edges)))
         else:
             myPrintError('Unknown category {} of node {}'
-                         .format(node.category1, node.infoText))
+                         .format(node.category1, node.info_text))
 
         if error:
             self.delete()

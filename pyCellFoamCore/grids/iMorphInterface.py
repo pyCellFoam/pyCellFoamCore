@@ -39,18 +39,19 @@ import logging
 
 #    kCells
 #--------------------------------------------------------------------
-from k_cells import Node, Edge, Face
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.face.face import Face
 
 #    Complex & Grids
 #--------------------------------------------------------------------
-from complex import PrimalComplex3D
+from pyCellFoamCore.complex.primalComplex3D import PrimalComplex3D
 
 #    Tools
 #--------------------------------------------------------------------
-import tools.colorConsole as cc
-import tools.placeFigures as pf
-from tools import MyLogging
-import tools.tumcolor as tc
+import pyCellFoamCore.tools.colorConsole as cc
+import pyCellFoamCore.tools.placeFigures as pf
+import pyCellFoamCore.tools.tumcolor as tc
 #from tools import MyVTK
 
 #==============================================================================
@@ -58,6 +59,7 @@ import tools.tumcolor as tc
 #==============================================================================
 
 _log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 
 #==============================================================================

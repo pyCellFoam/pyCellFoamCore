@@ -286,7 +286,7 @@ class SuperBaseCell:
 
     def __repr__(self):
         '''
-        Show infoText in console
+        Show info_text in console
 
         '''
         return self.info_text
@@ -301,7 +301,7 @@ class SuperBaseCell:
     def __create_info_text(self):
         '''
         Parse the text that is displayed in the console. This should be called
-        if the infoText is needed and has been changed since the last use.
+        if the info_text is needed and has been changed since the last use.
 
         '''
         if self.is_dual:
@@ -314,7 +314,7 @@ class SuperBaseCell:
             self.__info_text = self.__info_text + '***deleted***'
 
         self.__info_text_changed = False
-        _log.debug('Update infoText %s', self.__info_text)
+        _log.debug('Update info_text %s', self.__info_text)
 
     def __create_label_text(self):
         '''

@@ -39,21 +39,25 @@ import logging
 
 #    kCells
 #--------------------------------------------------------------------
-from k_cells import Node, Edge
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.edge.edge import Edge
 from pyCellFoamCore.k_cells.face.face import Face
 from pyCellFoamCore.k_cells.volume.volume import Volume
 
+from pyCellFoamCore.k_cells.node.node import NodePlotly
+from pyCellFoamCore.k_cells.edge.baseEdge import EdgePlotly
+from pyCellFoamCore.k_cells.face.baseFace import FacePlotly
+
 #    Complex & Grids
 #--------------------------------------------------------------------
-from grids.iMorphInterface import IMorphInterface
+from pyCellFoamCore.grids.iMorphInterface import IMorphInterface
 
 #    Tools
 #--------------------------------------------------------------------
-import tools.colorConsole as cc
-import tools.placeFigures as pf
-from tools import MyLogging
+import pyCellFoamCore.tools.colorConsole as cc
+import pyCellFoamCore.tools.placeFigures as pf
 #import tools.tumcolor as tc
-from boundingBox import BoundingBox
+from pyCellFoamCore.boundingBox.boundingBox import BoundingBox
 from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
@@ -539,14 +543,15 @@ if __name__ == '__main__':
 #        interface1 = IMorphInterfaceTubes(r'D:\iMorph\06_iMorph_October_20\data\Compare\Div 6\Roi1\original\Porous')
     # interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\data\Sample18\Div6\Roi1\original\Porous')
 #        interface2 = IMorphInterfaceTubes(r'D:\iMorph\06_iMorph_October_20\data\Compare\Div 6\Roi1\original\Porous')
-#        interface = IMorphInterfaceTubes(r'D:\iMorph\06_iMorph_October_20\data\Sample01\Div6\Roi2\original\Porous',addBorderCellFaceTypeNodes=True)
+    # interface = IMorphInterfaceTubes(r'D:\iMorph\06_iMorph_October_20\data\Sample01\Div6\Roi2\original\Porous',addBorderCellFaceTypeNodes=True)
 #        print(interface.pathToNodesFile)
 #        print(interface.pathToTubesFile)
 #        print(interface.pathToNodeThroatsFile)
     #
 
     # interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Div6\Cutout2\original\Porous')
-    interface1 = IMorphInterfacePlateauCellGraph(r'C:\_local\TUM\06_iMorph_October_20\database_share\data\Sample01\Acquisition3\Roi2\original\Porous')
+    # interface1 = IMorphInterfacePlateauCellGraph(r'C:\_local\TUM\06_iMorph_October_20\database_share\data\Sample01\Acquisition3\Roi2\original\Porous')
+    interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Acquisition3\Roi1\original\Porous')
 
 
 
@@ -570,7 +575,7 @@ if __name__ == '__main__':
 #-------------------------------------------------------------------------
 
     # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, doc, None
-    plottingMethod = 'pyplot'
+    plottingMethod = 'plotly'
 
 
 #    Disabled
@@ -653,6 +658,21 @@ if __name__ == '__main__':
     elif plottingMethod == 'doc':
         cc.printBlue('Creating plots for documentation')
         test.plotDoc()
+
+    elif plottingMethod == 'plotly':
+        cc.printBlue('Plot using plotly')
+
+        node_plotly = NodePlotly(interface1.nodes)
+        plotly_fig_nodes = node_plotly.plot_nodes_plotly(show_label=False)
+        plotly_fig_nodes.show()
+
+        edge_plotly = EdgePlotly(interface1.edges)
+        plotly_fig_edges = edge_plotly.plot_edges_plotly(show_label=True, show_barycenter=False)
+        plotly_fig_edges.show()
+
+        face_plotly = FacePlotly(interface1.faces)
+        plotly_fig_faces = face_plotly.plot_faces_plotly(show_label=True, show_barycenter=False)
+        plotly_fig_faces.show()
 
 #    Unknown
 #---------------------------------------------------------------------

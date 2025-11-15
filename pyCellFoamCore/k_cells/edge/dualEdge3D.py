@@ -55,14 +55,15 @@ if __name__ == '__main__':
 
 import logging
 
-from k_cells.cell import DualCell
-from k_cells.edge.edge import Edge
-from k_cells.node import Node, DualNode3D, DualNode2D
-import tools.colorConsole as cc
+from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.node.dualNode3D import DualNode3D
+from pyCellFoamCore.k_cells.node.dualNode2D import DualNode2D
+import pyCellFoamCore.tools.colorConsole as cc
 import numpy as np
-from tools import MyLogging
-import tools.placeFigures as pf
-from tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.placeFigures as pf
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
 # =============================================================================
@@ -178,7 +179,7 @@ class DualEdge3D(Edge, DualCell):
                     self.setUp()
 
             else:
-                myPrintError('Face {} is inner '.format(face.infoText) +
+                myPrintError('Face {} is inner '.format(face.info_text) +
                              'and should therefor belong to two volumes, ' +
                              'but belongs to {}'.format(len(face.volumes)))
 
@@ -195,13 +196,13 @@ class DualEdge3D(Edge, DualCell):
                 self.setUp()
 
             else:
-                myPrintError('Face {} is border '.format(face.infoText) +
+                myPrintError('Face {} is border '.format(face.info_text) +
                              'and should therefor belong to one volume, ' +
                              'but belongs to {}'.format(len(face.volumes)))
 
         else:
             myPrintError('Unknown category {} of face {}'
-                         .format(face.category, face.infoText))
+                         .format(face.category, face.info_text))
 
         # If the edge was created in the wrong direction
         # (according to the prescribed direction of the primal face),

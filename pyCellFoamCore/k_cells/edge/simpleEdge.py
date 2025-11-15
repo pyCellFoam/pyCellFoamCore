@@ -238,7 +238,7 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
         if simpleFace in self.__simpleFaces:
             _log.error(
                 'Simple face {} already belongs to simiple edge {}!'
-                .format(simpleFace.infoText, self.info_text))
+                .format(simpleFace.info_text, self.info_text))
         else:
             self.__simpleFaces.append(simpleFace)
 
@@ -254,11 +254,11 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
             self.__simpleFaces.remove(simpleFace)
             _log.debug(
                 'Removed simple face {} from simple edge {}'
-                .format(simpleFace.infoText, self.info_text))
+                .format(simpleFace.info_text, self.info_text))
         else:
             _log.error(
                 'Cannot remove simple face {} from simple edge {}!'
-                .format(simpleFace.infoText, self.info_text))
+                .format(simpleFace.info_text, self.info_text))
 
 # ------------------------------------------------------------------------
 #    Delete this simple edge

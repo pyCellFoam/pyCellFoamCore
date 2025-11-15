@@ -106,17 +106,17 @@ import numpy as np
 
 #    kCells
 # -------------------------------------------------------------------
-from k_cells.node.node import Node
-from k_cells.node.dualNode2D import DualNode2D
-from k_cells.node.dualNode1D import DualNode1D
-from k_cells.node.dualNode0D import DualNode0D
-from k_cells.cell import DualCell
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.node.dualNode2D import DualNode2D
+from pyCellFoamCore.k_cells.node.dualNode1D import DualNode1D
+from pyCellFoamCore.k_cells.node.dualNode0D import DualNode0D
+from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
 
 
 #    Tools
 # -------------------------------------------------------------------
-import tools.colorConsole as cc
-from tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.colorConsole as cc
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
 # =============================================================================
@@ -159,7 +159,7 @@ class DualNode3D(Node, DualCell):
 
             if len(additionalBorderFace.simpleFaces) == 1:
                 return DualNode2D(additionalBorderFace.simpleFaces[0].
-                                  belongsTo,
+                                  belongs_to,
                                   volume=volume)
             elif len(additionalBorderFace.simpleFaces) == 2:
                 edges1 = [se.belongs_to for se in
@@ -266,13 +266,13 @@ class DualNode3D(Node, DualCell):
                 x = 0
                 y = 0
                 z = 0
-                _log.error('Border volume {} '.format(volume.infoText) +
+                _log.error('Border volume {} '.format(volume.info_text) +
                              'should have exactly one additional border face')
 
             elif len(additionalBorderFaces) == 1:
-                _log.debug('Volume {} '.format(volume.infoText) +
+                _log.debug('Volume {} '.format(volume.info_text) +
                              'has the additional border face {}'
-                             .format(additionalBorderFace.infoText) +
+                             .format(additionalBorderFace.info_text) +
                              'with {} simple faces'
                              .format(len(additionalBorderFace.simpleFaces)))
                 additionalBorderFace = additionalBorderFaces[0]
@@ -281,7 +281,7 @@ class DualNode3D(Node, DualCell):
 # ------------------------------------------------------------------------
                 if len(additionalBorderFace.simpleFaces) == 1:
                     _log.debug('Border face {} '
-                                 .format(additionalBorderFace.infoText) +
+                                 .format(additionalBorderFace.info_text) +
                                  'has one simple face, putting dual node in ' +
                                  'the barycenter of the face')
                     bc = additionalBorderFace.barycenter[0]
@@ -293,7 +293,7 @@ class DualNode3D(Node, DualCell):
 # ------------------------------------------------------------------------
                 elif len(additionalBorderFace.simpleFaces) == 2:
                     _log.debug('Border face {} '
-                                 .format(additionalBorderFace.infoText) +
+                                 .format(additionalBorderFace.info_text) +
                                  'has two simple faces, putting dual node ' +
                                  'in the barycenter of the connecting edge')
                     edges1 = [se.belongs_to for se in additionalBorderFace
@@ -314,7 +314,7 @@ class DualNode3D(Node, DualCell):
                             else:
                                 _log.error('Face {} '
                                              .format(additionalBorderFace
-                                                     .infoText) +
+                                                     .info_text) +
                                              'has more than one connecting ' +
                                              'edge, this should not be!')
                     bc = rimEdge.barycenter[0]
@@ -328,7 +328,7 @@ class DualNode3D(Node, DualCell):
 
                     geometricNode = None
                     _log.debug('Border face {} '
-                                 .format(additionalBorderFace.infoText) +
+                                 .format(additionalBorderFace.info_text) +
                                  'has three simple faces, putting dual node ' +
                                  'in connecting corner')
                     geometricNodes = additionalBorderFace.geometricNodes
@@ -377,7 +377,7 @@ class DualNode3D(Node, DualCell):
                     z = 0
                     self.delete()
                     _log.error('Border face {} '
-                                 .format(additionalBorderFace.infoText) +
+                                 .format(additionalBorderFace.info_text) +
                                  'must have one, two or three simple faces, ' +
                                  'but has {}'
                                  .format(len(
@@ -396,7 +396,7 @@ class DualNode3D(Node, DualCell):
             z = 0
             self.delete()
             _log.error('Unknown category {} of volume {}'
-                              .format(volume.category1, volume.infoText))
+                              .format(volume.category1, volume.info_text))
 
         self.xCoordinate = x
         self.yCoordinate = y

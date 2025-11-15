@@ -22,8 +22,8 @@ if __name__ == '__main__':
 import numpy as np
 import logging
 
-from boundingBox.boundingBoxElement import BoundingBoxElement
-import tools.tumcolor as tc
+from pyCellFoamCore.boundingBox.boundingBoxElement import BoundingBoxElement
+import pyCellFoamCore.tools.tumcolor as tc
 
 #==============================================================================
 #    LOGGING
@@ -100,7 +100,7 @@ class BoundingBoxCorner(BoundingBoxElement):
 
     def  __repr__(self):
         '''
-        Show infoText in console
+        Show info_text in console
 
         '''
         return 'BBCorner<{}>'.format(self.identifier)
@@ -236,5 +236,3 @@ if __name__ == '__main__':
 
         else:
             cc.printRed('Unknown plotting method {}'.format(plottingMethod))
-
-

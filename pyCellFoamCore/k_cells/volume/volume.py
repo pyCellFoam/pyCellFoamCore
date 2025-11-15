@@ -36,15 +36,15 @@ import numpy as np
 #import matplotlib.pyplot as plt
 #from mpl_toolkits.mplot3d import Axes3D
 #from tumcolor import TUMcolor
-import tools.tumcolor as tc
+import pyCellFoamCore.tools.tumcolor as tc
 #from cell import Cell
-import tools.colorConsole as cc
+import pyCellFoamCore.tools.colorConsole as cc
 #import logging
 
 
-from k_cells import Cell
+from pyCellFoamCore.k_cells.cell.cell import Cell
 
-from tools.logging_formatter import set_logging_format
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
 # =============================================================================
@@ -194,7 +194,7 @@ class Volume(Cell):
         print('================================================================')
         print('================================================================')
         cc.printMagentaBackground('   ',end='')
-        print(' Volume Number',self.num)#,self.infoText)
+        print(' Volume Number',self.num)#,self.info_text)
         print('================================================================')
         print('================================================================')
         print()
@@ -232,9 +232,9 @@ class Volume(Cell):
 
         # Check if the normal vector points outwards
 #            if np.dot(faces[0].simpleFaces[0].normalVec,node.coordinates-faces[0].simpleFaces[0].barycenter) > 0:
-#                cc.printGreen('{}: first face points in the right direction'.format(self.infoText))
+#                cc.printGreen('{}: first face points in the right direction'.format(self.info_text))
 #            else:
-#                cc.printRed('{}: first face points in the wrong direction'.format(self.infoText))
+#                cc.printRed('{}: first face points in the wrong direction'.format(self.info_text))
 
         # Do not do this if there are no faces
         if faces:
@@ -257,7 +257,7 @@ class Volume(Cell):
                     if not found:
                         mf = -f
 
-                        myPrintDebug('Trying to add face {} with simple edges {}'.format(f.infoText,f.simpleEdges))
+                        myPrintDebug('Trying to add face {} with simple edges {}'.format(f.info_text,f.simpleEdges))
 
                         # Go through all edges in current face
                         for se in f.simpleEdges:
@@ -269,7 +269,7 @@ class Volume(Cell):
 
                             # If the current edge is in the found edges and not the reversed one, then the reversed face should be added
                                 if se in simpleEdges and not mse in simpleEdges:
-                                    myPrintDebug('Found shared simple Edge {}'.format(se.infoText))
+                                    myPrintDebug('Found shared simple Edge {}'.format(se.info_text))
                                     found = True
                                     facesForVolume.append(mf)
                                     faces.remove(f)
@@ -279,7 +279,7 @@ class Volume(Cell):
 
                                 # If the reversed of the current edge is in the found edges, then the face should be added
                                 elif not se in simpleEdges and mse in simpleEdges:
-                                    myPrintDebug('Found shared simple Edge {}'.format(se.infoText))
+                                    myPrintDebug('Found shared simple Edge {}'.format(se.info_text))
                                     found = True
                                     facesForVolume.append(f)
                                     faces.remove(f)
@@ -322,7 +322,7 @@ class Volume(Cell):
 #                print(e.num)
                 for se in e.simpleEdges:
                     if se in simpleEdges:
-                        _log.error('Error, simple edge {} occurs twice in volume {} which is not allowed'.format(se.infoText,self))
+                        _log.error('Error, simple edge {} occurs twice in volume {} which is not allowed'.format(se.info_text,self))
                         closed = False
                     else:
                         simpleEdges.append(se)
@@ -330,7 +330,7 @@ class Volume(Cell):
         for se in simpleEdges :
             mse = -se
             if not mse in simpleEdges:
-                _log.error('Error, simple edge {} in the volume {} has no counterpart'.format(se.infoText,self.info_text))
+                _log.error('Error, simple edge {} in the volume {} has no counterpart'.format(se.info_text,self.info_text))
                 closed = False
         return closed
 

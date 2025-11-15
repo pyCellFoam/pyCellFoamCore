@@ -63,26 +63,32 @@ from tabulate import tabulate
 
 #    kCells
 #--------------------------------------------------------------------
-from k_cells import Node, Edge, Face
-from k_cells.volume.volume import Volume
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.face.face import Face
+from pyCellFoamCore.k_cells.volume.volume import Volume
 
 #    Complex & Grids
 #--------------------------------------------------------------------
-from complex.complex import Complex
+from pyCellFoamCore.complex.complex import Complex
 
 #    Tools
 #--------------------------------------------------------------------
-import tools.placeFigures as pf
-import tools.colorConsole as cc
+import pyCellFoamCore.tools.placeFigures as pf
+import pyCellFoamCore.tools.colorConsole as cc
 # import tools.myVTK as myv
-import tools.tumcolor as tc
+import pyCellFoamCore.tools.tumcolor as tc
 
-from tools.tikZPicture import TikZPicture3D
-from tools.printTable import Table
+from pyCellFoamCore.tools.tikZPicture.tikZPicture3D import TikZPicture3D
+from pyCellFoamCore.tools.printTable import Table
 
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
 
 _log = logging.getLogger(__name__)
-
+_log.setLevel(logging.INFO)
 
 
 
@@ -152,8 +158,7 @@ class Complex3D(Complex):
                  nodes=[],
                  edges=[],
                  faces=[],
-                 volumes=[],
-                 loggerName = __name__):
+                 volumes=[]):
 
         '''
         Description
@@ -223,7 +228,7 @@ class Complex3D(Complex):
 
 
 
-        super().__init__(loggerName)
+        super().__init__()
 
 
 
@@ -1853,7 +1858,7 @@ class Complex3D(Complex):
         headlineNodes = ['Node','3D dual','2D dual','1D dual','0D dual']
         tableContentNodes = [headlineNodes,]
         for n in self.nodes:
-            tableContentNodes.append([n.infoText,n.dualCell3D,n.dualCell2D,n.dualCell1D,n.dualCell0D])
+            tableContentNodes.append([n.info_text,n.dualCell3D,n.dualCell2D,n.dualCell1D,n.dualCell0D])
         tableNodes = Table(tableContentNodes)
         tableNodes.printTable()
 
@@ -1862,7 +1867,7 @@ class Complex3D(Complex):
         headlineEdges = ['Edge','3D dual','2D dual','1D dual']
         tableContentEdges = [headlineEdges,]
         for e in self.edges:
-            tableContentEdges.append([e.infoText,e.dualCell3D,e.dualCell2D,e.dualCell1D])
+            tableContentEdges.append([e.info_text,e.dualCell3D,e.dualCell2D,e.dualCell1D])
         tableEdges = Table(tableContentEdges)
         tableEdges.printTable()
 
@@ -1871,7 +1876,7 @@ class Complex3D(Complex):
         headlineFaces = ['Face','3D dual','2D dual']
         tableContentFaces = [headlineFaces,]
         for f in self.faces:
-            tableContentFaces.append([f.infoText,f.dualCell3D,f.dualCell2D])
+            tableContentFaces.append([f.info_text,f.dualCell3D,f.dualCell2D])
         tableFaces = Table(tableContentFaces)
         tableFaces.printTable()
 
@@ -1879,7 +1884,7 @@ class Complex3D(Complex):
         headlineFaces = ['Volume','3D dual']
         tableContentFaces = [headlineFaces,]
         for v in self.volumes:
-            tableContentFaces.append([v.infoText,v.dualCell3D])
+            tableContentFaces.append([v.info_text,v.dualCell3D])
         tableFaces = Table(tableContentFaces)
         tableFaces.printTable()
 

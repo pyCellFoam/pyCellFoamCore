@@ -174,7 +174,7 @@ class ReversedEdge(BaseEdge, ReversedCell):
             self.my_reverse.addFace(-face)
         else:
             _log.error(
-                'Cannot add face {}'.format(face.infoText) +
+                'Cannot add face {}'.format(face.info_text) +
                 ' to reversed edge {} '.format(self.info_text) +
                 'because it does not belong to an edge')
 
@@ -186,7 +186,7 @@ class ReversedEdge(BaseEdge, ReversedCell):
             self.my_reverse.delFace(-face)
         else:
             _log.error(
-                'Cannot delete face {}'.format(face.infoText) +
+                'Cannot delete face {}'.format(face.info_text) +
                 ' from reversed edge {} '.format(self.info_text) +
                 'because it does not belong to an edge')
 

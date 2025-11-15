@@ -82,7 +82,7 @@ class TikZCoordinate(TikZElement):
 #==============================================================================
     def  __repr__(self):
         '''
-        Show infoText in console
+        Show info_text in console
 
         '''
         return 'TikZCoordinate ({}) at ({})'.format(self.name,self.coordinatesTikZ)

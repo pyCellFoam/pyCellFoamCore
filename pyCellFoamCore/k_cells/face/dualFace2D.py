@@ -51,13 +51,16 @@ if __name__ == '__main__':
 
 import logging
 
-from k_cells.cell import DualCell
-from k_cells import Edge, DualEdge3D, DualEdge2D, BaseEdge
-from k_cells.face.face import Face
-from k_cells import DualNode0D
+from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.edge.dualEdge2D import DualEdge2D
+from pyCellFoamCore.k_cells.edge.baseEdge import BaseEdge
+from pyCellFoamCore.k_cells.face.face import Face
+from pyCellFoamCore.k_cells.node.dualNode0D import DualNode0D
+
 import numpy as np
-import tools.colorConsole as cc
-from tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.colorConsole as cc
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
 # =============================================================================
@@ -106,7 +109,7 @@ class DualFace2D(Face, DualCell):
             self.category2 = node.category2
             _log.debug('Assuming 2D complex')
             _log.debug('Creating 2D dual of inner node {}'
-                         .format(node.infoText))
+                         .format(node.info_text))
             dualEdges = [e.dualCell2D for e in node.edges]
             dualSortedEdges = self.__sortEdges(dualEdges,
                                                _log.debug,
@@ -126,7 +129,7 @@ class DualFace2D(Face, DualCell):
         elif node.category1 == 'border':
 
             _log.debug('Creating 2D dual of border node {}'
-                         .format(node.infoText))
+                         .format(node.info_text))
 
             primEdges = []
             for e in node.edges:
@@ -208,7 +211,7 @@ class DualFace2D(Face, DualCell):
                     edgesForFaces.append([e1, em, e2])
                     _log.debug('Creating first triangle with dual edges {}'
                                  .format([e1.info_text,
-                                          sem.infoText,
+                                          sem.info_text,
                                           e2.info_text]))
                     _log.debug('Nodes that should define the simple face: ' +
                                  '{} {} {} {} {} {}'
@@ -225,8 +228,8 @@ class DualFace2D(Face, DualCell):
                         e2 = Edge(sem.endNode, centerNode)
                         edgesForFaces.append([e1, em, e2])
                         _log.debug('Creating triangle with dual edge {}'
-                                     .format([e1.infoText,
-                                              sem.infoText,
+                                     .format([e1.info_text,
+                                              sem.info_text,
                                               e2.info_text]))
                         _log.debug('Nodes that should define the simple ' +
                                      'face: {} {} {} {} {} {}'
@@ -243,9 +246,9 @@ class DualFace2D(Face, DualCell):
                     e2 = -edgesForFaces[0][0]
                     edgesForFaces.append([e1, em, e2])
                     _log.debug('Creating last triangle with dual edge {}'
-                                 .format([e1.infoText,
-                                          em.infoText,
-                                          e2.infoText]))
+                                 .format([e1.info_text,
+                                          em.info_text,
+                                          e2.info_text]))
                     _log.debug('Nodes that should define the simple face: ' +
                                  '{} {} {} {} {} {}'
                                  .format(e1.startNode,

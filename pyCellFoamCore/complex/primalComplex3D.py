@@ -38,24 +38,25 @@ import logging
 #-------------------------------------------------------------------------
 
 
-from boundingBox import BoundingBox
+from pyCellFoamCore.boundingBox.boundingBox import BoundingBox
 
 #    kCells
 #--------------------------------------------------------------------
-from k_cells import Node, Edge, Face
-from k_cells.volume.volume import Volume
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.face.face import Face
+from pyCellFoamCore.k_cells.volume.volume import Volume
 
 #    Complex & Grids
 #--------------------------------------------------------------------
-from complex.complex3D import Complex3D
+from pyCellFoamCore.complex.complex3D import Complex3D
 
 #    Tools
 #--------------------------------------------------------------------
-import tools.colorConsole as cc
-import tools.placeFigures as pf
-from tools import MyLogging
-import tools.tumcolor as tc
-from tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.colorConsole as cc
+import pyCellFoamCore.tools.placeFigures as pf
+import pyCellFoamCore.tools.tumcolor as tc
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
 # =============================================================================
@@ -519,22 +520,22 @@ class PrimalComplex3D(Complex3D):
         #....................................................................
         if True:
             for v in self.volumes:
-                _log.debug('Combining additional border faces of volume {}'.format(v.infoText))
+                _log.debug('Combining additional border faces of volume {}'.format(v.info_text))
                 facesToCombine = []
                 facesToStay = []
                 for f in v.faces:
 
                     if f.category == 'additionalBorder' and v.category != 'border':
-                        _log.error('Face {} is an additional border face and belongs to volume {} of category {}. This should not be!'.format(f.infoText,self.infoText,self.category))
+                        _log.error('Face {} is an additional border face and belongs to volume {} of category {}. This should not be!'.format(f.info_text,self.info_text,self.category))
 
                     if f.category == 'additionalBorder' and v.category == 'border':
                         facesToCombine.append(f)
                     else:
                         facesToStay.append(f)
                 if len(facesToCombine) == 0:
-                    _log.debug('Volume {} has no faces to combine'.format(v.infoText))
+                    _log.debug('Volume {} has no faces to combine'.format(v.info_text))
                 elif len(facesToCombine) == 1:
-                    _log.debug('Volume {} has only one additional border face, so no need to combine'.format(v.infoText))
+                    _log.debug('Volume {} has only one additional border face, so no need to combine'.format(v.info_text))
                 elif len(facesToCombine) <= 3:
 
                     # Check if each face shares at least one edge with another face
@@ -561,7 +562,7 @@ class PrimalComplex3D(Complex3D):
                         _log.info('Faces {} of volume {} are all additional border face but are not connected'.format(facesToCombine,v))
                     else:
 
-                        _log.debug('Volume {} has {} additional border faces: {}, trying to combine them'.format(v.infoText,len(facesToCombine),facesToCombine))
+                        _log.debug('Volume {} has {} additional border faces: {}, trying to combine them'.format(v.info_text,len(facesToCombine),facesToCombine))
                         edgesOfFace = []
                         for f in facesToCombine:
                             for sf in f.simpleFaces:
@@ -569,7 +570,7 @@ class PrimalComplex3D(Complex3D):
                         _log.debug('Creating new face with the edges {}'.format(edgesOfFace))
                         newFace = Face(edgesOfFace)
                         newFace.category1 = 'additionalBorder'
-                        _log.debug('Changing the faces of volume {} by keeping the faces {} and adding the new face {}'.format(v.infoText,facesToStay,newFace))
+                        _log.debug('Changing the faces of volume {} by keeping the faces {} and adding the new face {}'.format(v.info_text,facesToStay,newFace))
                         v.faces = [*facesToStay,newFace]  # TODO better: v.faces = faces.ToStay.append(newFace)
                         v.setUp()
                         for f in facesToCombine:
@@ -578,15 +579,15 @@ class PrimalComplex3D(Complex3D):
                             if f in self.faces:
                                 self.faces.remove(f)
                             else:
-                                _log.error('Cannot remove face {} from faces!'.format(f.infoText))
+                                _log.error('Cannot remove face {} from faces!'.format(f.info_text))
                             if f in self.additionalBorderFaces1:
                                 self.additionalBorderFaces1.remove(f)
                             else:
-                                _log.error('Cannot remove face {} from additional border faces 1!'.format(f.infoText))
+                                _log.error('Cannot remove face {} from additional border faces 1!'.format(f.info_text))
                             if f in self.additionalBorderFaces2:
                                 self.additionalBorderFaces2.remove(f)
                             else:
-                                _log.error('Cannot remove face {} from additional border faces 2!'.format(f.infoText))
+                                _log.error('Cannot remove face {} from additional border faces 2!'.format(f.info_text))
                             f.delete()
 
                         self.faces.append(newFace)
@@ -594,16 +595,16 @@ class PrimalComplex3D(Complex3D):
                         self.additionalBorderFaces2.append(newFace)
 
                         for e in newFace.geometricEdges:
-                            _log.debug('Edge {} is getting eliminated'.format(e.infoText))
+                            _log.debug('Edge {} is getting eliminated'.format(e.info_text))
                             if e in self.edges:
                                 self.edges.remove(e)
                             else:
-                                _log.error('Cannot remove edge {} from edges!'.format(e.infoText))
+                                _log.error('Cannot remove edge {} from edges!'.format(e.info_text))
                             if e in self.additionalBorderEdges1:
                                 self.additionalBorderEdges1.remove(e)
                                 self.geometricEdges.append(e)
                             else:
-                                _log.error('Cannot remove edge {} from additional border edges!'.format(e.infoText))
+                                _log.error('Cannot remove edge {} from additional border edges!'.format(e.info_text))
 
                 else:
                     _log.error('Volume {} has {} additional border faces, this is too much!'.format(v,len(facesToCombine)))
@@ -763,18 +764,18 @@ class PrimalComplex3D(Complex3D):
             for n in self.nodes:
                 if n.is_geometrical:
                     nodesToRemove.append(n)
-                    _log.debug('Eliminating node {}'.format(n.infoText))
+                    _log.debug('Eliminating node {}'.format(n.info_text))
                     if n in self.additionalBorderNodes1:
                         self.additionalBorderNodes1.remove(n)
                         self.geometricNodes.append(n)
                     else:
-                        _log.error('After combining faces, only additional border nodes should have become geometric and not {}!'.format(n.infoText))
+                        _log.error('After combining faces, only additional border nodes should have become geometric and not {}!'.format(n.info_text))
 
             for n in nodesToRemove:
                 if n in self.nodes:
                     self.nodes.remove(n)
                 else:
-                    _log.error('Cannont remove node {} from nodes'.format(n.infoText))
+                    _log.error('Cannont remove node {} from nodes'.format(n.info_text))
 
         #    Remove unused edges
         #....................................................................
@@ -789,7 +790,7 @@ class PrimalComplex3D(Complex3D):
                         self.additionalBorderEdges1.remove(e)
                         self.geometricEdges.append(e)
                     else:
-                        _log.error('After combining faces, only additional border nodes should have become geometric and not {}!'.format(n.infoText))
+                        _log.error('After combining faces, only additional border nodes should have become geometric and not {}!'.format(n.info_text))
 
             for e in edgesToRemove:
                 if e in self.edges:
@@ -866,16 +867,16 @@ class PrimalComplex3D(Complex3D):
                     # If the face belongs to a single border volume, it is an additional border face
                     elif f.volumes[0].category == 'border':
                         f.category1 = 'additionalBorder'
-                        _log.debug('Face {} is an additional border face'.format(f.infoText))
+                        _log.debug('Face {} is an additional border face'.format(f.info_text))
 
                     # Anything else is not knwon
                     else:
-                        _log.error('Unknown category of volume %s',f.volumes[0].infoText)
+                        _log.error('Unknown category of volume %s',f.volumes[0].info_text)
 
                 # Faces that belong to two volumes are inner faces
                 elif len(f.volumes) == 2:
                     f.category1 = 'inner'
-                    _log.debug('Face {} is an inner face'.format(f.infoText))
+                    _log.debug('Face {} is an inner face'.format(f.info_text))
 
                 # Faces cannot belong to more than 2 volumes - at least in 3 dimensions ;)
                 elif len(f.volumes) > 2:

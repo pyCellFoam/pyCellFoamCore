@@ -237,7 +237,7 @@ class DualNode1D(Node, DualCell):
                 self.dualCell3D = volume
         else:
             myPrintError('Cannot calculate 1D dual of edge {}'
-                         .format(edge.infoText) +
+                         .format(edge.info_text) +
                          ' that has more than one simple edge, ' +
                          'it has {}'.format(len(edge.simpleEdges)))
             self.delete()

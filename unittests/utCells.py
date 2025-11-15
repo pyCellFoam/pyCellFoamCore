@@ -134,9 +134,9 @@ class TestCellMethods(unittest.TestCase):
         mtestC = -testC
 
         # Check that the properties are correctly translated into the text variables
-        self.assertEqual(testC.infoText,'a_i12')
+        self.assertEqual(testC.info_text,'a_i12')
         self.assertEqual(testC.labelText,'$a_{\mathrm{i}12}$')
-        self.assertEqual(mtestC.infoText,'-a_i12')
+        self.assertEqual(mtestC.info_text,'-a_i12')
         self.assertEqual(mtestC.labelText,'$-a_{\mathrm{i}12}$')
 
         # Change label
@@ -144,7 +144,7 @@ class TestCellMethods(unittest.TestCase):
 
         # Check that the XChanged variables are set correctly
         self.assertTrue(mtestC.labelTextChanged)
-        self.assertTrue(mtestC.infoTextChanged)
+        self.assertTrue(mtestC.info_textChanged)
 
         # Set a color
         testC.color = tc.TUMRose()

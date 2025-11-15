@@ -190,7 +190,7 @@ class TikZPicture3D(TikZPicture):
 #==============================================================================
     def  __repr__(self):
         '''
-        Show infoText in console
+        Show info_text in console
 
         '''
         return 'TikZPicture3D "{}" '.format(self.name)

@@ -23,9 +23,9 @@ import logging
 
 import numpy as np
 
-from boundingBox.boundingBoxElement import BoundingBoxElement
-from boundingBox.boundingBoxCorner import BoundingBoxCorner
-import tools.tumcolor as tc
+from pyCellFoamCore.boundingBox.boundingBoxElement import BoundingBoxElement
+from pyCellFoamCore.boundingBox.boundingBoxCorner import BoundingBoxCorner
+import pyCellFoamCore.tools.tumcolor as tc
 
 
 #==============================================================================
@@ -120,7 +120,7 @@ class BoundingBoxEdge(BoundingBoxElement):
 
     def  __repr__(self):
         '''
-        Show infoText in console
+        Show info_text in console
 
         '''
         return 'BBEdge<{}>'.format(self.identifier)
@@ -233,7 +233,3 @@ if __name__ == '__main__':
             edge3D.plotBoundingBoxEdge(axes[0],showLabel=True)
             ax = axes[0]
             ax.scatter(testCoordinate1[0],testCoordinate1[1],testCoordinate1[2])
-
-
-
-

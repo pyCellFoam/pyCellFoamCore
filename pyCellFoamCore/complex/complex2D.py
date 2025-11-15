@@ -1016,7 +1016,7 @@ class Complex2D(Complex):
         tableContentNodes = [headlineNodes,]
 
         for n in self.nodes:
-            tableContentNodes.append([n.infoText,n.category1,n.category2])
+            tableContentNodes.append([n.info_text,n.category1,n.category2])
 
         tableNodes = Table(tableContentNodes)
         tableNodes.printTable()
@@ -1027,7 +1027,7 @@ class Complex2D(Complex):
         tableContentEdges = [headlineEdges,]
 
         for e in self.edges:
-            tableContentEdges.append([e.infoText,e.category1,e.category2])
+            tableContentEdges.append([e.info_text,e.category1,e.category2])
 
         tableEdges = Table(tableContentEdges)
         tableEdges.printTable()
@@ -1042,7 +1042,7 @@ class Complex2D(Complex):
         headlineNodes = ['Node','2D dual','1D dual','0D dual']
         tableContentNodes = [headlineNodes,]
         for n in self.nodes:
-            tableContentNodes.append([n.infoText,n.dualCell2D,n.dualCell1D,n.dualCell0D])
+            tableContentNodes.append([n.info_text,n.dualCell2D,n.dualCell1D,n.dualCell0D])
         tableNodes = Table(tableContentNodes)
         tableNodes.printTable()
 
@@ -1051,7 +1051,7 @@ class Complex2D(Complex):
         headlineEdges = ['Edge','2D dual','1D dual']
         tableContentEdges = [headlineEdges,]
         for e in self.edges:
-            tableContentEdges.append([e.infoText,e.dualCell2D,e.dualCell1D])
+            tableContentEdges.append([e.info_text,e.dualCell2D,e.dualCell1D])
         tableEdges = Table(tableContentEdges)
         tableEdges.printTable()
 
@@ -1060,7 +1060,7 @@ class Complex2D(Complex):
         headlineFaces = ['Face','2D dual']
         tableContentFaces = [headlineFaces,]
         for f in self.faces:
-            tableContentFaces.append([f.infoText,f.dualCell2D])
+            tableContentFaces.append([f.info_text,f.dualCell2D])
         tableFaces = Table(tableContentFaces)
         tableFaces.printTable()
 

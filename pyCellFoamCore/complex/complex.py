@@ -46,13 +46,14 @@ import numpy as np
 
 #    Tools
 # -------------------------------------------------------------------
-import tools.colorConsole as cc
+import pyCellFoamCore.tools.colorConsole as cc
 
 # =============================================================================
 #    LOGGING
 # =============================================================================
 
 _log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -72,7 +73,7 @@ class Complex:
     # =========================================================================
     #    INITIALIZATION
     # =========================================================================
-    def __init__(self, loggerName=__name__):
+    def __init__(self):
         '''
 
         :param str loggerName: Name for the logger, passed from the lowest
@@ -86,11 +87,6 @@ class Complex:
     #    SETTER AND GETTER
     # =========================================================================
 
-    def __getLogger(self): return self.__logger
-    logger = property(__getLogger)
-    '''
-
-    '''
 
     def __getUseCategory(self):
         _log.warning('Using standard value for "useCategory". ' +
@@ -356,4 +352,3 @@ if __name__ == '__main__':
 
     with myLogging.MyLogging('Complex',debug=True):
         c = Complex()
-

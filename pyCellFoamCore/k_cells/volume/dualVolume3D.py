@@ -49,13 +49,13 @@ if __name__== '__main__':
 # ------------------------------------------------------------------------
 import logging
 
-from k_cells.cell import DualCell
-from k_cells.volume.volume import Volume
-from k_cells.face.dualFace3D import DualFace3D
-import tools.colorConsole as cc
+from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
+from pyCellFoamCore.k_cells.volume.volume import Volume
+from pyCellFoamCore.k_cells.face.dualFace3D import DualFace3D
+import pyCellFoamCore.tools.colorConsole as cc
 import numpy as np
 
-from tools.logging_formatter import set_logging_format
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
 # =============================================================================
@@ -108,7 +108,7 @@ class DualVolume3D(Volume,DualCell):
         self.category2 = node.category
 
 
-        _log.info('Creating dual volume of node {}'.format(node.infoText))
+        _log.info('Creating dual volume of node {}'.format(node.info_text))
         unalignedFaces = []
         for e in node.edges:
             if not e.is_geometrical and not e.category1 == 'additionalBorder':
@@ -138,9 +138,9 @@ class DualVolume3D(Volume,DualCell):
 
                 # Check if the normal vector points outwards
     #            if np.dot(faces[0].simpleFaces[0].normalVec,node.coordinates-faces[0].simpleFaces[0].barycenter) > 0:
-    #                cc.printGreen('{}: first face points in the right direction'.format(self.infoText))
+    #                cc.printGreen('{}: first face points in the right direction'.format(self.info_text))
     #            else:
-    #                cc.printRed('{}: first face points in the wrong direction'.format(self.infoText))
+    #                cc.printRed('{}: first face points in the wrong direction'.format(self.info_text))
 
                 for se in unalignedFaces[0].simpleEdges:
                     simpleEdges.append(se)
@@ -161,7 +161,7 @@ class DualVolume3D(Volume,DualCell):
                         if not found:
                             mf = -f
 
-                            _log.debug('Trying to add face {} with simple edges {}'.format(f.infoText,f.simpleEdges))
+                            _log.debug('Trying to add face {} with simple edges {}'.format(f.info_text,f.simpleEdges))
 
                             # Go through all edges in current face
                             for se in f.simpleEdges:
@@ -173,7 +173,7 @@ class DualVolume3D(Volume,DualCell):
 
                                 # If the current edge is in the found edges and not the reversed one, then the reversed face should be added
                                     if se in simpleEdges and not mse in simpleEdges:
-                                        _log.debug('Found shared simple Edge {}'.format(se.infoText))
+                                        _log.debug('Found shared simple Edge {}'.format(se.info_text))
                                         found = True
                                         facesForVolume.append(mf)
                                         unalignedFaces.remove(f)
@@ -183,7 +183,7 @@ class DualVolume3D(Volume,DualCell):
 
                                     # If the reversed of the current edge is in the found edges, then the face should be added
                                     elif not se in simpleEdges and mse in simpleEdges:
-                                        _log.debug('Found shared simple Edge {}'.format(se.infoText))
+                                        _log.debug('Found shared simple Edge {}'.format(se.info_text))
                                         found = True
                                         facesForVolume.append(f)
                                         unalignedFaces.remove(f)
@@ -215,11 +215,11 @@ class DualVolume3D(Volume,DualCell):
 #            cc.printMagenta('DualVolume3D:',unalignedFaces)
             self.setUp()
             if self.faces:
-                _log.info('Created dual volume of node {}'.format(node.infoText))
+                _log.info('Created dual volume of node {}'.format(node.info_text))
                 self.dualCell3D = node
                 node.dualCell3D = self
             else:
-                _log.error('Failed to create dual volume of node {}'.format(node.infoText))
+                _log.error('Failed to create dual volume of node {}'.format(node.info_text))
 
 
 

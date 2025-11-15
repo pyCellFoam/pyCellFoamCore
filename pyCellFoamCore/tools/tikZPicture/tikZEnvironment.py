@@ -186,7 +186,7 @@ class TikZEnvironment:
 # =============================================================================
     def __repr__(self):
         '''
-        Show infoText in console
+        Show info_text in console
 
         '''
         return 'TikZEnvironment "{}" '.format(self.name)

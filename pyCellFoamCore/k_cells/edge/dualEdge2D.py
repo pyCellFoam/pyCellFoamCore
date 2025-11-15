@@ -29,15 +29,17 @@ if __name__ == '__main__':
 
 import logging
 
-from k_cells.cell import DualCell
+from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
 
 
-from k_cells.edge.edge import Edge
-from k_cells.node import Node, DualNode1D, DualNode2D
-import tools.colorConsole as cc
-import tools.tumcolor as tc
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.node.dualNode1D import DualNode1D
+from pyCellFoamCore.k_cells.node.dualNode2D import DualNode2D
+import pyCellFoamCore.tools.colorConsole as cc
+import pyCellFoamCore.tools.tumcolor as tc
 import numpy as np
-from tools.logging_formatter import set_logging_format
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
 # =============================================================================
@@ -186,7 +188,7 @@ class DualEdge2D(Edge, DualCell):
                             self.setUp()
                         error = False
                 else:
-                    _log.error('Edge {} is border '.format(edge.infoText) +
+                    _log.error('Edge {} is border '.format(edge.info_text) +
                                  'and should therefor belong to ' +
                                  'two border faces, ' +
                                  'but belongs to {}: {}'.format(len(faces), faces))
@@ -233,7 +235,7 @@ class DualEdge2D(Edge, DualCell):
 
         else:
             _log.error('Unknown category {}'.format(edge.category) +
-                         ' of edge {}'.format(edge.infoText))
+                         ' of edge {}'.format(edge.info_text))
 
         if error:
             self.delete()

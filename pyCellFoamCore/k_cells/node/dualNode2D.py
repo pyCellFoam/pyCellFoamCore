@@ -80,16 +80,16 @@ import logging
 
 #    kCells
 # -------------------------------------------------------------------
-from k_cells.cell import DualCell
+from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
 
 #    Tools
 # -------------------------------------------------------------------
-import tools.colorConsole as cc
+import pyCellFoamCore.tools.colorConsole as cc
 
-from k_cells.node.node import Node
-from k_cells.node.dualNode1D import DualNode1D
-from k_cells.node.dualNode0D import DualNode0D
-from tools.logging_formatter import set_logging_format
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.node.dualNode1D import DualNode1D
+from pyCellFoamCore.k_cells.node.dualNode0D import DualNode0D
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
 # =============================================================================
@@ -197,7 +197,7 @@ class DualNode2D(Node, DualCell):
             #         self.yCoordinate = dn.yCoordinate
             #         self.zCoordinate = dn.zCoordinate
             if not len(face.geometricEdges) == 1:
-                _log.error('Face {} '.format(face.infoText) +
+                _log.error('Face {} '.format(face.info_text) +
                              'has two barycenters and should so have one ' +
                              'geometric edge, but has {}'
                              .format(len(face.geometricEdges)))
@@ -224,13 +224,13 @@ class DualNode2D(Node, DualCell):
             #     self.zCoordinate = coord[2]
 
             if not len(face.geometricNodes) == 1:
-                _log.error('Face {} '.format(face.infoText) +
+                _log.error('Face {} '.format(face.info_text) +
                              'has three barycenters and should so have one ' +
                              'geometric node, but has {}'
                              .format(len(face.geometricNodes)))
         else:
             _log.error('Cannot calculate 2D dual of face {} '
-                         .format(face.infoText) +
+                         .format(face.info_text) +
                          'that has more than one simple Face, ' +
                          'it has {}'.format(len(face.simpleFaces)))
 

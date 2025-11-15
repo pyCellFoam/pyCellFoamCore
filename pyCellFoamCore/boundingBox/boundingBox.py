@@ -37,20 +37,20 @@ import numpy as np
 
 #    Bounding Box
 #--------------------------------------------------------------------
-from boundingBox.boundingBoxElement import BoundingBoxElement
-from boundingBox.boundingBoxCorner import BoundingBoxCorner
-from boundingBox.boundingBoxEdge import BoundingBoxEdge
-from boundingBox.boundingBoxSide import BoundingBoxSide
+from pyCellFoamCore.boundingBox.boundingBoxElement import BoundingBoxElement
+from pyCellFoamCore.boundingBox.boundingBoxCorner import BoundingBoxCorner
+from pyCellFoamCore.boundingBox.boundingBoxEdge import BoundingBoxEdge
+from pyCellFoamCore.boundingBox.boundingBoxSide import BoundingBoxSide
 
 
 
 #    Tools
 #--------------------------------------------------------------------
-import tools.colorConsole as cc
-import tools.placeFigures as pf
+import pyCellFoamCore.tools.colorConsole as cc
+import pyCellFoamCore.tools.placeFigures as pf
 # from tools.myVTK import MyVTK
-import tools.tumcolor as tc
-from tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.tumcolor as tc
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 #==============================================================================
 #    LOGGING
@@ -413,7 +413,7 @@ class BoundingBox(BoundingBoxElement):
 
         else:
             _log.error('Cannot have {} intersections'.format(len(intersections)))
-            
+
     def check_neighbouring_sides(self, side1, side2):
         _log.debug("Check if sides %s and %s are neighbours", side1, side2)
         shared_edges = list(set(side1.edges).intersection(set(side2.edges)))
@@ -427,7 +427,7 @@ class BoundingBox(BoundingBoxElement):
         else:
             _log.error("Two sides can only touch in one edge, but %s and %s touch in edges %s", side1, side2, shared_edges)
             neighbours = False
-            
+
         return neighbours
 
 
@@ -676,6 +676,3 @@ if __name__ == '__main__':
 #---------------------------------------------------------------------
     else:
         cc.printRed('Unknown plotting method {}'.format(plottingMethod))
-
-
-

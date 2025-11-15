@@ -470,7 +470,7 @@ class Complex1D(Complex):
         headlineNodes = ['Node','1D dual','0D dual']
         tableContentNodes = [headlineNodes,]
         for n in self.nodes:
-            tableContentNodes.append([n.infoText,n.dualCell1D,n.dualCell0D])
+            tableContentNodes.append([n.info_text,n.dualCell1D,n.dualCell0D])
         tableNodes = Table(tableContentNodes)
         tableNodes.printTable()
 
@@ -479,7 +479,7 @@ class Complex1D(Complex):
         headlineEdges = ['Edge','1D dual']
         tableContentEdges = [headlineEdges,]
         for e in self.edges:
-            tableContentEdges.append([e.infoText,e.dualCell1D])
+            tableContentEdges.append([e.info_text,e.dualCell1D])
         tableEdges = Table(tableContentEdges)
         tableEdges.printTable()
 

@@ -317,7 +317,7 @@ class Edge(BaseEdge, Cell):
         '''
         if face in self.__faces:
             _log.error('Face {} already belongs to edge {}!'
-                              .format(face.infoText, self.info_text))
+                              .format(face.info_text, self.info_text))
         else:
             self.__faces.append(face)
 
@@ -335,10 +335,10 @@ class Edge(BaseEdge, Cell):
         if face in self.__faces:
             self.__faces.remove(face)
             _log.debug('Removed simple face {} from simple edge {}'
-                             .format(face.infoText, self.info_text))
+                             .format(face.info_text, self.info_text))
         else:
             _log.error('Cannot remove simple face {}'
-                              .format(face.infoText) +
+                              .format(face.info_text) +
                               ' from simple edge {}!'.format(self.info_text))
 
 # ------------------------------------------------------------------------
