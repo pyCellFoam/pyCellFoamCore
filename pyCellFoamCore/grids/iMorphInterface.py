@@ -36,6 +36,7 @@ import logging
 from pyCellFoamCore.k_cells.node.node import Node
 from pyCellFoamCore.k_cells.edge.edge import Edge
 from pyCellFoamCore.k_cells.face.face import Face
+from pyCellFoamCore.k_cells.volume.volume import Volume
 
 #    Complex & Grids
 #--------------------------------------------------------------------
@@ -653,7 +654,7 @@ class IMorphInterface(PrimalComplex3D):
                                             cc.printYellow(side1,side2)
 
                                             if side1 == side2:
-                                                _log.critical("Nearest sides are the same: %s", side1)
+                                                _log.debug("Nearest sides are the same: %s", side1)
                                                 newEdge = Edge(nodeEnd,nodeStart)
                                                 edgesForFace.append(newEdge)
                                                 newEdge.color = tc.TUMBlack()
@@ -672,18 +673,18 @@ class IMorphInterface(PrimalComplex3D):
 
                                             else:
                                                 number_of_throats_not_same_side += 1
-                                                _log.critical("Nearest sides are not the same")
+                                                _log.debug("Nearest sides are not the same")
 
                                                 touching_edge = self.boundingBox.check_neighbouring_sides(side1, side2)
                                                 if touching_edge is not None:
-                                                    _log.critical("Nearest sides are neighbours touching in edge %s", touching_edge)
+                                                    _log.debug("Nearest sides are neighbours touching in edge %s", touching_edge)
                                                     number_of_throats_neighbouring_sides += 1
 
                                                     intermediateNodeCoordinates = touching_edge.get_intermediate_point(nodeStart.coordinates, nodeEnd.coordinates)
                                                     intermediateNode = Node(intermediateNodeCoordinates[0], intermediateNodeCoordinates[1], intermediateNodeCoordinates[2], num=idx_add_nodes)
                                                     idx_add_nodes += 1
                                                     intermediateNode.color = tc.TUMBlack()
-                                                    _log.critical("Creating intermediate node at %s", intermediateNode.coordinates)
+                                                    _log.debug("Creating intermediate node at %s", intermediateNode.coordinates)
 
                                                     self.nodes.append(intermediateNode)
 
@@ -754,6 +755,105 @@ class IMorphInterface(PrimalComplex3D):
         cc.printMagenta('Z: {}'.format(self.zLim))
         cc.printMagenta()
         cc.printMagenta('='*80)
+
+
+    def load_volumes(self, filename):
+        '''
+
+        '''
+
+        read_volumes = False
+        _log.info('Loading volumes')
+
+        nodes_for_volumes = {}
+        for line in open(filename).readlines():
+
+            if line.startswith('throats'):
+                read_volumes = False
+                _log.critical('Found end for cells')
+
+
+            if read_volumes:
+                _log.critical(line.rstrip())
+                data = line.rstrip().split('\t')
+                if len(data) > 6:
+                    num_node = int(data[0])
+                    num_volumes = [int(num) for num in data[6:]]
+                    _log.critical('Node %s is part of volumes %s', num_node, num_volumes)
+
+                    for num_volume in num_volumes:
+                        if num_volume in nodes_for_volumes:
+                            if num_node in nodes_for_volumes[num_volume]:
+                                _log.error("Node %s is already part of volume %s", num_node, num_volume)
+                            else:
+                                _log.critical("Adding node %s to volume %s", num_node, num_volume)
+                                nodes_for_volumes[num_volume].append(num_node)
+                        else:
+                            _log.critical("Creating new volume %s with node %s", num_volume, num_node)
+                            nodes_for_volumes[num_volume] = [num_node]
+
+                else:
+                    _log.error('Could not read volume data from line: %s', line.rstrip())
+
+
+
+
+            elif line.startswith('indice') and not line.startswith('indice node'):
+                read_volumes = True
+                _log.critical('Found start for cells')
+
+
+        nodes_for_faces = {}
+        faces_for_volumes = {}
+
+        for face in self.faces:
+            num_nodes_in_face = []
+            for edge in face.edges:
+                if edge.startNode.num not in num_nodes_in_face and edge.startNode.num < 10000:
+                    num_nodes_in_face.append(edge.startNode.num)
+                if edge.endNode.num not in num_nodes_in_face and edge.endNode.num < 10000:
+                    num_nodes_in_face.append(edge.endNode.num)
+            nodes_for_faces[face] = num_nodes_in_face
+
+        for face in nodes_for_faces:
+            _log.critical("Face %s consists of nodes %s", face, nodes_for_faces[face])
+
+        for num_volume in nodes_for_volumes:
+            _log.critical("Volume %s consists of nodes %s", num_volume, nodes_for_volumes[num_volume])
+
+            for (face, nodes_in_face) in nodes_for_faces.items():
+                if set(nodes_in_face).issubset(set(nodes_for_volumes[num_volume])):
+                    _log.critical("Face %s is part of volume %s", face, num_volume)
+                    if num_volume in faces_for_volumes:
+                        faces_for_volumes[num_volume].append(face)
+                    else:
+                        faces_for_volumes[num_volume] = [face]
+
+
+        for num_volume in faces_for_volumes:
+            _log.critical("Volume %s consists of faces %s", num_volume, faces_for_volumes[num_volume])
+            new_volume = Volume(faces_for_volumes[num_volume], unalignedFaces=True, accept_incomplete_geometry=True)
+            self.volumes.append(new_volume)
+
+
+        # num_cell = 12
+        # num_nodes = nodes_for_volumes[num_cell]
+        # _log.critical("Creating test cell %s with nodes %s", num_cell, num_nodes)
+        # for n in self.nodes:
+        #     if n.num in num_nodes:
+        #         n.color = tc.TUMLightBlue()
+        #     else:
+        #         n.color = tc.TUMOrange()
+
+        # for e in self.edges:
+        #     if e.startNode.num in num_nodes and e.endNode.num in num_nodes:
+        #         e.color = tc.TUMGreen()
+        #     else:
+        #         e.color = tc.TUMBlue()
+
+
+
+
 
 
 

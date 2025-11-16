@@ -106,11 +106,13 @@ Important properties
 #    Standard Libraries
 # ------------------------------------------------------------------------
 import logging
+import random
 
 # ------------------------------------------------------------------------
 #    Third Party Libraries
 # ------------------------------------------------------------------------
 import numpy as np
+import matplotlib.pyplot as plt
 
 # ------------------------------------------------------------------------
 #    Local Libraries
@@ -1041,7 +1043,7 @@ class Face(BaseFace, Cell):
 
 if __name__ == '__main__':
 
-    set_logging_format(logging.DEBUG)
+    set_logging_format(logging.INFO)
 
     # # Create figures on second screen
     # (figs, ax) = pf.getFigures(numTotal=9)
@@ -1685,13 +1687,73 @@ if __name__ == '__main__':
     # TODO: Was passiert, wenn man in einer
     # reversedFace Kanten austauscht???
 
+    random_nodes = []
+    random_edges = []
+    random_faces = []
+    for n in range(50):
+
+        center_x = random.uniform(-50, 50)
+        center_y = random.uniform(-50, 50)
+        center_z = random.uniform(-50, 50)
+
+        n1 = Node(
+            random.randint(-5, 5) + center_x,
+            random.randint(-5, 5) + center_y,
+            random.randint(-5, 5) + center_z,
+        )
+        n2 = Node(
+            random.randint(-5, 5) + center_x,
+            random.randint(-5, 5) + center_y,
+            random.randint(-5, 5) + center_z,
+        )
+        n3 = Node(
+            random.randint(-5, 5) + center_x,
+            random.randint(-5, 5) + center_y,
+            random.randint(-5, 5) + center_z,
+        )
+        random_nodes.append(n1)
+        random_nodes.append(n2)
+        random_nodes.append(n3)
+
+        e1 = Edge(n1, n2)
+        e2 = Edge(n2, n3)
+        e3 = Edge(n3, n1)
+
+        random_edges.append(e1)
+        random_edges.append(e2)
+        random_edges.append(e3)
+
+        f = Face([e1, e2, e3])
+        random_faces.append(f)
+
+
+
     # Choose plotting method. Possible choices: pyplot, VTK, TikZ, None, plotly
-    PLOTTING_METHOD = "plotly"
+    PLOTTING_METHOD = "pyplot"
 
     match PLOTTING_METHOD:
         case "pyplot":
-            (fig, ax) = pf.getFigures(numTotal=6)
-            _log.warning("Not implemented yet.")
+
+            fig = plt.figure(figsize=(10, 8))
+            ax = fig.add_subplot(111, projection='3d')
+
+            for n in random_nodes:
+                n.plotNode(ax)
+
+            for e in random_edges:
+                e.plotEdge(ax)
+
+            for f in random_faces:
+                f.plotFace(ax)
+
+            ax.set_xlabel('X')
+            ax.set_ylabel('Y')
+            ax.set_zlabel('Z')
+            ax.set_title('3D Face Visualization')
+            plt.tight_layout()
+            plt.show()
+            # (fig, ax) = pf.getFigures(numTotal=6)
+            # _log.warning("Not implemented yet.")
 
         case "VTK":
             _log.warning("Not implemented yet.")
@@ -1700,17 +1762,20 @@ if __name__ == '__main__':
             _log.warning("Not implemented yet.")
 
         case "plotly":
-            node_plotly = NodePlotly(nodes)
+            node_plotly = NodePlotly(random_nodes)
             plotly_fig_nodes = node_plotly.plot_nodes_plotly()
+            plotly_fig = node_plotly.plot_nodes_plotly()
             plotly_fig_nodes.show()
 
-            edge_plotly = EdgePlotly(edges)
+            edge_plotly = EdgePlotly(random_edges)
             plotly_fig_edges = edge_plotly.plot_edges_plotly()
+            edge_plotly.plot_edges_plotly(plotly_fig)
             plotly_fig_edges.show()
 
-
-            face_plotly = FacePlotly(faces)
-            plotly_fig = face_plotly.plot_faces_plotly()
+            face_plotly = FacePlotly(random_faces)
+            plotly_fig_faces = face_plotly.plot_faces_plotly(plotly_fig)
+            plotly_fig = face_plotly.plot_faces_plotly(plotly_fig)
+            plotly_fig_faces.show()
             plotly_fig.show()
 
         case "None":

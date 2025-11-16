@@ -42,7 +42,7 @@ import logging
 from pyCellFoamCore.k_cells.node.node import Node
 from pyCellFoamCore.k_cells.edge.edge import Edge
 from pyCellFoamCore.k_cells.face.face import Face
-from pyCellFoamCore.k_cells.volume.volume import Volume
+from pyCellFoamCore.k_cells.volume.volume import Volume, VolumePlotly
 
 from pyCellFoamCore.k_cells.node.node import NodePlotly
 from pyCellFoamCore.k_cells.edge.baseEdge import EdgePlotly
@@ -182,14 +182,15 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
         if not error:
             error = self.loadFaces(self.pathToNodeThroatsFile)
 
-        error = True
+        # error = True
 
         if not error:
-            error = self.__loadVolumes()
+            error = self.load_volumes(self.pathToNodeThroatsFile)
 
 
 
 
+        error = True
 
         if not error:
             super().setUp()
@@ -445,7 +446,7 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
 #    Load Volumes
 #-------------------------------------------------------------------------
 
-    def __loadVolumes(self):
+    def __loadVolumesOld(self):
         '''
 
         '''
@@ -527,12 +528,6 @@ if __name__ == '__main__':
         # log_format_console = "%(filename)30s : %(lineno)5d : %(funcName)20s : %(levelname)8s : %(name)20s : %(message)s",
     )
 
-    _log.debug("debug")
-    _log.info("info")
-    _log.warning("warning")
-    _log.error("error")
-    _log.critical("critical")
-
 #-------------------------------------------------------------------------
 #    Create some examples
 #-------------------------------------------------------------------------
@@ -574,7 +569,7 @@ if __name__ == '__main__':
 #    Plotting
 #-------------------------------------------------------------------------
 
-    # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, doc, None
+    # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, doc, None, plotly
     plottingMethod = 'plotly'
 
 
@@ -662,17 +657,23 @@ if __name__ == '__main__':
     elif plottingMethod == 'plotly':
         cc.printBlue('Plot using plotly')
 
-        node_plotly = NodePlotly(interface1.nodes)
-        plotly_fig_nodes = node_plotly.plot_nodes_plotly(show_label=True)
-        plotly_fig_nodes.show()
+        # node_plotly = NodePlotly(interface1.nodes)
+        # plotly_fig_nodes = node_plotly.plot_nodes_plotly(show_label=True)
+        # plotly_fig_nodes.show()
 
-        edge_plotly = EdgePlotly(interface1.edges)
-        plotly_fig_edges = edge_plotly.plot_edges_plotly(show_label=True, show_barycenter=False)
-        plotly_fig_edges.show()
+        # edge_plotly = EdgePlotly(interface1.edges)
+        # plotly_fig_edges = edge_plotly.plot_edges_plotly(show_label=True, show_barycenter=False)
+        # plotly_fig_edges.show()
 
-        face_plotly = FacePlotly(interface1.faces)
-        plotly_fig_faces = face_plotly.plot_faces_plotly(show_label=True, show_barycenter=False)
-        plotly_fig_faces.show()
+        # face_plotly = FacePlotly(interface1.faces)
+        # plotly_fig_faces = face_plotly.plot_faces_plotly(show_label=True, show_barycenter=False)
+        # plotly_fig_faces.show()
+
+        volume_plotly = VolumePlotly(interface1.volumes)
+        plotly_fig_volumes = volume_plotly.plot_faces_plotly()
+        plotly_fig_volumes.show()
+
+
 
 #    Unknown
 #---------------------------------------------------------------------

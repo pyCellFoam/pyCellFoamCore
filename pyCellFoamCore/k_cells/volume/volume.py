@@ -21,31 +21,34 @@ beginning
 #    IMPORTS
 #==============================================================================
 
-if __name__== '__main__':
-    import os
-    os.chdir('../../')
-
-
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
-
 import logging
 
+# ------------------------------------------------------------------------
+#    Third-Party Libraries
+# ------------------------------------------------------------------------
 import numpy as np
-#import matplotlib.pyplot as plt
-#from mpl_toolkits.mplot3d import Axes3D
-#from tumcolor import TUMcolor
-import pyCellFoamCore.tools.tumcolor as tc
-#from cell import Cell
-import pyCellFoamCore.tools.colorConsole as cc
-#import logging
+import plotly.graph_objects as go
 
+# ------------------------------------------------------------------------
+#    Local Libraries
+# ------------------------------------------------------------------------
 
+#    kCells
+# -------------------------------------------------------------------
 from pyCellFoamCore.k_cells.cell.cell import Cell
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.face.face import Face
+from pyCellFoamCore.k_cells.face.baseFace import FacePlotly
 
+#    Tools
+# -------------------------------------------------------------------
 from pyCellFoamCore.tools.logging_formatter import set_logging_format
-
+import pyCellFoamCore.tools.tumcolor as tc
+import pyCellFoamCore.tools.colorConsole as cc
 
 # =============================================================================
 #    LOGGING
@@ -55,26 +58,26 @@ _log = logging.getLogger(__name__)
 _log.setLevel(logging.INFO)
 
 
-#==============================================================================
+# =============================================================================
 #    CLASS DEFINITION
-#==============================================================================
+# =============================================================================
 class Volume(Cell):
 
     volumeCount = 0
 
-
-#==============================================================================
-#    SLOTS
-#==============================================================================
-#    __slots__ = ('__faces',
-#                 '__rawFaces',
-#                 '__barycenter','__showBarycenter',
-#                 '__volume','__unalignedFaces')
-
-#==============================================================================
-#    INITIALIZATION
-#==============================================================================
-    def __init__(self,rawFaces,*args,num=None,label='v',unalignedFaces=False,**kwargs):
+    # =========================================================================
+    #    INITIALIZATION
+    # =========================================================================
+    def __init__(
+        self,
+        rawFaces,
+        *args,
+        num=None,
+        label='v',
+        unalignedFaces=False,
+        accept_incomplete_geometry=False,
+        **kwargs,
+    ):
         if num == None:
             num = Volume.volumeCount
             Volume.volumeCount += 1
@@ -87,6 +90,7 @@ class Volume(Cell):
         self.__volume = None
         self.__showBarycenter = True
         self.__unalignedFaces = unalignedFaces
+        self.__accept_incomplete_geometry = accept_incomplete_geometry
         self.color =  tc.TUMRose()
         self.setUp()
         _log.info('Created volume {}'.format(self.info_text))
@@ -97,9 +101,9 @@ class Volume(Cell):
 
 
 
-#==============================================================================
-#    SETTER AND GETTER
-#==============================================================================
+    #==========================================================================
+    #    SETTER AND GETTER
+    #==========================================================================
 
 
 
@@ -140,6 +144,18 @@ class Volume(Cell):
         self.category2 = c
 #        super(Cell,self).category2 = c
     category = property(__get_category,__setCategory)
+
+    def __get_accept_incomplete_geometry(self):
+        return self.__accept_incomplete_geometry
+
+    def __set_accept_incomplete_geometry(self,aig):
+        self.geometryChanged = True
+        self.__accept_incomplete_geometry = aig
+
+    accept_incomplete_geometry = property(
+        __get_accept_incomplete_geometry,
+        __set_accept_incomplete_geometry,
+    )
 #
 #    def __getCategory1(self): return super().category1
 #    category1 = property(__getCategory1)
@@ -148,9 +164,9 @@ class Volume(Cell):
 #    category2 = property(__getCategory2)
 
 
-#==============================================================================
-#    METHODS
-#==============================================================================
+    #==========================================================================
+    #    METHODS
+    #==========================================================================
 
 
     def setUp(self):
@@ -176,6 +192,17 @@ class Volume(Cell):
             self.__calcBarycenter()
             self.geometryChanged = False
             _log.debug('Succesfully set up volume {}'.format(self.info_text))
+
+        elif self.__accept_incomplete_geometry:
+            _log.warning(
+                "%s: Incomplete geometry, setting faces but volume and "
+                "barycenter to None",
+                self.info_text,
+            )
+            self.__faces = self.__rawFaces
+            self.__volume = None
+            self.__barycenter = None
+            self.geometryChanged = False
 
         else:
             self.__faces = []
@@ -571,25 +598,177 @@ class Volume(Cell):
                 tikzText += f.plotFaceTikZ(*args,showLabel=False,grayInTikz=False,color=colorFaces,fill=True,draw=True,**kwargs)
             return tikzText
 
+class VolumePlotly:
+    def __init__(self, volumes):
+        self.volumes = volumes
+
+    def plot_faces_plotly(self, fig=None, show_label=True, show_barycenter=True):
+        self.faces = []
+        for v in self.volumes:
+            for f in v.faces:
+                if f not in self.faces and -f not in self.faces:
+                    self.faces.append(f)
+
+        face_plotly = FacePlotly(self.faces)
+        fig = face_plotly.plot_faces_plotly(
+            fig=fig,
+            show_label=False,
+            show_barycenter=False,
+        )
+        if show_barycenter or show_label:
+            barycenters = [
+                v.barycenter for v in self.volumes if v.barycenter is not None
+            ]
+            labels = [
+                v.label_text for v in self.volumes if v.barycenter is not None
+            ]
+            barycenter_colors = [
+                v.color.html for v in self.volumes if v.barycenter is not None
+            ]
+
+            barycenters_x = np.array([bc[0] for bc in barycenters])
+            barycenters_y = np.array([bc[1] for bc in barycenters])
+            barycenters_z = np.array([bc[2] for bc in barycenters])
+
+            if show_barycenter and not show_label:
+                mode = 'markers'
+            elif not show_barycenter and show_label:
+                mode = 'text'
+            else:
+                mode = 'markers+text'
+
+            fig.add_trace(go.Scatter3d(
+                x=barycenters_x,
+                y=barycenters_y,
+                z=barycenters_z,
+                mode=mode,
+                text=labels,
+                textposition='top center',
+                marker=dict(
+                    size=4,
+                    color=barycenter_colors,
+                    symbol='circle'
+                ),
+                showlegend=False,
+            ))
+
+        return fig
 
 
 
 
 
 
-
-
-#==============================================================================
-#    TEST FUNCTIONS
-#==============================================================================
 if __name__ == "__main__":
-    import tools.placeFigures as pf
-    from k_cells.node import Node
-    from k_cells.edge import Edge
-    from k_cells.face import Face
+
+    # --------------------------------------------------------------------
+    #    Create sample data
+    # --------------------------------------------------------------------
+
+    set_logging_format(logging.INFO)
+
+    n1 = Node(0,0,0,num=1)
+    n2 = Node(1,0,0,num=2)
+    n3 = Node(1,1,0,num=3)
+    n4 = Node(0,1,0,num=4)
+    n5 = Node(0,0,1,num=5)
+    n6 = Node(1,0,1,num=6)
+    n7 = Node(1,1,1,num=7)
+    n8 = Node(0,1,1,num=8)
+    n9 = Node(0,0,2,num=5)
+    n10 = Node(1,0,2,num=6)
+    n11 = Node(1,1,2,num=7)
+    n12 = Node(0,1,2,num=8)
+
+    nodes = [n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12]
+
+    e1 = Edge(n1,n2,num=1)
+    e2 = Edge(n2,n3,num=2)
+    e3 = Edge(n3,n4,num=3)
+    e4 = Edge(n4,n1,num=4)
+    e5 = Edge(n1,n5,num=5)
+    e6 = Edge(n2,n6,num=6)
+    e7 = Edge(n3,n7,num=7)
+    e8 = Edge(n4,n8,num=8)
+    e9 = Edge(n5,n6,num=9)
+    e10 = Edge(n6,n7,num=10)
+    e11 = Edge(n7,n8,num=11)
+    e12 = Edge(n8,n5,num=12)
+    e13 = Edge(n5,n9,num=13)
+    e14 = Edge(n6,n10,num=14)
+    e15 = Edge(n7,n11,num=15)
+    e16 = Edge(n8,n12,num=16)
+    e17 = Edge(n9,n10,num=17)
+    e18 = Edge(n10,n11,num=18)
+    e19 = Edge(n11,n12,num=19)
+    e20 = Edge(n12,n9,num=20)
+
+    edges = [e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,e12,e13,e14,e15,e16,e17,e18,e19,e20]
+
+    f1 = Face([-e4,-e3,-e2,-e1],num=1)
+    f2 = Face([e1,e6,-e9,-e5],num=2)
+    f3 = Face([e2,e7,-e10,-e6],num=3)
+    f4 = Face([e3,e8,-e11,-e7],num=4)
+    f5 = Face([e4,e5,-e12,-e8],num=5)
+    f6 = Face([e9,e10,e11,e12],num=6)
+    f7 = Face([e9,e14,-e17,-e13],num=7)
+
+    faces = [f1,f2,f3,f4,f5,f6,f7]
+
+    v1 = Volume([f1,f2,f3,f4,f5,f6],num=1)
+    v2 = Volume([f1,f2,f3,f4,f6],num=2, accept_incomplete_geometry=True)
+
+    volumes = [v1, v2]
+
+    print(v2.faces)
+
+    # --------------------------------------------------------------------
+    #    Plotting
+    # --------------------------------------------------------------------
+
+    # Choose plotting method. Possible choices: pyplot, VTK, TikZ, None, plotly
+    PLOTTING_METHOD = "plotly"
+
+    match PLOTTING_METHOD:
+        case "pyplot":
+            _log.warning("Not implemented yet.")
+
+        case "VTK":
+            _log.warning("Not implemented yet.")
+
+        case "TikZ":
+            _log.warning("Not implemented yet.")
+
+        case "plotly":
+            _log.info("Plotting with plotly.")
+            volume_plotly = VolumePlotly(volumes)
+            fig = volume_plotly.plot_faces_plotly()
+            fig.show()
+
+        case "None":
+            _log.info("No plotting selected.")
+
+        case _:
+            _log.error(
+                "Unknown plotting '%s' method selected.",
+                PLOTTING_METHOD,
+            )
 
 
-    set_logging_format(logging.DEBUG)
+
+
+
+# #==============================================================================
+# #    TEST FUNCTIONS
+# #==============================================================================
+# if __name__ == "__main__":
+#     import tools.placeFigures as pf
+#     from k_cells.node import Node
+#     from k_cells.edge import Edge
+#     from k_cells.face import Face
+
+
+#     set_logging_format(logging.DEBUG)
 
 
 
@@ -597,7 +776,7 @@ if __name__ == "__main__":
 #        plt.close("all")
 #
     # Create new figures
-    (figs,ax) = pf.getFigures(numTotal = 4)
+    # (figs,ax) = pf.getFigures(numTotal = 4)
 #
 #        cc.printBlue('Creating some nodes')
 #        n1 = Node(0,0,0,num=1)
@@ -702,35 +881,35 @@ if __name__ == "__main__":
 #
 #
 #
-    # Create some Nodes
-    n101 = Node(0,0,0, num=101)
-    n102 = Node(10,0,0, num=102)
-    n103 = Node(0,10,0, num=103)
-    n104 = Node(0,0,10, num=104)
-    nodes100 = [n101,n102,n103,n104]
-    for n in nodes100:
-        n.plotNode(ax[1])
+    # # Create some Nodes
+    # n101 = Node(0,0,0, num=101)
+    # n102 = Node(10,0,0, num=102)
+    # n103 = Node(0,10,0, num=103)
+    # n104 = Node(0,0,10, num=104)
+    # nodes100 = [n101,n102,n103,n104]
+    # for n in nodes100:
+    #     n.plotNode(ax[1])
 
-    e101 = Edge(n101,n102, num=101)
-    e102 = Edge(n102,n103, num=102)
-    e103 = Edge(n103,n101, num=103)
-    e104 = Edge(n101,n104, num=104)
-    e105 = Edge(n102,n104, num=105)
-    e106 = Edge(n103,n104, num=106)
-    edges100 = [e101,e102,e103,e104,e105,e106]
-    for e in edges100:
-        e.plotEdge(ax[1])
+    # e101 = Edge(n101,n102, num=101)
+    # e102 = Edge(n102,n103, num=102)
+    # e103 = Edge(n103,n101, num=103)
+    # e104 = Edge(n101,n104, num=104)
+    # e105 = Edge(n102,n104, num=105)
+    # e106 = Edge(n103,n104, num=106)
+    # edges100 = [e101,e102,e103,e104,e105,e106]
+    # for e in edges100:
+    #     e.plotEdge(ax[1])
 
-    f101 = Face([e101,e105,-e104])
-    f102 = Face([e102,e106,-e105])
-    f103 = Face([e103,e104,-e106])
-    f104 = Face([-e103,-e102,-e101])
-    faces100 = [f101,f102,f103,f104]
+    # f101 = Face([e101,e105,-e104])
+    # f102 = Face([e102,e106,-e105])
+    # f103 = Face([e103,e104,-e106])
+    # f104 = Face([-e103,-e102,-e101])
+    # faces100 = [f101,f102,f103,f104]
 
-    for f in faces100:
-        f.plotFace(ax[1])
+    # for f in faces100:
+    #     f.plotFace(ax[1])
 
-    v101 = Volume([f101,f102,f103,-f104],unalignedFaces=True)
+    # v101 = Volume([f101,f102,f103,-f104],unalignedFaces=True)
 
     # v101.plotVolume(ax[0])
 
@@ -749,47 +928,47 @@ if __name__ == "__main__":
     # print(v101.category,v101.category1,v101.category2)
 
 
-    new_node = Node(5, 0, 0)
+    # new_node = Node(5, 0, 0)
 
-    new_edge_1 = Edge(n101, new_node)
-    new_edge_2 = Edge(new_node, n102)
+    # new_edge_1 = Edge(n101, new_node)
+    # new_edge_2 = Edge(new_node, n102)
 
-    f101.edges = [new_edge_1,new_edge_2,e105,-e104]
-    f104.edges = [-e103,-e102,-new_edge_2, -new_edge_1]
-
-
-    nodes_in_volume = []
-    edges_in_volume = []
-    faces_in_volume = v101.faces
-
-    for f in faces_in_volume:
-        for e in f.edges:
-            if e.is_reverse:
-                e = -e
-            if not e in edges_in_volume:
-                edges_in_volume.append(e)
-
-    for e in edges_in_volume:
-        for n in [e.startNode, e.endNode]:
-            if not n in nodes_in_volume:
-                nodes_in_volume.append(n)
+    # f101.edges = [new_edge_1,new_edge_2,e105,-e104]
+    # f104.edges = [-e103,-e102,-new_edge_2, -new_edge_1]
 
 
-    v101.plotVolume(ax[0])
+    # nodes_in_volume = []
+    # edges_in_volume = []
+    # faces_in_volume = v101.faces
 
-    for n in nodes_in_volume:
-        n.plotNode(ax[2])
+    # for f in faces_in_volume:
+    #     for e in f.edges:
+    #         if e.is_reverse:
+    #             e = -e
+    #         if not e in edges_in_volume:
+    #             edges_in_volume.append(e)
 
-    for e in edges_in_volume:
-        e.plotEdge(ax[2])
-
-    for f in faces_in_volume:
-        f.plotFace(ax[2])
-
+    # for e in edges_in_volume:
+    #     for n in [e.startNode, e.endNode]:
+    #         if not n in nodes_in_volume:
+    #             nodes_in_volume.append(n)
 
 
-    pf.setAxesEqual(ax[1])
-    ax[1].view_init(20,140)
+    # v101.plotVolume(ax[0])
+
+    # for n in nodes_in_volume:
+    #     n.plotNode(ax[2])
+
+    # for e in edges_in_volume:
+    #     e.plotEdge(ax[2])
+
+    # for f in faces_in_volume:
+    #     f.plotFace(ax[2])
+
+
+
+    # pf.setAxesEqual(ax[1])
+    # ax[1].view_init(20,140)
 #
 
 

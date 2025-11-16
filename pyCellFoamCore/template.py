@@ -64,7 +64,6 @@ if __name__ == "__main__":
 
     match PLOTTING_METHOD:
         case "pyplot":
-            (fig, ax) = pf.getFigures(numTotal=6)
             _log.warning("Not implemented yet.")
 
         case "VTK":
@@ -74,8 +73,6 @@ if __name__ == "__main__":
             _log.warning("Not implemented yet.")
 
         case "plotly":
-            plotly_fig = go.Figure()
-            plotly_fig.show()
             _log.warning("Not implemented yet.")
 
         case "None":
