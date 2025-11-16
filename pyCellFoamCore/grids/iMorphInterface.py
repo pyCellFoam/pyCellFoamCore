@@ -482,6 +482,7 @@ class IMorphInterface(PrimalComplex3D):
         numberOfThroatsWithLessThan2Nodes = 0
 
         idx_add_nodes = 10000
+        idx_add_edges = 10000
 
         createClosedThroats = True
         createOpenThroats = True
@@ -655,7 +656,8 @@ class IMorphInterface(PrimalComplex3D):
 
                                             if side1 == side2:
                                                 _log.debug("Nearest sides are the same: %s", side1)
-                                                newEdge = Edge(nodeEnd,nodeStart)
+                                                newEdge = Edge(nodeEnd,nodeStart, num=idx_add_edges)
+                                                idx_add_edges += 1
                                                 edgesForFace.append(newEdge)
                                                 newEdge.color = tc.TUMBlack()
                                                 self.edges.append(newEdge)
@@ -688,8 +690,10 @@ class IMorphInterface(PrimalComplex3D):
 
                                                     self.nodes.append(intermediateNode)
 
-                                                    new_edge1 = Edge(nodeStart, intermediateNode)
-                                                    new_edge2 = Edge(intermediateNode, nodeEnd)
+                                                    new_edge1 = Edge(nodeStart, intermediateNode, num=idx_add_edges)
+                                                    idx_add_edges += 1
+                                                    new_edge2 = Edge(intermediateNode, nodeEnd, num=idx_add_edges)
+                                                    idx_add_edges += 1
                                                     new_edge1.color = tc.TUMMustard()
                                                     new_edge2.color = tc.TUMMustard()
 

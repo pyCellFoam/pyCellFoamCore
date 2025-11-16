@@ -546,7 +546,9 @@ if __name__ == '__main__':
 
     # interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Div6\Cutout2\original\Porous')
     # interface1 = IMorphInterfacePlateauCellGraph(r'C:\_local\TUM\06_iMorph_October_20\database_share\data\Sample01\Acquisition3\Roi2\original\Porous')
-    interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Acquisition3\Roi1\original\Porous')
+    interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Acquisition3\Roi2\original\Porous')
+
+    interface1.code_generator("roi2.py")
 
 
 
@@ -570,7 +572,7 @@ if __name__ == '__main__':
 #-------------------------------------------------------------------------
 
     # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, doc, None, plotly
-    plottingMethod = 'plotly'
+    plottingMethod = 'None'
 
 
 #    Disabled
