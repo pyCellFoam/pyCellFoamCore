@@ -602,7 +602,7 @@ class VolumePlotly:
     def __init__(self, volumes):
         self.volumes = volumes
 
-    def plot_faces_plotly(self, fig=None, show_label=True, show_barycenter=True):
+    def plot_volumes_plotly(self, fig=None, show_label=True, show_barycenter=True):
         self.faces = []
         for v in self.volumes:
             for f in v.faces:
