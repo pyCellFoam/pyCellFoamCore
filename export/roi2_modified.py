@@ -510,6 +510,9 @@ for f in faces_new:
 
 faces.extend(faces_new)
 
+faces_for_volumes = [-f0, f1, f2, -f6, -f12, f18, -f19, -f20, f20034, -f20035, f20028]
+v0 = Volume([-f0, f1, f2, -f6, -f12, f18, -f19, -f20, f20034, -f20035, f20028], num=0)
+
 # v0 = Volume([f0, -f1, -f2, f6, f12, -f18, f19, f20], num=0, accept_incomplete_geometry=True)
 # v1 = Volume([f0, f3, -f4, f7, -f9], num=1, accept_incomplete_geometry=True)
 # v2 = Volume([f1, f3, -f5, -f13, f15], num=2, accept_incomplete_geometry=True)
@@ -528,20 +531,41 @@ faces.extend(faces_new)
 # v15 = Volume([f41], num=15, accept_incomplete_geometry=True)
 # volumes = [v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15]
 
+# volumes = [v0]
+
 for e in geometric_edges:
     e.color = tc.TUMGreen()
 
 plotly_nodes = NodePlotly(nodes+geometric_nodes)
 plotly_edges = EdgePlotly(edges+geometric_edges)
 plotly_faces = FacePlotly(faces)
+plotly_faces2 = FacePlotly(faces_for_volumes)
+# plotly_volumes = VolumePlotly(volumes)
 
 # plotly_fig_nodes_edges = plotly_nodes.plot_nodes_plotly(show_label=False)
 # plotly_edges.plot_edges_plotly(plotly_fig_nodes_edges, show_label=False, cone_size=1.5)
 # plotly_fig_nodes_edges.show()
 
-plotly_fig_edges_faces = plotly_edges.plot_edges_plotly(show_label=True, cone_size=0.5)
-plotly_faces.plot_faces_plotly(plotly_fig_edges_faces, show_label=False)
-plotly_fig_edges_faces.show()
+# plotly_fig_edges_faces = plotly_edges.plot_edges_plotly(show_label=True, cone_size=0.5)
+# plotly_faces.plot_faces_plotly(plotly_fig_edges_faces, show_label=False)
+# plotly_fig_edges_faces.show()
+
+for f in faces:
+    if f in faces_for_volumes or -f in faces_for_volumes:
+        f.color = tc.TUMBlue()
+    else:
+        f.color = tc.TUMGreen()
+
+plotly_fig_faces = plotly_faces.plot_faces_plotly()
+plotly_fig_faces.show()
+
+plotly_fig_faces2 = plotly_faces2.plot_faces_plotly()
+plotly_fig_faces2.show()
+
+
+
+
+
 
 
 print(x_max)

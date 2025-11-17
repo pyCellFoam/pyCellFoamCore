@@ -82,7 +82,7 @@ class Volume(Cell):
             num = Volume.volumeCount
             Volume.volumeCount += 1
 
-        super().__init__(*args,num=num,label=label,my_reverse=False,loggerName=__name__,**kwargs)
+        super().__init__(*args,num=num,label=label,my_reverse=False,**kwargs)
 
         self.__rawFaces = rawFaces
         self.__faces =[]
