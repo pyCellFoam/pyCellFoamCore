@@ -1966,6 +1966,7 @@ class Complex3D(Complex):
             file.write("from pyCellFoamCore.k_cells.face.face import Face\n")
             file.write("from pyCellFoamCore.k_cells.face.baseFace import FacePlotly\n")
             file.write("from pyCellFoamCore.k_cells.volume.volume import Volume\n")
+            file.write("from pyCellFoamCore.k_cells.volume.volume import VolumePlotly\n")
             file.write("from pyCellFoamCore.tools.logging_formatter import set_logging_format\n\n")
             file.write("set_logging_format(logging.INFO)\n\n")
 
@@ -2024,11 +2025,11 @@ class Complex3D(Complex):
             file.write(", ".join([f"f{f.num}" for f in self.faces]))
             file.write("]\n\n")
 
-            if False:
+            if True:
 
                 for v in self.volumes:
                     face_list = ", ".join([f"{'-' if face.is_reverse else ''}f{face.num}" for face in v.faces])
-                    file.write(f"v{v.num} = Volume([{face_list}], num={v.num})\n")
+                    file.write(f"v{v.num} = Volume([{face_list}], num={v.num}, accept_incomplete_geometry=True)\n")
                 file.write("volumes = [")
                 file.write(", ".join([f"v{v.num}" for v in self.volumes]))
                 file.write("]\n\n")
@@ -2045,6 +2046,10 @@ class Complex3D(Complex):
             file.write("plotly_faces = FacePlotly(faces)\n")
             file.write("plotly_fig_faces = plotly_faces.plot_faces_plotly()\n")
             file.write("plotly_fig_faces.show()\n\n")
+            file.write("plotly_volumes = VolumePlotly(volumes)\n")
+            file.write("plotly_fig_volumes = plotly_volumes.plot_volumes_plotly()\n")
+            file.write("plotly_fig_volumes.show()\n\n")
+
 
 
 
