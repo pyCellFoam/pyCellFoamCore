@@ -227,7 +227,7 @@ class EdgePlotly:
     def __init__(self, edges):
         self.edges = edges
 
-    def plot_edges_plotly(self, fig=None, show_label=True, show_barycenter=True):
+    def plot_edges_plotly(self, fig=None, show_label=True, show_barycenter=True, show_direction=True, cone_size=2):
 
 
         if fig is None:
@@ -242,6 +242,9 @@ class EdgePlotly:
         barycenters_y = []
         barycenters_z = []
         barycenter_colors = []
+        cones_direction_x = []
+        cones_direction_y = []
+        cones_direction_z = []
         labels = []
 
         for edge in self.edges:
@@ -255,8 +258,26 @@ class EdgePlotly:
                 barycenters_y.append(se.barycenter[1])
                 barycenters_z.append(se.barycenter[2])
                 barycenter_colors.append(se.color.html)
+                cones_direction_x.append(se.directionVec[0])
+                cones_direction_y.append(se.directionVec[1])
+                cones_direction_z.append(se.directionVec[2])
                 labels.append(se.label_text.replace("$", ""))
                 lines_colors.extend([se.color.html, se.color.html, "#000000"])
+
+        cones = {}
+
+        for (x, y, z, u, v, w, color) in zip(barycenters_x, barycenters_y, barycenters_z,
+                                      cones_direction_x, cones_direction_y, cones_direction_z,
+                                      barycenter_colors):
+            if color in cones:
+                cones[color]['x'].append(x)
+                cones[color]['y'].append(y)
+                cones[color]['z'].append(z)
+                cones[color]['u'].append(u)
+                cones[color]['v'].append(v)
+                cones[color]['w'].append(w)
+            else:
+                cones[color] = {'x': [x], 'y': [y], 'z': [z], 'u': [u], 'v': [v], 'w': [w]}
 
         fig.add_trace(go.Scatter3d(
             x=lines_x,
@@ -290,6 +311,23 @@ class EdgePlotly:
                 ),
                 showlegend=False,
             ))
+
+        if show_direction:
+            for (color, cone) in cones.items():
+                fig.add_trace(go.Cone(
+                    x=cone['x'],
+                    y=cone['y'],
+                    z=cone['z'],
+                    u=cone['u'],
+                    v=cone['v'],
+                    w=cone['w'],
+                    sizemode="absolute",
+                    sizeref=cone_size,
+                    anchor="tip",
+                    showscale=False,
+                    colorscale=[[0, color], [1, color]],
+                    showlegend=False,
+                ))
 
         fig.update_layout(scene=dict(
             xaxis_title='X Axis',
