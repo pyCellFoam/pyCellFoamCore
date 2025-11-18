@@ -10,6 +10,8 @@ from pyCellFoamCore.k_cells.volume.volume import Volume
 from pyCellFoamCore.k_cells.volume.volume import VolumePlotly
 from pyCellFoamCore.tools.logging_formatter import set_logging_format
 import pyCellFoamCore.tools.tumcolor as tc
+from pyCellFoamCore.complex.primalComplex3D import PrimalComplex3D
+from pyCellFoamCore.complex.dualComplex3D import DualComplex3D
 
 set_logging_format(logging.INFO)
 
@@ -479,7 +481,7 @@ f20011 = Face([[e20026, e48, -e52, -e10005, e20028]], num=20011)
 f20012 = Face([[e20028, -e20017, -e20029, e10013]], num=20012)
 f20013 = Face([[e10012, e20029, -e20016, -e10014]], num=20013)
 f20014 = Face([[e20005, -e10003, -e10005, -e10013, -e20025]], num=20014)
-f20015 = Face([e20029, -e20016, -e10014, e10012], num=20015)
+# f20015 = Face([e20029, -e20016, -e10014, e10012], num=20015)
 f20016 = Face([e20004, e20025, -e10012, -e10002], num=20016)
 f20017 = Face([e20008, e10010, -e10038, -e20019, -e20024], num=20017)
 f20018 = Face([-e10011, e10014, -e20015, -e10030, e10022], num=20018)
@@ -503,35 +505,38 @@ f20035 = Face([e20003, -e10001, -e10000, -e44, e10016, -e20035], num=20035)
 f20036 = Face([e20023, e20035, -e10018, e20002], num=20036)
 f20037 = Face([e20023, e20034, -e10022, e10028, -e20013, -e20033], num=20037)
 f20038 = Face([e20002, e20033, -e20012, -e10020, e10017], num=20038)
+f20039 = Face([e20028, e20027, e47], num=20039)
 
-faces_new = [f20000, f20001, f20002, f20003, f20004, f20005, f20006, f20007, f20008, f20009, f20010, f20011, f20012, f20013, f20014, f20015, f20016, f20017, f20018, f20019, f20020, f20021, f20022, f20023, f20024, f20025, f20026, f20027, f20028, f20029, f20030, f20031, f20032, f20033, f20034, f20035, f20036, f20037, f20038]
+faces_new = [f20000, f20001, f20002, f20003, f20004, f20005, f20006, f20007, f20008, f20009, f20010, f20011, f20012, f20013, f20014, f20016, f20017, f20018, f20019, f20020, f20021, f20022, f20023, f20024, f20025, f20026, f20027, f20028, f20029, f20030, f20031, f20032, f20033, f20034, f20035, f20036, f20037, f20038, f20039]
 for f in faces_new:
     f.color = tc.TUMRose()
 
 faces.extend(faces_new)
 
-faces_for_volumes = [-f0, f1, f2, -f6, -f12, f18, -f19, -f20, f20034, -f20035, f20028]
 v0 = Volume([-f0, f1, f2, -f6, -f12, f18, -f19, -f20, f20034, -f20035, f20028], num=0)
+v1 = Volume([f0, f3, -f4, f7, -f9, f20009, -f20026], num=1)
+v2 = Volume([-f1, -f3, f5, f13, -f15, f20016, f20014, -f20027], num=2)
+v3 = Volume([-f2, f4, -f5, -f8, f11, f14, -f17, f26, f31, f20039, f20005, -f20011], num=3)
+v4 = Volume([f6, -f7, f8, -f10, f24, f25, -f30, f33, f39, -f20024, f20033, f20032, f20029], num=4)
+v5 = Volume([f9, f10, -f11, f29, -f41, f20025, f20008, f20017, f20007], num=5)
+v6 = Volume([f12, -f13, -f14, f16, -f27, -f28, -f37, f20018, f20004], num=6)
+v7 = Volume([f15, -f16, f17, -f20039, f20010, f20013, f20012], num=7)
+v8 = Volume([-f18, -f21, f22, -f24, f32, -f39, -f20022, f20023], num=8)
+v9 = Volume([f19, f21, -f23, f27, f36, -f20036, f20037, f20038, f20002, -f20028], num=9)
+v10 = Volume([f20, -f22, f23, -f25, -f26, f28, -f34, f35, -f38, f20001, f20021], num=10)
+v11 = Volume([-f29, f30, -f31, -f35, -f40, f41, f20020, f20006], num=11)
+v12 = Volume([-f32, -f33, f34, f40, f20030, f20000, f20031, -f20029], num=12)
+v13 = Volume([-f36, f37, f38, f20003, f20019], num=13)
 
-# v0 = Volume([f0, -f1, -f2, f6, f12, -f18, f19, f20], num=0, accept_incomplete_geometry=True)
-# v1 = Volume([f0, f3, -f4, f7, -f9], num=1, accept_incomplete_geometry=True)
-# v2 = Volume([f1, f3, -f5, -f13, f15], num=2, accept_incomplete_geometry=True)
-# v3 = Volume([f2, -f4, f5, f8, -f11, -f14, f17, -f26, -f31], num=3, accept_incomplete_geometry=True)
-# v4 = Volume([f6, -f7, f8, -f10, f24, f25, -f30, f33, f39], num=4, accept_incomplete_geometry=True)
-# v5 = Volume([f9, f10, -f11, f29, -f41], num=5, accept_incomplete_geometry=True)
-# v6 = Volume([f12, -f13, -f14, f16, -f27, -f28, -f37], num=6, accept_incomplete_geometry=True)
-# v7 = Volume([f15, -f16, f17], num=7, accept_incomplete_geometry=True)
-# v8 = Volume([f18, f21, -f22, f24, -f32, f39], num=8, accept_incomplete_geometry=True)
-# v9 = Volume([f19, f21, -f23, f27, f36], num=9, accept_incomplete_geometry=True)
-# v10 = Volume([f20, -f22, f23, -f25, -f26, f28, -f34, f35, -f38], num=10, accept_incomplete_geometry=True)
-# v11 = Volume([f29, -f30, f31, f35, f40, -f41], num=11, accept_incomplete_geometry=True)
-# v12 = Volume([f32, f33, -f34, -f40], num=12, accept_incomplete_geometry=True)
-# v13 = Volume([f36, -f37, -f38], num=13, accept_incomplete_geometry=True)
-# v14 = Volume([f39], num=14, accept_incomplete_geometry=True)
-# v15 = Volume([f41], num=15, accept_incomplete_geometry=True)
+
+faces_for_volumes = []
+
+
+# v14 = Volume([f39], num=14)
+# v15 = Volume([f41], num=15)
 # volumes = [v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15]
 
-# volumes = [v0]
+volumes = [v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13]
 
 for e in geometric_edges:
     e.color = tc.TUMGreen()
@@ -540,7 +545,7 @@ plotly_nodes = NodePlotly(nodes+geometric_nodes)
 plotly_edges = EdgePlotly(edges+geometric_edges)
 plotly_faces = FacePlotly(faces)
 plotly_faces2 = FacePlotly(faces_for_volumes)
-# plotly_volumes = VolumePlotly(volumes)
+plotly_volumes = VolumePlotly(volumes)
 
 # plotly_fig_nodes_edges = plotly_nodes.plot_nodes_plotly(show_label=False)
 # plotly_edges.plot_edges_plotly(plotly_fig_nodes_edges, show_label=False, cone_size=1.5)
@@ -550,22 +555,34 @@ plotly_faces2 = FacePlotly(faces_for_volumes)
 # plotly_faces.plot_faces_plotly(plotly_fig_edges_faces, show_label=False)
 # plotly_fig_edges_faces.show()
 
-for f in faces:
-    if f in faces_for_volumes or -f in faces_for_volumes:
-        f.color = tc.TUMBlue()
-    else:
-        f.color = tc.TUMGreen()
+# for f in faces:
+#     if f in faces_for_volumes or -f in faces_for_volumes:
+#         f.color = tc.TUMBlue()
+#     else:
+#         f.color = tc.TUMGreen()
 
-plotly_fig_faces = plotly_faces.plot_faces_plotly()
-plotly_fig_faces.show()
+# plotly_fig_faces = plotly_faces.plot_faces_plotly(show_normal_vec=False)
+# plotly_fig_faces.show()
 
-plotly_fig_faces2 = plotly_faces2.plot_faces_plotly()
-plotly_fig_faces2.show()
+# plotly_fig_faces2 = plotly_faces2.plot_faces_plotly()
+# plotly_fig_faces2.show()
+
+# plotly_fig_volumes = plotly_volumes.plot_volumes_plotly()
+# plotly_fig_volumes.show()
+
+pc = PrimalComplex3D(nodes, edges, faces, volumes)
+dc = DualComplex3D(pc)
 
 
+# plotly_edges_dual = EdgePlotly(dc.edges)
+# plotly_faces_dual = FacePlotly(dc.faces)
 
+# plotly_fig_edges_dual = plotly_edges_dual.plot_edges_plotly(show_label=False, cone_size=1.5)
+# plotly_fig_edges_dual.show()
 
+# plotly_fig_faces_dual = plotly_faces_dual.plot_faces_plotly(show_normal_vec=False, show_label=False)
+# plotly_fig_faces_dual.show()
 
+dc.checkAllIncidenceMatrices()
 
-
-print(x_max)
+print(len(pc.borderNodes), len(dc.borderVolumes))
