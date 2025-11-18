@@ -23,7 +23,7 @@ print("Data loaded successfully!")
 app = dash.Dash(__name__)
 
 # Create dropdown options for nodes
-node_options = []
+node_options = [{'label': 'None (no node selected)', 'value': -1}]
 for i, node in enumerate(nodes):
     label = (f'Node {node}: '
              f'({node.xCoordinate:.2f}, '
@@ -40,19 +40,34 @@ app.layout = html.Div([
             style={'textAlign': 'center', 'marginBottom': 30}),
 
     html.Div([
-        html.Label("Select a Node:",
-                   style={'marginBottom': 10, 'fontWeight': 'bold'}),
-        dcc.Dropdown(
-            id='node-dropdown',
-            options=node_options,
-            value=0,  # Default to first node
-            style={'marginBottom': 20}
-        )
-    ], style={
-        'width': '48%',
-        'display': 'inline-block',
-        'padding': '10px'
-    }),
+        html.Div([
+            html.Label("Select a Node:",
+                       style={'marginBottom': 10, 'fontWeight': 'bold'}),
+            dcc.Dropdown(
+                id='node-dropdown',
+                options=node_options,
+                value=-1,  # Default to no node selected
+                style={'marginBottom': 20}
+            )
+        ], style={'width': '48%', 'display': 'inline-block', 'padding': '10px'}),
+
+        html.Div([
+            html.Label("Display Options:",
+                       style={'marginBottom': 10, 'fontWeight': 'bold'}),
+            dcc.Checklist(
+                id='display-options',
+                options=[
+                    {'label': 'Primal Nodes', 'value': 'primal_nodes'},
+                    {'label': 'Dual Nodes', 'value': 'dual_nodes'},
+                    {'label': 'Primal Edges', 'value': 'primal_edges'},
+                    {'label': 'Dual Edges', 'value': 'dual_edges'}
+                ],
+                value=['primal_nodes', 'dual_nodes', 'primal_edges', 'dual_edges'],  # All selected by default
+                style={'marginBottom': 20},
+                labelStyle={'display': 'block', 'marginBottom': 5}
+            )
+        ], style={'width': '48%', 'display': 'inline-block', 'padding': '10px'})
+    ]),
 
     dcc.Graph(id='3d-plot', style={'height': '80vh'})
 ])
@@ -61,44 +76,62 @@ app.layout = html.Div([
 # Callback to update the plot when dropdown selection changes
 @app.callback(
     Output('3d-plot', 'figure'),
-    [Input('node-dropdown', 'value')]
+    [Input('node-dropdown', 'value'),
+     Input('display-options', 'value')]
 )
-def update_plot(selected_node_index):
-    """Update the 3D plot based on selected node."""
-    if selected_node_index is None:
-        return go.Figure()
+def update_plot(selected_node_index, display_options):
+    """Update the 3D plot based on selected node and display options."""
+    # Create base figure
+    fig = go.Figure()
 
-    # Get the selected node
-    selected_node = nodes[selected_node_index]
-    _log.info("Selected Node: %s", {selected_node})
+    # Add selected node and its dual volume if a node is selected
+    if selected_node_index is not None and selected_node_index >= 0:
+        # Get the selected node
+        selected_node = nodes[selected_node_index]
+        _log.info("Selected Node: %s", {selected_node})
 
-    # Create a figure for the selected node
-    selected_node_plotly = NodePlotly([selected_node])
-    fig = selected_node_plotly.plot_nodes_plotly(show_label=True)
+        # Create a figure for the selected node
+        selected_node_plotly = NodePlotly([selected_node])
+        fig = selected_node_plotly.plot_nodes_plotly(show_label=True)
 
-    # Find the corresponding dual volume for this node
-    # In a dual complex, each primal node corresponds to a dual volume
-    dual_volume = selected_node.dualCell3D
-    dual_volume_plotly = VolumePlotly([dual_volume])
+        # Find the corresponding dual volume for this node
+        # In a dual complex, each primal node corresponds to a dual volume
+        dual_volume = selected_node.dualCell3D
+        dual_volume_plotly = VolumePlotly([dual_volume])
 
-    # Add the dual volume to the same figure
-    dual_volume_plotly.plot_volumes_plotly(fig, show_label=True, show_normal_vec=False)
+        # Add the dual volume to the same figure
+        dual_volume_plotly.plot_volumes_plotly(fig, show_label=True,
+                                              show_normal_vec=False)
 
-    primal_node_plotly = NodePlotly(pc.nodes)
-    primal_node_plotly.plot_nodes_plotly(fig, show_label=False)
+    # Add optional elements based on checkbox selection
+    if 'primal_nodes' in display_options:
+        primal_node_plotly = NodePlotly(pc.nodes)
+        primal_node_plotly.plot_nodes_plotly(fig, show_label=False)
 
-    dual_node_plotly = NodePlotly(dc.nodes)
-    dual_node_plotly.plot_nodes_plotly(fig, show_label=False)
+    if 'dual_nodes' in display_options:
+        dual_node_plotly = NodePlotly(dc.nodes)
+        dual_node_plotly.plot_nodes_plotly(fig, show_label=False)
 
-    primal_edge_plotly = EdgePlotly(pc.edges)
-    primal_edge_plotly.plot_edges_plotly(fig, show_label=False, show_direction=False, show_barycenter=False)
+    if 'primal_edges' in display_options:
+        primal_edge_plotly = EdgePlotly(pc.edges)
+        primal_edge_plotly.plot_edges_plotly(fig, show_label=False,
+                                           show_direction=False,
+                                           show_barycenter=False)
 
-    dual_edge_plotly = EdgePlotly(dc.edges)
-    dual_edge_plotly.plot_edges_plotly(fig, show_label=False, show_direction=False, show_barycenter=False)
+    if 'dual_edges' in display_options:
+        dual_edge_plotly = EdgePlotly(dc.edges)
+        dual_edge_plotly.plot_edges_plotly(fig, show_label=False,
+                                         show_direction=False,
+                                         show_barycenter=False)
 
     # Update layout for better visualization
+    title = "3D Complex Visualization"
+    if selected_node_index is not None and selected_node_index >= 0:
+        selected_node = nodes[selected_node_index]
+        title = f"Node {selected_node.num} and its Dual Volume"
+
     fig.update_layout(
-        title=f"Node {selected_node.num} and its Dual Volume",
+        title=title,
         scene=dict(
             xaxis_title='X Coordinate',
             yaxis_title='Y Coordinate',
