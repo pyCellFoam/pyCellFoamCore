@@ -128,7 +128,7 @@ class DualNode2D(Node, DualCell):
 
         if len(face.simpleFaces) == 2 and len(face.geometricEdges) == 1:
             return DualNode1D(face.geometricEdges[0], face=face)
-        elif len(face.simpleFaces) == 3 and len(face.geometricNodes) == 1:
+        elif len(face.simpleFaces) >= 3 and len(face.geometricNodes) == 1:
             return DualNode0D(face.geometricNodes[0], face=face)
         elif len(face.simpleFaces) == 1 and \
             len([e for e in face.edges

@@ -602,7 +602,7 @@ class VolumePlotly:
     def __init__(self, volumes):
         self.volumes = volumes
 
-    def plot_volumes_plotly(self, fig=None, show_label=True, show_barycenter=True):
+    def plot_volumes_plotly(self, fig=None, show_label=True, show_barycenter=True, **kwargs):
         self.faces = []
         for v in self.volumes:
             for f in v.faces:
@@ -614,6 +614,7 @@ class VolumePlotly:
             fig=fig,
             show_label=False,
             show_barycenter=False,
+            **kwargs,
         )
         if show_barycenter or show_label:
             barycenters = [

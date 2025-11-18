@@ -13,6 +13,9 @@ import pyCellFoamCore.tools.tumcolor as tc
 from pyCellFoamCore.complex.primalComplex3D import PrimalComplex3D
 from pyCellFoamCore.complex.dualComplex3D import DualComplex3D
 
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
+
 set_logging_format(logging.INFO)
 
 n0 = Node(1.08, 1.23, 0.15, num=0)
@@ -541,8 +544,8 @@ volumes = [v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13]
 for e in geometric_edges:
     e.color = tc.TUMGreen()
 
-plotly_nodes = NodePlotly(nodes+geometric_nodes)
-plotly_edges = EdgePlotly(edges+geometric_edges)
+plotly_nodes = NodePlotly(nodes)
+plotly_edges = EdgePlotly(edges)
 plotly_faces = FacePlotly(faces)
 plotly_faces2 = FacePlotly(faces_for_volumes)
 plotly_volumes = VolumePlotly(volumes)
@@ -572,17 +575,38 @@ plotly_volumes = VolumePlotly(volumes)
 
 pc = PrimalComplex3D(nodes, edges, faces, volumes)
 dc = DualComplex3D(pc)
+for n in nodes:
+    n.color = tc.TUMBlue()
+for e in pc.edges:
+    e.color = tc.TUMBlue()
+for e in dc.edges:
+    e.color = tc.TUMOrange()
 
+for n in dc.innerNodes:
+    n.color = tc.TUMOrange()
+for n in dc.additionalBorderNodes:
+    n.color = tc.TUMBlack()
 
+# plotly_nodes_dual = NodePlotly(dc.nodes)
 # plotly_edges_dual = EdgePlotly(dc.edges)
 # plotly_faces_dual = FacePlotly(dc.faces)
 
-# plotly_fig_edges_dual = plotly_edges_dual.plot_edges_plotly(show_label=False, cone_size=1.5)
+
+# plotly_fig_edges_dual = plotly_edges_dual.plot_edges_plotly(show_label=False, show_direction=False, show_barycenter=False)
+# plotly_edges.plot_edges_plotly(plotly_fig_edges_dual, show_label=False, show_direction=False, show_barycenter=False)
+# plotly_nodes_dual.plot_nodes_plotly(plotly_fig_edges_dual, show_label=False)
+# plotly_nodes.plot_nodes_plotly(plotly_fig_edges_dual, show_label=False)
 # plotly_fig_edges_dual.show()
 
 # plotly_fig_faces_dual = plotly_faces_dual.plot_faces_plotly(show_normal_vec=False, show_label=False)
 # plotly_fig_faces_dual.show()
 
-dc.checkAllIncidenceMatrices()
+# dc.checkAllIncidenceMatrices()
 
-print(len(pc.borderNodes), len(dc.borderVolumes))
+# print(len(pc.borderNodes), len(dc.borderVolumes))
+
+# Launch interactive Dash visualization
+# To run the Dash app, execute: python dash_node_visualizer.py
+
+# for f in faces:
+#     _log.info("2D dual of face %s: %s (%s) - %s", f.num, f.dualCell2D, f.dualCell2D.coordinates, len(f.geometricNodes))
