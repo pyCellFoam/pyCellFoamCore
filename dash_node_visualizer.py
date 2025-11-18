@@ -5,6 +5,7 @@ Run this script to start the interactive web application.
 import logging
 import dash
 from dash import dcc, html, Input, Output
+from dash.dependencies import State
 import plotly.graph_objects as go
 from pyCellFoamCore.k_cells.edge.baseEdge import EdgePlotly
 from pyCellFoamCore.tools.logging_formatter import set_logging_format
@@ -34,22 +35,42 @@ for i, node in enumerate(nodes):
         'value': i
     })
 
+# Create dropdown options for dual nodes
+dual_node_options = [{'label': 'None (no dual node selected)', 'value': -1}]
+for i, dual_node in enumerate(dc.nodes):
+    label = (f'Dual Node {dual_node}: '
+             f'({dual_node.xCoordinate:.2f}, '
+             f'{dual_node.yCoordinate:.2f}, '
+             f'{dual_node.zCoordinate:.2f})')
+    dual_node_options.append({
+        'label': label,
+        'value': i
+    })
+
 # Define the app layout
 app.layout = html.Div([
-    html.H1("3D Node and Dual Volume Visualization",
+    html.H1("3D Visualization of Primal and Dual Complex",
             style={'textAlign': 'center', 'marginBottom': 30}),
 
     html.Div([
         html.Div([
-            html.Label("Select a Node:",
+            html.Label("Select a Primal Node:",
                        style={'marginBottom': 10, 'fontWeight': 'bold'}),
             dcc.Dropdown(
                 id='node-dropdown',
                 options=node_options,
                 value=-1,  # Default to no node selected
                 style={'marginBottom': 20}
+            ),
+            html.Label("Select a Dual Node:",
+                       style={'marginBottom': 10, 'fontWeight': 'bold'}),
+            dcc.Dropdown(
+                id='dual-node-dropdown',
+                options=dual_node_options,
+                value=-1,  # Default to no dual node selected
+                style={'marginBottom': 20}
             )
-        ], style={'width': '48%', 'display': 'inline-block', 'padding': '10px'}),
+        ], style={'width': '48%', 'display': 'inline-block', 'padding': '10px', 'verticalAlign': 'top'}),
 
         html.Div([
             html.Label("Display Options:",
@@ -66,7 +87,7 @@ app.layout = html.Div([
                 style={'marginBottom': 20},
                 labelStyle={'display': 'block', 'marginBottom': 5}
             )
-        ], style={'width': '48%', 'display': 'inline-block', 'padding': '10px'})
+        ], style={'width': '48%', 'display': 'inline-block', 'padding': '10px', 'verticalAlign': 'top'})
     ]),
 
     dcc.Graph(id='3d-plot', style={'height': '80vh'})
@@ -77,18 +98,21 @@ app.layout = html.Div([
 @app.callback(
     Output('3d-plot', 'figure'),
     [Input('node-dropdown', 'value'),
-     Input('display-options', 'value')]
+     Input('dual-node-dropdown', 'value'),
+     Input('display-options', 'value')],
+    [State('3d-plot', 'relayoutData')]
 )
-def update_plot(selected_node_index, display_options):
+def update_plot(selected_node_index, selected_dual_node_index,
+                display_options, relayout_data):
     """Update the 3D plot based on selected node and display options."""
     # Create base figure
     fig = go.Figure()
 
-    # Add selected node and its dual volume if a node is selected
+    # Add selected primal node and its dual volume if a node is selected
     if selected_node_index is not None and selected_node_index >= 0:
         # Get the selected node
         selected_node = nodes[selected_node_index]
-        _log.info("Selected Node: %s", {selected_node})
+        _log.info("Selected Primal Node: %s", {selected_node})
 
         # Create a figure for the selected node
         selected_node_plotly = NodePlotly([selected_node])
@@ -102,6 +126,28 @@ def update_plot(selected_node_index, display_options):
         # Add the dual volume to the same figure
         dual_volume_plotly.plot_volumes_plotly(fig, show_label=True,
                                               show_normal_vec=False)
+
+    # Add selected dual node and its primal volume if a dual node is selected
+    if selected_dual_node_index is not None and selected_dual_node_index >= 0:
+        # Get the selected dual node
+        selected_dual_node = dc.nodes[selected_dual_node_index]
+        _log.info("Selected Dual Node: %s", {selected_dual_node})
+
+        # Create a figure for the selected dual node
+        selected_dual_node_plotly = NodePlotly([selected_dual_node])
+        if fig.data:  # If figure already has data, add to it
+            selected_dual_node_plotly.plot_nodes_plotly(fig, show_label=True)
+        else:  # If no data yet, create new figure
+            fig = selected_dual_node_plotly.plot_nodes_plotly(show_label=True)
+
+        # Find the corresponding primal volume for this dual node
+        # In a dual complex, each dual node corresponds to a primal volume
+        primal_volume = selected_dual_node.dualCell3D
+        primal_volume_plotly = VolumePlotly([primal_volume])
+
+        # Add the primal volume to the same figure
+        primal_volume_plotly.plot_volumes_plotly(fig, show_label=True,
+                                                show_normal_vec=False)
 
     # Add optional elements based on checkbox selection
     if 'primal_nodes' in display_options:
@@ -126,18 +172,34 @@ def update_plot(selected_node_index, display_options):
 
     # Update layout for better visualization
     title = "3D Complex Visualization"
+    title_parts = []
+
     if selected_node_index is not None and selected_node_index >= 0:
         selected_node = nodes[selected_node_index]
-        title = f"Node {selected_node.num} and its Dual Volume"
+        title_parts.append(f"Primal Node {selected_node.num} + Dual Volume")
+
+    if selected_dual_node_index is not None and selected_dual_node_index >= 0:
+        selected_dual_node = dc.nodes[selected_dual_node_index]
+        title_parts.append(f"Dual Node {selected_dual_node.num} + Primal Volume")
+
+    if title_parts:
+        title = " | ".join(title_parts)
+
+    # Preserve camera settings if user has interacted with the plot
+    scene_dict = dict(
+        xaxis_title='X Coordinate',
+        yaxis_title='Y Coordinate',
+        zaxis_title='Z Coordinate',
+        aspectmode='cube'
+    )
+
+    # If relayout_data contains camera information, preserve it
+    if relayout_data and 'scene.camera' in relayout_data:
+        scene_dict['camera'] = relayout_data['scene.camera']
 
     fig.update_layout(
         title=title,
-        scene=dict(
-            xaxis_title='X Coordinate',
-            yaxis_title='Y Coordinate',
-            zaxis_title='Z Coordinate',
-            aspectmode='cube'
-        ),
+        scene=scene_dict,
         showlegend=True,
         margin=dict(l=0, r=0, b=0, t=40)
     )
