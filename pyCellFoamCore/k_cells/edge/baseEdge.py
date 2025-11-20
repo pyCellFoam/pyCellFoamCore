@@ -321,7 +321,7 @@ class EdgePlotly:
                     u=cone['u'],
                     v=cone['v'],
                     w=cone['w'],
-                    sizemode="absolute",
+                    sizemode="raw",
                     sizeref=cone_size,
                     anchor="tip",
                     showscale=False,

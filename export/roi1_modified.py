@@ -9,6 +9,14 @@ from pyCellFoamCore.k_cells.face.baseFace import FacePlotly
 from pyCellFoamCore.k_cells.volume.volume import Volume
 from pyCellFoamCore.k_cells.volume.volume import VolumePlotly
 from pyCellFoamCore.tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.tumcolor as tc
+from pyCellFoamCore.complex.primalComplex3D import PrimalComplex3D
+from pyCellFoamCore.complex.dualComplex3D import DualComplex3D
+
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
+
 
 set_logging_format(logging.INFO)
 
@@ -613,6 +621,27 @@ gn273 = Node(0.0975, 2.565, 2.6174999999999997, num=273)
 gn274 = Node(0.21750000000000003, 2.79, 2.7075, num=274)
 gn275 = Node(1.0725, 2.6950000000000003, 2.525, num=275)
 nodes = [n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, n13, n14, n15, n16, n17, n18, n19, n20, n21, n22, n23, n24, n25, n26, n27, n28, n29, n30, n31, n32, n33, n34, n35, n36, n37, n38, n39, n40, n41, n42, n43, n44, n45, n46, n47, n48, n49, n50, n51, n52, n53, n54, n55, n56, n57, n58, n59, n60, n61, n62, n63, n64, n65, n66, n67, n68, n69, n70, n71, n72, n73, n74, n75, n76, n77, n78, n79, n80, n81, n82, n83, n84, n85, n86, n87, n88, n89, n90, n91, n92, n93, n94, n95, n96, n97, n98, n99, n100, n101, n102, n103, n104, n105, n106, n107, n108, n109, n110, n111, n112, n113, n114, n115, n116, n117, n118, n119, n120, n121, n122, n123, n124, n125, n126, n127, n128, n129, n130, n131, n132, n133, n134, n135, n136, n137, n138, n139, n140, n141, n142, n143, n144, n145, n146, n147, n148, n149, n150, n151, n152, n153, n154, n155, n156, n157, n158, n159, n160, n161, n162, n163, n164, n165, n166, n167, n168, n169, n170, n171, n172, n173, n174, n175, n176, n177, n178, n179, n180, n181, n182, n183, n184, n185, n186, n187, n188, n189, n190, n191, n192, n193, n194, n195, n196, n197, n198, n199, n200, n201, n202, n203, n204, n205, n206, n207, n208, n209, n210, n211, n212, n213, n214, n215, n216, n217, n218, n219, n220, n221, n222, n223, n224, n225, n226, n227, n228, n229, n230, n231, n232, n233, n234, n235, n236, n237, n238, n239, n240, n241, n242, n243, n244, n245, n246, n247, n248, n249, n250, n251, n252, n253, n254, n255, n256, n257, n258, n259, n260, n261, n262, n263, n264, n265, n266, n267, n268, n269, n270, n271, n272, n273, n274, n275, n276, n277, n278, n279, n280, n281, n282, n283, n284, n285, n10000, n10001, n10002, n10003, n10004, n10005, n10006, n10007, n10008, n10009, n10010, n10011, n10012, n10013, n10014, n10015, n10016, n10017, n10018, n10019, n10020, n10021, n10022, n10023, n10024, n10025, n10026, n10027, n10028, n10029, n10030, n10031, n10032, n10033, n10034, n10035, n10036, n10037]
+geometric_nodes = [gn0, gn1, gn2, gn3, gn4, gn5, gn6, gn7, gn8, gn9, gn10, gn11, gn12, gn13, gn14, gn15, gn16, gn17, gn18, gn19, gn20, gn21, gn22, gn23, gn24, gn25, gn26, gn27, gn28, gn29, gn30, gn31, gn32, gn33, gn34, gn35, gn36, gn37, gn38, gn39, gn40, gn41, gn42, gn43, gn44, gn45, gn46, gn47, gn48, gn49, gn50, gn51, gn52, gn53, gn54, gn55, gn56, gn57, gn58, gn59, gn60, gn61, gn62, gn63, gn64, gn65, gn66, gn67, gn68, gn69, gn70, gn71, gn72, gn73, gn74, gn75, gn76, gn77, gn78, gn79, gn80, gn81, gn82, gn83, gn84, gn85, gn86, gn87, gn88, gn89, gn90, gn91, gn92, gn93, gn94, gn95, gn96, gn97, gn98, gn99, gn100, gn101, gn102, gn103, gn104, gn105, gn106, gn107, gn108, gn109, gn110, gn111, gn112, gn113, gn114, gn115, gn116, gn117, gn118, gn119, gn120, gn121, gn122, gn123, gn124, gn125, gn126, gn127, gn128, gn129, gn130, gn131, gn132, gn133, gn134, gn135, gn136, gn137, gn138, gn139, gn140, gn141, gn142, gn143, gn144, gn145, gn146, gn147, gn148, gn149, gn150, gn151, gn152, gn153, gn154, gn155, gn156, gn157, gn158, gn159, gn160, gn161, gn162, gn163, gn164, gn165, gn166, gn167, gn168, gn169, gn170, gn171, gn172, gn173, gn174, gn175,gn176 ,gn177 ,gn178 ,gn179 ,gn180 ,gn181 ,gn182 ,gn183 ,gn184 ,gn185 ,gn186 ,gn187 ,gn188 ,gn189 ,gn190 ,gn191 ,gn192 ,gn193 ,gn194 ,gn195 ,gn196 ,gn197 ,gn198 ,gn199 ,gn200 ,gn201 ,gn202 ,gn203 ,gn204 ,gn205 ,gn206 ,gn207 ,gn208 ,gn209 ,gn210 ,gn211 ,gn212 ,gn213 ,gn214 ,gn215 ,gn216 ,gn217 ,gn218 ,gn219 ,gn220 ,gn221 ,gn222 ,gn223 ,gn224 ,gn225 ,gn226 ,gn227 ,gn228 ,gn229 ,gn230 ,gn231 ,gn232 ,gn233 ,gn234 ,gn235 ,gn236 ,gn237 ,gn238 ,gn239 ,gn240 ,gn241 ,gn242 ,gn243 ,gn244 ,gn245 ,gn246 ,gn247 ,gn248 ,gn249 ,gn250 ,gn251 ,gn252 ,gn253 ,gn254 ,gn255 ,gn256 ,gn257 ,gn258 ,gn259 ,gn260 ,gn261 ,gn262 ,gn263 ,gn264 ,gn265 ,gn266 ,gn267 ,gn268 ,gn269 ,gn270 ,gn271 ,gn272 ,gn273 ,gn274 ,gn275]
+
+x_min = min(node.xCoordinate for node in nodes+geometric_nodes)
+x_max = max(node.xCoordinate for node in nodes+geometric_nodes)
+y_min = min(node.yCoordinate for node in nodes+geometric_nodes)
+y_max = max(node.yCoordinate for node in nodes+geometric_nodes)
+z_min = min(node.zCoordinate for node in nodes+geometric_nodes)
+z_max = max(node.zCoordinate for node in nodes+geometric_nodes)
+
+n20000 = Node(x_min, y_min, z_min, num=20000)
+n20001 = Node(x_max, y_min, z_min, num=20001)
+n20002 = Node(x_min, y_max, z_min, num=20002)
+n20003 = Node(x_max, y_max, z_min, num=20003)
+n20004 = Node(x_min, y_min, z_max, num=20004)
+n20005 = Node(x_max, y_min, z_max, num=20005)
+n20006 = Node(x_min, y_max, z_max, num=20006)
+n20007 = Node(x_max, y_max, z_max, num=20007)
+
+
+nodes.extend([n20000, n20001, n20002, n20003, n20004, n20005, n20006, n20007])
+
 
 e0 = Edge(n0, n1, num=0)
 e1 = Edge(n0, n4, num=1)
@@ -2561,6 +2590,17 @@ edges = [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e
 
 geometric_edges = [ge1, ge0, ge2, ge3, ge5, ge4, ge6, ge7, ge9, ge8, ge10, ge11, ge12, ge13, ge15, ge14, ge16, ge17, ge19, ge18, ge20, ge21, ge22, ge24, ge23, ge25, ge26, ge27, ge29, ge28, ge30, ge31, ge32, ge34, ge33, ge35, ge36, ge38, ge37, ge39, ge40, ge41, ge43, ge42, ge44, ge45, ge47, ge46, ge48, ge49, ge51, ge50, ge52, ge53, ge55, ge54, ge56, ge57, ge58, ge60, ge59, ge61, ge62, ge63, ge65, ge64, ge66, ge67, ge68, ge70, ge69, ge71, ge72, ge74, ge73, ge75, ge76, ge78, ge77, ge79, ge80, ge81, ge83, ge82, ge84, ge85, ge86, ge88, ge87, ge89, ge90, ge92, ge91, ge93, ge94, ge95, ge97, ge96, ge98, ge99, ge100, ge102, ge101, ge103, ge104, ge105, ge107, ge106, ge108, ge109, ge111, ge110, ge112, ge113, ge115, ge114, ge116, ge117, ge119, ge118, ge120, ge121, ge122, ge124, ge123, ge125, ge126, ge128, ge127, ge129, ge130, ge131, ge132, ge134, ge133, ge135, ge136, ge138, ge137, ge139, ge140, ge142, ge141, ge143, ge144, ge146, ge145, ge147, ge148, ge150, ge149, ge151, ge152, ge154, ge153, ge155, ge156, ge157, ge159, ge158, ge160, ge161, ge163, ge162, ge164, ge165, ge166, ge168, ge167, ge169, ge170, ge171, ge173, ge172, ge174, ge175, ge177, ge176, ge178, ge179, ge181, ge180, ge182, ge183, ge184, ge186, ge185, ge187, ge188, ge189, ge191, ge190, ge192, ge193, ge194, ge195, ge197, ge196, ge198, ge199, ge201, ge200, ge202, ge203, ge204, ge205, ge207, ge206, ge208, ge209, ge210, ge212, ge211, ge213, ge214, ge215, ge217, ge216, ge218, ge219, ge221, ge220, ge222, ge223, ge224, ge226, ge225, ge227, ge228, ge229, ge231, ge230, ge232, ge233, ge234, ge236, ge235, ge237, ge238, ge240, ge239, ge241, ge242, ge243, ge244, ge246, ge245, ge247, ge248, ge250, ge249, ge251, ge252, ge253, ge255, ge254, ge256, ge257, ge258, ge260, ge259, ge261, ge262, ge263, ge265, ge264, ge266, ge267, ge269, ge268, ge270, ge271, ge272, ge273, ge275, ge274, ge276, ge277, ge279, ge278, ge280, ge281, ge282, ge284, ge283, ge285, ge286, ge288, ge287, ge289, ge290, ge292, ge291, ge293, ge294, ge295, ge296, ge298, ge297, ge299, ge300, ge302, ge301, ge303, ge304, ge306, ge305, ge307, ge308, ge309, ge311, ge310, ge312, ge313, ge314, ge316, ge315, ge317, ge318, ge320, ge319, ge321, ge322, ge323, ge325, ge324, ge326, ge327, ge328, ge329, ge331, ge330, ge332, ge333, ge334, ge336, ge335, ge337, ge338, ge339, ge341, ge340, ge342, ge343, ge344, ge346, ge345, ge347, ge348, ge349, ge351, ge350, ge352, ge353, ge354, ge356, ge355, ge357, ge358, ge360, ge359, ge361, ge362, ge363, ge365, ge364, ge366, ge367, ge368, ge370, ge369, ge371, ge372, ge373, ge375, ge374, ge376, ge377, ge378, ge380, ge379, ge381, ge382, ge383, ge385, ge384, ge386, ge387, ge389, ge388, ge390, ge391, ge392, ge393, ge395, ge394, ge396, ge397, ge399, ge398, ge400, ge401, ge402, ge404, ge403, ge405, ge406, ge407, ge409, ge408, ge410, ge411, ge412, ge413, ge415, ge414, ge416, ge417, ge418, ge419, ge420, ge422, ge421, ge423, ge424, ge425, ge427, ge426, ge428, ge429, ge430, ge431, ge433, ge432, ge434, ge435, ge436, ge438, ge437, ge439, ge440, ge441, ge442, ge444, ge443, ge445, ge446, ge447, ge448, ge450, ge449, ge451, ge452, ge454, ge453, ge455, ge456, ge457, ge459, ge458, ge460, ge461, ge462, ge464, ge463, ge465, ge466, ge468, ge467, ge469, ge470, ge472, ge471, ge473, ge474, ge476, ge475, ge477, ge478, ge479, ge481, ge480, ge482, ge483, ge484, ge486, ge485, ge487, ge488, ge489, ge491, ge490, ge492, ge493, ge494, ge496, ge495, ge497, ge498, ge499, ge501, ge500, ge502, ge503, ge504, ge506, ge505, ge507, ge508, ge509, ge511, ge510, ge512, ge513, ge514, ge515, ge517, ge516, ge518, ge519, ge521, ge520, ge522, ge523, ge524, ge526, ge525, ge527, ge528, ge529, ge530, ge532, ge531, ge533, ge534, ge535, ge536, ge538, ge537, ge539, ge540, ge542, ge541, ge543, ge544, ge545, ge547, ge546, ge548, ge549, ge550, ge551, ge553, ge552, ge554, ge555, ge557, ge556, ge558, ge559, ge560, ge562, ge561, ge563, ge564, ge566, ge565, ge567, ge568, ge569, ge571, ge570, ge572, ge573, ge574, ge576, ge575, ge577, ge578, ge579, ge581, ge580, ge582, ge583, ge584, ge586, ge585, ge587, ge588, ge589, ge591, ge590, ge592, ge593, ge594, ge596, ge595, ge597, ge598, ge599, ge601, ge600, ge602, ge603, ge604, ge606, ge605, ge607, ge608, ge609, ge611, ge610, ge612, ge613, ge614, ge616, ge615, ge617, ge618, ge619, ge620, ge622, ge621, ge623, ge624, ge625, ge627, ge626, ge628, ge629, ge630, ge632, ge631, ge633, ge634, ge636, ge635, ge637, ge638, ge640, ge639, ge641, ge642, ge644, ge643, ge645, ge646, ge647, ge649, ge648, ge650, ge651, ge652, ge653, ge655, ge654, ge656, ge657, ge658, ge660, ge659, ge661, ge662, ge664, ge663, ge665, ge666, ge667, ge669, ge668, ge670, ge671, ge672, ge674, ge673, ge675, ge676, ge678, ge677, ge679, ge680, ge681, ge683, ge682, ge684, ge685, ge686, ge687, ge689, ge688, ge690, ge691, ge693, ge692, ge694, ge695, ge696, ge698, ge697, ge699, ge700, ge702, ge701, ge703, ge704, ge706, ge705, ge707, ge708, ge710, ge709, ge711, ge712, ge713, ge715, ge714, ge716, ge717, ge719, ge718, ge720, ge721, ge722, ge724, ge723, ge725, ge726, ge727, ge728, ge730, ge729, ge731, ge732, ge734, ge733, ge735, ge736, ge737, ge739, ge738, ge740, ge741, ge742, ge744, ge743, ge745, ge746, ge748, ge747, ge749, ge750, ge751, ge753, ge752, ge754, ge755, ge757, ge756, ge758, ge759, ge760, ge762, ge761, ge763, ge764, ge765, ge767, ge766, ge768, ge769, ge771, ge770, ge772, ge773, ge774, ge776, ge775, ge777, ge778, ge779, ge780, ge782, ge781, ge783, ge784, ge786, ge785, ge787, ge788, ge789, ge790, ge792, ge791, ge793, ge794, ge796, ge795, ge797, ge798, ge799, ge801, ge800, ge802, ge803, ge804, ge806, ge805, ge807, ge808, ge809, ge811, ge810, ge812, ge813, ge814, ge816, ge815, ge817, ge818, ge819, ge820, ge822, ge821, ge823, ge824, ge825, ge827, ge826, ge828, ge829, ge830, ge832, ge831, ge833, ge834, ge835, ge837, ge836, ge838, ge839, ge840, ge842, ge841, ge843, ge844, ge845, ge847, ge846, ge848, ge849, ge850, ge851, ge853, ge852, ge854, ge855, ge856, ge858, ge857, ge859, ge860, ge861, ge863, ge862, ge864, ge865, ge866, ge868, ge867, ge869, ge870, ge871, ge873, ge872, ge874, ge875, ge876, ge878, ge877, ge879, ge880, ge881, ge883, ge882, ge884, ge885, ge886, ge887, ge889, ge888, ge890, ge891, ge892, ge894, ge893, ge895, ge896, ge897, ge899, ge898, ge900, ge901, ge903, ge902, ge904, ge905, ge906, ge908, ge907, ge909, ge910, ge911, ge913, ge912, ge914, ge915, ge916, ge918, ge917, ge919, ge920, ge921, ge923, ge922, ge924, ge925, ge926, ge928, ge927, ge929, ge930, ge931, ge932, ge934, ge933, ge935, ge936, ge938, ge937, ge939, ge940, ge941, ge943, ge942, ge944, ge945, ge946, ge947, ge949, ge948, ge950, ge951, ge952, ge954, ge953, ge955, ge956, ge957, ge959, ge958, ge960, ge961, ge962, ge964, ge963, ge965, ge966, ge968, ge967, ge969, ge970, ge971, ge973, ge972, ge974, ge975, ge976, ge978, ge977, ge979, ge980, ge981, ge983, ge982, ge984, ge985, ge986, ge987, ge989, ge988, ge990, ge991, ge992, ge994, ge993, ge995, ge996, ge997, ge999, ge998, ge1000, ge1001, ge1002, ge1004, ge1003, ge1005, ge1006, ge1007, ge1009, ge1008, ge1010, ge1011, ge1013, ge1012, ge1014, ge1015, ge1016, ge1018, ge1017, ge1019, ge1020, ge1021, ge1022, ge1024, ge1023, ge1025, ge1026, ge1028, ge1027, ge1029, ge1030, ge1031, ge1032, ge1034, ge1033, ge1035, ge1036, ge1037, ge1039, ge1038, ge1040, ge1041, ge1042, ge1044, ge1043, ge1045, ge1046, ge1047, ge1048, ge1050, ge1049, ge1051, ge1052, ge1053, ge1054, ge1056, ge1055, ge1057, ge1058, ge1059, ge1060, ge1062, ge1061, ge1063, ge1064, ge1065, ge1067, ge1066, ge1068, ge1069, ge1071, ge1070, ge1072, ge1073, ge1075, ge1074, ge1076, ge1077, ge1079, ge1078, ge1080, ge1081, ge1082, ge1084, ge1083, ge1085, ge1086, ge1088, ge1087, ge1089, ge1090, ge1091, ge1093, ge1092, ge1094, ge1095, ge1096, ge1098, ge1097, ge1099, ge1100, ge1102, ge1101, ge1103, ge1104, ge1105, ge1107, ge1106, ge1108, ge1109, ge1110, ge1112, ge1111, ge1113, ge1114, ge1116, ge1115, ge1117, ge1118, ge1120, ge1119, ge1121, ge1122, ge1124, ge1123, ge1125, ge1126, ge1127, ge1128, ge1130, ge1129, ge1131, ge1132, ge1133, ge1134, ge1136, ge1135, ge1137, ge1138, ge1140, ge1139, ge1141, ge1142, ge1144, ge1143, ge1145, ge1146, ge1147, ge1149, ge1148, ge1150, ge1151, ge1153, ge1152, ge1154, ge1155, ge1157, ge1156, ge1158, ge1159, ge1160, ge1162, ge1161, ge1163, ge1164, ge1166, ge1165, ge1167, ge1168, ge1170, ge1169, ge1171, ge1172, ge1173, ge1175, ge1174, ge1176, ge1177, ge1179, ge1178, ge1180, ge1181, ge1182, ge1184, ge1183, ge1185, ge1186, ge1188, ge1187, ge1189, ge1190, ge1192, ge1191, ge1193, ge1194, ge1195, ge1197, ge1196, ge1198, ge1199, ge1201, ge1200, ge1202, ge1203, ge1204, ge1206, ge1205, ge1207, ge1208, ge1209, ge1210, ge1212, ge1211, ge1213, ge1214, ge1215, ge1217, ge1216, ge1218, ge1219, ge1221, ge1220, ge1222, ge1223, ge1224, ge1226, ge1225, ge1227, ge1228, ge1230, ge1229, ge1231, ge1232, ge1234, ge1233, ge1235, ge1236, ge1237, ge1239, ge1238, ge1240, ge1241, ge1242, ge1244, ge1243, ge1245, ge1246, ge1247, ge1249, ge1248, ge1250, ge1251, ge1253, ge1252, ge1254, ge1255, ge1257, ge1256, ge1258, ge1259, ge1261, ge1260, ge1262, ge1263, ge1265, ge1264, ge1266, ge1267, ge1269, ge1268, ge1270, ge1271, ge1273, ge1272, ge1274, ge1275, ge1277, ge1276, ge1278, ge1279, ge1281, ge1280, ge1282, ge1283, ge1284, ge1285, ge1287, ge1286, ge1288, ge1289, ge1291, ge1290, ge1292, ge1293, ge1294, ge1296, ge1295, ge1297, ge1298, ge1300, ge1299, ge1301, ge1302, ge1304, ge1303, ge1305, ge1306, ge1308, ge1307, ge1309, ge1310, ge1312, ge1311, ge1313, ge1314, ge1316, ge1315, ge1317, ge1318, ge1319, ge1320]
 
+e20000 = Edge(n20000, n10006, num=20000)
+e20001 = Edge(n10006, n10013, num=20001)
+e20002 = Edge(n10013, n10000, num=20002)
+e20003 = Edge(n10000, n10008, num=20003)
+e20004 = Edge(n10008, n10031, num=20004)
+e20005 = Edge(n10031, n20001, num=20005)
+
+edges.extend([e20000, e20001, e20002, e20003, e20004, e20005])
+
+
+
 f0 = Face([[-e3, ge1, -ge0], [e1, ge2, -ge1], [e17, ge3, -ge2], [e10000, ge0, -ge3]], num=0)
 f1 = Face([[-e3, ge5, -ge4], [e0, ge6, -ge5], [e6, ge7, -ge6], [e10001, ge4, -ge7]], num=1)
 f2 = Face([[e0, ge9, -ge8], [e5, ge10, -ge9], [e73, ge11, -ge10], [-e86, ge12, -ge11], [-e16, ge13, -ge12], [-e1, ge8, -ge13]], num=2)
@@ -2938,18 +2978,33 @@ v71 = Volume([f293], num=71, accept_incomplete_geometry=True)
 v72 = Volume([f297], num=72, accept_incomplete_geometry=True)
 volumes = [v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23, v24, v25, v26, v27, v28, v29, v30, v31, v32, v33, v34, v35, v36, v37, v38, v39, v40, v41, v42, v43, v44, v45, v46, v47, v48, v49, v50, v51, v52, v53, v54, v55, v56, v57, v58, v59, v60, v61, v62, v63, v64, v65, v66, v67, v68, v69, v70, v71, v72]
 
+for n in nodes:
+    if n.num >= 10000:
+        n.color = tc.TUMBlack()
+
+
 plotly_nodes = NodePlotly(nodes)
-plotly_fig_nodes = plotly_nodes.plot_nodes_plotly(show_label=False)
-plotly_fig_nodes.show()
-
-plotly_edges = EdgePlotly(edges+geometric_edges)
-plotly_fig_edges = plotly_edges.plot_edges_plotly(show_label=False)
-plotly_fig_edges.show()
-
+plotly_edges = EdgePlotly(edges)
 plotly_faces = FacePlotly(faces)
-plotly_fig_faces = plotly_faces.plot_faces_plotly(show_label=False)
-plotly_fig_faces.show()
-
+# plotly_faces2 = FacePlotly(faces_for_volumes)
 plotly_volumes = VolumePlotly(volumes)
-plotly_fig_volumes = plotly_volumes.plot_volumes_plotly(show_label=False)
-plotly_fig_volumes.show()
+
+# plotly_nodes = NodePlotly(nodes)
+# plotly_fig_nodes = plotly_nodes.plot_nodes_plotly(show_label=False)
+# plotly_fig_nodes.show()
+
+# plotly_edges = EdgePlotly(edges)
+# plotly_fig_edges = plotly_edges.plot_edges_plotly(show_label=False)
+# plotly_fig_edges.show()
+
+# plotly_faces = FacePlotly(faces)
+# plotly_fig_faces = plotly_faces.plot_faces_plotly(show_label=False)
+# plotly_fig_faces.show()
+
+# plotly_volumes = VolumePlotly(volumes)
+# plotly_fig_volumes = plotly_volumes.plot_volumes_plotly(show_label=False)
+# plotly_fig_volumes.show()
+
+plotly_fig_nodes_edges = plotly_nodes.plot_nodes_plotly(show_label=False)
+plotly_edges.plot_edges_plotly(fig=plotly_fig_nodes_edges, show_label=False, show_direction=False)
+plotly_fig_nodes_edges.show()

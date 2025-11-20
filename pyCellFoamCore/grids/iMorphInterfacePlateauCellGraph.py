@@ -190,7 +190,6 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
 
 
 
-
         error = True
 
         if not error:
@@ -546,10 +545,10 @@ if __name__ == '__main__':
     #
 
     # interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Div6\Cutout2\original\Porous')
-    interface1 = IMorphInterfacePlateauCellGraph(r'C:\_local\TUM\06_iMorph_October_20\database_share\data\Sample01\Acquisition3\Roi2\original\Porous')
-    # interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Acquisition3\Roi2\original\Porous')
+    # interface1 = IMorphInterfacePlateauCellGraph(r'C:\_local\TUM\06_iMorph_October_20\database_share\data\Sample01\Acquisition3\Roi1\original\Porous')
+    interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Acquisition3\Roi2\original\Porous')
 
-    interface1.code_generator("roi2.py")
+    # interface1.code_generator("roi1.py")
 
 
 
@@ -573,7 +572,7 @@ if __name__ == '__main__':
 #-------------------------------------------------------------------------
 
     # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, doc, None, plotly
-    plottingMethod = 'None'
+    plottingMethod = 'plotly'
 
 
 #    Disabled
@@ -660,21 +659,30 @@ if __name__ == '__main__':
     elif plottingMethod == 'plotly':
         cc.printBlue('Plot using plotly')
 
-        # node_plotly = NodePlotly(interface1.nodes)
+        node_plotly = NodePlotly(interface1.nodes)
+        edge_plotly = EdgePlotly(interface1.edges)
+        face_plotly = FacePlotly(interface1.faces)
+        volume_plotly = VolumePlotly(interface1.volumes)
+
         # plotly_fig_nodes = node_plotly.plot_nodes_plotly(show_label=True)
         # plotly_fig_nodes.show()
 
-        # edge_plotly = EdgePlotly(interface1.edges)
-        # plotly_fig_edges = edge_plotly.plot_edges_plotly(show_label=True, show_barycenter=False)
+        # plotly_fig_edges = edge_plotly.plot_edges_plotly(show_label=True, show_barycenter=False, cone_size=0.1)
         # plotly_fig_edges.show()
 
-        # face_plotly = FacePlotly(interface1.faces)
         # plotly_fig_faces = face_plotly.plot_faces_plotly(show_label=True, show_barycenter=False)
         # plotly_fig_faces.show()
 
-        volume_plotly = VolumePlotly(interface1.volumes)
-        plotly_fig_volumes = volume_plotly.plot_faces_plotly()
-        plotly_fig_volumes.show()
+        # plotly_fig_volumes = volume_plotly.plot_faces_plotly()
+        # plotly_fig_volumes.show()
+
+        # plotly_fig_nodes_edges = node_plotly.plot_nodes_plotly()
+        # edge_plotly.plot_edges_plotly(plotly_fig_nodes_edges, show_label=True, show_barycenter=False, cone_size=0.05)
+        # plotly_fig_nodes_edges.show()
+
+        plotly_fig_edges_faces = edge_plotly.plot_edges_plotly(show_label=False, show_barycenter=False, cone_size=0.05)
+        face_plotly.plot_faces_plotly(plotly_fig_edges_faces, show_label=False, show_barycenter=False, cone_size=0.05)
+        plotly_fig_edges_faces.show()
 
 
 

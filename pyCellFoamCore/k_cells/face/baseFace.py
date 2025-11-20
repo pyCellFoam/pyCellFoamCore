@@ -171,7 +171,7 @@ class FacePlotly:
     def __init__(self, faces):
         self.faces = faces
 
-    def plot_faces_plotly(self, fig=None, show_label=True, show_barycenter=True, show_normal_vec=True, cone_size=1.0):
+    def plot_faces_plotly(self, fig=None, show_label=True, show_barycenter=True, show_normal_vec=True, cone_size=0.05):
 
         # TODO: Instead of creating a new vertex for each triangle, reuse
         # vertices by creating one vertex per node and referencing them
@@ -304,7 +304,7 @@ class FacePlotly:
                     u=cone['u'],
                     v=cone['v'],
                     w=cone['w'],
-                    sizemode="absolute",
+                    sizemode="raw",
                     sizeref=cone_size,
                     anchor="tail",
                     showscale=False,
