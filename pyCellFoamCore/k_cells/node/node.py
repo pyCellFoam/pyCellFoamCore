@@ -729,6 +729,22 @@ class NodePlotly(BaseCellPlotly):
             showlegend=False
         )
         fig.add_trace(scatter)
+
+        fig.update_layout(
+            scene=dict(
+                xaxis_title='X Axis',
+                yaxis_title='Y Axis',
+                zaxis_title='Z Axis',
+                camera=dict(
+                    up=dict(x=0, y=0, z=1),
+                    center=dict(x=0, y=0, z=0),
+                    eye=dict(x=1.25, y=1.25, z=1.25)
+                ),
+                dragmode='orbit'
+            ),
+            scene_camera_projection=dict(type='perspective')
+        )
+
         return fig
 
 

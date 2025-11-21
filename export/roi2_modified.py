@@ -564,8 +564,8 @@ plotly_volumes = VolumePlotly(volumes)
 #     else:
 #         f.color = tc.TUMGreen()
 
-plotly_fig_faces = plotly_faces.plot_faces_plotly(show_normal_vec=False)
-plotly_fig_faces.show()
+# plotly_fig_faces = plotly_faces.plot_faces_plotly(show_normal_vec=False)
+# plotly_fig_faces.show()
 
 # plotly_fig_faces2 = plotly_faces2.plot_faces_plotly()
 # plotly_fig_faces2.show()
@@ -573,19 +573,19 @@ plotly_fig_faces.show()
 # plotly_fig_volumes = plotly_volumes.plot_volumes_plotly()
 # plotly_fig_volumes.show()
 
-# pc = PrimalComplex3D(nodes, edges, faces, volumes)
-# dc = DualComplex3D(pc)
-# for n in nodes:
-#     n.color = tc.TUMBlue()
-# for e in pc.edges:
-#     e.color = tc.TUMBlue()
-# for e in dc.edges:
-#     e.color = tc.TUMOrange()
+pc = PrimalComplex3D(nodes, edges, faces, volumes)
+dc = DualComplex3D(pc)
+for n in nodes:
+    n.color = tc.TUMBlue()
+for e in pc.edges:
+    e.color = tc.TUMBlue()
+for e in dc.edges:
+    e.color = tc.TUMOrange()
 
-# for n in dc.innerNodes:
-#     n.color = tc.TUMOrange()
-# for n in dc.additionalBorderNodes:
-#     n.color = tc.TUMBlack()
+for n in dc.innerNodes:
+    n.color = tc.TUMOrange()
+for n in dc.additionalBorderNodes:
+    n.color = tc.TUMBlack()
 
 # plotly_nodes_dual = NodePlotly(dc.nodes)
 # plotly_edges_dual = EdgePlotly(dc.edges)

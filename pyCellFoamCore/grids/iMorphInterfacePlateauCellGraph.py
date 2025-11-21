@@ -660,15 +660,15 @@ if __name__ == '__main__':
         cc.printBlue('Plot using plotly')
 
         node_plotly = NodePlotly(interface1.nodes)
-        edge_plotly = EdgePlotly(interface1.edges)
+        edge_plotly = EdgePlotly([e for e in interface1.edges if e.num < 10000])
         face_plotly = FacePlotly(interface1.faces)
         volume_plotly = VolumePlotly(interface1.volumes)
 
         # plotly_fig_nodes = node_plotly.plot_nodes_plotly(show_label=True)
         # plotly_fig_nodes.show()
 
-        # plotly_fig_edges = edge_plotly.plot_edges_plotly(show_label=True, show_barycenter=False, cone_size=0.1)
-        # plotly_fig_edges.show()
+        plotly_fig_edges = edge_plotly.plot_edges_plotly(show_label=True, show_barycenter=False, cone_size=0.1, show_direction=False)
+        plotly_fig_edges.show()
 
         # plotly_fig_faces = face_plotly.plot_faces_plotly(show_label=True, show_barycenter=False)
         # plotly_fig_faces.show()
@@ -680,9 +680,9 @@ if __name__ == '__main__':
         # edge_plotly.plot_edges_plotly(plotly_fig_nodes_edges, show_label=True, show_barycenter=False, cone_size=0.05)
         # plotly_fig_nodes_edges.show()
 
-        plotly_fig_edges_faces = edge_plotly.plot_edges_plotly(show_label=False, show_barycenter=False, cone_size=0.05)
-        face_plotly.plot_faces_plotly(plotly_fig_edges_faces, show_label=False, show_barycenter=False, cone_size=0.05)
-        plotly_fig_edges_faces.show()
+        # plotly_fig_edges_faces = edge_plotly.plot_edges_plotly(show_label=False, show_barycenter=True, cone_size=0.05)
+        # face_plotly.plot_faces_plotly(plotly_fig_edges_faces, show_label=False, show_barycenter=True, cone_size=0.05)
+        # plotly_fig_edges_faces.show()
 
 
 
