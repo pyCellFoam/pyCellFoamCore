@@ -554,9 +554,21 @@ plotly_volumes = VolumePlotly(volumes)
 # plotly_edges.plot_edges_plotly(plotly_fig_nodes_edges, show_label=False, cone_size=1.5)
 # plotly_fig_nodes_edges.show()
 
-# plotly_fig_edges_faces = plotly_edges.plot_edges_plotly(show_label=True, cone_size=0.5)
-# plotly_faces.plot_faces_plotly(plotly_fig_edges_faces, show_label=False)
-# plotly_fig_edges_faces.show()
+plotly_fig_edges_faces = plotly_edges.plot_edges_plotly(show_label=False, cone_size=0.05, show_barycenter=False)
+plotly_faces.plot_faces_plotly(plotly_fig_edges_faces, show_label=False, cone_size=0.05, show_barycenter=False)
+plotly_fig_edges_faces.update_layout(
+    scene={
+    "camera": {
+        "up": {"x": -0.234, "y": 0.908, "z": -0.344},
+        "center": {"x": 0, "y": 0, "z": 0},
+        "eye": {"x": 1.075, "y": 0.899, "z": 1.648},
+    },
+    "xaxis": {"visible": False},
+    "yaxis": {"visible": False},
+    "zaxis": {"visible": False}
+    }
+)
+plotly_fig_edges_faces.show()
 
 # for f in faces:
 #     if f in faces_for_volumes or -f in faces_for_volumes:
@@ -588,8 +600,8 @@ for n in dc.additionalBorderNodes:
     n.color = tc.TUMBlack()
 
 # plotly_nodes_dual = NodePlotly(dc.nodes)
-# plotly_edges_dual = EdgePlotly(dc.edges)
-# plotly_faces_dual = FacePlotly(dc.faces)
+plotly_edges_dual = EdgePlotly(dc.edges)
+plotly_faces_dual = FacePlotly(dc.faces)
 
 
 # plotly_fig_edges_dual = plotly_edges_dual.plot_edges_plotly(show_label=False, show_direction=False, show_barycenter=False)

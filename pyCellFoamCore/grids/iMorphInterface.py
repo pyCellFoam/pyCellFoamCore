@@ -491,6 +491,7 @@ class IMorphInterface(PrimalComplex3D):
 
         currentLineNumber = 0
         if not error:
+            num_new_face = 10000
             with open(self.pathToNodeThroatsFile) as fh:
 
                 # Loop over lines in file
@@ -666,7 +667,8 @@ class IMorphInterface(PrimalComplex3D):
 
                                                 if edgesForFace is not None and createOpenThroats:
                                                     if len(edgesForFace) > 2:
-                                                        newFace = Face(edgesForFace,triangulate=True,sortEdges=True)
+                                                        newFace = Face(edgesForFace,triangulate=True,sortEdges=True, num=num_new_face)
+                                                        num_new_face += 1
                                                         newFace.color = tc.TUMRose()
                                                         faces.append(newFace)
                                                     else:
@@ -705,7 +707,8 @@ class IMorphInterface(PrimalComplex3D):
 
                                                     if edgesForFace is not None and createOpenThroats:
                                                         if len(edgesForFace) > 2:
-                                                            newFace = Face(edgesForFace,triangulate=True,sortEdges=True)
+                                                            newFace = Face(edgesForFace,triangulate=True,sortEdges=True, num=num_new_face)
+                                                            num_new_face += 1
                                                             newFace.color = tc.TUMLightBlue()
                                                             faces.append(newFace)
                                                         else:

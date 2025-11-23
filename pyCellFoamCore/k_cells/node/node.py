@@ -756,7 +756,7 @@ if __name__ == '__main__':
     set_logging_format(logging.DEBUG)
 
     # Choose plotting method. Possible choices: pyplot, VTK, TikZ, None, plotly
-    plotting_method = 'plotly'
+    plotting_method = 'TikZ'
 
     cc.printBlue('Create nodes')
 
