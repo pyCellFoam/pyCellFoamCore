@@ -453,7 +453,7 @@ class Node(Cell):
                     labelOptionsText = '[' + ', '.join(labelOptions) + ']'
                 nodeOptions.append('label = {{{}{}: {}}}'
                                    .format(labelOptionsText,
-                                           self.tikZLabelPosition,
+                                           self.tikz_label_position,
                                            self.label_text))
 
         if dim == 2:
