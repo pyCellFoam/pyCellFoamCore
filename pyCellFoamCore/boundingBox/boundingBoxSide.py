@@ -51,11 +51,15 @@ class BoundingBoxSide(BoundingBoxElement):
 #==============================================================================
 #    SLOTS
 #==============================================================================
-    __slots__ = ('__corners',
-                 '__edges',
-                 '__normalVec',
-                 '__rotationWXYZ',
-                 '__translationXYZ')
+    __slots__ = (
+        '__corners',
+        '__edges',
+        '__normalVec',
+        '__rotationWXYZ',
+        '__translationXYZ',
+        "__k_cell_edges",
+        "__faces",
+    )
 
 #==============================================================================
 #    INITIALIZATION
@@ -113,6 +117,10 @@ class BoundingBoxSide(BoundingBoxElement):
         self.__normalVec = normalVec
         if not list((self.__normalVec == np.array([0,0,0]))).count(True) == 2:
             _log.error('Normal vector for a bounding box side must be parallel to a coordinate axis')
+
+
+        self.__k_cell_edges = []
+        self.__faces = []
 
 
 
@@ -177,6 +185,19 @@ class BoundingBoxSide(BoundingBoxElement):
 
     '''
 
+    def __getKCellEdges(self):
+        return self.__k_cell_edges
+    k_cell_edges = property(__getKCellEdges)
+    '''
+
+    '''
+
+    def __getFaces(self):
+        return self.__faces
+    faces = property(__getFaces)
+    '''
+
+    '''
 
 
 #==============================================================================
@@ -192,6 +213,25 @@ class BoundingBoxSide(BoundingBoxElement):
 #==============================================================================
 #    METHODS
 #==============================================================================
+
+    def add_k_cell_edge(self,edge):
+        '''
+
+        '''
+        if edge in self.__k_cell_edges:
+            _log.error('This k-cell edge is already associated with this bounding box side')
+        else:
+            self.k_cell_edges.append(edge)
+
+
+    def add_face(self,face):
+        '''
+
+        '''
+        if face in self.__faces:
+            _log.error('This face is already associated with this bounding box side')
+        else:
+            self.__faces.append(face)
 
 #-------------------------------------------------------------------------
 #    Print Bounding Box Side

@@ -56,7 +56,6 @@ import pyCellFoamCore.tools.tumcolor as tc
 _log = logging.getLogger(__name__)
 _log.setLevel(logging.INFO)
 
-
 #==============================================================================
 #    CLASS DEFINITION
 #==============================================================================
@@ -662,6 +661,7 @@ class IMorphInterface(PrimalComplex3D):
                                                 edgesForFace.append(newEdge)
                                                 newEdge.color = tc.TUMBlack()
                                                 self.edges.append(newEdge)
+                                                side1.add_k_cell_edge(newEdge)
 
 
 
@@ -691,6 +691,7 @@ class IMorphInterface(PrimalComplex3D):
                                                     _log.debug("Creating intermediate node at %s", intermediateNode.coordinates)
 
                                                     self.nodes.append(intermediateNode)
+                                                    touching_edge.add_node(intermediateNode)
 
                                                     new_edge1 = Edge(nodeStart, intermediateNode, num=idx_add_edges)
                                                     idx_add_edges += 1
@@ -701,6 +702,9 @@ class IMorphInterface(PrimalComplex3D):
 
                                                     self.edges.append(new_edge1)
                                                     self.edges.append(new_edge2)
+
+                                                    side1.add_k_cell_edge(new_edge1)
+                                                    side2.add_k_cell_edge(new_edge2)
 
                                                     edgesForFace.append(new_edge1)
                                                     edgesForFace.append(new_edge2)
@@ -859,6 +863,50 @@ class IMorphInterface(PrimalComplex3D):
         #         e.color = tc.TUMBlue()
 
 
+
+    def complete_boundary(self):
+        '''
+
+        '''
+        error = False
+        for c in self.boundingBox.corners:
+            _log.critical('Checking corner at %s', c)
+            newNode = Node(c.coordinates[0], c.coordinates[1], c.coordinates[2], num=len(self.nodes))
+            newNode.color = tc.TUMBlack()
+            self.nodes.append(newNode)
+            c.node = newNode
+            _log.debug('Added corner node {}'.format(newNode))
+
+
+        for e in self.boundingBox.edges:
+            nodes_to_connect = [e.corner1.node, *e.nodes, e.corner2.node]
+            _log.critical('Checking bounding box edge %s with nodes %s', e, nodes_to_connect)
+            for n1, n2 in zip(nodes_to_connect[:-1], nodes_to_connect[1:]):
+                edge_exists = False
+                for edge in self.edges:
+                    if (edge.startNode == n1 and edge.endNode == n2) or (edge.startNode == n2 and edge.endNode == n1):
+                        edge_exists = True
+                        _log.error('Edge %s - %s already exists as %s', n1, n2, edge)
+                        break
+                if not edge_exists:
+                    newEdge = Edge(n1, n2, num=len(self.edges))
+                    newEdge.color = tc.TUMRose()
+                    self.edges.append(newEdge)
+                    e.add_k_cell_edge(newEdge)
+                    _log.debug('Added bounding box edge {}'.format(newEdge))
+
+        for s in self.boundingBox.sides:
+            for bbe in s.edges:
+                for e in bbe.k_cell_edges:
+                    _log.critical('Finding face that contains edge %s', e)
+
+
+
+
+
+
+
+        return error
 
 
 

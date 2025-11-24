@@ -9,6 +9,8 @@
 # E-Mail:         tobias.scheuermann@tum.de
 # Created on:     Mon Feb 24 11:25:58 2020
 
+# TODO: rename to boundingBoxFrame to not confuse with edge of k-cells
+
 '''
 
 '''
@@ -46,8 +48,13 @@ class BoundingBoxEdge(BoundingBoxElement):
 #==============================================================================
 #    SLOTS
 #==============================================================================
-    __slots__ = ('__corner1',
-                 '__corner2')
+    __slots__ = (
+        '__corner1',
+        '__corner2',
+        '__nodes',
+        '__changed_nodes',
+        '__k_cell_edges'
+    )
 
 #==============================================================================
 #    INITIALIZATION
@@ -68,8 +75,11 @@ class BoundingBoxEdge(BoundingBoxElement):
         else:
             self.__corner1 = corner1
             self.__corner2 = corner2
-        _log.info('Created BoundingBoxEdge')
 
+        self.__nodes = []
+        self.__changed_nodes = True
+        self.__k_cell_edges = []
+        _log.info('Created BoundingBoxEdge')
 
 
 #==============================================================================
@@ -114,6 +124,23 @@ class BoundingBoxEdge(BoundingBoxElement):
 
     '''
 
+    def __get_nodes(self):
+        if self.__changed_nodes:
+            self.__nodes.sort(key=lambda node: np.linalg.norm(node.coordinates - self.corner1.coordinates))
+            self.__changed_nodes = False
+        return self.__nodes
+    nodes = property(__get_nodes)
+    '''
+
+    '''
+
+    def __get_k_cell_edges(self):
+        return self.__k_cell_edges
+    k_cell_edges = property(__get_k_cell_edges)
+    '''
+
+    '''
+
 
 #==============================================================================
 #    MAGIC METHODS
@@ -129,6 +156,31 @@ class BoundingBoxEdge(BoundingBoxElement):
 #==============================================================================
 #    METHODS
 #==============================================================================
+
+    def add_node(self, node):
+        '''
+        Add a node to the edge.
+
+        :param BoundingBoxNode node: Node to add
+        '''
+        if node in self.__nodes:
+            _log.error('Node %s is already part of the edge %s', node, self)
+        else:
+            self.__nodes.append(node)
+            self.__changed_nodes = True
+            _log.info('Added node %s to edge %s', node, self)
+
+    def add_k_cell_edge(self, edge):
+        '''
+        Add a k-cell edge to the bounding box edge.
+
+        :param Edge edge: K-cell edge to add
+        '''
+        if edge in self.__k_cell_edges:
+            _log.error('This k-cell edge is already associated with this bounding box edge')
+        else:
+            self.__k_cell_edges.append(edge)
+            _log.info('Associated k-cell edge %s with bounding box edge %s', edge, self)
 
 #-------------------------------------------------------------------------
 #    Print Bounding Box Edge

@@ -80,17 +80,17 @@ class BoundingBoxCorner(BoundingBoxElement):
     '''
 
 
-#    def __getNode(self): return self.__node
-#    def __setNode(self,n):
-#        if self.__node is None:
-#            self.__node = n
-#            _log.info('Associated {} with node {}'.format(self,n))
-#        else:
-#            _log.error('This corner already belongs to a node')
-#    node = property(__getNode,__setNode)
-#    '''
-#
-#    '''
+    def __getNode(self): return self.__node
+    def __setNode(self,n):
+        if self.__node is None:
+            self.__node = n
+            _log.info('Associated {} with node {}'.format(self,n))
+        else:
+            _log.error('This corner already belongs to a node')
+    node = property(__getNode,__setNode)
+    '''
+
+    '''
 
 
 

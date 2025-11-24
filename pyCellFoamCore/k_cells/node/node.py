@@ -47,7 +47,7 @@ import pyCellFoamCore.tools.colorConsole as cc
 import pyCellFoamCore.tools.placeFigures as pf
 from pyCellFoamCore.tools import set_logging_format
 from pyCellFoamCore.tools.tikZPicture.tikZPicture3D import TikZPicture3D
-
+from pyCellFoamCore.tools.myVTK import MyVTK
 
 # =============================================================================
 #    LOGGING
@@ -376,6 +376,8 @@ class Node(Cell):
 
         if color is None:
             color = self.color.rgb0255
+
+        _log.critical("Color: %s", color)
 
         if showLabel:
             myVTK.addScatterPoint(self.xCoordinate,
@@ -790,7 +792,7 @@ if __name__ == '__main__':
     # bb = BoundingBox([0, 10], [0, 10], [0, 10])
 
     # Choose plotting method. Possible choices: pyplot, VTK, TikZ, plotly, None
-    PLOTTING_METHOD = "pyplot"
+    PLOTTING_METHOD = "TikZ"
 
     match PLOTTING_METHOD:
         case "pyplot":
@@ -804,11 +806,22 @@ if __name__ == '__main__':
 
         case "VTK":
             _log.info("Plotting with VTK selected.")
-            _log.warning("Not implemented yet.")
+            myVTK = MyVTK()
+            for n in nodes:
+                n.plotNodeVtk(myVTK, showLabel=False)
+            # bb.plotBoundingBoxVtk(myVTK)
+            myVTK.start()
 
         case "TikZ":
             _log.info("Plotting with TikZ selected.")
-            _log.warning("Not implemented yet.")
+            tikZPic = TikZPicture3D()
+            origin = tikZPic.addTikZCoordinate('origin', np.array([0, 0, 0]))
+            tikZPic.addTikZCoSy3D(origin)
+            for n in nodes:
+                n.plotNodeTikZ(tikZPic)
+            # bb.plotBoundingBoxTikZ(tikZPic)
+            tikZPic.writeLaTeXFile('latex', 'node',
+                                compileFile=True, openFile=True)
 
         case "plotly":
             _log.info("Plotting with plotly selected.")
