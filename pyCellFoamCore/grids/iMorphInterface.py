@@ -631,7 +631,7 @@ class IMorphInterface(PrimalComplex3D):
 
                                     throatExistsAlready = self.__checkExists(throat,openThroats)
 
-                                    if throatExistsAlready:
+                                    if throatExistsAlready or not createOpenThroats:
                                         _log.debug('Open throat with nodes {} already exists'.format(throat))
                                     else:
                                         _log.info('Creating open throat with nodes {}'.format(throat))
@@ -895,10 +895,50 @@ class IMorphInterface(PrimalComplex3D):
                     e.add_k_cell_edge(newEdge)
                     _log.debug('Added bounding box edge {}'.format(newEdge))
 
-        for s in self.boundingBox.sides:
-            for bbe in s.edges:
-                for e in bbe.k_cell_edges:
-                    _log.critical('Finding face that contains edge %s', e)
+
+        # # breadth-first search,  starting from each edge, to find faces
+        # for s in self.boundingBox.sides[1:]:
+        #     for bbe in s.edges:
+        #         for e in bbe.k_cell_edges:
+        #             e.color = tc.TUMLightBlue()
+        #             _log.critical('Finding face that contains edge %s', e)
+        #             current_nodes = [e.endNode]
+        #             visited_nodes = [e.startNode]
+        #             paths = {e.endNode: []}
+        #             face_found = False
+        #             count = 0
+        #             while not face_found and count < 100:
+        #                 count += 1
+        #                 _log.critical("BFS iteration %s, current nodes: %s", count, current_nodes)
+        #                 next_nodes = []
+        #                 for n in current_nodes:
+        #                     for edge in n.edges:
+        #                         if edge != e and edge != -e and edge in s.edges:
+        #                             if n == edge.startNode:
+        #                                 other_node = edge.endNode
+        #                                 connection = edge
+        #                             else:
+        #                                 other_node = edge.startNode
+        #                                 connection = -edge
+
+        #                             if other_node == e.startNode:
+        #                                 face_found = True
+        #                                 paths[other_node] = paths[n] + [connection]
+        #                                 _log.debug("Found face with edges: %s", paths[other_node])
+        #                                 break
+        #                             else:
+        #                                 if other_node not in visited_nodes:
+        #                                     visited_nodes.append(other_node)
+        #                                     next_nodes.append(other_node)
+        #                                     paths[other_node] = paths[n] + [connection]
+        #                 current_nodes = next_nodes
+        #             break
+        #         break
+        #     break
+
+
+
+
 
 
 
