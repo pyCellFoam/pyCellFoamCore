@@ -755,8 +755,6 @@ if __name__ == '__main__':
 
     set_logging_format(logging.DEBUG)
 
-    # Choose plotting method. Possible choices: pyplot, VTK, TikZ, None, plotly
-    plotting_method = 'TikZ'
 
     cc.printBlue('Create nodes')
 
@@ -791,40 +789,76 @@ if __name__ == '__main__':
     cc.printBlue('Create bounding box')
     # bb = BoundingBox([0, 10], [0, 10], [0, 10])
 
-    if plotting_method is None or plotting_method == 'None':
-        cc.printBlue('Plotting disabled')
+    # Choose plotting method. Possible choices: pyplot, VTK, TikZ, plotly, None
+    PLOTTING_METHOD = "pyplot"
 
-    elif plotting_method == 'pyplot':
-        cc.printBlue('Plot using pyplot')
-        (figs, axes) = pf.getFigures()
-        for n in nodes:
-            n.plotNode(axes[0])
-        # bb.plotBoundingBox(axes[0])
+    match PLOTTING_METHOD:
+        case "pyplot":
+            _log.info("Plotting with pyplot selected.")
 
-    elif plotting_method == 'VTK':
-        cc.printBlue('Plot using VTK')
-        # myVTK = MyVTK()
-        # for n in nodes:
-        #     n.plotNodeVtk(myVTK)
-        # bb.plotBoundingBoxVtk(myVTK)
-        # myVTK.start()
-    elif plotting_method == 'TikZ':
-        cc.printBlue('Plot using TikZ')
+            (figs, axes) = pf.getFigures()
+            for n in nodes:
+                n.plotNode(axes[0])
+            # bb.plotBoundingBox(axes[0])
 
-        tikZPic = TikZPicture3D()
-        origin = tikZPic.addTikZCoordinate('origin', np.array([0, 0, 0]))
-        tikZPic.addTikZCoSy3D(origin)
-        for n in nodes:
-            n.plotNodeTikZ(tikZPic)
-        # bb.plotBoundingBoxTikZ(tikZPic)
-        tikZPic.writeLaTeXFile('latex', 'node',
-                               compileFile=True, openFile=True)
 
-    elif plotting_method == 'plotly':
-        cc.printBlue('Plot using Plotly')
-        node_plotly = NodePlotly(random_nodes)
-        plotly_fig = node_plotly.plot_nodes_plotly(show_label=False)
-        plotly_fig.show()
+        case "VTK":
+            _log.info("Plotting with VTK selected.")
+            _log.warning("Not implemented yet.")
 
-    else:
-        _log.error("Unknown plotting method %s", plotting_method)
+        case "TikZ":
+            _log.info("Plotting with TikZ selected.")
+            _log.warning("Not implemented yet.")
+
+        case "plotly":
+            _log.info("Plotting with plotly selected.")
+            _log.warning("Not implemented yet.")
+
+        case "None":
+            _log.info("No plotting selected.")
+
+        case _:
+            _log.error(
+                "Unknown plotting '%s' method selected.",
+                PLOTTING_METHOD,
+            )
+
+
+
+    # if plotting_method is None or plotting_method == 'None':
+    #     cc.printBlue('Plotting disabled')
+
+    # elif plotting_method == 'pyplot':
+    #     cc.printBlue('Plot using pyplot')
+    #     (figs, axes) = pf.getFigures()
+    #     for n in nodes:
+    #         n.plotNode(axes[0])
+    #     # bb.plotBoundingBox(axes[0])
+
+    # elif plotting_method == 'VTK':
+    #     cc.printBlue('Plot using VTK')
+    #     # myVTK = MyVTK()
+    #     # for n in nodes:
+    #     #     n.plotNodeVtk(myVTK)
+    #     # bb.plotBoundingBoxVtk(myVTK)
+    #     # myVTK.start()
+    # elif plotting_method == 'TikZ':
+    #     cc.printBlue('Plot using TikZ')
+
+    #     tikZPic = TikZPicture3D()
+    #     origin = tikZPic.addTikZCoordinate('origin', np.array([0, 0, 0]))
+    #     tikZPic.addTikZCoSy3D(origin)
+    #     for n in nodes:
+    #         n.plotNodeTikZ(tikZPic)
+    #     # bb.plotBoundingBoxTikZ(tikZPic)
+    #     tikZPic.writeLaTeXFile('latex', 'node',
+    #                            compileFile=True, openFile=True)
+
+    # elif plotting_method == 'plotly':
+    #     cc.printBlue('Plot using Plotly')
+    #     node_plotly = NodePlotly(random_nodes)
+    #     plotly_fig = node_plotly.plot_nodes_plotly(show_label=False)
+    #     plotly_fig.show()
+
+    # else:
+    #     _log.error("Unknown plotting method %s", plotting_method)

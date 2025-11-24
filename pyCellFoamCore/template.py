@@ -59,20 +59,24 @@ if __name__ == "__main__":
     #    Plotting
     # --------------------------------------------------------------------
 
-    # Choose plotting method. Possible choices: pyplot, VTK, TikZ, None, plotly
+    # Choose plotting method. Possible choices: pyplot, VTK, TikZ, plotly, None
     PLOTTING_METHOD = "plotly"
 
     match PLOTTING_METHOD:
         case "pyplot":
+            _log.info("Plotting with pyplot selected.")
             _log.warning("Not implemented yet.")
 
         case "VTK":
+            _log.info("Plotting with VTK selected.")
             _log.warning("Not implemented yet.")
 
         case "TikZ":
+            _log.info("Plotting with TikZ selected.")
             _log.warning("Not implemented yet.")
 
         case "plotly":
+            _log.info("Plotting with plotly selected.")
             _log.warning("Not implemented yet.")
 
         case "None":

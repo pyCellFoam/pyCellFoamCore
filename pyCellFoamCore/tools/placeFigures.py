@@ -52,7 +52,21 @@ import pyCellFoamCore.tools.colorConsole as cc
 
 def getFigures(numFigHorizontal=0, numFigVertical=0,
                numTotal=6, aspect3D=True):
-    plt.switch_backend("Qt5Agg")
+    try:
+        plt.switch_backend("Qt5Agg")
+    except Exception as e:
+        cc.printRed('place Figures: Could not set Qt5Agg backend. ' +
+                    'Is the Qt5 package installed? ' +
+                    '(Message: {})'.format(e))
+        return (None, None)
+
+    try:
+        __IPYTHON__
+    except NameError:
+        cc.printRed('place Figures: Not running in IPython environment. ')
+        return (None, None)
+
+
     try:
         import localConfig
         pyplotWindowSize = localConfig.pyplotWindowSize
@@ -302,6 +316,9 @@ if __name__ == '__main__':
         z = [0, 1, 0, 1, 0, 1, 0, 1]
 
         axes[0].scatter(x, y, z)
+
+        for fig in figs:
+            fig.show()
 
     if False:
         (figs, axes) = getFigures(aspect3D=False)
