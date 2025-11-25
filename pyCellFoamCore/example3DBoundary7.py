@@ -261,6 +261,10 @@ def plotDefault():
     #     e.dualCell3D.plotFace(ax[5])
 
 
+    for fig in figs:
+        fig.show()
+
+
 def plotDualityNodeVolume():
     (figs,ax) = pf.getFigures(numTotal=len(pc.nodes))
 
@@ -359,3 +363,6 @@ match select_plot:
 
 #     if not in_volume:
 #         print(n)
+
+for f in figs:
+    f.show()

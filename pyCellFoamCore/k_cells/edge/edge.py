@@ -251,8 +251,11 @@ class Edge(BaseEdge, Cell):
 
         allNodes = [self.__startNode, *self.__geometricNodes, self.__endNode]
         if self.check_if_duplicates(allNodes):
-            _log.error('Duplicate nodes in definition of {}: {}'
-                              .format(self, allNodes))
+            _log.error(
+                'Duplicate nodes in definition of %s: %s',
+                self,
+                allNodes,
+            )
 
         else:
             if all(allNodes):

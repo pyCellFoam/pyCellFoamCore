@@ -188,7 +188,7 @@ for v in volumes_b:
 
 pc = PrimalComplex3D(nodes, edges, faces, volumes, renumber=True)
 dc = None
-dc = DualComplex3D(pc)
+# dc = DualComplex3D(pc)
 
 
 (figs,ax) = pf.getFigures(numTotal=8)
@@ -234,11 +234,11 @@ if dc:
 for f in faces_for_volume:
     f.plotFace(ax[4])
 
-n = nodes[1]
-v = n.dualCell3D
+# n = nodes[1]
+# v = n.dualCell3D
 
-n.plotNode(ax[7])
-v.plotVolume(ax[7], color=tc.TUMBlack())
+# n.plotNode(ax[7])
+# v.plotVolume(ax[7], color=tc.TUMBlack())
 
 
 # n_test = nodes[0]
@@ -255,3 +255,6 @@ v.plotVolume(ax[7], color=tc.TUMBlack())
 
 #     if not in_volume:
 #         print(n)
+
+for f in figs:
+    f.show()

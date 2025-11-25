@@ -654,7 +654,7 @@ class PrimalComplex3D(Complex3D):
                             if e0.endNode == e1.startNode:
                                 _log.debug('Can combine them')
                                 middleNode = e0.endNode
-                                newEdge = Edge(e0.startNode,e1.endNode,geometricNodes = middleNode)
+                                newEdge = Edge(e0.startNode,e1.endNode,geometricNodes = [middleNode])
 
 
 
@@ -669,7 +669,7 @@ class PrimalComplex3D(Complex3D):
                             elif e1.endNode == e0.startNode:
                                 _log.debug('Can combine them after rotation')
                                 middleNode = e1.endNode
-                                newEdge = Edge(e1.startNode,e0.endNode,geometricNodes = middleNode)
+                                newEdge = Edge(e1.startNode,e0.endNode,geometricNodes = [middleNode])
 
                             else:
                                 _log.debug('Additional border Edges {} and {} are not connected and therefor cannot be combined'.format(e0,e1))

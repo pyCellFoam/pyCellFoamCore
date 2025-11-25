@@ -444,3 +444,6 @@ if dc:
 # n_test.plotNode(ax[1])
 # n_test.dualCell3D.plotVolume(ax[1])
 # n_test.dualCell3D.faces[-1].plotFace(ax[1])
+
+for f in figs:
+    f.show()

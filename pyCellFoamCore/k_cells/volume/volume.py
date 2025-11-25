@@ -759,7 +759,7 @@ if __name__ == "__main__":
         case "plotly":
             _log.info("Plotting with plotly.")
             volume_plotly = VolumePlotly(volumes)
-            fig = volume_plotly.plot_faces_plotly()
+            fig = volume_plotly.plot_volumes_plotly()
             fig.show()
 
         case "None":
