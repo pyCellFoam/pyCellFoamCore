@@ -57,9 +57,10 @@ from pyCellFoamCore.grids.iMorphInterface import IMorphInterface
 #--------------------------------------------------------------------
 import pyCellFoamCore.tools.colorConsole as cc
 import pyCellFoamCore.tools.placeFigures as pf
-#import tools.tumcolor as tc
+import pyCellFoamCore.tools.tumcolor as tc
 from pyCellFoamCore.boundingBox.boundingBox import BoundingBox
 from pyCellFoamCore.tools.logging_formatter import set_logging_format
+
 
 
 #==============================================================================
@@ -181,18 +182,18 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
         if not error:
             error = self.loadFaces(self.pathToNodeThroatsFile)
 
+
+
         if not error:
             error = self.distribute_nodes_edges_to_bounding_box()
-
-        # error = True
-
-        if not error:
-            error = self.load_volumes(self.pathToNodeThroatsFile)
-
 
         if not error:
             error = self.complete_boundary()
 
+        error = True
+
+        if not error:
+            error = self.load_volumes(self.pathToNodeThroatsFile)
 
 
         error = True
@@ -664,11 +665,19 @@ if __name__ == '__main__':
     elif plottingMethod == 'plotly':
         cc.printBlue('Plot using plotly')
 
+        for e in interface1.edges:
+            if not e in interface1.boundingBox.sides[2].k_cell_edges:
+                e.color = tc.TUMGrayMedium()
+
+        # node_plotly = NodePlotly(interface1.boundingBox.sides[2].nodes)
         node_plotly = NodePlotly(interface1.nodes)
-        edge_plotly = EdgePlotly([e for e in interface1.edges if e.num < 10000])
-        edge_plotly = EdgePlotly([e for e in interface1.edges if e.num < 10000])
-        face_plotly = FacePlotly(interface1.faces)
+        # edge_plotly = EdgePlotly([e for e in interface1.edges if e.num < 10000])
+        # edge_plotly = EdgePlotly([e for e in interface1.edges if e.num < 10000])
+        # edge_plotly = EdgePlotly(interface1.boundingBox.sides[2].k_cell_edges)
         edge_plotly = EdgePlotly(interface1.edges)
+        face_plotly = FacePlotly(interface1.faces)
+
+
         volume_plotly = VolumePlotly(interface1.volumes)
 
         # plotly_fig_nodes = node_plotly.plot_nodes_plotly(show_label=True)
@@ -698,7 +707,7 @@ if __name__ == '__main__':
         edge_plotly.plot_edges_plotly(plotly_fig_nodes_edges, show_label=False, show_barycenter=False, cone_size=0.05)
         plotly_fig_nodes_edges.show()
 
-        plotly_fig_edges_faces = edge_plotly.plot_edges_plotly(show_label=False, show_barycenter=False, cone_size=0.05)
+        plotly_fig_edges_faces = edge_plotly.plot_edges_plotly(show_label=False, show_barycenter=True, cone_size=0.05)
         face_plotly.plot_faces_plotly(plotly_fig_edges_faces, show_label=False, show_barycenter=False, cone_size=0.05)
         plotly_fig_edges_faces.update_layout(
             scene={

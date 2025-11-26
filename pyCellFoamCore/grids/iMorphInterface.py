@@ -441,10 +441,13 @@ class IMorphInterface(PrimalComplex3D):
 
             if e.startNode.iMorphType == 'border_cell' and e.endNode.iMorphType == 'border_cell':
                 for s in self.boundingBox.sides:
-                    if e.startNode in s.nodes or e.endNode in s.nodes:
-                        side = s
+                    nodes_on_side = s.nodes[:]
+                    for bbe in s.edges:
+                        nodes_on_side.extend(bbe.nodes)
+                    if e.startNode in nodes_on_side and e.endNode in nodes_on_side:
+                        s.add_k_cell_edge(e)
                         break
-                side.add_k_cell_edge(e)
+
                 _log.critical('Edge %s is part of bounding box side %s', e, side)
 
         return error
@@ -706,6 +709,7 @@ class IMorphInterface(PrimalComplex3D):
                                                     else:
                                                         for e in edgesForFace:
                                                             e.color = tc.TUMRose()
+                                                        _log.error("Not enough edges to create a face for open throat with nodes %s", throat)
 
                                             else:
                                                 number_of_throats_not_same_side += 1
@@ -930,16 +934,17 @@ class IMorphInterface(PrimalComplex3D):
 
         # breadth-first search,  starting from each edge, to find faces
         for s in self.boundingBox.sides:
-            k_cell_edges = s.k_cell_edges
+            k_cell_edges = s.k_cell_edges[:]
+            num_of_usages = {e:0 for e in s.k_cell_edges}
             for bbe in s.edges:
                 k_cell_edges.extend(bbe.k_cell_edges)
             edges_on_side = []
             for bbe in s.edges:
                 for e in bbe.k_cell_edges:
                     e.color = tc.TUMLightBlue()
-                    _log.critical('Finding face that contains edge %s', e)
+                    _log.debug('Finding face that contains edge %s', e)
                     if e in edges_on_side or -e in edges_on_side:
-                        _log.critical('Edge %s already part of a face on this side', e)
+                        _log.debug('Edge %s already part of a face on this side', e)
                         continue
 
 
@@ -950,7 +955,7 @@ class IMorphInterface(PrimalComplex3D):
                     count = 0
                     while not face_found and count < 100:
                         count += 1
-                        _log.critical("BFS iteration %s, current nodes: %s", count, current_nodes)
+                        _log.debug("BFS iteration %s, current nodes: %s", count, current_nodes)
                         next_nodes = []
                         for n in current_nodes:
                             for edge in n.edges:
@@ -965,13 +970,17 @@ class IMorphInterface(PrimalComplex3D):
                                     if other_node == e.startNode:
                                         face_found = True
                                         paths[other_node] = paths[n] + [connection]
-                                        _log.critical("Found face with edges: %s", paths[other_node])
+                                        _log.debug("Found face with edges: %s", paths[other_node])
                                         newFace = Face(paths[other_node], triangulate=True)
                                         edges_on_side.extend(paths[other_node])
                                         newFace.color = tc.TUMOrange()
                                         self.faces.append(newFace)
                                         for ne in paths[other_node]:
                                             ne.color = tc.TUMLightBlue()
+                                            if ne in num_of_usages:
+                                                num_of_usages[ne] += 1
+                                            if -ne in num_of_usages:
+                                                num_of_usages[-ne] += 1
                                         break
                                     else:
                                         if other_node not in visited_nodes:
@@ -979,6 +988,70 @@ class IMorphInterface(PrimalComplex3D):
                                             next_nodes.append(other_node)
                                             paths[other_node] = paths[n] + [connection]
                         current_nodes = next_nodes
+
+            count2 = 0
+            while not error and any([c < 2 for c in num_of_usages.values()]) and count2 < 100:
+                count2 += 1
+                _log.critical('Not all edges used at least twice, continuing search')
+                if any([count > 2 for count in num_of_usages.values()]):
+                    _log.error('Some edges used more than twice, something is wrong')
+                    error = True
+                    break
+
+                edge_to_check = [e for e, c in num_of_usages.items() if c < 2][0]
+                _log.critical('Finding face that contains edge %s', edge_to_check)
+                edge_to_check.color = tc.TUMMustard()
+
+                current_nodes = [edge_to_check.endNode]
+                visited_nodes = [edge_to_check.startNode]
+                paths = {edge_to_check.endNode: [edge_to_check]}
+                face_found = False
+                count = 0
+                while not face_found and count < 100:
+                    count += 1
+                    _log.debug("BFS iteration %s, current nodes: %s", count, current_nodes)
+                    next_nodes = []
+                    for n in current_nodes:
+                        for edge in n.edges:
+                            if edge != edge_to_check and edge != -edge_to_check and edge in s.k_cell_edges:
+                                if num_of_usages[edge] > 1:
+                                    _log.debug('Skipping edge %s since it is already used %s times', edge, num_of_usages[edge])
+                                    continue
+                                if n == edge.startNode:
+                                    other_node = edge.endNode
+                                    connection = edge
+                                else:
+                                    other_node = edge.startNode
+                                    connection = -edge
+
+                                if other_node == edge_to_check.startNode:
+                                    face_found = True
+                                    paths[other_node] = paths[n] + [connection]
+                                    _log.critical("Found face with edges: %s", paths[other_node])
+                                    newFace = Face(paths[other_node], triangulate=True)
+                                    edges_on_side.extend(paths[other_node])
+                                    newFace.color = tc.TUMGrayMedium()
+                                    self.faces.append(newFace)
+                                    for ne in paths[other_node]:
+                                        ne.color = tc.TUMLightBlue()
+                                        if ne in num_of_usages:
+                                            num_of_usages[ne] += 1
+                                        if -ne in num_of_usages:
+                                            num_of_usages[-ne] += 1
+                                    break
+                                else:
+                                    if other_node not in visited_nodes:
+                                        visited_nodes.append(other_node)
+                                        next_nodes.append(other_node)
+                                        paths[other_node] = paths[n] + [connection]
+                    current_nodes = next_nodes
+                if count == 100:
+                    _log.error('Could not find face for edge %s', edge_to_check)
+                    num_of_usages[edge_to_check] += 2  # to avoid infinite loop
+
+            for e, count in num_of_usages.items():
+                _log.critical('Edge %s used %d times', e, count)
+
 
 
 
