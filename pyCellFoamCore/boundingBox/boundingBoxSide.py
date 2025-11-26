@@ -57,6 +57,7 @@ class BoundingBoxSide(BoundingBoxElement):
         '__normalVec',
         '__rotationWXYZ',
         '__translationXYZ',
+        "__nodes",
         "__k_cell_edges",
         "__faces",
     )
@@ -119,6 +120,7 @@ class BoundingBoxSide(BoundingBoxElement):
             _log.error('Normal vector for a bounding box side must be parallel to a coordinate axis')
 
 
+        self.__nodes = []
         self.__k_cell_edges = []
         self.__faces = []
 
@@ -199,6 +201,14 @@ class BoundingBoxSide(BoundingBoxElement):
 
     '''
 
+    def __getNodes(self):
+        return self.__nodes
+
+    nodes = property(__getNodes)
+    '''
+
+    '''
+
 
 #==============================================================================
 #    MAGIC METHODS
@@ -213,6 +223,15 @@ class BoundingBoxSide(BoundingBoxElement):
 #==============================================================================
 #    METHODS
 #==============================================================================
+
+    def add_node(self,node):
+        '''
+
+        '''
+        if node in self.__nodes:
+            _log.error('This node is already associated with this bounding box side')
+        else:
+            self.__nodes.append(node)
 
     def add_k_cell_edge(self,edge):
         '''

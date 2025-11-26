@@ -178,10 +178,11 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
         if not error:
             error = self.loadEdgesGraphTubes(self.pathToTubesFile)
 
-
-
         if not error:
             error = self.loadFaces(self.pathToNodeThroatsFile)
+
+        if not error:
+            error = self.distribute_nodes_edges_to_bounding_box()
 
         # error = True
 
@@ -549,7 +550,7 @@ if __name__ == '__main__':
     #
 
     # interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Div6\Cutout2\original\Porous')
-    interface1 = IMorphInterfacePlateauCellGraph(r'C:\_local\TUM\06_iMorph_October_20\database_share\data\Sample01\Acquisition3\Roi2\original\Porous')
+    interface1 = IMorphInterfacePlateauCellGraph(r'C:\_local\TUM\06_iMorph_October_20\database_share\data\Sample01\Acquisition3\Roi1\original\Porous')
     # interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Acquisition3\Roi1\original\Porous')
 
     # interface1.code_generator("roi1.py")
@@ -697,21 +698,21 @@ if __name__ == '__main__':
         edge_plotly.plot_edges_plotly(plotly_fig_nodes_edges, show_label=False, show_barycenter=False, cone_size=0.05)
         plotly_fig_nodes_edges.show()
 
-        # plotly_fig_edges_faces = edge_plotly.plot_edges_plotly(show_label=False, show_barycenter=False, cone_size=0.05)
-        # face_plotly.plot_faces_plotly(plotly_fig_edges_faces, show_label=False, show_barycenter=False, cone_size=0.05)
-        # plotly_fig_edges_faces.update_layout(
-        #     scene={
-        #     "camera": {
-        #         "up": {"x": -0.234, "y": 0.908, "z": -0.344},
-        #         "center": {"x": 0, "y": 0, "z": 0},
-        #         "eye": {"x": 1.075, "y": 0.899, "z": 1.648},
-        #     },
-        #     "xaxis": {"visible": False},
-        #     "yaxis": {"visible": False},
-        #     "zaxis": {"visible": False}
-        #     }
-        # )
-        # plotly_fig_edges_faces.show()
+        plotly_fig_edges_faces = edge_plotly.plot_edges_plotly(show_label=False, show_barycenter=False, cone_size=0.05)
+        face_plotly.plot_faces_plotly(plotly_fig_edges_faces, show_label=False, show_barycenter=False, cone_size=0.05)
+        plotly_fig_edges_faces.update_layout(
+            scene={
+            "camera": {
+                "up": {"x": -0.234, "y": 0.908, "z": -0.344},
+                "center": {"x": 0, "y": 0, "z": 0},
+                "eye": {"x": 1.075, "y": 0.899, "z": 1.648},
+            },
+            "xaxis": {"visible": False},
+            "yaxis": {"visible": False},
+            "zaxis": {"visible": False}
+            }
+        )
+        plotly_fig_edges_faces.show()
 
 
 

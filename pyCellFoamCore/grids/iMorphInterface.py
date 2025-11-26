@@ -427,6 +427,29 @@ class IMorphInterface(PrimalComplex3D):
         return error
 
 
+    def distribute_nodes_edges_to_bounding_box(self):
+        error = False
+
+        for n in self.nodes:
+            _log.debug("Checking node %s of type %s at %s", n.num, n.iMorphType, n.coordinates)
+            if n.iMorphType == 'border_cell':
+                (_,side) = self.boundingBox.distToBoundingBox(n.coordinates)
+                side.add_node(n)
+                _log.debug('Node %s is part of bounding box side %s', n, side)
+
+        for e  in self.edges:
+
+            if e.startNode.iMorphType == 'border_cell' and e.endNode.iMorphType == 'border_cell':
+                for s in self.boundingBox.sides:
+                    if e.startNode in s.nodes or e.endNode in s.nodes:
+                        side = s
+                        break
+                side.add_k_cell_edge(e)
+                _log.critical('Edge %s is part of bounding box side %s', e, side)
+
+        return error
+
+
 
 
 
@@ -647,6 +670,15 @@ class IMorphInterface(PrimalComplex3D):
 
                                         nodeStart = self.nodes[throat[0]]
                                         nodeEnd = self.nodes[throat[-1]]
+
+                                        if nodeStart.iMorphType != "border_cell":
+                                            _log.warning("Start node of open throat is not of type border_cell")
+                                            nodeStart.color = tc.TUMGrayMedium()
+                                            nodeStart.iMorphType = "border_cell"
+                                        if nodeEnd.iMorphType != "border_cell":
+                                            _log.warning("End node of open throat is not of type border_cell")
+                                            nodeEnd.color = tc.TUMGrayMedium()
+                                            nodeEnd.iMorphType = "border_cell"
 
                                         (dist1,side1) = self.boundingBox.distToBoundingBox(nodeStart.coordinates)
                                         (dist2,side2) = self.boundingBox.distToBoundingBox(nodeEnd.coordinates)
@@ -896,45 +928,57 @@ class IMorphInterface(PrimalComplex3D):
                     _log.debug('Added bounding box edge {}'.format(newEdge))
 
 
-        # # breadth-first search,  starting from each edge, to find faces
-        # for s in self.boundingBox.sides[1:]:
-        #     for bbe in s.edges:
-        #         for e in bbe.k_cell_edges:
-        #             e.color = tc.TUMLightBlue()
-        #             _log.critical('Finding face that contains edge %s', e)
-        #             current_nodes = [e.endNode]
-        #             visited_nodes = [e.startNode]
-        #             paths = {e.endNode: []}
-        #             face_found = False
-        #             count = 0
-        #             while not face_found and count < 100:
-        #                 count += 1
-        #                 _log.critical("BFS iteration %s, current nodes: %s", count, current_nodes)
-        #                 next_nodes = []
-        #                 for n in current_nodes:
-        #                     for edge in n.edges:
-        #                         if edge != e and edge != -e and edge in s.edges:
-        #                             if n == edge.startNode:
-        #                                 other_node = edge.endNode
-        #                                 connection = edge
-        #                             else:
-        #                                 other_node = edge.startNode
-        #                                 connection = -edge
+        # breadth-first search,  starting from each edge, to find faces
+        for s in self.boundingBox.sides:
+            k_cell_edges = s.k_cell_edges
+            for bbe in s.edges:
+                k_cell_edges.extend(bbe.k_cell_edges)
+            edges_on_side = []
+            for bbe in s.edges:
+                for e in bbe.k_cell_edges:
+                    e.color = tc.TUMLightBlue()
+                    _log.critical('Finding face that contains edge %s', e)
+                    if e in edges_on_side or -e in edges_on_side:
+                        _log.critical('Edge %s already part of a face on this side', e)
+                        continue
 
-        #                             if other_node == e.startNode:
-        #                                 face_found = True
-        #                                 paths[other_node] = paths[n] + [connection]
-        #                                 _log.debug("Found face with edges: %s", paths[other_node])
-        #                                 break
-        #                             else:
-        #                                 if other_node not in visited_nodes:
-        #                                     visited_nodes.append(other_node)
-        #                                     next_nodes.append(other_node)
-        #                                     paths[other_node] = paths[n] + [connection]
-        #                 current_nodes = next_nodes
-        #             break
-        #         break
-        #     break
+
+                    current_nodes = [e.endNode]
+                    visited_nodes = [e.startNode]
+                    paths = {e.endNode: [e]}
+                    face_found = False
+                    count = 0
+                    while not face_found and count < 100:
+                        count += 1
+                        _log.critical("BFS iteration %s, current nodes: %s", count, current_nodes)
+                        next_nodes = []
+                        for n in current_nodes:
+                            for edge in n.edges:
+                                if edge != e and edge != -e and edge in k_cell_edges:
+                                    if n == edge.startNode:
+                                        other_node = edge.endNode
+                                        connection = edge
+                                    else:
+                                        other_node = edge.startNode
+                                        connection = -edge
+
+                                    if other_node == e.startNode:
+                                        face_found = True
+                                        paths[other_node] = paths[n] + [connection]
+                                        _log.critical("Found face with edges: %s", paths[other_node])
+                                        newFace = Face(paths[other_node], triangulate=True)
+                                        edges_on_side.extend(paths[other_node])
+                                        newFace.color = tc.TUMOrange()
+                                        self.faces.append(newFace)
+                                        for ne in paths[other_node]:
+                                            ne.color = tc.TUMLightBlue()
+                                        break
+                                    else:
+                                        if other_node not in visited_nodes:
+                                            visited_nodes.append(other_node)
+                                            next_nodes.append(other_node)
+                                            paths[other_node] = paths[n] + [connection]
+                        current_nodes = next_nodes
 
 
 
