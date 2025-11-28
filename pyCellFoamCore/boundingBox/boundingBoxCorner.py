@@ -22,8 +22,8 @@ if __name__ == '__main__':
 import numpy as np
 import logging
 
-from boundingBox.boundingBoxElement import BoundingBoxElement
-import tools.tumcolor as tc
+from pyCellFoamCore.boundingBox.boundingBoxElement import BoundingBoxElement
+import pyCellFoamCore.tools.tumcolor as tc
 
 #==============================================================================
 #    LOGGING
@@ -80,17 +80,17 @@ class BoundingBoxCorner(BoundingBoxElement):
     '''
 
 
-#    def __getNode(self): return self.__node
-#    def __setNode(self,n):
-#        if self.__node is None:
-#            self.__node = n
-#            _log.info('Associated {} with node {}'.format(self,n))
-#        else:
-#            _log.error('This corner already belongs to a node')
-#    node = property(__getNode,__setNode)
-#    '''
-#
-#    '''
+    def __getNode(self): return self.__node
+    def __setNode(self,n):
+        if self.__node is None:
+            self.__node = n
+            _log.info('Associated {} with node {}'.format(self,n))
+        else:
+            _log.error('This corner already belongs to a node')
+    node = property(__getNode,__setNode)
+    '''
+
+    '''
 
 
 
@@ -100,7 +100,7 @@ class BoundingBoxCorner(BoundingBoxElement):
 
     def  __repr__(self):
         '''
-        Show infoText in console
+        Show info_text in console
 
         '''
         return 'BBCorner<{}>'.format(self.identifier)
@@ -236,5 +236,3 @@ if __name__ == '__main__':
 
         else:
             cc.printRed('Unknown plotting method {}'.format(plottingMethod))
-
-

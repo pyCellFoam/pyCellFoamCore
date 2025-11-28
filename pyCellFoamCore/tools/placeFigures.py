@@ -24,24 +24,27 @@ Installation
 # =============================================================================
 #    IMPORTS
 # =============================================================================
-# ------------------------------------------------------------------------
-#    Change to Main Directory
-# ------------------------------------------------------------------------
-import os
-if __name__ == '__main__':
-    os.chdir('../')
 
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
+import sys
+import math
 
+# ------------------------------------------------------------------------
+#    Third-Party Libraries
+# ------------------------------------------------------------------------
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-import tools.colorConsole as cc
-import math
 import numpy as np
-import sys
 
+# ------------------------------------------------------------------------
+#    Local Libraries
+# ------------------------------------------------------------------------
+
+#    Tools
+# --------------------------------------------------------------------
+import pyCellFoamCore.tools.colorConsole as cc
 
 # =============================================================================
 #    GET FIGURES
@@ -49,7 +52,21 @@ import sys
 
 def getFigures(numFigHorizontal=0, numFigVertical=0,
                numTotal=6, aspect3D=True):
-    plt.switch_backend("Qt5Agg")
+    try:
+        plt.switch_backend("Qt5Agg")
+    except Exception as e:
+        cc.printRed('place Figures: Could not set Qt5Agg backend. ' +
+                    'Is the Qt5 package installed? ' +
+                    '(Message: {})'.format(e))
+        return (None, None)
+
+    try:
+        __IPYTHON__
+    except NameError:
+        cc.printRed('place Figures: Not running in IPython environment. ')
+        return (None, None)
+
+
     try:
         import localConfig
         pyplotWindowSize = localConfig.pyplotWindowSize
@@ -299,6 +316,9 @@ if __name__ == '__main__':
         z = [0, 1, 0, 1, 0, 1, 0, 1]
 
         axes[0].scatter(x, y, z)
+
+        for fig in figs:
+            fig.show()
 
     if False:
         (figs, axes) = getFigures(aspect3D=False)

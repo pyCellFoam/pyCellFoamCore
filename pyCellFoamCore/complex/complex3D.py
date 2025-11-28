@@ -55,6 +55,7 @@ import matplotlib.pyplot as plt
 
 from itertools import chain,islice
 from tabulate import tabulate
+import pathlib
 
 #-------------------------------------------------------------------------
 #    Local Libraries
@@ -63,26 +64,32 @@ from tabulate import tabulate
 
 #    kCells
 #--------------------------------------------------------------------
-from kCells import Node, Edge, Face
-from kCells.volume.volume import Volume
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.face.face import Face
+from pyCellFoamCore.k_cells.volume.volume import Volume
 
 #    Complex & Grids
 #--------------------------------------------------------------------
-from complex.complex import Complex
+from pyCellFoamCore.complex.complex import Complex
 
 #    Tools
 #--------------------------------------------------------------------
-import tools.placeFigures as pf
-import tools.colorConsole as cc
-# import tools.myVTK as myv
-import tools.tumcolor as tc
+import pyCellFoamCore.tools.placeFigures as pf
+import pyCellFoamCore.tools.colorConsole as cc
+import pyCellFoamCore.tools.myVTK as myv
+import pyCellFoamCore.tools.tumcolor as tc
 
-from tools.tikZPicture import TikZPicture3D
-from tools.printTable import Table
+from pyCellFoamCore.tools.tikZPicture.tikZPicture3D import TikZPicture3D
+from pyCellFoamCore.tools.printTable import Table
 
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
 
 _log = logging.getLogger(__name__)
-
+_log.setLevel(logging.INFO)
 
 
 
@@ -152,8 +159,7 @@ class Complex3D(Complex):
                  nodes=[],
                  edges=[],
                  faces=[],
-                 volumes=[],
-                 loggerName = __name__):
+                 volumes=[]):
 
         '''
         Description
@@ -223,7 +229,7 @@ class Complex3D(Complex):
 
 
 
-        super().__init__(loggerName)
+        super().__init__()
 
 
 
@@ -1853,7 +1859,7 @@ class Complex3D(Complex):
         headlineNodes = ['Node','3D dual','2D dual','1D dual','0D dual']
         tableContentNodes = [headlineNodes,]
         for n in self.nodes:
-            tableContentNodes.append([n.infoText,n.dualCell3D,n.dualCell2D,n.dualCell1D,n.dualCell0D])
+            tableContentNodes.append([n.info_text,n.dualCell3D,n.dualCell2D,n.dualCell1D,n.dualCell0D])
         tableNodes = Table(tableContentNodes)
         tableNodes.printTable()
 
@@ -1862,7 +1868,7 @@ class Complex3D(Complex):
         headlineEdges = ['Edge','3D dual','2D dual','1D dual']
         tableContentEdges = [headlineEdges,]
         for e in self.edges:
-            tableContentEdges.append([e.infoText,e.dualCell3D,e.dualCell2D,e.dualCell1D])
+            tableContentEdges.append([e.info_text,e.dualCell3D,e.dualCell2D,e.dualCell1D])
         tableEdges = Table(tableContentEdges)
         tableEdges.printTable()
 
@@ -1871,7 +1877,7 @@ class Complex3D(Complex):
         headlineFaces = ['Face','3D dual','2D dual']
         tableContentFaces = [headlineFaces,]
         for f in self.faces:
-            tableContentFaces.append([f.infoText,f.dualCell3D,f.dualCell2D])
+            tableContentFaces.append([f.info_text,f.dualCell3D,f.dualCell2D])
         tableFaces = Table(tableContentFaces)
         tableFaces.printTable()
 
@@ -1879,7 +1885,7 @@ class Complex3D(Complex):
         headlineFaces = ['Volume','3D dual']
         tableContentFaces = [headlineFaces,]
         for v in self.volumes:
-            tableContentFaces.append([v.infoText,v.dualCell3D])
+            tableContentFaces.append([v.info_text,v.dualCell3D])
         tableFaces = Table(tableContentFaces)
         tableFaces.printTable()
 
@@ -1938,6 +1944,115 @@ class Complex3D(Complex):
         for v in islice(chain(self.innerVolumes,self.borderVolumes),maxNumEntries):
             tableVolumes.append([str(v),v.dualCell3D,])
         print(tabulate(tableVolumes,headers=['Volume','3D dual'],tablefmt='psql'))
+
+
+    def code_generator(self, filename):
+        '''
+
+        '''
+        export_folder = pathlib.Path(__file__).parent.parent.parent / "export"
+        _log.critical("Generating code in folder: %s", export_folder)
+
+        export_file = export_folder / filename
+        _log.critical("Generating code in file: %s", export_file)
+
+        with export_file.open("w") as file:
+            file.write("# Auto-generated code for Complex3D\n")
+            file.write("import logging\n")
+            file.write("from pyCellFoamCore.k_cells.node.node import Node\n")
+            file.write("from pyCellFoamCore.k_cells.node.node import NodePlotly\n")
+            file.write("from pyCellFoamCore.k_cells.edge.edge import Edge\n")
+            file.write("from pyCellFoamCore.k_cells.edge.baseEdge import EdgePlotly\n")
+            file.write("from pyCellFoamCore.k_cells.face.face import Face\n")
+            file.write("from pyCellFoamCore.k_cells.face.baseFace import FacePlotly\n")
+            file.write("from pyCellFoamCore.k_cells.volume.volume import Volume\n")
+            file.write("from pyCellFoamCore.k_cells.volume.volume import VolumePlotly\n")
+            file.write("from pyCellFoamCore.tools.logging_formatter import set_logging_format\n\n")
+            file.write("set_logging_format(logging.INFO)\n\n")
+
+            geometric_edges = []
+            for f in self.faces:
+                for ge in f.geometricEdges:
+                    if ge not in geometric_edges:
+                        geometric_edges.append(ge)
+            geometric_nodes = []
+            for e in geometric_edges:
+                if e.startNode.is_geometrical and e.startNode not in geometric_nodes:
+                    geometric_nodes.append(e.startNode)
+                if e.endNode.is_geometrical and e.endNode not in geometric_nodes:
+                    geometric_nodes.append(e.endNode)
+
+            _log.critical("Generating code for %d nodes", len(self.nodes))
+            for n in self.nodes:
+                file.write(f"n{n.num} = Node({n.xCoordinate}, {n.yCoordinate}, {n.zCoordinate}, num={n.num})\n")
+            for n in geometric_nodes:
+                file.write(f"gn{n.num} = Node({n.xCoordinate}, {n.yCoordinate}, {n.zCoordinate}, num={n.num})\n")
+
+            file.write("nodes = [")
+            file.write(", ".join([f"n{n.num}" for n in self.nodes]))
+            file.write("]\n\n")
+
+
+            edge_nums = []
+            _log.critical("Generating code for %d edges", len(self.edges))
+            for e in self.edges:
+                file.write(f"e{e.num} = Edge(n{e.startNode.num}, n{e.endNode.num}, num={e.num})\n")
+                if e.num in edge_nums:
+                    _log.error("Duplicate edge number found: %d", e.num)
+                edge_nums.append(e.num)
+            for e in geometric_edges:
+                file.write(f"ge{e.num} = Edge({'gn' if e.startNode.is_geometrical else 'n'}{e.startNode.num}, {'gn' if e.endNode.is_geometrical else 'n'}{e.endNode.num}, num={e.num})  # Geometric edge\n")
+
+            file.write("edges = [")
+            file.write(", ".join([f"e{e.num}" for e in self.edges]))
+            file.write("]\n\n")
+
+
+            file.write("geometric_edges = [")
+            file.write(", ".join([f"ge{e.num}" for e in geometric_edges]))
+            file.write("]\n\n")
+
+            _log.critical("Generating code for %d faces", len(self.faces))
+            for f in self.faces:
+                _log.critical("geometric edges in face %s: %s", f, f.geometricEdges)
+                edge_list = []
+                for sf in f.simpleFaces:
+                    simple_edge_list = ", ".join([f"{'-' if edge.is_reverse else ''}{'ge' if edge.is_geometrical else 'e'}{edge.num}" for edge in sf.simpleEdges])
+                    edge_list.append(f"[{simple_edge_list}]")
+                edge_list = ", ".join(edge_list)
+                file.write(f"f{f.num} = Face([{edge_list}], num={f.num})\n")
+            file.write("faces = [")
+            file.write(", ".join([f"f{f.num}" for f in self.faces]))
+            file.write("]\n\n")
+
+            if True:
+
+                for v in self.volumes:
+                    face_list = ", ".join([f"{'-' if face.is_reverse else ''}f{face.num}" for face in v.faces])
+                    file.write(f"v{v.num} = Volume([{face_list}], num={v.num}, accept_incomplete_geometry=True)\n")
+                file.write("volumes = [")
+                file.write(", ".join([f"v{v.num}" for v in self.volumes]))
+                file.write("]\n\n")
+
+            else:
+                file.write("volumes = []  # Volume generation is skipped\n\n")
+
+            file.write("plotly_nodes = NodePlotly(nodes)\n")
+            file.write("plotly_fig_nodes = plotly_nodes.plot_nodes_plotly()\n")
+            file.write("plotly_fig_nodes.show()\n\n")
+            file.write("plotly_edges = EdgePlotly(edges+geometric_edges)\n")
+            file.write("plotly_fig_edges = plotly_edges.plot_edges_plotly()\n")
+            file.write("plotly_fig_edges.show()\n\n")
+            file.write("plotly_faces = FacePlotly(faces)\n")
+            file.write("plotly_fig_faces = plotly_faces.plot_faces_plotly()\n")
+            file.write("plotly_fig_faces.show()\n\n")
+            file.write("plotly_volumes = VolumePlotly(volumes)\n")
+            file.write("plotly_fig_volumes = plotly_volumes.plot_volumes_plotly()\n")
+            file.write("plotly_fig_volumes.show()\n\n")
+
+
+
+
 
 
 
@@ -2211,10 +2326,3 @@ if __name__ == '__main__':
 #---------------------------------------------------------------------
         else:
             cc.printRed('Unknown plotting method {}'.format(plottingMethod))
-
-
-
-
-
-
-

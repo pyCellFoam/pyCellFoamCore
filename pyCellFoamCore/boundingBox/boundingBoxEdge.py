@@ -9,6 +9,8 @@
 # E-Mail:         tobias.scheuermann@tum.de
 # Created on:     Mon Feb 24 11:25:58 2020
 
+# TODO: rename to boundingBoxFrame to not confuse with edge of k-cells
+
 '''
 
 '''
@@ -23,9 +25,10 @@ import logging
 
 import numpy as np
 
-from boundingBox.boundingBoxElement import BoundingBoxElement
-from boundingBox.boundingBoxCorner import BoundingBoxCorner
-import tools.tumcolor as tc
+from pyCellFoamCore.boundingBox.boundingBoxElement import BoundingBoxElement
+from pyCellFoamCore.boundingBox.boundingBoxCorner import BoundingBoxCorner
+import pyCellFoamCore.tools.tumcolor as tc
+from pyCellFoamCore.tools import set_logging_format
 
 
 #==============================================================================
@@ -45,8 +48,13 @@ class BoundingBoxEdge(BoundingBoxElement):
 #==============================================================================
 #    SLOTS
 #==============================================================================
-    __slots__ = ('__corner1',
-                 '__corner2')
+    __slots__ = (
+        '__corner1',
+        '__corner2',
+        '__nodes',
+        '__changed_nodes',
+        '__k_cell_edges'
+    )
 
 #==============================================================================
 #    INITIALIZATION
@@ -67,8 +75,11 @@ class BoundingBoxEdge(BoundingBoxElement):
         else:
             self.__corner1 = corner1
             self.__corner2 = corner2
-        _log.info('Created BoundingBoxEdge')
 
+        self.__nodes = []
+        self.__changed_nodes = True
+        self.__k_cell_edges = []
+        _log.info('Created BoundingBoxEdge')
 
 
 #==============================================================================
@@ -113,6 +124,23 @@ class BoundingBoxEdge(BoundingBoxElement):
 
     '''
 
+    def __get_nodes(self):
+        if self.__changed_nodes:
+            self.__nodes.sort(key=lambda node: np.linalg.norm(node.coordinates - self.corner1.coordinates))
+            self.__changed_nodes = False
+        return self.__nodes
+    nodes = property(__get_nodes)
+    '''
+
+    '''
+
+    def __get_k_cell_edges(self):
+        return self.__k_cell_edges
+    k_cell_edges = property(__get_k_cell_edges)
+    '''
+
+    '''
+
 
 #==============================================================================
 #    MAGIC METHODS
@@ -120,7 +148,7 @@ class BoundingBoxEdge(BoundingBoxElement):
 
     def  __repr__(self):
         '''
-        Show infoText in console
+        Show info_text in console
 
         '''
         return 'BBEdge<{}>'.format(self.identifier)
@@ -128,6 +156,31 @@ class BoundingBoxEdge(BoundingBoxElement):
 #==============================================================================
 #    METHODS
 #==============================================================================
+
+    def add_node(self, node):
+        '''
+        Add a node to the edge.
+
+        :param BoundingBoxNode node: Node to add
+        '''
+        if node in self.__nodes:
+            _log.error('Node %s is already part of the edge %s', node, self)
+        else:
+            self.__nodes.append(node)
+            self.__changed_nodes = True
+            _log.info('Added node %s to edge %s', node, self)
+
+    def add_k_cell_edge(self, edge):
+        '''
+        Add a k-cell edge to the bounding box edge.
+
+        :param Edge edge: K-cell edge to add
+        '''
+        if edge in self.__k_cell_edges:
+            _log.error('This k-cell edge is already associated with this bounding box edge')
+        else:
+            self.__k_cell_edges.append(edge)
+            _log.info('Associated k-cell edge %s with bounding box edge %s', edge, self)
 
 #-------------------------------------------------------------------------
 #    Print Bounding Box Edge
@@ -185,55 +238,88 @@ class BoundingBoxEdge(BoundingBoxElement):
         projMat = np.diag(projVec)
         return np.linalg.norm(projMat @ (self.center - coordinates))
 
+    def get_intermediate_point(self, point1, point2):
+        '''
+        Get intermediate point on the edge between two given points.
+
+        :param np.array point1: First point
+        :param np.array point2: Second point
+        :return: Intermediate point on the edge
+        :rtype: np.array
+        '''
+        edge_vec = self.corner2.coordinates - self.corner1.coordinates
+        edge_length = np.linalg.norm(edge_vec)
+        edge_dir = edge_vec / edge_length
+
+        vec1 = point1 - self.corner1.coordinates
+        vec2 = point2 - self.corner1.coordinates
+
+        proj1 = np.dot(vec1, edge_dir)
+        proj2 = np.dot(vec2, edge_dir)
+
+        t = (proj1 + proj2) / (2 * edge_length)
+        t = np.clip(t, 0, 1)
+
+        intermediate_point = self.corner1.coordinates + t * edge_vec
+        return intermediate_point
+
 
 #==============================================================================
 #    TEST FUNCTIONS
 #==============================================================================
 if __name__ == '__main__':
-    from tools import MyLogging
-    import tools.colorConsole as cc
-    from tools.myVTK import MyVTK
-    with MyLogging('BoundingBoxEdge',debug=True):
+    set_logging_format(logging.DEBUG)
 
-        cc.printBlueBackground(' '*20,'2D',' '*20)
-        cc.printBlue('Create bbCorner left top')
-        corner2D1 = BoundingBoxCorner(np.array([0,1]),'LeftTop')
-        cc.printBlue('Create bbCorner right top')
-        corner2D2 = BoundingBoxCorner(np.array([1,1]),'RightTop')
-        cc.printBlue('Create top edge')
-        edge2D = BoundingBoxEdge(corner2D1,corner2D2,'Top')
-        cc.printBlue('Check result')
-        print(edge2D)
-        edge2D.printBoundingBoxEdge()
+    corner3D1 = BoundingBoxCorner(np.array([0,1,0]),'LeftTopBack')
+    corner3D2 = BoundingBoxCorner(np.array([1,1,0]),'RightTopBack')
+    edge3D = BoundingBoxEdge(corner3D1,corner3D2,'TopBack')
 
+    testCoordinate1 = np.array([1.2,1.3,1.4])
+    testCoordinate2 = np.array([0.8,1.3,0.4])
 
-        cc.printBlueBackground(' '*20,'3D',' '*20)
-        cc.printBlue('Create bbCorner left top back')
-        corner3D1 = BoundingBoxCorner(np.array([0,1,0]),'LeftTopBack')
-        cc.printBlue('Create bbCorner top right')
-        corner3D2 = BoundingBoxCorner(np.array([1,1,0]),'RightTopBack')
-        cc.printBlue('Create top back edge')
-        edge3D = BoundingBoxEdge(corner3D1,corner3D2,'TopBack')
-        cc.printBlue('Check result')
-        print(edge3D)
-        edge3D.printBoundingBoxEdge()
+    intermediate_point = edge3D.get_intermediate_point(testCoordinate1, testCoordinate2)
+    print("Intermediate Point:", intermediate_point)
 
-        testCoordinate1 = np.array([1.2,1.3,1.4])
+    # from tools import MyLogging
+    # import tools.colorConsole as cc
+    # from tools.myVTK import MyVTK
+    # with MyLogging('BoundingBoxEdge',debug=True):
 
-        print(edge3D.distToBoundingBoxEdge(testCoordinate1))
-
-        if False:
-            myVtk = MyVTK(polygonOpacity=1)
-            edge3D.plotBoundingBoxEdgeVtk(myVtk,showLabel=False)
-            myVtk.start()
-
-        else:
-            import tools.placeFigures as pf
-            (figs,axes) = pf.getFigures()
-            edge3D.plotBoundingBoxEdge(axes[0],showLabel=True)
-            ax = axes[0]
-            ax.scatter(testCoordinate1[0],testCoordinate1[1],testCoordinate1[2])
+    #     cc.printBlueBackground(' '*20,'2D',' '*20)
+    #     cc.printBlue('Create bbCorner left top')
+    #     corner2D1 = BoundingBoxCorner(np.array([0,1]),'LeftTop')
+    #     cc.printBlue('Create bbCorner right top')
+    #     corner2D2 = BoundingBoxCorner(np.array([1,1]),'RightTop')
+    #     cc.printBlue('Create top edge')
+    #     edge2D = BoundingBoxEdge(corner2D1,corner2D2,'Top')
+    #     cc.printBlue('Check result')
+    #     print(edge2D)
+    #     edge2D.printBoundingBoxEdge()
 
 
+    #     cc.printBlueBackground(' '*20,'3D',' '*20)
+    #     cc.printBlue('Create bbCorner left top back')
+    #     corner3D1 = BoundingBoxCorner(np.array([0,1,0]),'LeftTopBack')
+    #     cc.printBlue('Create bbCorner top right')
+    #     corner3D2 = BoundingBoxCorner(np.array([1,1,0]),'RightTopBack')
+    #     cc.printBlue('Create top back edge')
+    #     edge3D = BoundingBoxEdge(corner3D1,corner3D2,'TopBack')
+    #     cc.printBlue('Check result')
+    #     print(edge3D)
+    #     edge3D.printBoundingBoxEdge()
 
+    #     testCoordinate1 = np.array([1.2,1.3,1.4])
 
+    #     print(edge3D.distToBoundingBoxEdge(testCoordinate1))
+
+    #     if False:
+    #         myVtk = MyVTK(polygonOpacity=1)
+    #         edge3D.plotBoundingBoxEdgeVtk(myVtk,showLabel=False)
+    #         myVtk.start()
+
+    #     else:
+    #         import tools.placeFigures as pf
+    #         (figs,axes) = pf.getFigures()
+    #         edge3D.plotBoundingBoxEdge(axes[0],showLabel=True)
+    #         ax = axes[0]
+    #         ax.scatter(testCoordinate1[0],testCoordinate1[1],testCoordinate1[2])

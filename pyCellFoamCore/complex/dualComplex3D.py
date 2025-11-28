@@ -21,17 +21,30 @@ if __name__ == '__main__':
 
 import logging
 
-from complex.complex3D import Complex3D
-from complex.primalComplex3D import PrimalComplex3D
+from pyCellFoamCore.complex.complex3D import Complex3D
+from pyCellFoamCore.complex.primalComplex3D import PrimalComplex3D
 
-from kCells import Node,DualNode3D,DualNode2D
-from kCells import Edge,DualEdge3D,DualEdge2D
-from kCells import Face,DualFace3D,DualFace2D
-from kCells.volume.volume import Volume
-from kCells.volume.dualVolume3D import DualVolume3D
-import tools.colorConsole as cc
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.node.dualNode2D import DualNode2D
+from pyCellFoamCore.k_cells.node.dualNode3D import DualNode3D
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.edge.dualEdge2D import DualEdge2D
+from pyCellFoamCore.k_cells.edge.dualEdge3D import DualEdge3D
+from pyCellFoamCore.k_cells.face.face import Face
+from pyCellFoamCore.k_cells.face.dualFace2D import DualFace2D
+from pyCellFoamCore.k_cells.face.dualFace3D import DualFace3D
+from pyCellFoamCore.k_cells.volume.volume import Volume
+from pyCellFoamCore.k_cells.volume.dualVolume3D import DualVolume3D
+import pyCellFoamCore.tools.colorConsole as cc
 
 _log = logging.getLogger(__name__)
+
+# =============================================================================
+#    LOGGING
+# =============================================================================
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
 
 
 #==============================================================================
@@ -70,7 +83,7 @@ class DualComplex3D(Complex3D):
         self.__createEdges = createEdges
         self.__createFaces = createFaces
         self.__createVolumes = createVolumes
-        super().__init__(loggerName=__name__)
+        super().__init__()
 
 
 #        self.__primalComplex = primalComplex
@@ -97,7 +110,7 @@ class DualComplex3D(Complex3D):
 #
 #
 #        self.renumberList(self.geometricNodes)
-##        self.logger.warning(self.geometricNodes)
+##        _log.warning(self.geometricNodes)
 #
 #
 #
@@ -122,13 +135,13 @@ class DualComplex3D(Complex3D):
         if self.__primalComplex:
             return self.__primalComplex.useCategory
         else:
-            self.logger.error('Cannot get useCategory: no dual defined')
+            _log.error('Cannot get useCategory: no dual defined')
             return None
     def __setUseCategory(self,u):
         if self.__primalComplex:
             self.__primalComplex.useCategory = u
         else:
-            self.logger.error('Cannot set useCategory: no dual defined')
+            _log.error('Cannot set useCategory: no dual defined')
     useCategory = property(__getUseCategory,__setUseCategory)
     '''
 
@@ -139,7 +152,7 @@ class DualComplex3D(Complex3D):
         if self.primalComplex:
             return self.primalComplex.changedNumbering
         else:
-            self.logger.error('Cannot get changedNumbering: no primalComplex defined')
+            _log.error('Cannot get changedNumbering: no primalComplex defined')
             return False
     changedNumbering = property(__getChangedNumbering)
     '''
@@ -169,7 +182,7 @@ class DualComplex3D(Complex3D):
         '''
 
         '''
-        self.logger.info('Called "Set Up" in DualComplex2D class')
+        _log.info('Called "Set Up" in DualComplex2D class')
         self.__construct()
         self.sortPrimal()
         self.sortDual()
@@ -212,7 +225,7 @@ class DualComplex3D(Complex3D):
             for e in self.__primalComplex.borderEdges1:
                 dualEdges.append(DualEdge2D(e))
         else:
-            self.logger.warning('Creation of edges has been disabled')
+            _log.warning('Creation of edges has been disabled')
 
         # Dual faces
         if self.__createFaces and self.__createEdges and self.__createNodes:
@@ -223,7 +236,7 @@ class DualComplex3D(Complex3D):
             for f in dualFaces:
                 f.simplifyFace()
         else:
-            self.logger.warning('Creation of faces has been disabled')
+            _log.warning('Creation of faces has been disabled')
 
 
         # Dual volumes
@@ -231,7 +244,7 @@ class DualComplex3D(Complex3D):
             for n in self.__primalComplex.borderNodes1+self.__primalComplex.innerNodes1:
                 dualVolumes.append(DualVolume3D(n))
         else:
-            self.logger.warning('Creation of volumes has been disabled')
+            _log.warning('Creation of volumes has been disabled')
 
 
 
@@ -298,14 +311,14 @@ class DualComplex3D(Complex3D):
 #            super().innerEdges2.sort(key = lambda x: x.num)
 #            super().borderEdges2.sort(key = lambda x: x.num)
 #            super().additionalBorderEdges2.sort(key = lambda x: x.num)
-##            self.logger.warning('Reactivate the line above!!')
+##            _log.warning('Reactivate the line above!!')
 #            super().innerFaces2.sort(key = lambda x: x.num)
 #            super().borderFaces2.sort(key = lambda x: x.num)
 #            super().additionalBorderFaces2.sort(key = lambda x: x.num)
 #            super().innerVolumes2.sort(key = lambda x: x.num)
 #            super().borderVolumes2.sort(key = lambda x: x.num)
 #        else:
-#            self.logger.error('Unknown useCategory {}'.format(self.useCategory))
+#            _log.error('Unknown useCategory {}'.format(self.useCategory))
 
 
 
@@ -318,7 +331,7 @@ class DualComplex3D(Complex3D):
         if self.primalComplex:
             self.primalComplex.renumber()
         else:
-            self.logger.error('Cannot renumber: no primalComplex defined')
+            _log.error('Cannot renumber: no primalComplex defined')
 
 
 
@@ -330,12 +343,12 @@ class DualComplex3D(Complex3D):
     def checkCategory2(self):
 
         if False:
-            myPrintDebug = self.logger.debug
-            myPrintInfo = self.logger.info
-            myPrintWarning = self.logger.warning
-            myPrintError = self.logger.error
+            myPrintDebug = _log.debug
+            myPrintInfo = _log.info
+            myPrintWarning = _log.warning
+            myPrintError = _log.error
         else:
-            self.logger.warning('Using prints instead of logger!')
+            _log.warning('Using prints instead of logger!')
             myPrintDebug = cc.printGreen
             myPrintInfo = cc.printCyan
             myPrintWarning = cc.printYellow
@@ -392,11 +405,11 @@ class DualComplex3D(Complex3D):
                             myPrintError('Category2 of  {} is wrong it is {} but should be additionalBorder'.format(f,f.category2))
 
 #                        f.category1 = 'additionalBorder'
-#                        myPrintDebug('Face {} is an additional border face'.format(f.infoText))
+#                        myPrintDebug('Face {} is an additional border face'.format(f.info_text))
 #
 #                    # Anything else is not knwon
                     else:
-                        myPrintError('Unknown category of volume %s',f.volumes[0].infoText)
+                        myPrintError('Unknown category of volume %s',f.volumes[0].info_text)
 #
                 # Faces that belong to two volumes are inner faces
                 elif len(f.volumes) == 2:
@@ -823,17 +836,19 @@ if __name__ == '__main__':
             axes[0].set_title('Primal')
             axes[0].axis('off')
             figs[0].set_size_inches(4,4)
-            figs[0].savefig('img/3D_primal.png',dpi=150)
+            # figs[0].savefig('img/3D_primal.png',dpi=150)
             pc.plotFaces(axes[1])
             pc.plotVolumes(axes[2])
             dc.plotComplex(axes[3])
             dc.plotFaces(axes[3],showLabel=False,showNormalVec=False,showBarycenter=False)
-            axes[3].set_title('Primal')
+            axes[3].set_title('Dual')
             axes[3].axis('off')
             figs[3].set_size_inches(4,4)
-            figs[3].savefig('img/3D_dual.png',dpi=150)
+            # figs[3].savefig('img/3D_dual.png',dpi=150)
             dc.plotFaces(axes[4])
             dc.plotVolumes(axes[5])
+            for fig in figs:
+                fig.show()
 
 
 
@@ -868,9 +883,3 @@ if __name__ == '__main__':
 #---------------------------------------------------------------------
         else:
             cc.printRed('Unknown plotting method {}'.format(plottingMethod))
-
-
-
-
-
-

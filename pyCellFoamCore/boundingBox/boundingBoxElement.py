@@ -81,7 +81,7 @@ class BoundingBoxElement:
 
     def  __repr__(self):
         '''
-        Show infoText in console
+        Show info_text in console
 
         '''
         return self.identifier
@@ -101,4 +101,3 @@ if __name__ == '__main__':
         ele = BoundingBoxElement('testElement',__name__)
         cc.printBlue('Check resulut')
         print(ele)
-

@@ -38,9 +38,9 @@ import numpy as np
 
 #    kCells
 #--------------------------------------------------------------------
-from kCells import Node, Edge
-from pyCellFoamCore.kCells.face.face import Face
-from pyCellFoamCore.kCells.volume.volume import Volume
+from k_cells import Node, Edge
+from pyCellFoamCore.k_cells.face.face import Face
+from pyCellFoamCore.k_cells.volume.volume import Volume
 
 #    Complex & Grids
 #--------------------------------------------------------------------
@@ -62,9 +62,9 @@ from boundingBox import BoundingBox
 class IMorphInterfacePlateauCellGraph(IMorphInterface):
     '''
     This is the explanation of this class.
-    
+
     '''
-    
+
 #==============================================================================
 #    SLOTS
 #==============================================================================
@@ -85,61 +85,61 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
 #                 addBorderCellFaceTypeNodes = False,
                  **kwargs):
         '''
-        This is the explanation of the __init__ method. 
-        
+        This is the explanation of the __init__ method.
+
         All parameters should be listed:
-        
+
         :param int a: Some Number
         :param str b: Some String
-        
+
         '''
-        
+
         self.__subPathToNodesFile = subPathToNodesFile
         self.__subPathToTubesFile = subPathToTubesFile
         self.__subPathToNodeThroatsFile = subPathToNodeThroatsFile
         self.__boundingBox = BoundingBox([0,1],[0,1],[0,1])
 #        self.__addBorderCellFaceTypeNodes = addBorderCellFaceTypeNodes
-        
+
         super().__init__(*args,**kwargs)
-        
-        
-    
+
+
+
 #==============================================================================
 #    SETTER AND GETTER
 #==============================================================================
     def __getPathToNodesFile(self): return self.pathToPorousFolder + self.__subPathToNodesFile
     pathToNodesFile = property(__getPathToNodesFile)
     '''
-    
+
     '''
 
     def __getPathToTubesFile(self): return self.pathToPorousFolder +  self.__subPathToTubesFile
     pathToTubesFile = property(__getPathToTubesFile)
     '''
-    
+
     '''
 
     def __getPathToNodeThroatsFile(self): return self.pathToPorousFolder +  self.__subPathToNodeThroatsFile
     pathToNodeThroatsFile = property(__getPathToNodeThroatsFile)
     '''
-    
+
     '''
-    
+
     def __getBoundingBox(self): return self.__boundingBox
     boundingBox = property(__getBoundingBox)
     '''
-    
+
     '''
 
     def __getAddBorderCellFaceTypeNodes(self): return self.__addBorderCellFaceTypeNodes
     addBorderCellFaceTypeNodes = property(__getAddBorderCellFaceTypeNodes)
     '''
-    
+
     '''
 
 
 
-    
+
 #==============================================================================
 #    METHODS
 #==============================================================================
@@ -147,49 +147,49 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
 
 #-------------------------------------------------------------------------
 #    Set Up
-#-------------------------------------------------------------------------  
-    
+#-------------------------------------------------------------------------
+
     def setUp(self):
         '''
-        
+
         '''
-        
+
         error = False
-        
+
         if not error:
             error = self.loadNodesGraphNodes(self.pathToNodesFile)
-        
+
         if not error:
             error = self.loadEdgesGraphTubes(self.pathToTubesFile)
-            
-            
-        error = True 
-        
+
+
+        error = True
+
         if not error:
             error = self.__loadFaces()
-            
-            
+
+
         if not error:
-            error = self.__loadVolumes()            
-            
-            
-            
-            
-            
+            error = self.__loadVolumes()
+
+
+
+
+
         if not error:
             super().setUp()
 
 
 #-------------------------------------------------------------------------
 #    Load Faces
-#-------------------------------------------------------------------------    
-    
+#-------------------------------------------------------------------------
+
     def __loadFaces(self):
         '''
-        
+
         '''
         #    Logging
-        #---------------------------------------------------------------------         
+        #---------------------------------------------------------------------
         if False:
             myPrintDebug = self.logger.debug
             myPrintInfo = self.logger.info
@@ -200,38 +200,38 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
             myPrintDebug = cc.printGreen
             myPrintInfo = cc.printCyan
             myPrintWarning = cc.printYellow
-            myPrintError = cc.printRed           
-        
+            myPrintError = cc.printRed
+
         myPrintInfo('Loading faces')
- 
+
 
         #    Prepare lists
-        #---------------------------------------------------------------------          
+        #---------------------------------------------------------------------
         faces = []
         throats = []
-        
+
         self.__boundingBox = BoundingBox(self.xLim,self.yLim,self.zLim)
-#        
-        
-        
+#
+
+
         #    Check source file
-        #---------------------------------------------------------------------       
-        
+        #---------------------------------------------------------------------
+
         error = False
-        
+
         if os.path.isfile(self.pathToNodeThroatsFile):
             myPrintInfo('Found file containing faces')
         else:
             myPrintError('File containing nodes cannot be found')
             error = True
-         
-            
+
+
         #    Read faces
-        #---------------------------------------------------------------------     
+        #---------------------------------------------------------------------
         readFaces = False
         maxNumberOfLines = float('inf')
 #        maxNumberOfLines = 2
-        
+
         currentLineNumber = 0
         if not error:
             with open(self.pathToNodeThroatsFile) as fh:
@@ -243,15 +243,15 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
                             indexNode = int(data[0])
                             numberOfThroats = int(data[1])
                             position = 2
-                            
+
                             myPrintDebug('Creating {} throats that contain node {}'.format(numberOfThroats,self.nodes[indexNode]))
                             for i in range(numberOfThroats):
                                 myPrintDebug('')
                                 throatStr = data[position+1:position+1+int(data[position])]
                                 throat = [int(t) for t in throatStr]
-                                
-                                
-                                
+
+
+
 #                                removedNode = False
                                 if throat[0] == throat [-1]:
                                     throat.pop()
@@ -263,17 +263,17 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
 #                                    lastNode = self.nodes[throat[1]]
 #                                    myPrintDebug('First node of throat {} and last node of throat {} are not connected'.format(firstNode,lastNode))
 
-                                    
-                                    
+
+
 #                                    (distOfFirstNode,sideOfFirstNode) =  firstNode.distToBoundingBox(self.boundingBox)
 #                                    (distOfLastNode,sideOfLastNode) =  lastNode.distToBoundingBox(self.boundingBox)
 #                                    myPrintDebug('First node is {} away from {} - Last node is {} away from {}'.format(distOfFirstNode,sideOfFirstNode,distOfLastNode,sideOfLastNode))
 #                                    firstNode.color = tc.TUMGreen()
 #                                    lastNode.color = tc.TUMGreen()
-                                    
-                                    
-                                    
-                                    
+
+
+
+
 #                                    myPrintWarning(')
 #                                    removedNode = True
                                 throatExistsAlready = False
@@ -307,18 +307,18 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
                                                     edgesForFace.append(-e)
                                             if found:
                                                 myPrintDebug('Found edge {} that connects node {} and {}. So far found: {}'.format(edgesForFace[-1],numStart,numEnd,edgesForFace))
-                                                
+
                                             else:
                                                 myPrintWarning('Could not find an edge that connects node {} and {}'.format(numStart,numEnd))
-                                                
+
                                                 newEdge = Edge(self.nodes[numStart],self.nodes[numEnd])
                                                 myPrintWarning('Creating new edge {} from {} to {}'.format(newEdge,self.nodes[numStart],self.nodes[numEnd]))
                                                 self.edges.append(newEdge)
                                                 edgesForFace.append(newEdge)
                                                 foundAllEdges=True
-                                                
+
 #                                                if self.__addBorderCellFaceTypeNodes:
-#                                                
+#
 #                                                    firstNode = self.nodes[numStart]
 #                                                    lastNode = self.nodes[numEnd]
 #                                                    myPrintDebug('First node of throat {} and last node of throat {} are not connected'.format(firstNode,lastNode))
@@ -332,34 +332,34 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
 #                                                        cellFaceNodesLast = [n for n in lastNode.connectedNodes if n.iMorphType == 'border_cell_face']
 #                                                        if len(cellFaceNodesFirst) == 1 and len(cellFaceNodesLast) == 1:
 #                                                            myPrintDebug('Adding edges for border_cell_face type nodes')
-#    ##                                                        
+#    ##
 #                                                            edgesForFace.append(cellFaceNodesFirst[0].edges[0])
 #                                                            edgesForFace.append(cellFaceNodesLast[0].edges[0])
-#    ##                                                        
-#    ##                                                        
-#    ##                                                        
+#    ##
+#    ##
+#    ##
 #                                                            newEdge = Edge(cellFaceNodesFirst[0],cellFaceNodesLast[0])
 #                                                            newEdge.color = tc.TUMMustard()
 #                                                            edgesForFace.append(newEdge)
 #                                                            self.edges.append(newEdge)
 #                                                            myPrintDebug('Created new edge {} from {} to {}'.format(newEdge,cellFaceNodesFirst[0],cellFaceNodesLast[0]))
-#                                                            
-#                                                            
-#                                                            
-#                                                            
+#
+#
+#
+#
 #                                                        else:
 #                                                            myPrintError('Both border_cell type nodes need to be connected to a border_cell_face')
 #                                                            foundAllEdges = False
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-    #                                                    myPrintDebug('Numbers of cell face type nodes connected to first and last node: {} - {}'.format(len(cellFaceNodesFirst),len(cellFaceNodesLast)))   
-                                                        
-                                                        
+
+
+
+
+
+
+
+    #                                                    myPrintDebug('Numbers of cell face type nodes connected to first and last node: {} - {}'.format(len(cellFaceNodesFirst),len(cellFaceNodesLast)))
+
+
     #                                                    pairIterator = list(itertools.product(cellFaceNodesFirst,cellFaceNodesLast))
     #                                                    distances = np.array([np.linalg.norm(n1.coordinates - n2.coordinates) for (n1,n2) in pairIterator])
     #                                                    indexOfMinDistance = np.argmin(distances)
@@ -369,41 +369,41 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
     #                                                    for e in closestNodes[0].edges:
     #                                                        if e.startNode == closestNodes[1] or e.endNode == closestNodes[1]:
     #                                                            newEdge = e
-                                                                
-    #                                                    if not newEdge:    
+
+    #                                                    if not newEdge:
     #                                                        newEdge = Edge(closestNodes[0],closestNodes[1])
     #                                                        newEdge.color = tc.TUMMustard()
     #                                                        newEdge.showLabel=False
     #                                                        self.edges.append(newEdge)
-                                                            
+
     #                                                    edgesForFace.append(newEdge)
-                                                            
-                                                            
-                                                            
-                                                            
-                                                            
-#                                                        
+
+
+
+
+
+#
 #                                                    else:
 #                                                        myPrintError('Unconnected nodes are of type "{}" and "{}"'.format(firstNode.iMorphType,lastNode.iMorphType))
 #                                                        foundAllEdges = False
-                                                
-                                                
-                                                
-                                                
-                                                
+
+
+
+
+
                                         if foundAllEdges:
                                             myPrintDebug('Found all edges {}'.format(edgesForFace))
                                             newFace = Face(edgesForFace,triangulate=True,sortEdges=True)
                                             faces.append(newFace)
-                                            if newFace.isDeleted:
+                                            if newFace.is_deleted:
                                                 myPrintError('Face creation was not succesful')
 #                                                for e in edgesForFace:
 #                                                    e.color = tc.TUMBlack()
-                                                
+
                                         else:
                                             myPrintError('Could not find all edges')
-                                            
-                                            
+
+
                                     else:
                                         myPrintError('Need 3 or more nodes in a throat, only have {}: {}'.format(len(throat),throat))
                         else:
@@ -411,31 +411,31 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
                     if l.startswith('indice node'):
                         readFaces  = True
                         myPrintDebug('Found start for throats')
-                        
-                        
+
+
             for f1 in faces:
                 if f1.edges:
                     for f2 in faces:
                         if not f1 is f2 and f1.isIdenticalTo(f2):
                             myPrintError('Found duplicate faces {} and {}'.format(f1,f2))
-        
-        
+
+
         self.faces = faces
         return error
-        
-        
-    
-    
+
+
+
+
 #-------------------------------------------------------------------------
 #    Load Volumes
-#-------------------------------------------------------------------------       
-    
+#-------------------------------------------------------------------------
+
     def __loadVolumes(self):
         '''
-        
+
         '''
         #    Logging
-        #---------------------------------------------------------------------         
+        #---------------------------------------------------------------------
         if False:
             myPrintDebug = self.logger.debug
             myPrintInfo = self.logger.info
@@ -446,36 +446,36 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
             myPrintDebug = cc.printGreen
             myPrintInfo = cc.printCyan
             myPrintWarning = cc.printYellow
-            myPrintError = cc.printRed           
-        
+            myPrintError = cc.printRed
+
         myPrintInfo('Loading volumes')
- 
+
 
         #    Prepare lists
-        #---------------------------------------------------------------------          
+        #---------------------------------------------------------------------
         volumes = []
         throats = []
-        
-        
-        
+
+
+
         #    Check source file
-        #---------------------------------------------------------------------       
-        
+        #---------------------------------------------------------------------
+
         error = False
-        
+
         if os.path.isfile(self.pathToNodeThroatsFile):
             myPrintInfo('Found file containing volumes')
         else:
             myPrintError('File containing volumes cannot be found')
             error = True
-#         
-#            
+#
+#
 #        #    Read faces
-#        #---------------------------------------------------------------------     
+#        #---------------------------------------------------------------------
 #        readVolumes = False
 ##        maxNumberOfLines = float('inf')
 #        maxNumberOfLines = 10
-#        
+#
 #        currentLineNumber = 0
 #        if not error:
 #            with open(self.pathToNodeThroatsFile) as fh:
@@ -483,37 +483,37 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
 #                    if readVolumes and currentLineNumber < maxNumberOfLines:
 #                        currentLineNumber += 1
 #                        print(l.rstrip())
-#                
-#                
+#
+#
 #                    if l.startswith('indice\ti'):
 #                        readVolumes  = True
 #                        myPrintDebug('Found start for cells')
-#                        
-#             
-#                
+#
+#
+#
         error = True
         return error
-        
+
 
 #-------------------------------------------------------------------------
 #    Plot for Documentation
-#-------------------------------------------------------------------------         
+#-------------------------------------------------------------------------
     @classmethod
-    def plotDoc(cls):    
+    def plotDoc(cls):
         cc.printRed('Not implemented')
-    
+
 #==============================================================================
 #    TEST FUNCTIONS
 #==============================================================================
 if __name__ == '__main__':
-    
+
     with MyLogging('IMorphInterfacePlateauCellGraph'):
 
 #-------------------------------------------------------------------------
 #    Create some examples
 #-------------------------------------------------------------------------
-        
-        
+
+
 #        interface = IMorphInterfaceTubes(r'D:\iMorph\05_iMorph_July_20\data\data\Kelvin\Div 6\Roi2\original\Porous',addBorderCellFaceTypeNodes=True)
 #        interface1 = IMorphInterfaceTubes(r'D:\iMorph\06_iMorph_October_20\data\Sample01\Div6\Roi2\original\Porous')
 #        interface1 = IMorphInterfaceTubes(r'D:\iMorph\06_iMorph_October_20\data\Compare\Div 6\Roi1\original\Porous')
@@ -524,36 +524,36 @@ if __name__ == '__main__':
 #        print(interface.pathToTubesFile)
 #        print(interface.pathToNodeThroatsFile)
         #
-        
+
 #        print(interface.faces[4].edges)
-        
+
 #        for n in interface.nodes:
 ##            print(n.iMorphType)
 #            if n.iMorphType == 'border_cell':
 #                cellFaceNodes = [x for x in n.connectedNodes if x.iMorphType == 'border_cell_face']
 #                print(len(cellFaceNodes))
-#                
-            
-            
-        
-    
+#
+
+
+
+
 
 
 #-------------------------------------------------------------------------
 #    Plotting
-#-------------------------------------------------------------------------    
-    
+#-------------------------------------------------------------------------
+
         # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, doc, None
-        plottingMethod = 'pyplot'   
-        
-        
+        plottingMethod = 'pyplot'
+
+
 #    Disabled
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         if plottingMethod is None or plottingMethod == 'None':
             cc.printBlue('Plotting disabled')
-        
+
 #    Pyplot
-#---------------------------------------------------------------------         
+#---------------------------------------------------------------------
         elif plottingMethod == 'pyplot':
             cc.printBlue('Plot using pyplot')
             (figs,axes) = pf.getFigures()
@@ -565,33 +565,30 @@ if __name__ == '__main__':
 #            pf.exportPNG(figs[0],filename='graphicExport/iMorph/pic2')
 
 #    VTK
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         elif plottingMethod == 'VTK' :
             cc.printBlue('Plot using VTK')
             cc.printRed('Not implemented')
 
 #    TikZ
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         elif plottingMethod == 'TikZ' :
-            cc.printBlue('Plot using TikZ')            
+            cc.printBlue('Plot using TikZ')
             cc.printRed('Not implemented')
-            
+
 #    Animation
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         elif plottingMethod == 'animation':
             cc.printBlue('Creating animation')
             cc.printRed('Not implemented')
-            
+
 #    Documentation
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         elif plottingMethod == 'doc':
             cc.printBlue('Creating plots for documentation')
             test.plotDoc()
-            
-#    Unknown
-#---------------------------------------------------------------------             
-        else:
-            cc.printRed('Unknown plotting method {}'.format(plottingMethod))        
-        
-    
 
+#    Unknown
+#---------------------------------------------------------------------
+        else:
+            cc.printRed('Unknown plotting method {}'.format(plottingMethod))

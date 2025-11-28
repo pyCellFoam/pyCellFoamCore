@@ -18,10 +18,10 @@
 #==============================================================================
 #    IMPORTS
 #==============================================================================
-from kCells import Node
-from kCells import Edge
-from kCells import Face
-from kCells import Volume
+from k_cells import Node
+from k_cells import Edge
+from k_cells import Face
+from k_cells import Volume
 from tools import MyLogging
 from complex import PrimalComplex3D, DualComplex3D
 import tools.placeFigures as pf
@@ -331,11 +331,11 @@ with MyLogging ('simpleExample'):
     # print(edges)
     for f in v0.faces:
         f.plotFace(ax[5])
-        
-    
+
+
     for v in f36.volumes:
         v.plotVolume(ax[6])
-        
+
     for e in f36.edges:
         e.plotEdge(ax[6])
 
@@ -347,8 +347,3 @@ with MyLogging ('simpleExample'):
 # ==============================================================================
     # dc = DualComplex3D(pc)
     # dc.plotComplex(ax[5],plotFaces=True,showLabel=False, showNormalVec=False)
-
-
-
-
-

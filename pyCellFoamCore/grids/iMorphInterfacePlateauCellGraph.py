@@ -39,22 +39,28 @@ import logging
 
 #    kCells
 #--------------------------------------------------------------------
-from kCells import Node, Edge
-from pyCellFoamCore.kCells.face.face import Face
-from pyCellFoamCore.kCells.volume.volume import Volume
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.face.face import Face
+from pyCellFoamCore.k_cells.volume.volume import Volume, VolumePlotly
+
+from pyCellFoamCore.k_cells.node.node import NodePlotly
+from pyCellFoamCore.k_cells.edge.baseEdge import EdgePlotly
+from pyCellFoamCore.k_cells.face.baseFace import FacePlotly
+
 
 #    Complex & Grids
 #--------------------------------------------------------------------
-from grids.iMorphInterface import IMorphInterface
+from pyCellFoamCore.grids.iMorphInterface import IMorphInterface
 
 #    Tools
 #--------------------------------------------------------------------
-import tools.colorConsole as cc
-import tools.placeFigures as pf
-from tools import MyLogging
-#import tools.tumcolor as tc
-from boundingBox import BoundingBox
+import pyCellFoamCore.tools.colorConsole as cc
+import pyCellFoamCore.tools.placeFigures as pf
+import pyCellFoamCore.tools.tumcolor as tc
+from pyCellFoamCore.boundingBox.boundingBox import BoundingBox
 from pyCellFoamCore.tools.logging_formatter import set_logging_format
+
 
 
 #==============================================================================
@@ -173,19 +179,24 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
         if not error:
             error = self.loadEdgesGraphTubes(self.pathToTubesFile)
 
+        if not error:
+            error = self.loadFaces(self.pathToNodeThroatsFile)
+
 
 
         if not error:
-            error = self.loadFaces(self.pathToNodeThroatsFile)
+            error = self.distribute_nodes_edges_to_bounding_box()
+
+        if not error:
+            error = self.complete_boundary()
 
         error = True
 
         if not error:
-            error = self.__loadVolumes()
+            error = self.load_volumes(self.pathToNodeThroatsFile)
 
 
-
-
+        error = True
 
         if not error:
             super().setUp()
@@ -406,7 +417,7 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
                                             myPrintDebug('Found all edges {}'.format(edgesForFace))
                                             newFace = Face(edgesForFace,triangulate=True,sortEdges=True)
                                             faces.append(newFace)
-                                            if newFace.isDeleted:
+                                            if newFace.is_deleted:
                                                 myPrintError('Face creation was not succesful')
 #                                                for e in edgesForFace:
 #                                                    e.color = tc.TUMBlack()
@@ -441,7 +452,7 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
 #    Load Volumes
 #-------------------------------------------------------------------------
 
-    def __loadVolumes(self):
+    def __loadVolumesOld(self):
         '''
 
         '''
@@ -519,15 +530,9 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
 if __name__ == '__main__':
 
     set_logging_format(
-        logging.WARNING,
+        logging.DEBUG,
         # log_format_console = "%(filename)30s : %(lineno)5d : %(funcName)20s : %(levelname)8s : %(name)20s : %(message)s",
     )
-
-    _log.debug("debug")
-    _log.info("info")
-    _log.warning("warning")
-    _log.error("error")
-    _log.critical("critical")
 
 #-------------------------------------------------------------------------
 #    Create some examples
@@ -539,14 +544,17 @@ if __name__ == '__main__':
 #        interface1 = IMorphInterfaceTubes(r'D:\iMorph\06_iMorph_October_20\data\Compare\Div 6\Roi1\original\Porous')
     # interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\data\Sample18\Div6\Roi1\original\Porous')
 #        interface2 = IMorphInterfaceTubes(r'D:\iMorph\06_iMorph_October_20\data\Compare\Div 6\Roi1\original\Porous')
-#        interface = IMorphInterfaceTubes(r'D:\iMorph\06_iMorph_October_20\data\Sample01\Div6\Roi2\original\Porous',addBorderCellFaceTypeNodes=True)
+    # interface = IMorphInterfaceTubes(r'D:\iMorph\06_iMorph_October_20\data\Sample01\Div6\Roi2\original\Porous',addBorderCellFaceTypeNodes=True)
 #        print(interface.pathToNodesFile)
 #        print(interface.pathToTubesFile)
 #        print(interface.pathToNodeThroatsFile)
     #
 
     # interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Div6\Cutout2\original\Porous')
-    interface1 = IMorphInterfacePlateauCellGraph(r'C:\_local\TUM\06_iMorph_October_20\database_share\data\Sample01\Acquisition3\Roi2\original\Porous')
+    interface1 = IMorphInterfacePlateauCellGraph(r'C:\_local\TUM\06_iMorph_October_20\database_share\data\Sample01\Acquisition3\Roi1\original\Porous')
+    # interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Acquisition3\Roi1\original\Porous')
+
+    # interface1.code_generator("roi1.py")
 
 
 
@@ -569,8 +577,8 @@ if __name__ == '__main__':
 #    Plotting
 #-------------------------------------------------------------------------
 
-    # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, doc, None
-    plottingMethod = 'pyplot'
+    # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, doc, None, plotly
+    plottingMethod = 'plotly'
 
 
 #    Disabled
@@ -654,10 +662,70 @@ if __name__ == '__main__':
         cc.printBlue('Creating plots for documentation')
         test.plotDoc()
 
+    elif plottingMethod == 'plotly':
+        cc.printBlue('Plot using plotly')
+
+        for e in interface1.edges:
+            if not e in interface1.boundingBox.sides[2].k_cell_edges:
+                e.color = tc.TUMGrayMedium()
+
+        # node_plotly = NodePlotly(interface1.boundingBox.sides[2].nodes)
+        node_plotly = NodePlotly(interface1.nodes)
+        # edge_plotly = EdgePlotly([e for e in interface1.edges if e.num < 10000])
+        # edge_plotly = EdgePlotly([e for e in interface1.edges if e.num < 10000])
+        # edge_plotly = EdgePlotly(interface1.boundingBox.sides[2].k_cell_edges)
+        edge_plotly = EdgePlotly(interface1.edges)
+        face_plotly = FacePlotly(interface1.faces)
+
+
+        volume_plotly = VolumePlotly(interface1.volumes)
+
+        # plotly_fig_nodes = node_plotly.plot_nodes_plotly(show_label=True)
+        # plotly_fig_nodes.show()
+
+        # plotly_fig_edges = edge_plotly.plot_edges_plotly(show_label=True, show_barycenter=False, cone_size=0.1, show_direction=False)
+
+        # plotly_fig_edges.update_layout(
+        #     scene={
+        #         "camera": {
+        #             "up": {"x": -0.234, "y": 0.908, "z": -0.344},
+        #             "center": {"x": 0, "y": 0, "z": 0},
+        #             "eye": {"x": 1.075, "y": 0.899, "z": 1.648},
+        #         }
+        #     }
+        # )
+
+        # plotly_fig_edges.show()
+
+        # plotly_fig_faces = face_plotly.plot_faces_plotly(show_label=True, show_barycenter=False)
+        # plotly_fig_faces.show()
+
+        # plotly_fig_volumes = volume_plotly.plot_faces_plotly()
+        # plotly_fig_volumes.show()
+
+        plotly_fig_nodes_edges = node_plotly.plot_nodes_plotly(show_label=False)
+        edge_plotly.plot_edges_plotly(plotly_fig_nodes_edges, show_label=False, show_barycenter=False, cone_size=0.05)
+        plotly_fig_nodes_edges.show()
+
+        plotly_fig_edges_faces = edge_plotly.plot_edges_plotly(show_label=False, show_barycenter=True, cone_size=0.05)
+        face_plotly.plot_faces_plotly(plotly_fig_edges_faces, show_label=False, show_barycenter=False, cone_size=0.05)
+        plotly_fig_edges_faces.update_layout(
+            scene={
+            "camera": {
+                "up": {"x": -0.234, "y": 0.908, "z": -0.344},
+                "center": {"x": 0, "y": 0, "z": 0},
+                "eye": {"x": 1.075, "y": 0.899, "z": 1.648},
+            },
+            "xaxis": {"visible": False},
+            "yaxis": {"visible": False},
+            "zaxis": {"visible": False}
+            }
+        )
+        plotly_fig_edges_faces.show()
+
+
+
 #    Unknown
 #---------------------------------------------------------------------
     else:
         cc.printRed('Unknown plotting method {}'.format(plottingMethod))
-
-
-

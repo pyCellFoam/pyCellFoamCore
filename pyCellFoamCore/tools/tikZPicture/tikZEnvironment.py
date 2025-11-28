@@ -22,14 +22,14 @@ if __name__ == '__main__':
 
 import numpy as np
 
-import tools.myLogging as ml
-import tools.colorConsole as cc
-from tools.tikZPicture.tikZCoordinate import TikZCoordinate
-from tools.tikZPicture.tikZNode import TikZNode
-from tools.tikZPicture.tikZPolygon import TikZPolygon
-from tools.tikZPicture.tikZLine import TikZLine
-from tools.tikZPicture.tikZCoSy2D import TikZCoSy2D
-from tools.tikZPicture.tikZCircledArrow import TikZCircledArrow
+import pyCellFoamCore.tools.myLogging as ml
+import pyCellFoamCore.tools.colorConsole as cc
+from pyCellFoamCore.tools.tikZPicture.tikZCoordinate import TikZCoordinate
+from pyCellFoamCore.tools.tikZPicture.tikZNode import TikZNode
+from pyCellFoamCore.tools.tikZPicture.tikZPolygon import TikZPolygon
+from pyCellFoamCore.tools.tikZPicture.tikZLine import TikZLine
+from pyCellFoamCore.tools.tikZPicture.tikZCoSy2D import TikZCoSy2D
+from pyCellFoamCore.tools.tikZPicture.tikZCircledArrow import TikZCircledArrow
 
 
 # =============================================================================
@@ -186,7 +186,7 @@ class TikZEnvironment:
 # =============================================================================
     def __repr__(self):
         '''
-        Show infoText in console
+        Show info_text in console
 
         '''
         return 'TikZEnvironment "{}" '.format(self.name)

@@ -20,8 +20,8 @@ if __name__ == '__main__':
     os.chdir('../../')
 
 import numpy as np
-import tools.colorConsole as cc
-from tools.tikZPicture.tikZElement import TikZElement
+import pyCellFoamCore.tools.colorConsole as cc
+from pyCellFoamCore.tools.tikZPicture.tikZElement import TikZElement
 
 #==============================================================================
 #    CLASS DEFINITION
@@ -29,9 +29,9 @@ from tools.tikZPicture.tikZElement import TikZElement
 
 class TikZCircledArrow(TikZElement):
     '''
-    
+
     '''
-    
+
 #==============================================================================
 #    SLOTS
 #==============================================================================
@@ -44,28 +44,28 @@ class TikZCircledArrow(TikZElement):
 #==============================================================================
     def __init__(self,center,radius,options = [],**kwargs):
         '''
-        
+
         '''
         super().__init__(**kwargs)
-        
+
         self.__center = center
         self.__radius = radius
         self.__options = options
-        
+
         self.logger.info('Created TikZCircledArrow')
-    
+
 #==============================================================================
 #    SETTER AND GETTER
 #==============================================================================
-        
+
     def __getOptionsText(self):
         if self.options:
             return '[' + ','.join(self.options) + ']'
         else:
             return ''
-        
+
     optionsText = property(__getOptionsText)
-    
+
     def __getTikZText(self):
         return self.tikZPrefix + '\\circledarrow{}{{{}}}{{{}}}\n'.format(self.optionsText,self.center.name,self.radius)
     tikZText = property(__getTikZText)
@@ -84,35 +84,33 @@ class TikZCircledArrow(TikZElement):
 
 
 
-    
+
 #==============================================================================
 #    TEST FUNCTIONS
 #==============================================================================
 if __name__ == '__main__':
-    
+
     import logging
-    
+
     from tools import MyLogging
     from tools.tikZPicture.tikZPicture2D import TikZPicture2D
-    
+
     with MyLogging('TikZCircledArrow',shLevel=logging.DEBUG):
-        
+
         cc.printBlue('Create picture')
         tikzpic2D = TikZPicture2D()
-        
+
         cc.printBlue('Add node')
-        n1 = tikzpic2D.addTikZNode('n1',np.array([0,0]),options=['inner sep = 0pt','fill=TUMOrange','circle','minimum size = 3mm'])  
-        
-        
+        n1 = tikzpic2D.addTikZNode('n1',np.array([0,0]),options=['inner sep = 0pt','fill=TUMOrange','circle','minimum size = 3mm'])
+
+
         cc.printBlue('Add circled arrow')
         tikzpic2D.addTikZCircledArrow(center = n1,
                                       radius = 2,
                                       options = ['TUMBlue',])
-        
+
         tikzpic2D.addTikZCircledArrow(n1,3)
-        
-        
+
+
         cc.printBlue('Create LaTeX file')
         tikzpic2D.writeLaTeXFile('latex','TikZCircledArrow',compileFile=True,openFile=True)
-        
-

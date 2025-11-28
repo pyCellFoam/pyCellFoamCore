@@ -12,20 +12,34 @@
 '''
 
 '''
-#==============================================================================
+# =============================================================================
 #    IMPORTS
-#==============================================================================
-import os
-if __name__ == '__main__':
-    os.chdir('../../')
+# =============================================================================
 
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
+import logging
+
+# ------------------------------------------------------------------------
+#    Third-Party Libraries
+# ------------------------------------------------------------------------
 import numpy as np
-    
-import tools.colorConsole as cc
-from tools.tikZPicture.tikZPicture import TikZPicture
-from tools.tikZPicture.tikZCoSy2D import TikZCoSy2D
-from tools.tikZPicture.tikZCoSy3D import TikZCoSy3D
-from tools.tikZPicture.tikZCanvas import TikZCanvas
+
+# ------------------------------------------------------------------------
+#    Local Libraries
+# ------------------------------------------------------------------------
+
+#    kCells
+# -------------------------------------------------------------------
+
+#    Tools
+# -------------------------------------------------------------------
+import pyCellFoamCore.tools.colorConsole as cc
+from pyCellFoamCore.tools.tikZPicture.tikZPicture import TikZPicture
+from pyCellFoamCore.tools.tikZPicture.tikZCoSy2D import TikZCoSy2D
+from pyCellFoamCore.tools.tikZPicture.tikZCoSy3D import TikZCoSy3D
+from pyCellFoamCore.tools.tikZPicture.tikZCanvas import TikZCanvas
 
 
 #==============================================================================
@@ -34,9 +48,9 @@ from tools.tikZPicture.tikZCanvas import TikZCanvas
 
 class TikZPicture3D(TikZPicture):
     '''
-    
+
     '''
-    
+
 #==============================================================================
 #    SLOTS
 #==============================================================================
@@ -50,8 +64,8 @@ class TikZPicture3D(TikZPicture):
         '''
         :param TikZPerspective tikZPerspective: optional perspective
         :param float scale: scale of the tikzpicture
-        :param str name: A name for the tikzpicture  
-        
+        :param str name: A name for the tikzpicture
+
         '''
         super().__init__(**kwargs)
         self.__tikZCanvases = []
@@ -62,8 +76,8 @@ class TikZPicture3D(TikZPicture):
 #        if self.__tikZPerspective:
 #            self.__tikZPerspective.tikZEnvironment.append(self)
         self.logger.info('Created TikZPicture3D')
-        
-    
+
+
 #==============================================================================
 #    SETTER AND GETTER
 #==============================================================================
@@ -74,25 +88,25 @@ class TikZPicture3D(TikZPicture):
         self.__tikZPerspective = t
         self.__tikZPerspective.tikZEnvironment.append(self)
     tikZPerspective = property(__getTikZPerspective,__setTikZPerspective)
-    
+
     def __getLibraryOptions(self): return super().libraryOptions + ['3d',]
     libraryOptions = property(__getLibraryOptions)
-    
-#    def __getTikZCoSys(self): 
+
+#    def __getTikZCoSys(self):
 #        cosys = super().tikZCoSys
 #        for c in self.tikZCanvases:
 #            cosys.extend(c.tikZCoSys)
 #        return cosys
-#    tikZCoSys = property(__getTikZCoSys)    
-    
+#    tikZCoSys = property(__getTikZCoSys)
+
     def __getPictureOptions(self):
         options = super().pictureOptions
         if self.__tikZPerspective:
             options.append(self.__tikZPerspective.name)
         return options
-    pictureOptions = property(__getPictureOptions)    
-    
-    
+    pictureOptions = property(__getPictureOptions)
+
+
     def __getNewcommands(self):
         newcommandsTemp = super().newcommands
         if self.tikZCoSy3DUsed:
@@ -111,15 +125,15 @@ class TikZPicture3D(TikZPicture):
 	\\def\\tikz@plane@y{\\pgfpointxyz{#7}{#8}{#9}}%
 	\\tikz@canvas@is@plane
 }
-\\makeatother  
+\\makeatother
 ''')
         return newcommandsTemp
     newcommands = property(__getNewcommands)
-    
-    
+
+
     def __getTikZCanvases(self): return self.__tikZCanvases
-    tikZCanvases = property(__getTikZCanvases)    
-    
+    tikZCanvases = property(__getTikZCanvases)
+
 
     def __getTikZNames(self):
         names = super().tikZNames
@@ -127,16 +141,16 @@ class TikZPicture3D(TikZPicture):
             names.extend(c.tikZNames)
         return names
     tikZNames = property(__getTikZNames)
-    
-    
-    
+
+
+
     def __getTikzsets(self):
         sets = super().tikzsets
         if self.__tikZPerspective:
             sets.append(self.__tikZPerspective.tikzset)
         return sets
     tikzsets = property(__getTikzsets)
-    
+
     def __getTikZText(self):
         text = self.tikZPrefix + '\\begin{tikzpicture}'
         if self.pictureOptions:
@@ -144,46 +158,46 @@ class TikZPicture3D(TikZPicture):
         text += '\n'
         text += super().tikZText
         for c in self.tikZCanvases:
-            text  += c.tikZText        
+            text  += c.tikZText
         text += self.tikZPrefix + '\\end{tikzpicture}\n'
         return text
-    tikZText = property(__getTikZText)        
-    
-            
-    def __getTikZCoSy2DUsed(self): 
+    tikZText = property(__getTikZText)
+
+
+    def __getTikZCoSy2DUsed(self):
         cosys = super().tikZCoSys[:]
         for c in self.tikZCanvases:
-            cosys.extend(c.tikZCoSys)        
+            cosys.extend(c.tikZCoSys)
         return any([type(x) == TikZCoSy2D for x in cosys])
     tikZCoSy2DUsed = property(__getTikZCoSy2DUsed)
 
     def __getTikZCoSy3DUsed(self): return any([type(x) == TikZCoSy3D for x in self.tikZCoSys])
     tikZCoSy3DUsed = property(__getTikZCoSy3DUsed)
-    
-    def __getCircledArrowsUsed(self): 
+
+    def __getCircledArrowsUsed(self):
         circledArrows = self.tikZCircledArrows[:]
         for c in self.tikZCanvases:
             circledArrows.extend(c.tikZCircledArrows)
         return any(circledArrows)
-    circledArrowsUsed = property(__getCircledArrowsUsed)    
- 
-    
+    circledArrowsUsed = property(__getCircledArrowsUsed)
+
+
     def __getDim(self): return 3
-    dim = property(__getDim)    
- 
+    dim = property(__getDim)
+
 #==============================================================================
 #    MAGIC METHODS
-#==============================================================================   
+#==============================================================================
     def  __repr__(self):
         '''
-        Show infoText in console
-        
+        Show info_text in console
+
         '''
-        return 'TikZPicture3D "{}" '.format(self.name)    
+        return 'TikZPicture3D "{}" '.format(self.name)
 #==============================================================================
 #    METHODS
 #==============================================================================
-    
+
 #-------------------------------------------------------------------------
 #    Add TikZ coordinate system
 #-------------------------------------------------------------------------
@@ -193,34 +207,34 @@ class TikZPicture3D(TikZPicture):
             self.tikZCoSys.append(coSy)
             return coSy
         else:
-            self.logger.error('{} is not a coordinate in this TikZPicture'.format(center))    
-    
+            self.logger.error('{} is not a coordinate in this TikZPicture'.format(center))
+
 
 #-------------------------------------------------------------------------
 #    Add TikZ canvas
-#-------------------------------------------------------------------------      
+#-------------------------------------------------------------------------
     def addTikZCanvas(self,*args,**kwargs):
         self.logger.info('Adding TikZCanvas')
         canvas = TikZCanvas(*args,tikZPicture3D = self,**kwargs)
         self.__tikZCanvases.append(canvas)
-        return canvas    
-    
+        return canvas
+
 #==============================================================================
 #    TEST FUNCTIONS
 #==============================================================================
 if __name__ == '__main__':
-    
+
     import logging
-    
+
     from tools import MyLogging
-    
+
     with MyLogging('TikZPicture3D',shLevel=logging.DEBUG):
-        
+
         cc.printBlue('Create picture')
         tikzpic3D = TikZPicture3D()
-        
-        
-        
+
+
+
         cc.printBlue('Create coordinates')
         a = 5
         c1 = tikzpic3D.addTikZCoordinate('c1',np.array([0,0,0]))
@@ -233,29 +247,28 @@ if __name__ == '__main__':
         c8 = tikzpic3D.addTikZCoordinate('c8',np.array([a,a,0]))
         c9 = tikzpic3D.addTikZCoordinate('c9',np.array([2*a,0.5*a,0.5*a]))
 
-        
+
         cc.printBlue('Create node')
         n1 = tikzpic3D.addTikZNode('n1',np.array([a,0.5*a,0.5*a]),options=['inner sep = 0pt','fill=TUMOrange','circle','minimum size = 3mm'])
-        
+
         cc.printBlue('Create polygons')
-        
+
         p1 = tikzpic3D.addTikZPolygon(coordinates = [c1,c2,c3,c4],
                                       command = 'filldraw',
                                       options = ['fill=TUMBlue','draw=TUMOrange','ultra thick'],
                                       cycle = True)
-        
+
         p2 = tikzpic3D.addTikZPolygon(coordinates = [c5,c6,c7,c8],
                                       cycle = True)
-        
+
         cc.printBlue('Create coordinate system')
         tikzpic3D.addTikZCoSy3D(c9)
-        
+
         cc.printGreen('Preamble:')
         print(tikzpic3D.latexPreamble)
-        
-        
-            
-        
+
+
+
+
         cc.printBlue('Export LaTeX file')
         tikzpic3D.writeLaTeXFile('latex','tikz3D',compileFile=True,openFile=True)
-        

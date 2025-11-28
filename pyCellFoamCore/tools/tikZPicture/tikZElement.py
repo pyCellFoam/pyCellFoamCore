@@ -19,8 +19,8 @@
 import os
 if __name__ == '__main__':
     os.chdir('../../')
-import tools.myLogging as ml
-import tools.colorConsole as cc
+import pyCellFoamCore.tools.myLogging as ml
+import pyCellFoamCore.tools.colorConsole as cc
 
 #==============================================================================
 #    CLASS DEFINITION
@@ -29,14 +29,14 @@ import tools.colorConsole as cc
 class TikZElement:
     '''
 
-    
+
     '''
-    
+
 #==============================================================================
 #    SLOTS
 #==============================================================================
     __slots__ = ('__tikZEnvironment',
-                 '__logger',                 
+                 '__logger',
                  '__show',
                  '__tikZPrefix')
 
@@ -45,16 +45,16 @@ class TikZElement:
 #==============================================================================
     def __init__(self,tikZEnvironment):
         '''
-        
+
         '''
         self.__logger = ml.getLogger(__name__)
         self.__tikZEnvironment = tikZEnvironment
         self.__show = True
         self.__tikZPrefix = '\t'
-        self.__logger.info('Created TikZElement')        
-        
-        
-    
+        self.__logger.info('Created TikZElement')
+
+
+
 #==============================================================================
 #    SETTER AND GETTER
 #==============================================================================
@@ -65,7 +65,7 @@ class TikZElement:
     tikZEnvironment = property(__getTikZEnvironment)
 
 
-    
+
     def __getShow(self): return self.__show
     def __setShow(self,s): self.__show = s
     show = property(__getShow,__setShow)
@@ -74,21 +74,20 @@ class TikZElement:
     def __getTikZPrefix(self): return self.tikZEnvironment.tikZPrefix + self.__tikZPrefix
     def __setTikZPrefix(self,t): self.__tikZPrefix = t
     tikZPrefix = property(__getTikZPrefix,__setTikZPrefix)
-    
-    
-    
+
+
+
 #==============================================================================
 #    TEST FUNCTIONS
 #==============================================================================
 if __name__ == '__main__':
-    
+
     import logging
     from tools.tikZPicture.tikZEnvironment import TikZEnvironment
-    
+
     with ml.MyLogging('TikZElement',shLevel=logging.DEBUG):
         cc.printBlue('Create an environment')
         env = TikZEnvironment()
-        
+
         cc.printBlue('Create an element')
         element = TikZElement(env)
-

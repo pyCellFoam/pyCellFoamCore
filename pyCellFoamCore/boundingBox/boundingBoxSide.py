@@ -26,12 +26,12 @@ import numpy as np
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 
 
-from boundingBox.boundingBoxElement import BoundingBoxElement
-from boundingBox.boundingBoxEdge import BoundingBoxEdge
-import tools.tumcolor as tc
-from tools import Arrow3D
+from pyCellFoamCore.boundingBox.boundingBoxElement import BoundingBoxElement
+from pyCellFoamCore.boundingBox.boundingBoxEdge import BoundingBoxEdge
+import pyCellFoamCore.tools.tumcolor as tc
+from pyCellFoamCore.tools.arrow3D import Arrow3D
 
-import tools.colorConsole as cc
+import pyCellFoamCore.tools.colorConsole as cc
 
 #==============================================================================
 #    LOGGING
@@ -51,11 +51,16 @@ class BoundingBoxSide(BoundingBoxElement):
 #==============================================================================
 #    SLOTS
 #==============================================================================
-    __slots__ = ('__corners',
-                 '__edges',
-                 '__normalVec',
-                 '__rotationWXYZ',
-                 '__translationXYZ')
+    __slots__ = (
+        '__corners',
+        '__edges',
+        '__normalVec',
+        '__rotationWXYZ',
+        '__translationXYZ',
+        "__nodes",
+        "__k_cell_edges",
+        "__faces",
+    )
 
 #==============================================================================
 #    INITIALIZATION
@@ -113,6 +118,11 @@ class BoundingBoxSide(BoundingBoxElement):
         self.__normalVec = normalVec
         if not list((self.__normalVec == np.array([0,0,0]))).count(True) == 2:
             _log.error('Normal vector for a bounding box side must be parallel to a coordinate axis')
+
+
+        self.__nodes = []
+        self.__k_cell_edges = []
+        self.__faces = []
 
 
 
@@ -177,6 +187,27 @@ class BoundingBoxSide(BoundingBoxElement):
 
     '''
 
+    def __getKCellEdges(self):
+        return self.__k_cell_edges
+    k_cell_edges = property(__getKCellEdges)
+    '''
+
+    '''
+
+    def __getFaces(self):
+        return self.__faces
+    faces = property(__getFaces)
+    '''
+
+    '''
+
+    def __getNodes(self):
+        return self.__nodes
+
+    nodes = property(__getNodes)
+    '''
+
+    '''
 
 
 #==============================================================================
@@ -185,13 +216,41 @@ class BoundingBoxSide(BoundingBoxElement):
 
     def  __repr__(self):
         '''
-        Show infoText in console
+        Show info_text in console
 
         '''
         return 'BBFace<{}>'.format(self.identifier)
 #==============================================================================
 #    METHODS
 #==============================================================================
+
+    def add_node(self,node):
+        '''
+
+        '''
+        if node in self.__nodes:
+            _log.error('This node is already associated with this bounding box side')
+        else:
+            self.__nodes.append(node)
+
+    def add_k_cell_edge(self,edge):
+        '''
+
+        '''
+        if edge in self.__k_cell_edges:
+            _log.error('This k-cell edge is already associated with this bounding box side')
+        else:
+            self.k_cell_edges.append(edge)
+
+
+    def add_face(self,face):
+        '''
+
+        '''
+        if face in self.__faces:
+            _log.error('This face is already associated with this bounding box side')
+        else:
+            self.__faces.append(face)
 
 #-------------------------------------------------------------------------
 #    Print Bounding Box Side

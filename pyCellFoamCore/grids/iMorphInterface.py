@@ -17,17 +17,11 @@
 #==============================================================================
 #    IMPORTS
 #==============================================================================
-#-------------------------------------------------------------------------
-#    Change to Main Directory
-#-------------------------------------------------------------------------
-import os
-if __name__ == '__main__':
-    os.chdir('../')
-
 
 #-------------------------------------------------------------------------
 #    Standard Libraries
 #-------------------------------------------------------------------------
+import os
 import numpy as np
 from collections import deque
 import logging
@@ -39,18 +33,20 @@ import logging
 
 #    kCells
 #--------------------------------------------------------------------
-from kCells import Node, Edge, Face
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.face.face import Face
+from pyCellFoamCore.k_cells.volume.volume import Volume
 
 #    Complex & Grids
 #--------------------------------------------------------------------
-from complex import PrimalComplex3D
+from pyCellFoamCore.complex.primalComplex3D import PrimalComplex3D
 
 #    Tools
 #--------------------------------------------------------------------
-import tools.colorConsole as cc
-import tools.placeFigures as pf
-from tools import MyLogging
-import tools.tumcolor as tc
+import pyCellFoamCore.tools.colorConsole as cc
+import pyCellFoamCore.tools.placeFigures as pf
+import pyCellFoamCore.tools.tumcolor as tc
 #from tools import MyVTK
 
 #==============================================================================
@@ -58,7 +54,7 @@ import tools.tumcolor as tc
 #==============================================================================
 
 _log = logging.getLogger(__name__)
-
+_log.setLevel(logging.INFO)
 
 #==============================================================================
 #    CLASS DEFINITION
@@ -431,6 +427,32 @@ class IMorphInterface(PrimalComplex3D):
         return error
 
 
+    def distribute_nodes_edges_to_bounding_box(self):
+        error = False
+
+        for n in self.nodes:
+            _log.debug("Checking node %s of type %s at %s", n.num, n.iMorphType, n.coordinates)
+            if n.iMorphType == 'border_cell':
+                (_,side) = self.boundingBox.distToBoundingBox(n.coordinates)
+                side.add_node(n)
+                _log.debug('Node %s is part of bounding box side %s', n, side)
+
+        for e  in self.edges:
+
+            if e.startNode.iMorphType == 'border_cell' and e.endNode.iMorphType == 'border_cell':
+                for s in self.boundingBox.sides:
+                    nodes_on_side = s.nodes[:]
+                    for bbe in s.edges:
+                        nodes_on_side.extend(bbe.nodes)
+                    if e.startNode in nodes_on_side and e.endNode in nodes_on_side:
+                        s.add_k_cell_edge(e)
+                        break
+
+                _log.critical('Edge %s is part of bounding box side %s', e, side)
+
+        return error
+
+
 
 
 
@@ -484,13 +506,17 @@ class IMorphInterface(PrimalComplex3D):
 
         numberOfThroatsWithLessThan2Nodes = 0
 
-
+        idx_add_nodes = 10000
+        idx_add_edges = 10000
 
         createClosedThroats = True
         createOpenThroats = True
 
+
+
         currentLineNumber = 0
         if not error:
+            num_new_face = 10000
             with open(self.pathToNodeThroatsFile) as fh:
 
                 # Loop over lines in file
@@ -518,7 +544,7 @@ class IMorphInterface(PrimalComplex3D):
                                 if throat[0] == throat [-1]:
 
                                     numberOfClosedThroats += 1
-                                    _log.info("Checking closed throat %s with nodes: %s", numberOfClosedThroats, throat)
+                                    _log.debug("Checking closed throat %s with nodes: %s", numberOfClosedThroats, throat)
 
                                     throatNodes = throat[:-1]
 
@@ -543,7 +569,7 @@ class IMorphInterface(PrimalComplex3D):
                                     if throatExistsAlready:
                                         _log.debug('Throat with nodes {} already exists'.format(throat))
                                     else:
-                                        _log.debug('Creating throat with nodes {}'.format(throat))
+                                        _log.info('Creating closed throat with nodes {}'.format(throat))
                                         numberOfUniqueClosedThroats += 1
                                         closedThroats.append(throatNodes)
                                         # _log.debug('Nodes in current throat: {}'.format(throat))
@@ -594,7 +620,7 @@ class IMorphInterface(PrimalComplex3D):
 #                                                 _log.debug('Found all edges {}'.format(edgesForFace))
 #                                                 newFace = Face(edgesForFace,triangulate=True,sortEdges=True)
 #                                                 faces.append(newFace)
-#                                                 if newFace.isDeleted:
+#                                                 if newFace.is_deleted:
 #                                                     _log.error('Face creation was not succesful')
 # #                                                for e in edgesForFace:
 # #                                                    e.color = tc.TUMBlack()
@@ -623,7 +649,7 @@ class IMorphInterface(PrimalComplex3D):
                                 else:
 
                                     numberOfOpenThroats += 1
-                                    _log.info("Checking open throat %s with nodes: %s", numberOfOpenThroats, throat)
+                                    _log.debug("Checking open throat %s with nodes: %s", numberOfOpenThroats, throat)
 
 
 
@@ -631,10 +657,10 @@ class IMorphInterface(PrimalComplex3D):
 
                                     throatExistsAlready = self.__checkExists(throat,openThroats)
 
-                                    if throatExistsAlready:
-                                        _log.critical('Open throat with nodes {} already exists'.format(throat))
+                                    if throatExistsAlready or not createOpenThroats:
+                                        _log.debug('Open throat with nodes {} already exists'.format(throat))
                                     else:
-                                        _log.critical('Creating open throat with nodes {}'.format(throat))
+                                        _log.info('Creating open throat with nodes {}'.format(throat))
                                         openThroats.append(throat)
 
 
@@ -648,6 +674,15 @@ class IMorphInterface(PrimalComplex3D):
                                         nodeStart = self.nodes[throat[0]]
                                         nodeEnd = self.nodes[throat[-1]]
 
+                                        if nodeStart.iMorphType != "border_cell":
+                                            _log.warning("Start node of open throat is not of type border_cell")
+                                            nodeStart.color = tc.TUMGrayMedium()
+                                            nodeStart.iMorphType = "border_cell"
+                                        if nodeEnd.iMorphType != "border_cell":
+                                            _log.warning("End node of open throat is not of type border_cell")
+                                            nodeEnd.color = tc.TUMGrayMedium()
+                                            nodeEnd.iMorphType = "border_cell"
+
                                         (dist1,side1) = self.boundingBox.distToBoundingBox(nodeStart.coordinates)
                                         (dist2,side2) = self.boundingBox.distToBoundingBox(nodeEnd.coordinates)
 
@@ -655,34 +690,77 @@ class IMorphInterface(PrimalComplex3D):
                                             cc.printYellow(side1,side2)
 
                                             if side1 == side2:
-                                                newEdge = Edge(nodeEnd,nodeStart)
+                                                _log.debug("Nearest sides are the same: %s", side1)
+                                                newEdge = Edge(nodeEnd,nodeStart, num=idx_add_edges)
+                                                idx_add_edges += 1
                                                 edgesForFace.append(newEdge)
                                                 newEdge.color = tc.TUMBlack()
                                                 self.edges.append(newEdge)
+                                                side1.add_k_cell_edge(newEdge)
 
 
 
                                                 if edgesForFace is not None and createOpenThroats:
                                                     if len(edgesForFace) > 2:
-                                                        newFace = Face(edgesForFace,triangulate=True,sortEdges=True)
+                                                        newFace = Face(edgesForFace,triangulate=True,sortEdges=True, num=num_new_face)
+                                                        num_new_face += 1
                                                         newFace.color = tc.TUMRose()
                                                         faces.append(newFace)
                                                     else:
                                                         for e in edgesForFace:
                                                             e.color = tc.TUMRose()
+                                                        _log.error("Not enough edges to create a face for open throat with nodes %s", throat)
 
                                             else:
                                                 number_of_throats_not_same_side += 1
-                                                _log.critical("Nearest sides are not the same")
-                                                
-                                                neighbouring_sides = self.boundingBox.check_neighbouring_sides(side1, side2)
-                                                if neighbouring_sides:
-                                                    _log.critical("Nearest sides are neighbours")
+                                                _log.debug("Nearest sides are not the same")
+
+                                                touching_edge = self.boundingBox.check_neighbouring_sides(side1, side2)
+                                                if touching_edge is not None:
+                                                    _log.debug("Nearest sides are neighbours touching in edge %s", touching_edge)
                                                     number_of_throats_neighbouring_sides += 1
+
+                                                    intermediateNodeCoordinates = touching_edge.get_intermediate_point(nodeStart.coordinates, nodeEnd.coordinates)
+                                                    intermediateNode = Node(intermediateNodeCoordinates[0], intermediateNodeCoordinates[1], intermediateNodeCoordinates[2], num=idx_add_nodes)
+                                                    idx_add_nodes += 1
+                                                    intermediateNode.color = tc.TUMBlack()
+                                                    _log.debug("Creating intermediate node at %s", intermediateNode.coordinates)
+
+                                                    self.nodes.append(intermediateNode)
+                                                    touching_edge.add_node(intermediateNode)
+
+                                                    new_edge1 = Edge(nodeStart, intermediateNode, num=idx_add_edges)
+                                                    idx_add_edges += 1
+                                                    new_edge2 = Edge(intermediateNode, nodeEnd, num=idx_add_edges)
+                                                    idx_add_edges += 1
+                                                    new_edge1.color = tc.TUMMustard()
+                                                    new_edge2.color = tc.TUMMustard()
+
+                                                    self.edges.append(new_edge1)
+                                                    self.edges.append(new_edge2)
+
+                                                    side1.add_k_cell_edge(new_edge1)
+                                                    side2.add_k_cell_edge(new_edge2)
+
+                                                    edgesForFace.append(new_edge1)
+                                                    edgesForFace.append(new_edge2)
+
+                                                    if edgesForFace is not None and createOpenThroats:
+                                                        if len(edgesForFace) > 2:
+                                                            newFace = Face(edgesForFace,triangulate=True,sortEdges=True, num=num_new_face)
+                                                            num_new_face += 1
+                                                            newFace.color = tc.TUMLightBlue()
+                                                            faces.append(newFace)
+                                                        else:
+                                                            for e in edgesForFace:
+                                                                e.color = tc.TUMRose()
+
+
+
                                                 else:
                                                     _log.critical("Nearest sides are not neighbours")
                                         else:
-                                            number_of_throats_side_not_found +=1 
+                                            number_of_throats_side_not_found +=1
                                             _log.critical("Could not find nearby sides. dist1 = %s, dist2 = %s", dist1, dist2)
 
 
@@ -724,6 +802,270 @@ class IMorphInterface(PrimalComplex3D):
         cc.printMagenta('Z: {}'.format(self.zLim))
         cc.printMagenta()
         cc.printMagenta('='*80)
+
+
+    def load_volumes(self, filename):
+        '''
+
+        '''
+
+        read_volumes = False
+        _log.info('Loading volumes')
+
+        nodes_for_volumes = {}
+        for line in open(filename).readlines():
+
+            if line.startswith('throats'):
+                read_volumes = False
+                _log.critical('Found end for cells')
+
+
+            if read_volumes:
+                _log.critical(line.rstrip())
+                data = line.rstrip().split('\t')
+                if len(data) > 6:
+                    num_node = int(data[0])
+                    num_volumes = [int(num) for num in data[6:]]
+                    _log.critical('Node %s is part of volumes %s', num_node, num_volumes)
+
+                    for num_volume in num_volumes:
+                        if num_volume in nodes_for_volumes:
+                            if num_node in nodes_for_volumes[num_volume]:
+                                _log.error("Node %s is already part of volume %s", num_node, num_volume)
+                            else:
+                                _log.critical("Adding node %s to volume %s", num_node, num_volume)
+                                nodes_for_volumes[num_volume].append(num_node)
+                        else:
+                            _log.critical("Creating new volume %s with node %s", num_volume, num_node)
+                            nodes_for_volumes[num_volume] = [num_node]
+
+                else:
+                    _log.error('Could not read volume data from line: %s', line.rstrip())
+
+
+
+
+            elif line.startswith('indice') and not line.startswith('indice node'):
+                read_volumes = True
+                _log.critical('Found start for cells')
+
+
+        nodes_for_faces = {}
+        faces_for_volumes = {}
+
+        for face in self.faces:
+            num_nodes_in_face = []
+            for edge in face.edges:
+                if edge.startNode.num not in num_nodes_in_face and edge.startNode.num < 10000:
+                    num_nodes_in_face.append(edge.startNode.num)
+                if edge.endNode.num not in num_nodes_in_face and edge.endNode.num < 10000:
+                    num_nodes_in_face.append(edge.endNode.num)
+            nodes_for_faces[face] = num_nodes_in_face
+
+        for face in nodes_for_faces:
+            _log.critical("Face %s consists of nodes %s", face, nodes_for_faces[face])
+
+        for num_volume in nodes_for_volumes:
+            _log.critical("Volume %s consists of nodes %s", num_volume, nodes_for_volumes[num_volume])
+
+            for (face, nodes_in_face) in nodes_for_faces.items():
+                if set(nodes_in_face).issubset(set(nodes_for_volumes[num_volume])):
+                    _log.critical("Face %s is part of volume %s", face, num_volume)
+                    if num_volume in faces_for_volumes:
+                        faces_for_volumes[num_volume].append(face)
+                    else:
+                        faces_for_volumes[num_volume] = [face]
+
+
+        for num_volume in faces_for_volumes:
+            _log.critical("Volume %s consists of faces %s", num_volume, faces_for_volumes[num_volume])
+            new_volume = Volume(faces_for_volumes[num_volume], unalignedFaces=True, accept_incomplete_geometry=True)
+            self.volumes.append(new_volume)
+
+
+        # num_cell = 12
+        # num_nodes = nodes_for_volumes[num_cell]
+        # _log.critical("Creating test cell %s with nodes %s", num_cell, num_nodes)
+        # for n in self.nodes:
+        #     if n.num in num_nodes:
+        #         n.color = tc.TUMLightBlue()
+        #     else:
+        #         n.color = tc.TUMOrange()
+
+        # for e in self.edges:
+        #     if e.startNode.num in num_nodes and e.endNode.num in num_nodes:
+        #         e.color = tc.TUMGreen()
+        #     else:
+        #         e.color = tc.TUMBlue()
+
+
+
+    def complete_boundary(self):
+        '''
+
+        '''
+        error = False
+        for c in self.boundingBox.corners:
+            _log.critical('Checking corner at %s', c)
+            newNode = Node(c.coordinates[0], c.coordinates[1], c.coordinates[2], num=len(self.nodes))
+            newNode.color = tc.TUMBlack()
+            self.nodes.append(newNode)
+            c.node = newNode
+            _log.debug('Added corner node {}'.format(newNode))
+
+
+        for e in self.boundingBox.edges:
+            nodes_to_connect = [e.corner1.node, *e.nodes, e.corner2.node]
+            _log.critical('Checking bounding box edge %s with nodes %s', e, nodes_to_connect)
+            for n1, n2 in zip(nodes_to_connect[:-1], nodes_to_connect[1:]):
+                edge_exists = False
+                for edge in self.edges:
+                    if (edge.startNode == n1 and edge.endNode == n2) or (edge.startNode == n2 and edge.endNode == n1):
+                        edge_exists = True
+                        _log.error('Edge %s - %s already exists as %s', n1, n2, edge)
+                        break
+                if not edge_exists:
+                    newEdge = Edge(n1, n2, num=len(self.edges))
+                    newEdge.color = tc.TUMRose()
+                    self.edges.append(newEdge)
+                    e.add_k_cell_edge(newEdge)
+                    _log.debug('Added bounding box edge {}'.format(newEdge))
+
+
+        # breadth-first search,  starting from each edge, to find faces
+        for s in self.boundingBox.sides:
+            k_cell_edges = s.k_cell_edges[:]
+            num_of_usages = {e:0 for e in s.k_cell_edges}
+            for bbe in s.edges:
+                k_cell_edges.extend(bbe.k_cell_edges)
+            edges_on_side = []
+            for bbe in s.edges:
+                for e in bbe.k_cell_edges:
+                    e.color = tc.TUMLightBlue()
+                    _log.debug('Finding face that contains edge %s', e)
+                    if e in edges_on_side or -e in edges_on_side:
+                        _log.debug('Edge %s already part of a face on this side', e)
+                        continue
+
+
+                    current_nodes = [e.endNode]
+                    visited_nodes = [e.startNode]
+                    paths = {e.endNode: [e]}
+                    face_found = False
+                    count = 0
+                    while not face_found and count < 100:
+                        count += 1
+                        _log.debug("BFS iteration %s, current nodes: %s", count, current_nodes)
+                        next_nodes = []
+                        for n in current_nodes:
+                            for edge in n.edges:
+                                if edge != e and edge != -e and edge in k_cell_edges:
+                                    if n == edge.startNode:
+                                        other_node = edge.endNode
+                                        connection = edge
+                                    else:
+                                        other_node = edge.startNode
+                                        connection = -edge
+
+                                    if other_node == e.startNode:
+                                        face_found = True
+                                        paths[other_node] = paths[n] + [connection]
+                                        _log.debug("Found face with edges: %s", paths[other_node])
+                                        newFace = Face(paths[other_node], triangulate=True)
+                                        edges_on_side.extend(paths[other_node])
+                                        newFace.color = tc.TUMOrange()
+                                        self.faces.append(newFace)
+                                        for ne in paths[other_node]:
+                                            ne.color = tc.TUMLightBlue()
+                                            if ne in num_of_usages:
+                                                num_of_usages[ne] += 1
+                                            if -ne in num_of_usages:
+                                                num_of_usages[-ne] += 1
+                                        break
+                                    else:
+                                        if other_node not in visited_nodes:
+                                            visited_nodes.append(other_node)
+                                            next_nodes.append(other_node)
+                                            paths[other_node] = paths[n] + [connection]
+                        current_nodes = next_nodes
+
+            count2 = 0
+            while not error and any([c < 2 for c in num_of_usages.values()]) and count2 < 100:
+                count2 += 1
+                _log.critical('Not all edges used at least twice, continuing search')
+                if any([count > 2 for count in num_of_usages.values()]):
+                    _log.error('Some edges used more than twice, something is wrong')
+                    error = True
+                    break
+
+                edge_to_check = [e for e, c in num_of_usages.items() if c < 2][0]
+                _log.critical('Finding face that contains edge %s', edge_to_check)
+                edge_to_check.color = tc.TUMMustard()
+
+                current_nodes = [edge_to_check.endNode]
+                visited_nodes = [edge_to_check.startNode]
+                paths = {edge_to_check.endNode: [edge_to_check]}
+                face_found = False
+                count = 0
+                while not face_found and count < 100:
+                    count += 1
+                    _log.debug("BFS iteration %s, current nodes: %s", count, current_nodes)
+                    next_nodes = []
+                    for n in current_nodes:
+                        for edge in n.edges:
+                            if edge != edge_to_check and edge != -edge_to_check and edge in s.k_cell_edges:
+                                if num_of_usages[edge] > 1:
+                                    _log.debug('Skipping edge %s since it is already used %s times', edge, num_of_usages[edge])
+                                    continue
+                                if n == edge.startNode:
+                                    other_node = edge.endNode
+                                    connection = edge
+                                else:
+                                    other_node = edge.startNode
+                                    connection = -edge
+
+                                if other_node == edge_to_check.startNode:
+                                    face_found = True
+                                    paths[other_node] = paths[n] + [connection]
+                                    _log.critical("Found face with edges: %s", paths[other_node])
+                                    newFace = Face(paths[other_node], triangulate=True)
+                                    edges_on_side.extend(paths[other_node])
+                                    newFace.color = tc.TUMGrayMedium()
+                                    self.faces.append(newFace)
+                                    for ne in paths[other_node]:
+                                        ne.color = tc.TUMLightBlue()
+                                        if ne in num_of_usages:
+                                            num_of_usages[ne] += 1
+                                        if -ne in num_of_usages:
+                                            num_of_usages[-ne] += 1
+                                    break
+                                else:
+                                    if other_node not in visited_nodes:
+                                        visited_nodes.append(other_node)
+                                        next_nodes.append(other_node)
+                                        paths[other_node] = paths[n] + [connection]
+                    current_nodes = next_nodes
+                if count == 100:
+                    _log.error('Could not find face for edge %s', edge_to_check)
+                    num_of_usages[edge_to_check] += 2  # to avoid infinite loop
+
+            for e, count in num_of_usages.items():
+                _log.critical('Edge %s used %d times', e, count)
+
+
+
+
+
+
+
+
+
+
+
+
+        return error
+
+
 
 
 
@@ -878,7 +1220,7 @@ if __name__ == '__main__':
 
 #    VTK
 #---------------------------------------------------------------------
-        elif plottingMethod == 'VTK' :
+        elif plottingMethod == 'VTK':
             cc.printBlue('Plot using VTK')
             cc.printRed('Not implemented')
 #            myVTK = MyVTK()
@@ -911,8 +1253,3 @@ if __name__ == '__main__':
 #---------------------------------------------------------------------
         else:
             cc.printRed('Unknown plotting method {}'.format(plottingMethod))
-
-
-
-
-
