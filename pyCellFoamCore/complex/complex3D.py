@@ -77,7 +77,7 @@ from pyCellFoamCore.complex.complex import Complex
 #--------------------------------------------------------------------
 import pyCellFoamCore.tools.placeFigures as pf
 import pyCellFoamCore.tools.colorConsole as cc
-# import tools.myVTK as myv
+import pyCellFoamCore.tools.myVTK as myv
 import pyCellFoamCore.tools.tumcolor as tc
 
 from pyCellFoamCore.tools.tikZPicture.tikZPicture3D import TikZPicture3D

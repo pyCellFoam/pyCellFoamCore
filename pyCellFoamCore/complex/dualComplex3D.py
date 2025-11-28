@@ -836,17 +836,19 @@ if __name__ == '__main__':
             axes[0].set_title('Primal')
             axes[0].axis('off')
             figs[0].set_size_inches(4,4)
-            figs[0].savefig('img/3D_primal.png',dpi=150)
+            # figs[0].savefig('img/3D_primal.png',dpi=150)
             pc.plotFaces(axes[1])
             pc.plotVolumes(axes[2])
             dc.plotComplex(axes[3])
             dc.plotFaces(axes[3],showLabel=False,showNormalVec=False,showBarycenter=False)
-            axes[3].set_title('Primal')
+            axes[3].set_title('Dual')
             axes[3].axis('off')
             figs[3].set_size_inches(4,4)
-            figs[3].savefig('img/3D_dual.png',dpi=150)
+            # figs[3].savefig('img/3D_dual.png',dpi=150)
             dc.plotFaces(axes[4])
             dc.plotVolumes(axes[5])
+            for fig in figs:
+                fig.show()
 
 
 

@@ -235,7 +235,7 @@ class BaseSimpleFace(BaseSimpleCell):
             showLabel = self.showLabel
 
         if grayInTikZ is None:
-            grayInTikZ = self.grayInTikz
+            grayInTikZ = self.gray_in_tikz
 
         if grayInTikZ:
             color = tc.TUMGrayMedium()

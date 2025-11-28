@@ -395,11 +395,11 @@ class Cell(BaseCell, SuperCell):
 
     '''
 
-    def __getGrayInTikz(self): return self.__gray_in_tikz
+    def __get_gray_in_tikz(self): return self.__gray_in_tikz
 
-    def __setGrayInTikz(self, g): self.__gray_in_tikz = g
+    def __set_gray_in_tikz(self, g): self.__gray_in_tikz = g
 
-    grayInTikz = property(__getGrayInTikz, __setGrayInTikz)
+    gray_in_tikz = property(__get_gray_in_tikz, __set_gray_in_tikz)
     '''
     Plot with gray color and hide all annotations in the TikZ export.
 

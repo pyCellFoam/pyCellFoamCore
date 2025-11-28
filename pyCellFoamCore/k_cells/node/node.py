@@ -411,7 +411,7 @@ class Node(Cell):
         if color is None:
             color = self.color
 
-        if self.grayInTikz:
+        if self.gray_in_tikz:
             showLabel = False
             color = tc.TUMGrayMedium()
 
@@ -792,7 +792,7 @@ if __name__ == '__main__':
     # bb = BoundingBox([0, 10], [0, 10], [0, 10])
 
     # Choose plotting method. Possible choices: pyplot, VTK, TikZ, plotly, None
-    PLOTTING_METHOD = "TikZ"
+    PLOTTING_METHOD = "VTK"
 
     match PLOTTING_METHOD:
         case "pyplot":

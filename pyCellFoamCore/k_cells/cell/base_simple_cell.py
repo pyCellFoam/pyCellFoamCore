@@ -86,7 +86,7 @@ class BaseSimpleCell(SuperBaseCell):
 
     def __get_tikz_label_position(self):
         if self.__tikz_label_position is None and self.__belongs_to:
-            return self.__belongs_to.tikZLabelPosition
+            return self.__belongs_to.tikz_label_position
         else:
             return self.__tikz_label_position
 

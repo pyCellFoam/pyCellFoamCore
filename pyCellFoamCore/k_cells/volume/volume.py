@@ -571,7 +571,7 @@ class Volume(Cell):
 
     def plotVolumeTikZOld(self,*args,showLabel=True,color=None,**kwargs):
 
-        if self.grayInTikz or not self.showInPlot:
+        if self.gray_in_tikz or not self.showInPlot:
             return ''
         else:
             colorFaces = color
