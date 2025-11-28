@@ -289,10 +289,12 @@ def set_logging_format(
             logging.getLogger().handlers[0].setFormatter(
                 CustomFormatter(log_format=log_format_console)
             )
+            logging.getLogger().handlers[0].setLevel(level_1)
         else:
             logging.getLogger().handlers[0].setFormatter(
                 logging.Formatter(log_format_console)
             )
+            logging.getLogger().handlers[0].setLevel(level_1)
     else:
         if rotating:
             if use_timestamp_for_rotation:
@@ -323,31 +325,14 @@ def set_logging_format(
 
 if __name__ == '__main__':
 
-    # Configure logging
-    set_logging_format(
-        [logging.WARNING, logging.DEBUG],
-        filename="logs/my_log.log",
-        double_output=True,
-        use_timestamp_for_rotation=True,
-        rotating=True,
+    set_logging_format(logging.CRITICAL)
 
-    )
-
-    # Some test messages
-    logging.debug('Debug')
-    logging.info('Info')
-    logging.warning('Warning')
-    logging.error('Error')
-    logging.critical('Critical')
-
-    # Create logger to set different logging level
     _log = logging.getLogger(__name__)
-    _log.setLevel(logging.INFO)
+    _log.setLevel(logging.DEBUG)
 
-    # Some test messages in logger instance
-    _log.debug("Debug in logger")
-    _log.info("Info in logger")
 
-    for i in range(100):
-        _log.error("Test %s", i)
-        time.sleep(0.01)
+
+    _log.debug("debug")
+    _log.critical("critical")
+
+

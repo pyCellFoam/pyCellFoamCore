@@ -40,7 +40,7 @@ import numpy as np
 
 #    kCells
 #--------------------------------------------------------------------
-from kCells import Node,Edge
+from k_cells import Node,Edge
 
 #    Complex & Grids
 #--------------------------------------------------------------------
@@ -61,12 +61,12 @@ import tools.colorConsole as cc
 
 class Complex1D(Complex):
     '''
-    
-    A class to represent a 1D cell complex. 
+
+    A class to represent a 1D cell complex.
     Serves as parent class for primal and dual 1D complex.
-    
+
     '''
-    
+
 #==============================================================================
 #    SLOTS
 #==============================================================================
@@ -79,7 +79,7 @@ class Complex1D(Complex):
                  '__borderEdges',
                  '__xLim','__xMin','__xMax',
                  '__changedLimits',
-                 '__changedLimits',                 
+                 '__changedLimits',
                  '__incidenceMatrix1ii','__changedIncidenceMatrix1ii',
                  '__incidenceMatrix1ib','__changedIncidenceMatrix1ib',
                  '__incidenceMatrix1bi','__changedIncidenceMatrix1bi',
@@ -94,10 +94,10 @@ class Complex1D(Complex):
         '''
         :param Node nodes: List of all nodes
         :param Edge edges: List of all edges
-        :param str loggerName: Optional name of the logger. Standard value 
+        :param str loggerName: Optional name of the logger. Standard value
             is `__name__`
-        
-        
+
+
         '''
         self.__nodes = nodes
         self.__edges = edges
@@ -115,34 +115,34 @@ class Complex1D(Complex):
         self.__xLim = None
         self.__xMin = None
         self.__xMax = None
-        self.__changedLimits = True         
+        self.__changedLimits = True
         super().__init__(loggerName)
-        
-        
-        
-        
-        
-        
-    
+
+
+
+
+
+
+
 #==============================================================================
 #    SETTER AND GETTER
 #==============================================================================
 
 #-------------------------------------------------------------------------
 #    Limits
-#-------------------------------------------------------------------------        
-        
-    def __getXLim(self): 
+#-------------------------------------------------------------------------
+
+    def __getXLim(self):
         if self.__changedLimits:
             self.__calcLimits()
         return self.__xLim
     xLim = property(__getXLim)
     '''
     Range of x-coordinates of all nodes in the complex.
-    
+
     '''
-    
-    
+
+
     def __getXMin(self):
         if self.__changedLimits:
             self.__calcLimits()
@@ -150,17 +150,17 @@ class Complex1D(Complex):
     xMin = property(__getXMin)
     '''
     Minimal x-coordinate of all nodes in the complex.
-    
+
     '''
-    
+
     def __getXMax(self):
         if self.__changedLimits:
             self.__calcLimits()
         return self.__xMax
-    xMax = property(__getXMax)    
+    xMax = property(__getXMax)
     '''
     Maximal x-coordinate of all nodes in the complex.
-    
+
     '''
 
 
@@ -168,18 +168,18 @@ class Complex1D(Complex):
     def __getChangedLimits(self): return self.__changedLimits
     changedLimits = property(__getChangedLimits)
     '''
-    Bool variable that is set when the nodes or the coordinates of the nodes 
+    Bool variable that is set when the nodes or the coordinates of the nodes
     have changed and therefor the limits must be recalculated.
-    
+
     '''
 
 
-    
-    
+
+
 #-------------------------------------------------------------------------
 #    Nodes
 #-------------------------------------------------------------------------
-    
+
     def __getNodes(self): return self.__nodes
     def __setNodes(self,nodes):
         error = False
@@ -192,30 +192,30 @@ class Complex1D(Complex):
     nodes = property(__getNodes,__setNodes)
     r'''
     All nodes :math:`\Np = \Npi \cup \Npb \cup \NpB` of the complex.
-    
+
     '''
-    
-    
-    
+
+
+
     def __getInnerNodes(self): return self.__innerNodes
     innerNodes = property(__getInnerNodes)
     r'''
     Inner nodes :math:`\Npi` of the complex.
-    
+
     '''
 
     def __getBorderNodes(self): return self.__borderNodes
     borderNodes = property(__getBorderNodes)
     r'''
     Border nodes :math:`\Npb` of the complex.
-    
+
     '''
 
     def __getAdditionalBorderNodes(self): return self.__additionalBorderNodes
     additionalBorderNodes = property(__getAdditionalBorderNodes)
     r'''
     Additional border nodes :math:`\NpB` of the complex.
-    
+
     '''
 
 
@@ -239,7 +239,7 @@ class Complex1D(Complex):
     edges = property(__getEdges,__setEdges)
     r'''
     All edges :math:`\Ep = \Epi \cup \Epb` of the complex.
-    
+
     '''
 
 
@@ -247,14 +247,14 @@ class Complex1D(Complex):
     innerEdges = property(__getInnerEdges)
     r'''
     Inner edges :math:`\Epi` of the complex.
-    
+
     '''
 
     def __getBorderEdges(self): return self.__borderEdges
     borderEdges = property(__getBorderEdges)
     r'''
     Border edges :math:`\Epb` of the complex.
-    
+
     '''
 
 
@@ -270,11 +270,11 @@ class Complex1D(Complex):
         return self.__incidenceMatrix1ii
     incidenceMatrix1ii = property(__getIncidenceMatrix1ii)
     r'''
-    Incidence matrix :math:`\incpii{1} \in \mathbb{R}^{|\Npi|\times|\Epi|}` 
-    
+    Incidence matrix :math:`\incpii{1} \in \mathbb{R}^{|\Npi|\times|\Epi|}`
+
     '''
-    
-    
+
+
     def __getIncidenceMatrix1ib(self):
         if self.__changedIncidenceMatrix1ib:
             self.__incidenceMatrix1ib = self.calcIncidence1(self.innerNodes,self.borderEdges)
@@ -282,11 +282,11 @@ class Complex1D(Complex):
         return self.__incidenceMatrix1ib
     incidenceMatrix1ib = property(__getIncidenceMatrix1ib)
     r'''
-    Incidence matrix :math:`\incpib{1} \in \mathbb{R}^{|\Npi|\times|\Epb|}` 
-    
+    Incidence matrix :math:`\incpib{1} \in \mathbb{R}^{|\Npi|\times|\Epb|}`
+
     '''
-    
-    
+
+
     def __getIncidenceMatrix1bi(self):
         if self.__changedIncidenceMatrix1bi:
             self.__incidenceMatrix1bi = self.calcIncidence1(self.borderNodes,self.innerEdges)
@@ -294,8 +294,8 @@ class Complex1D(Complex):
         return self.__incidenceMatrix1bi
     incidenceMatrix1bi = property(__getIncidenceMatrix1bi)
     r'''
-    Incidence matrix :math:`\incpbi{1} \in \mathbb{R}^{|\Npb|\times|\Epi|}` 
-    
+    Incidence matrix :math:`\incpbi{1} \in \mathbb{R}^{|\Npb|\times|\Epi|}`
+
     '''
 
 
@@ -306,10 +306,10 @@ class Complex1D(Complex):
         return self.__incidenceMatrix1bb
     incidenceMatrix1bb = property(__getIncidenceMatrix1bb)
     r'''
-    Incidence matrix :math:`\incpbb{1} \in \mathbb{R}^{|\Npb|\times|\Epb|}` 
-    
+    Incidence matrix :math:`\incpbb{1} \in \mathbb{R}^{|\Npb|\times|\Epb|}`
+
     '''
-    
+
     def __getIncidenceMatrix1Bi(self):#
         if self.__changedIncidenceMatrix1Bi:
             self.__incidenceMatrix1Bi = self.calcIncidence1(self.additionalBorderNodes,self.innerEdges)
@@ -317,8 +317,8 @@ class Complex1D(Complex):
         return self.__incidenceMatrix1Bi
     incidenceMatrix1Bi = property(__getIncidenceMatrix1Bi)
     r'''
-    Incidence matrix :math:`\incpBi{1} \in \mathbb{R}^{|\NpB|\times|\Epi|}` 
-    
+    Incidence matrix :math:`\incpBi{1} \in \mathbb{R}^{|\NpB|\times|\Epi|}`
+
     '''
 
     def __getIncidenceMatrix1Bb(self):
@@ -328,10 +328,10 @@ class Complex1D(Complex):
         return self.__incidenceMatrix1Bb
     incidenceMatrix1Bb = property(__getIncidenceMatrix1Bb)
     r'''
-    Incidence matrix :math:`\incpBb{1} \in \mathbb{R}^{|\NpB|\times|\Epb|}` 
-    
+    Incidence matrix :math:`\incpBb{1} \in \mathbb{R}^{|\NpB|\times|\Epb|}`
+
     '''
-   
+
     def __getIncidenceMatrix1(self):
         incidencematrix1i = np.concatenate((self.incidenceMatrix1ii,self.incidenceMatrix1ib),axis=1)
         incidencematrix1b = np.concatenate((self.incidenceMatrix1bi,self.incidenceMatrix1bb),axis=1)
@@ -340,18 +340,18 @@ class Complex1D(Complex):
         return incidencematrix1
     incidenceMatrix1 = property(__getIncidenceMatrix1)
     r'''
-    
-    Complete incidence matrix :math:`\incp{1}` with 
-    
+
+    Complete incidence matrix :math:`\incp{1}` with
+
     .. math::
-        
+
         \incp{1} &=
         \begin{bmatrix}
             \incpii{1} & \incpib{1} \\
             \incpbi{1} & \incpbb{1} \\
             \incpBi{1} & \incpBb{1}
         \end{bmatrix}.
-    
+
     '''
 
 
@@ -360,30 +360,30 @@ class Complex1D(Complex):
 
 
 
-    
+
 #==============================================================================
 #    METHODS
 #==============================================================================
 #-------------------------------------------------------------------------
 #    Set Up
-#-------------------------------------------------------------------------    
-    
+#-------------------------------------------------------------------------
+
     def setUp(self):
         '''
-        
+
         '''
         self.logger.info('Called "Set Up" in Complex1D class')
 
 
-   
-    
-    
+
+
+
 #-------------------------------------------------------------------------
-#    Sort 
-#-------------------------------------------------------------------------    
+#    Sort
+#-------------------------------------------------------------------------
     def sort(self):
         '''
-        
+
         '''
         for n in self.nodes:
             if n.category == 'inner':
@@ -394,7 +394,7 @@ class Complex1D(Complex):
                 self.addToList(n,self.additionalBorderNodes)
             else:
                 self.logger.error('Unknown category of {}'.format(n))
-                
+
         for e in self.edges:
             if e.category == 'inner':
                 self.addToList(e,self.innerEdges)
@@ -402,168 +402,168 @@ class Complex1D(Complex):
                 self.addToList(e,self.borderEdges)
             else:
                 self.logger.error('Unknown category of {}'.format(e))
-                
-                
-    
+
+
+
 #-------------------------------------------------------------------------
 #    Determine max range for each dimension
-#-------------------------------------------------------------------------          
-    def __calcLimits(self):    
+#-------------------------------------------------------------------------
+    def __calcLimits(self):
         '''
-        
+
         '''
         self.logger.info('Calculating limits')
         self.__xMax = self.myMax([n.xCoordinate for n in self.nodes])
         self.__xMin = self.myMin([n.xCoordinate for n in self.nodes])
         self.__xLim = [self.__xMin,self.__xMax]
-        self.__changedLimits = False    
-    
-    
-    
-    
+        self.__changedLimits = False
+
+
+
+
 #-------------------------------------------------------------------------
 #    Plot
 #-------------------------------------------------------------------------
     def plotComplex(self,ax,**kwargs):
         '''
         Plot all nodes and edges in this 1D complex.
-        
-        :param ax: Axis where this complex is plotted.        
-        
+
+        :param ax: Axis where this complex is plotted.
+
         '''
         for n in self.__nodes:
             n.plotNode(ax,**kwargs)
         for e in self.__edges:
             e.plotEdge(ax,**kwargs)
-            
+
 
 #-------------------------------------------------------------------------
 #    Plot TikZ
-#-------------------------------------------------------------------------            
+#-------------------------------------------------------------------------
     def plotComplexTikZ(self,tikZPicture=None):
         '''
-        
+
         '''
         if tikZPicture is None:
             tikZPicture = TikZPicture2D()
-            
-            
+
+
         if tikZPicture.dim != 2:
             self.logger.error('Trying to plot in a 3-dimensional tikZPicture, but a 1-D complex should be plotted in a 2D-picture')
         else:
             for n in self.nodes:
                 n.plotNodeTikZ(tikZPicture,dim=2)
-                
+
             for e in self.edges:
                 e.plotEdgeTikZ(tikZPicture)
-            
+
         return tikZPicture
-    
+
 #-------------------------------------------------------------------------
 #    Printing dualities
-#------------------------------------------------------------------------- 
-    def printDualities(self):    
+#-------------------------------------------------------------------------
+    def printDualities(self):
         '''
-        
+
         '''
-        self.printHeadline('NODES',cc.printRed)        
+        self.printHeadline('NODES',cc.printRed)
         headlineNodes = ['Node','1D dual','0D dual']
-        tableContentNodes = [headlineNodes,]        
+        tableContentNodes = [headlineNodes,]
         for n in self.nodes:
-            tableContentNodes.append([n.infoText,n.dualCell1D,n.dualCell0D])
+            tableContentNodes.append([n.info_text,n.dualCell1D,n.dualCell0D])
         tableNodes = Table(tableContentNodes)
         tableNodes.printTable()
-        
-        
-        self.printHeadline('EDGES',cc.printBlue)    
+
+
+        self.printHeadline('EDGES',cc.printBlue)
         headlineEdges = ['Edge','1D dual']
-        tableContentEdges = [headlineEdges,]        
+        tableContentEdges = [headlineEdges,]
         for e in self.edges:
-            tableContentEdges.append([e.infoText,e.dualCell1D])
+            tableContentEdges.append([e.info_text,e.dualCell1D])
         tableEdges = Table(tableContentEdges)
         tableEdges.printTable()
-            
-                    
 
-    
-    
+
+
+
+
 #==============================================================================
 #    TEST FUNCTIONS
 #==============================================================================
 if __name__ == '__main__':
-    
+
     from tools import MyLogging
     import tools.placeFigures as pf
-    
+
     with MyLogging('Complex1D',debug=False):
-        
-        
+
+
         cc.printBlue('Prepare plots')
-        
-        
+
+
         cc.printBlue('Create some nodes')
         n0 = Node(0,0,0)
         n1 = Node(1,0,0)
         n2 = Node(1.5,0,0)
         nodes = [n0,n1,n2]
-        
-        
+
+
         cc.printBlue('Create some edges')
         e0 = Edge(n0,n1)
         e1 = Edge(n1,n2)
         edges = [e0,e1]
-        
-        
+
+
         cc.printBlue('Combine them to a complex')
         c = Complex1D(nodes,edges)
-        
-        
-        
-        
 
-            
+
+
+
+
+
 #-------------------------------------------------------------------------
 #    Plotting
-#-------------------------------------------------------------------------    
-    
+#-------------------------------------------------------------------------
+
         # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, None
-        plottingMethod = 'pyplot'   
-        
-        
+        plottingMethod = 'pyplot'
+
+
 #    Disabled
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         if plottingMethod is None or plottingMethod == 'None':
             cc.printBlue('Plotting disabled')
-        
+
 #    Pyplot
-#---------------------------------------------------------------------         
+#---------------------------------------------------------------------
         elif plottingMethod == 'pyplot':
             cc.printBlue('Plot using pyplot')
             (figs,axes) = pf.getFigures(numTotal=4)
             c.plotComplex(axes[0])
 
 #    VTK
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         elif plottingMethod == 'VTK' :
             cc.printBlue('Plot using VTK')
             cc.printRed('Not implemented')
 
 #    TikZ
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         elif plottingMethod == 'TikZ' :
-            cc.printBlue('Plot using TikZ')  
+            cc.printBlue('Plot using TikZ')
             pic = c.plotComplexTikZ()
             pic.scale = 3
             file = False
             pic.writeLaTeXFile('latex','complex1D',compileFile=file,openFile=file)
-            
+
 #    Animation
-#--------------------------------------------------------------------- 
+#---------------------------------------------------------------------
         elif plottingMethod == 'animation':
             cc.printBlue('Creating animation')
             cc.printRed('Not implemented')
 
 #    Unknown
-#---------------------------------------------------------------------             
+#---------------------------------------------------------------------
         else:
-            cc.printRed('Unknown plotting method {}'.format(plottingMethod))   
+            cc.printRed('Unknown plotting method {}'.format(plottingMethod))
