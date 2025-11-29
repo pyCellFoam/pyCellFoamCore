@@ -12,18 +12,25 @@
 '''
 
 '''
-#==============================================================================
+# =============================================================================
 #    IMPORTS
-#==============================================================================
-if __name__ == '__main__':
-    import os
-    os.chdir('../')
+# =============================================================================
 
+# ------------------------------------------------------------------------
+#    Standard Libraries
+# ------------------------------------------------------------------------
 import logging
 
-from pyCellFoamCore.complex.complex3D import Complex3D
-from pyCellFoamCore.complex.primalComplex3D import PrimalComplex3D
+# ------------------------------------------------------------------------
+#    Third-Party Libraries
+# ------------------------------------------------------------------------
 
+# ------------------------------------------------------------------------
+#    Local Libraries
+# ------------------------------------------------------------------------
+
+#    k-Cells
+# -------------------------------------------------------------------
 from pyCellFoamCore.k_cells.node.node import Node
 from pyCellFoamCore.k_cells.node.dualNode2D import DualNode2D
 from pyCellFoamCore.k_cells.node.dualNode3D import DualNode3D
@@ -35,9 +42,25 @@ from pyCellFoamCore.k_cells.face.dualFace2D import DualFace2D
 from pyCellFoamCore.k_cells.face.dualFace3D import DualFace3D
 from pyCellFoamCore.k_cells.volume.volume import Volume
 from pyCellFoamCore.k_cells.volume.dualVolume3D import DualVolume3D
+
+#    Complex
+# -------------------------------------------------------------------
+from pyCellFoamCore.complex.complex3D import Complex3D
+from pyCellFoamCore.complex.primalComplex3D import PrimalComplex3D
+
+#    Grids
+# -------------------------------------------------------------------
+
+#    Bounding Box
+# -------------------------------------------------------------------
+
+#    Tools
+# -------------------------------------------------------------------
+from pyCellFoamCore.tools.logging_formatter import set_logging_format
+
 import pyCellFoamCore.tools.colorConsole as cc
 
-_log = logging.getLogger(__name__)
+
 
 # =============================================================================
 #    LOGGING
@@ -691,195 +714,203 @@ class DualComplex3D(Complex3D):
 
 
 
-#==============================================================================
+# =============================================================================
 #    TEST FUNCTIONS
-#==============================================================================
+# =============================================================================
+
 if __name__ == '__main__':
-    import tools.placeFigures as pf
-    import tools.colorConsole as cc
-    from tools.myLogging import MyLogging
 
-#    from kCells import Node, Edge, Face, Volume
+    set_logging_format(logging.DEBUG)
 
+    # --------------------------------------------------------------------
+    #    Create sample data
+    # --------------------------------------------------------------------
 
-    with MyLogging('DualComplex3D'):
-        cc.printBlue('Create nodes')
-        n0 = Node(0,0,0)
-        n1 = Node(1,0,0)
-        n2 = Node(1.5,0,0)
-        n3 = Node(0,1,0)
-        n4 = Node(1,1,0)
-        n5 = Node(0,1.5,0)
-        n6 = Node(1.5,1.5,0)
-        n7 = Node(0,0,1)
-        n8 = Node(1,0,1)
-        n9 = Node(0,1,1)
-        n10 = Node(1,1,1)
-        n11 = Node(0,0,1.5)
-        n12 = Node(1.5,0,1.5)
-        n13 = Node(0,1.5,1.5)
-        n14 = Node(1.5,1.5,1.5)
+    _log.info('Create nodes')
 
+    n000 = Node(0, 0, 0)
+    n001 = Node(1, 0, 0)
+    n002 = Node(1.5, 0, 0)
+    n003 = Node(0, 1, 0)
+    n004 = Node(1, 1, 0)
+    n005 = Node(0, 1.5, 0)
+    n006 = Node(1.5, 1.5, 0)
+    n007 = Node(0, 0, 1)
+    n008 = Node(1, 0, 1)
+    n009 = Node(0, 1, 1)
+    n010 = Node(1, 1, 1)
+    n011 = Node(0, 0, 1.5)
+    n012 = Node(1.5, 0, 1.5)
+    n013 = Node(0, 1.5, 1.5)
+    n014 = Node(1.5, 1.5, 1.5)
 
-        nodes = [n0,n1,n2,n3,n4,n5,n6,n7,n8,n9,n10,n11,n12,n13,n14]
+    nodes = [
+        n000, n001, n002, n003, n004, n005, n006, n007, n008, n009,
+        n010, n011, n012, n013, n014,
+    ]
 
+    _log.info('Create edges')
 
-        cc.printBlue('Create edges')
-        e0 = Edge(n0,n1)
-        e1 = Edge(n1,n2)
-        e2 = Edge(n3,n4)
-        e3 = Edge(n5,n6)
-        e4 = Edge(n0,n3)
-        e5 = Edge(n1,n4)
-        e6 = Edge(n2,n6)
-        e7 = Edge(n3,n5)
-        e8 = Edge(n4,n6)
-        e9 = Edge(n7,n8)
-        e10 = Edge(n8,n10)
-        e11 = Edge(n10,n9)
-        e12 = Edge(n9,n7)
-        e13 = Edge(n11,n12)
-        e14 = Edge(n12,n14)
-        e15 = Edge(n14,n13)
-        e16 = Edge(n13,n11)
-        e17 = Edge(n0,n7)
-        e18 = Edge(n1,n8)
-        e19 = Edge(n4,n10)
-        e20 = Edge(n3,n9)
-        e21 = Edge(n2,n12)
-        e22 = Edge(n6,n14)
-        e23 = Edge(n5,n13)
-        e24 = Edge(n7,n11)
-        e25 = Edge(n8,n12)
-        e26 = Edge(n10,n14)
-        e27 = Edge(n9,n13)
+    e000 = Edge(n000, n001)
+    e001 = Edge(n001, n002)
+    e002 = Edge(n003, n004)
+    e003 = Edge(n005, n006)
+    e004 = Edge(n000, n003)
+    e005 = Edge(n001, n004)
+    e006 = Edge(n002, n006)
+    e007 = Edge(n003, n005)
+    e008 = Edge(n004, n006)
+    e009 = Edge(n007, n008)
+    e010 = Edge(n008, n010)
+    e011 = Edge(n010, n009)
+    e012 = Edge(n009, n007)
+    e013 = Edge(n011, n012)
+    e014 = Edge(n012, n014)
+    e015 = Edge(n014, n013)
+    e016 = Edge(n013, n011)
+    e017 = Edge(n000, n007)
+    e018 = Edge(n001, n008)
+    e019 = Edge(n004, n010)
+    e020 = Edge(n003, n009)
+    e021 = Edge(n002, n012)
+    e022 = Edge(n006, n014)
+    e023 = Edge(n005, n013)
+    e024 = Edge(n007, n011)
+    e025 = Edge(n008, n012)
+    e026 = Edge(n010, n014)
+    e027 = Edge(n009, n013)
 
-        edges = [e0,e1,e2,e3,e4,e5,e6,e7,e8,e9,e10,e11,e12,e13,e14,e15,e16,e17,e18,e19,e20,e21,e22,e23,e24,e25,e26,e27]
+    edges = [
+        e000, e001, e002, e003, e004, e005, e006, e007, e008, e009,
+        e010, e011, e012, e013, e014, e015, e016, e017, e018, e019,
+        e020, e021, e022, e023, e024, e025, e026, e027,
+    ]
 
-        cc.printBlue('Create faces')
-        f0 = Face([e0,e5,-e2,-e4])
-        f1 = Face([e1,e6,-e8,-e5])
-        f2 = Face([e2,e8,-e3,-e7])
-        f3 = Face([e0,e18,-e9,-e17])
-        f4 = Face([e5,e19,-e10,-e18])
-        f5 = Face([e2,e19,e11,-e20])
-        f6 = Face([e4,e20,e12,-e17])
-        f7 = Face([e9,e10,e11,e12])
-        f8 = Face([e9,e25,-e13,-e24])
-        f9 = Face([e1,e21,-e25,-e18])
-        f10 = Face([e6,e22,-e14,-e21])
-        f11 = Face([e25,e14,-e26,-e10])
-        f12 = Face([e8,e22,-e26,-e19])
-        f13 = Face([e3,e22,e15,-e23])
-        f14 = Face([e26,e15,-e27,-e11])
-        f15 = Face([e7,e23,-e27,-e20])
-        f16 = Face([e27,e16,-e24,-e12])
-        f17 = Face([e13,e14,e15,e16])
+    _log.info('Create faces')
 
+    f000 = Face([e000, e005, -e002, -e004])
+    f001 = Face([e001, e006, -e008, -e005])
+    f002 = Face([e002, e008, -e003, -e007])
+    f003 = Face([e000, e018, -e009, -e017])
+    f004 = Face([e005, e019, -e010, -e018])
+    f005 = Face([e002, e019, e011, -e020])
+    f006 = Face([e004, e020, e012, -e017])
+    f007 = Face([e009, e010, e011, e012])
+    f008 = Face([e009, e025, -e013, -e024])
+    f009 = Face([e001, e021, -e025, -e018])
+    f010 = Face([e006, e022, -e014, -e021])
+    f011 = Face([e025, e014, -e026, -e010])
+    f012 = Face([e008, e022, -e026, -e019])
+    f013 = Face([e003, e022, e015, -e023])
+    f014 = Face([e026, e015, -e027, -e011])
+    f015 = Face([e007, e023, -e027, -e020])
+    f016 = Face([e027, e016, -e024, -e012])
+    f017 = Face([e013, e014, e015, e016])
 
-        faces = [f0,f1,f2,f3,f4,f5,f6,f7,f8,f9,f10,f11,f12,f13,f14,f15,f16,f17]
+    faces = [
+        f000, f001, f002, f003, f004, f005, f006, f007, f008, f009,
+        f010, f011, f012, f013, f014, f015, f016, f017,
+    ]
 
+    _log.info('Create volumes')
 
-        cc.printBlue('Create volumes')
+    v000 = Volume([-f000, f003, f004, -f005, -f006, f007])
+    v001 = Volume([-f001, -f004, f009, f010, f011, -f012])
+    v002 = Volume([-f002, f005, f012, -f013, f014, -f015])
+    v003 = Volume([-f007, f008, -f011, -f014, -f016, f017])
 
-        v0 = Volume([-f0,f3,f4,-f5,-f6,f7])
-        v1 = Volume([-f1,-f4,f9,f10,f11,-f12])
-        v2 = Volume([-f2,f5,f12,-f13,f14,-f15])
-        v3 = Volume([-f7,f8,-f11,-f14,-f16,f17])
+    volumes = [
+        v000, v001, v002, v003,
+    ]
 
-        facesForVolume = [-f7,f8,-f11,-f14,-f16,f17]
+    for v in [v001, v002, v003]:
+        v.category1 = "border"
 
-        volumes = [v0,v1,v2,v3]
+    pc = PrimalComplex3D(nodes, edges, faces, volumes)
+    dc = DualComplex3D(primalComplex=pc)
 
-        for v in [v1,v2,v3]:
-            v.category1 = 'border'
+    # --------------------------------------------------------------------
+    #    Plotting
+    # --------------------------------------------------------------------
 
-        pc = PrimalComplex3D(nodes,edges,faces,volumes)
-        dc = DualComplex3D(pc,
-                           createNodes=True,
-                           createEdges=True,
-                           createFaces=True,
-                           createVolumes=True)
+    # Choose plotting method. Possible choices: pyplot, VTK, TikZ, plotly, None
+    PLOTTING_METHOD = "plotly"
 
-
-
-
-
-        dc.checkAllIncidenceMatrices()
-
-        pc.printDualities()
-
-
-
-
-#-------------------------------------------------------------------------
-#    Plotting
-#-------------------------------------------------------------------------
-
-        # Choose plotting method. Possible choices: pyplot, VTK, TikZ, animation, doc, None
-        plottingMethod = 'pyplot'
-
-
-#    Disabled
-#---------------------------------------------------------------------
-        if plottingMethod is None or plottingMethod == 'None':
-            cc.printBlue('Plotting disabled')
-
-#    Pyplot
-#---------------------------------------------------------------------
-        elif plottingMethod == 'pyplot':
-            cc.printBlue('Plot using pyplot')
-            (figs,axes) = pf.getFigures()
-            pc.useCategory=2
+    match PLOTTING_METHOD:
+        case "pyplot":
+            _log.info("Plotting with pyplot selected.")
+            (figs, axes) = pf.getFigures()
             pc.plotComplex(axes[0])
-            pc.plotFaces(axes[0],showLabel=False,showNormalVec=False,showBarycenter=False)
-            axes[0].set_title('Primal')
-            axes[0].axis('off')
-            figs[0].set_size_inches(4,4)
-            # figs[0].savefig('img/3D_primal.png',dpi=150)
             pc.plotFaces(axes[1])
             pc.plotVolumes(axes[2])
-            dc.plotComplex(axes[3])
-            dc.plotFaces(axes[3],showLabel=False,showNormalVec=False,showBarycenter=False)
-            axes[3].set_title('Dual')
-            axes[3].axis('off')
-            figs[3].set_size_inches(4,4)
-            # figs[3].savefig('img/3D_dual.png',dpi=150)
-            dc.plotFaces(axes[4])
-            dc.plotVolumes(axes[5])
-            for fig in figs:
-                fig.show()
+            for f in figs:
+                f.show()
 
+        case "VTK":
+            _log.info("Plotting with VTK selected.")
+            myVTK = pc.plotComplexVTK(showLabel=False, showArrow=False)
+            myVTK.start()
 
-
-#    VTK
-#---------------------------------------------------------------------
-        elif plottingMethod == 'VTK' :
-            cc.printBlue('Plot using VTK')
-            cc.printRed('Not implemented')
-
-#    TikZ
-#---------------------------------------------------------------------
-        elif plottingMethod == 'TikZ' :
-            cc.printBlue('Plot using TikZ')
+        case "TikZ":
+            _log.info("Plotting with TikZ selected.")
             pic = pc.plotComplexTikZ()
             pic.scale = 5
             file = True
-            pic.writeLaTeXFile('latex','primalComplex3D',compileFile=file,openFile=file)
+            pic.writeLaTeXFile(
+                'latex',
+                'primalComplex3D',
+                compileFile=file,
+                openFile=file,
+            )
 
-#    Animation
-#---------------------------------------------------------------------
-        elif plottingMethod == 'animation':
-            cc.printBlue('Creating animation')
-            cc.printRed('Not implemented')
+            picNodes = pc.plotNodesTikZ()
+            picNodes.scale = 2
+            picNodes.writeTikZFile(filename='Complex3D0Nodes')
 
-#    Documentation
-#---------------------------------------------------------------------
-        elif plottingMethod == 'doc':
-            cc.printBlue('Creating plots for documentation')
-            test.plotDoc()
+            picEdges = pc.plotEdgesTikZ()
+            picEdges.scale = 2
+            picEdges.writeTikZFile(filename='Complex3D1Edges')
 
-#    Unknown
-#---------------------------------------------------------------------
-        else:
-            cc.printRed('Unknown plotting method {}'.format(plottingMethod))
+            picFaces = pc.plotFacesTikZ()
+            picFaces.scale = 2
+
+            picFaces.writeTikZFile(filename='Complex3D2Faces')
+
+        case "plotly":
+            _log.info("Plotting with plotly selected.")
+
+            node_plotly = NodePlotly(pc.nodes)
+            edge_plotly = EdgePlotly(pc.edges)
+            face_plotly = FacePlotly(pc.faces)
+
+            plotly_fig_nodes_edges = node_plotly.plot_nodes_plotly(
+                show_label=True
+            )
+            edge_plotly.plot_edges_plotly(
+                plotly_fig_nodes_edges,
+                show_label=True,
+                show_barycenter=False,
+                cone_size=0.05,
+            )
+            plotly_fig_nodes_edges.show()
+
+            plotly_fig_edges_faces = edge_plotly.plot_edges_plotly(
+                show_label=False,
+                show_barycenter=False,
+                cone_size=0.05,
+            )
+            face_plotly.plot_faces_plotly(
+                plotly_fig_edges_faces,
+                show_label=True,
+                show_barycenter=False,
+            )
+            plotly_fig_edges_faces.show()
+
+        case "None":
+            _log.info("No plotting selected.")
+
+        case _:
+            _log.error(
+                "Unknown plotting '%s' method selected.",
+                PLOTTING_METHOD,
+            )
