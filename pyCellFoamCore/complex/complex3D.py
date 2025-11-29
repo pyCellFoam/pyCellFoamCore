@@ -1576,12 +1576,12 @@ class Complex3D(Complex):
 #-------------------------------------------------------------------------
 #    Plot using TikZ
 #-------------------------------------------------------------------------
-    def plotComplexTikZ(self,tikZPicture=None,plotNodes=True,plotEdges=True,plotFaces=True,name=None,**kwargs):
+    def plotComplexTikZ(self,tikZPicture=None,plotNodes=True,plotEdges=True,plotFaces=True,name=None,tikZPerspective=None,**kwargs):
         '''
 
         '''
         if tikZPicture is None:
-            tikZPicture = TikZPicture3D(name=name)
+            tikZPicture = TikZPicture3D(name=name, tikZPerspective=tikZPerspective)
 
 
         if tikZPicture.dim != 3:

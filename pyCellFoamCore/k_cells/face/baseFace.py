@@ -34,6 +34,7 @@ import plotly.graph_objects as go
 #    kCells
 # -------------------------------------------------------------------
 from pyCellFoamCore.k_cells.cell.base_cell import BaseCell
+from pyCellFoamCore.k_cells.cell.base_cell import BaseCellPlotly
 
 #    Tools
 # -------------------------------------------------------------------
@@ -167,19 +168,17 @@ class BaseFace(BaseCell):
 #    PLOTLY CLASS FOR FAST PLOTTING
 # =============================================================================
 
-class FacePlotly:
+class FacePlotly(BaseCellPlotly):
     def __init__(self, faces):
         self.faces = faces
 
-    def plot_faces_plotly(self, fig=None, show_label=True, show_barycenter=True, show_normal_vec=True, cone_size=0.05):
+    def plot_faces_plotly(self, fig=None, show_label=True, show_barycenter=True, show_normal_vec=True, cone_size=0.05, **kwargs):
 
         # TODO: Instead of creating a new vertex for each triangle, reuse
         # vertices by creating one vertex per node and referencing them
         # multiple times.
 
-
-        if fig is None:
-            fig = go.Figure()
+        fig = self._create_plotly_figure(fig, **kwargs)
 
         # Prepare data for Plotly Mesh3d
         x_data = []

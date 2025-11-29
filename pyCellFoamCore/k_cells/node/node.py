@@ -708,10 +708,13 @@ class NodePlotly(BaseCellPlotly):
         super().__init__()
         self.nodes = nodes
 
-    def plot_nodes_plotly(self, fig=None, show_label=True):
+    def plot_nodes_plotly(self, fig=None, show_label=True, **kwargs):
+        """
+        kwargs:
+            show_axes: bool
+        """
 
-        if fig is None:
-            fig = self._create_plotly_figure()
+        fig = self._create_plotly_figure(fig, **kwargs)
 
         x_coords = [node.xCoordinate for node in self.nodes]
         y_coords = [node.yCoordinate for node in self.nodes]
@@ -738,21 +741,6 @@ class NodePlotly(BaseCellPlotly):
             showlegend=False
         )
         fig.add_trace(scatter)
-
-        fig.update_layout(
-            scene=dict(
-                xaxis_title='X Axis',
-                yaxis_title='Y Axis',
-                zaxis_title='Z Axis',
-                camera=dict(
-                    up=dict(x=0, y=0, z=1),
-                    center=dict(x=0, y=0, z=0),
-                    eye=dict(x=1.25, y=1.25, z=1.25)
-                ),
-                dragmode='orbit'
-            ),
-            scene_camera_projection=dict(type='perspective')
-        )
 
         return fig
 
@@ -799,7 +787,7 @@ if __name__ == '__main__':
     # bb = BoundingBox([0, 10], [0, 10], [0, 10])
 
     # Choose plotting method. Possible choices: pyplot, VTK, TikZ, plotly, None
-    PLOTTING_METHOD = "VTK"
+    PLOTTING_METHOD = "plotly"
 
     match PLOTTING_METHOD:
         case "pyplot":
@@ -809,7 +797,6 @@ if __name__ == '__main__':
             for n in nodes:
                 n.plotNode(axes[0])
             # bb.plotBoundingBox(axes[0])
-
 
         case "VTK":
             _log.info("Plotting with VTK selected.")
@@ -832,7 +819,9 @@ if __name__ == '__main__':
 
         case "plotly":
             _log.info("Plotting with plotly selected.")
-            _log.warning("Not implemented yet.")
+            node_plotly = NodePlotly(random_nodes)
+            plotly_fig = node_plotly.plot_nodes_plotly(show_label=False)
+            plotly_fig.show()
 
         case "None":
             _log.info("No plotting selected.")

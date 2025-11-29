@@ -35,6 +35,7 @@ import plotly.graph_objects as go
 #    kCells
 # -------------------------------------------------------------------
 from pyCellFoamCore.k_cells.cell.base_cell import BaseCell
+from pyCellFoamCore.k_cells.cell.base_cell import BaseCellPlotly
 
 #    Tools
 # -------------------------------------------------------------------
@@ -223,15 +224,18 @@ class BaseEdge(BaseCell):
 #    PLOTLY CLASS FOR FAST PLOTTING
 # =============================================================================
 
-class EdgePlotly:
+class EdgePlotly(BaseCellPlotly):
     def __init__(self, edges):
         self.edges = edges
 
-    def plot_edges_plotly(self, fig=None, show_label=True, show_barycenter=True, show_direction=True, cone_size=2):
+    def plot_edges_plotly(self, fig=None, show_label=True, show_barycenter=True, show_direction=True, cone_size=2, **kwargs):
 
+        """
+        kwargs:
+            show_axes: bool
+        """
 
-        if fig is None:
-            fig = go.Figure()
+        fig = self._create_plotly_figure(fig, **kwargs)
 
         lines_x = []
         lines_y = []

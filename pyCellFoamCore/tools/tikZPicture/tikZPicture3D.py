@@ -72,6 +72,8 @@ class TikZPicture3D(TikZPicture):
         self.__tikZPerspective = None
         if tikZPerspective:
             self.tikZPerspective = tikZPerspective
+
+        self.logger.critical("tikzPerspective: %s", self.__tikZPerspective)
 #        self.__tikZPerspective = tikZPerspective
 #        if self.__tikZPerspective:
 #            self.__tikZPerspective.tikZEnvironment.append(self)

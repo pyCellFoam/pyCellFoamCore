@@ -21,8 +21,8 @@ if __name__ == '__main__':
 
 import numpy as np
 
-import tools.colorConsole as cc
-from tools.tikZPicture.tikZElement import TikZElement
+import pyCellFoamCore.tools.colorConsole as cc
+from pyCellFoamCore.tools.tikZPicture.tikZElement import TikZElement
 
 #==============================================================================
 #    CLASS DEFINITION
@@ -134,5 +134,3 @@ if __name__ == '__main__':
 
         cc.printBlue('Create LaTeX file')
         # pic.writeLaTeXFile('latex','tikZPerspective',compileFile=True,openFile=True)
-
-

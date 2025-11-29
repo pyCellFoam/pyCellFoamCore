@@ -554,18 +554,15 @@ plotly_volumes = VolumePlotly(volumes)
 # plotly_edges.plot_edges_plotly(plotly_fig_nodes_edges, show_label=False, cone_size=1.5)
 # plotly_fig_nodes_edges.show()
 
-plotly_fig_edges_faces = plotly_edges.plot_edges_plotly(show_label=False, cone_size=0.05, show_barycenter=False)
+plotly_fig_edges_faces = plotly_edges.plot_edges_plotly(show_label=False, cone_size=0.05, show_barycenter=False, show_axes=False)
 plotly_faces.plot_faces_plotly(plotly_fig_edges_faces, show_label=False, cone_size=0.05, show_barycenter=False)
 plotly_fig_edges_faces.update_layout(
     scene={
-    "camera": {
-        "up": {"x": -0.234, "y": 0.908, "z": -0.344},
-        "center": {"x": 0, "y": 0, "z": 0},
-        "eye": {"x": 1.075, "y": 0.899, "z": 1.648},
-    },
-    "xaxis": {"visible": False},
-    "yaxis": {"visible": False},
-    "zaxis": {"visible": False}
+        "camera": {
+            "up": {"x": -0.234, "y": 0.908, "z": -0.344},
+            "center": {"x": 0, "y": 0, "z": 0},
+            "eye": {"x": 1.075, "y": 0.899, "z": 1.648},
+        },
     }
 )
 plotly_fig_edges_faces.show()
