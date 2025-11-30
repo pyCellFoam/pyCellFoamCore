@@ -971,7 +971,7 @@ class IMorphInterface(PrimalComplex3D):
                                         face_found = True
                                         paths[other_node] = paths[n] + [connection]
                                         _log.debug("Found face with edges: %s", paths[other_node])
-                                        newFace = Face(paths[other_node], triangulate=True)
+                                        newFace = Face(paths[other_node], triangulate=False)
                                         edges_on_side.extend(paths[other_node])
                                         newFace.color = tc.TUMOrange()
                                         self.faces.append(newFace)
@@ -1028,7 +1028,7 @@ class IMorphInterface(PrimalComplex3D):
                                     face_found = True
                                     paths[other_node] = paths[n] + [connection]
                                     _log.critical("Found face with edges: %s", paths[other_node])
-                                    newFace = Face(paths[other_node], triangulate=True)
+                                    newFace = Face(paths[other_node], triangulate=False)
                                     edges_on_side.extend(paths[other_node])
                                     newFace.color = tc.TUMGrayMedium()
                                     self.faces.append(newFace)
