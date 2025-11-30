@@ -16,7 +16,7 @@ from pyCellFoamCore.complex.dualComplex3D import DualComplex3D
 _log = logging.getLogger(__name__)
 _log.setLevel(logging.INFO)
 
-set_logging_format(logging.INFO)
+set_logging_format(logging.WARNING)
 
 n0 = Node(1.08, 1.23, 0.15, num=0)
 n1 = Node(0.78, 0.96, 0.3, num=1)
@@ -69,7 +69,7 @@ n10007 = Node(1.395, 0.0, 1.3199999999999998, num=10007)
 n10008 = Node(0.6599999999999999, 0.0, 1.3199999999999998, num=10008)
 n10009 = Node(1.8599999999999999, 0.285, 1.3199999999999998, num=10009)
 n10010 = Node(1.8599999999999999, 0.375, 1.3199999999999998, num=10010)
-n10011 = Node(0.26999999999999996, 0.0, 0.0, num=10011)
+n10011 = Node(0.06999999999999996, 0.0, 0.0, num=10011)
 n10012 = Node(0.0, 0.51, 1.3199999999999998, num=10012)
 n10013 = Node(0.0, 1.2599999999999998, 1.3199999999999998, num=10013)
 gn0 = Node(0.9224999999999999, 1.0574999999999999, 0.11249999999999999, num=0)
@@ -565,7 +565,7 @@ plotly_fig_edges_faces.update_layout(
         },
     }
 )
-plotly_fig_edges_faces.show()
+# plotly_fig_edges_faces.show()
 
 # for f in faces:
 #     if f in faces_for_volumes or -f in faces_for_volumes:
@@ -573,7 +573,10 @@ plotly_fig_edges_faces.show()
 #     else:
 #         f.color = tc.TUMGreen()
 
+f39.color = tc.TUMBlack()
+
 # plotly_fig_faces = plotly_faces.plot_faces_plotly(show_normal_vec=False)
+# plotly_nodes.plot_nodes_plotly(plotly_fig_faces, show_label=True)
 # plotly_fig_faces.show()
 
 # plotly_fig_faces2 = plotly_faces2.plot_faces_plotly()
@@ -584,24 +587,39 @@ plotly_fig_edges_faces.show()
 
 pc = PrimalComplex3D(nodes, edges, faces, volumes)
 dc = DualComplex3D(pc)
-for n in nodes:
-    n.color = tc.TUMBlue()
-for e in pc.edges:
-    e.color = tc.TUMBlue()
-for e in dc.edges:
-    e.color = tc.TUMOrange()
 
-for n in dc.innerNodes:
-    n.color = tc.TUMOrange()
-for n in dc.additionalBorderNodes:
-    n.color = tc.TUMBlack()
+
+
+
+# for n in nodes:
+#     n.color = tc.TUMBlue()
+# for e in pc.edges:
+#     e.color = tc.TUMBlue()
+# for e in dc.edges:
+#     e.color = tc.TUMBlack()
+
+# for n in dc.innerNodes:
+#     n.color = tc.TUMOrange()
+# for n in dc.additionalBorderNodes:
+#     n.color = tc.TUMBlack()
 
 # plotly_nodes_dual = NodePlotly(dc.nodes)
-plotly_edges_dual = EdgePlotly(dc.edges)
-plotly_faces_dual = FacePlotly(dc.faces)
+# plotly_edges_dual = EdgePlotly(dc.edges)
+# plotly_faces_dual = FacePlotly(dc.faces)
+
+# problem_edge = [e for e in dc.innerEdges if e.num == 39][0]
+# problem_face = problem_edge.dualCell3D
+# _log.critical("edge: %s", problem_edge)
+# _log.critical("face: %s", problem_face)
+
+# problem_edge.color = tc.TUMRose()
+# plotly_problem_face = FacePlotly([problem_face])
+
+
 
 
 # plotly_fig_edges_dual = plotly_edges_dual.plot_edges_plotly(show_label=False, show_direction=False, show_barycenter=False)
+# plotly_problem_face.plot_faces_plotly(plotly_fig_edges_dual, show_label=False, cone_size=0.1, show_barycenter=False)
 # plotly_edges.plot_edges_plotly(plotly_fig_edges_dual, show_label=False, show_direction=False, show_barycenter=False)
 # plotly_nodes_dual.plot_nodes_plotly(plotly_fig_edges_dual, show_label=False)
 # plotly_nodes.plot_nodes_plotly(plotly_fig_edges_dual, show_label=False)
@@ -610,7 +628,7 @@ plotly_faces_dual = FacePlotly(dc.faces)
 # plotly_fig_faces_dual = plotly_faces_dual.plot_faces_plotly(show_normal_vec=False, show_label=False)
 # plotly_fig_faces_dual.show()
 
-# dc.checkAllIncidenceMatrices()
+dc.checkAllIncidenceMatrices()
 
 # print(len(pc.borderNodes), len(dc.borderVolumes))
 
