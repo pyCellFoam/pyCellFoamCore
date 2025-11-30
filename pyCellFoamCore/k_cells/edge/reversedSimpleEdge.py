@@ -137,6 +137,12 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
 
     '''
 
+    def __getRadius(self): return self.my_reverse.radius
+
+    def __setRadius(self, r): self.my_reverse.radius = r
+
+    radius = property(__getRadius, __setRadius)
+
 # =============================================================================
 #    METHODS
 # =============================================================================

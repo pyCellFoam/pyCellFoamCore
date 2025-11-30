@@ -105,6 +105,7 @@ class Node(Cell):
         self.__draw = True
         self.__onBoundingBoxSides = []
         self.__tikZNodes = {}
+        self.__radius = 0
         _log.info('Created node {}'.format(self.info_text))
         _log.debug('Initialized Node')
 
@@ -272,6 +273,18 @@ class Node(Cell):
                               ' given tikzpicture')
         else:
             self.tikZNodes[tikZPicture] = tikZNode
+
+    def __get_radius(self): return self.__radius
+    def __set_radius(self, r): self.__radius = r
+    radius = property(__get_radius, __set_radius)
+    '''
+    Radius of the node.
+
+    '''
+
+    def __get_sphere_volume(self):
+        return (4/3) * np.pi * self.radius**3
+    sphere_volume = property(__get_sphere_volume)
 
     # ------------------------------------------------------------------------
     #    Methods

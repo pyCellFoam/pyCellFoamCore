@@ -163,6 +163,7 @@ class ReversedEdge(BaseEdge, ReversedCell):
             _log.error('No reverse defined')
     projectionFace = property(__getProjectionFace)
 
+
 # =============================================================================
 #    METHODS
 # =============================================================================
