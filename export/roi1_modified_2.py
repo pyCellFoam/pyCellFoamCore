@@ -9,6 +9,11 @@ from pyCellFoamCore.k_cells.face.baseFace import FacePlotly
 from pyCellFoamCore.k_cells.volume.volume import Volume
 from pyCellFoamCore.k_cells.volume.volume import VolumePlotly
 from pyCellFoamCore.tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.tumcolor as tc
+
+_log = logging.getLogger(__name__)
+_log.setLevel(logging.INFO)
+
 
 set_logging_format(logging.INFO)
 
@@ -620,7 +625,110 @@ gn272 = Node(0.1275, 2.8875, 2.505, num=272)
 gn273 = Node(0.0975, 2.565, 2.6174999999999997, num=273)
 gn274 = Node(0.21750000000000003, 2.79, 2.7075, num=274)
 gn275 = Node(1.0725, 2.6950000000000003, 2.525, num=275)
+gn276 = Node(0.0, 0.10875, 0.13874999999999998, num=276)
+gn277 = Node(0.0, 0.60375, 0.08249999999999999, num=277)
+gn278 = Node(0.0, 1.287, 0.156, num=278)
+gn279 = Node(0.0, 2.1209999999999996, 0.252, num=279)
+gn280 = Node(0.0, 2.8049999999999997, 0.14625, num=280)
+gn281 = Node(0.0, 0.32999999999999996, 2.58375, num=281)
+gn282 = Node(0.024999999999999998, 1.2825, 2.41, num=282)
+gn283 = Node(0.0, 1.98, 2.6999999999999997, num=283)
+gn284 = Node(0.0, 2.691, 2.646, num=284)
+gn285 = Node(0.0, 0.5228571428571429, 0.6107142857142857, num=285)
+gn286 = Node(0.0, 0.22499999999999998, 1.86375, num=286)
+gn287 = Node(0.0, 2.6199999999999997, 0.9375, num=287)
+gn288 = Node(0.0, 2.8949999999999996, 1.9274999999999998, num=288)
+gn289 = Node(0.0, 1.8872727272727274, 1.491818181818182, num=289)
+gn290 = Node(0.0525, 0.0, 0.23624999999999996, num=290)
+gn291 = Node(0.565, 0.0, 0.6699999999999999, num=291)
+gn292 = Node(1.4369999999999998, 0.0, 0.32999999999999996, num=292)
+gn293 = Node(1.9949999999999999, 0.0, 0.11249999999999999, num=293)
+gn294 = Node(2.766428571428571, 0.0, 0.45428571428571424, num=294)
+gn295 = Node(3.2880000000000003, 0.0, 0.369, num=295)
+gn296 = Node(0.5399999999999999, 0.0, 2.5625, num=296)
+gn297 = Node(1.7442857142857142, 0.0, 2.112857142857143, num=297)
+gn298 = Node(2.6999999999999997, 0.0, 2.3775, num=298)
+gn299 = Node(3.2099999999999995, 0.0, 2.205, num=299)
+gn300 = Node(0.11400000000000002, 0.0, 1.2, num=300)
+gn301 = Node(0.09, 0.0, 1.93125, num=301)
+gn302 = Node(3.252, 0.0, 1.14, num=302)
+gn303 = Node(1.9449999999999996, 0.0, 0.84, num=303)
+gn304 = Node(1.206, 0.0, 1.242, num=304)
+gn305 = Node(2.73, 0.0, 1.46, num=305)
+gn306 = Node(0.6171428571428571, 0.0, 1.9628571428571429, num=306)
+gn307 = Node(0.1275, 0.08625, 0.0, num=307)
+gn308 = Node(0.564, 0.192, 0.0, num=308)
+gn309 = Node(1.3724999999999998, 0.49499999999999994, 0.0, num=309)
+gn310 = Node(2.055, 0.255, 0.0, num=310)
+gn311 = Node(2.667, 0.294, 0.0, num=311)
+gn312 = Node(3.042857142857143, 0.8121428571428572, 0.0, num=312)
+gn313 = Node(0.105, 2.8049999999999997, 0.0, num=313)
+gn314 = Node(0.715, 2.64, 0.0, num=314)
+gn315 = Node(1.7129999999999999, 2.772, 0.0, num=315)
+gn316 = Node(2.304375, 2.5912499999999996, 0.0, num=316)
+gn317 = Node(2.9299999999999997, 2.5549999999999997, 0.0, num=317)
+gn318 = Node(0.246, 0.5429999999999999, 0.0, num=318)
+gn319 = Node(0.246, 1.3530000000000002, 0.0, num=319)
+gn320 = Node(0.18, 2.199, 0.0, num=320)
+gn321 = Node(3.2025, 1.92375, 0.0, num=321)
+gn322 = Node(2.645, 1.9000000000000001, 0.0, num=322)
+gn323 = Node(2.19, 1.0242857142857145, 0.0, num=323)
+gn324 = Node(2.052, 1.89, 0.0, num=324)
+gn325 = Node(1.39, 1.42, 0.0, num=325)
+gn326 = Node(0.71, 0.9049999999999999, 0.0, num=326)
+gn327 = Node(0.75, 1.8250000000000002, 0.0, num=327)
+gn328 = Node(1.49, 2.26, 0.0, num=328)
+gn329 = Node(3.4200000000000004, 0.825, 0.36899999999999994, num=329)
+gn330 = Node(3.42, 1.8712499999999999, 0.22499999999999998, num=330)
+gn331 = Node(3.4200000000000004, 2.58, 0.6599999999999999, num=331)
+gn332 = Node(3.42, 0.21375, 2.35125, num=332)
+gn333 = Node(3.4200000000000004, 1.0925, 2.17, num=333)
+gn334 = Node(3.4200000000000004, 2.0039999999999996, 2.442, num=334)
+gn335 = Node(3.420000000000001, 2.4974999999999996, 1.86375, num=335)
+gn336 = Node(3.4200000000000004, 0.534, 1.326, num=336)
+gn337 = Node(3.420000000000001, 1.6328571428571428, 1.0414285714285714, num=337)
+gn338 = Node(3.42, 1.7175, 1.8825, num=338)
+gn339 = Node(0.135, 3.0, 0.16875, num=339)
+gn340 = Node(0.6839999999999999, 3.0, 0.27, num=340)
+gn341 = Node(1.6375000000000002, 3.0, 0.36000000000000004, num=341)
+gn342 = Node(2.2692857142857146, 3.0, 0.5571428571428572, num=342)
+gn343 = Node(2.9699999999999998, 3.0, 1.0499999999999998, num=343)
+gn344 = Node(0.12000000000000001, 3.0, 2.6925, num=344)
+gn345 = Node(0.522, 3.0, 2.664, num=345)
+gn346 = Node(1.6404545454545454, 3.0, 2.34, num=346)
+gn347 = Node(3.222, 3.0, 2.268, num=347)
+gn348 = Node(0.282, 3.0, 0.807, num=348)
+gn349 = Node(0.34500000000000003, 3.0, 2.02, num=349)
+gn350 = Node(0.9049999999999999, 3.0, 1.105, num=350)
+gn351 = Node(1.57, 3.0, 1.4349999999999998, num=351)
+gn352 = Node(2.8875, 3.0, 1.38, num=352)
+gn353 = Node(2.6633333333333336, 3.0, 1.8166666666666664, num=353)
+gn354 = Node(0.7387499999999999, 0.48375, 2.82, num=354)
+gn355 = Node(1.77, 0.12, 2.82, num=355)
+gn356 = Node(2.562, 0.198, 2.82, num=356)
+gn357 = Node(3.2624999999999997, 0.10125, 2.82, num=357)
+gn358 = Node(0.09, 2.68875, 2.82, num=358)
+gn359 = Node(0.5700000000000001, 2.646, 2.82, num=359)
+gn360 = Node(0.9787499999999999, 2.6774999999999998, 2.82, num=360)
+gn361 = Node(2.0625, 2.61, 2.82, num=361)
+gn362 = Node(3.2699999999999996, 2.7375000000000003, 2.82, num=362)
+gn363 = Node(0.08249999999999999, 1.1212499999999999, 2.82, num=363)
+gn364 = Node(0.3685714285714286, 1.932857142857143, 2.807142857142857, num=364)
+gn365 = Node(2.807142857142857, 0.9792857142857141, 2.82, num=365)
+gn366 = Node(3.195, 2.0475, 2.82, num=366)
+gn367 = Node(0.87, 2.2875, 2.82, num=367)
+gn368 = Node(1.4249999999999998, 1.735, 2.8049999999999997, num=368)
+gn369 = Node(1.2675, 0.9974999999999999, 2.7975, num=369)
+gn370 = Node(2.4659999999999997, 2.106, 2.82, num=370)
+gn371 = Node(0.5399999999999999, 0.9959999999999999, 2.802, num=371)
+gn372 = Node(1.8999999999999997, 0.6699999999999999, 2.82, num=372)
 nodes = [n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, n13, n14, n15, n16, n17, n18, n19, n20, n21, n22, n23, n24, n25, n26, n27, n28, n29, n30, n31, n32, n33, n34, n35, n36, n37, n38, n39, n40, n41, n42, n43, n44, n45, n46, n47, n48, n49, n50, n51, n52, n53, n54, n55, n56, n57, n58, n59, n60, n61, n62, n63, n64, n65, n66, n67, n68, n69, n70, n71, n72, n73, n74, n75, n76, n77, n78, n79, n80, n81, n82, n83, n84, n85, n86, n87, n88, n89, n90, n91, n92, n93, n94, n95, n96, n97, n98, n99, n100, n101, n102, n103, n104, n105, n106, n107, n108, n109, n110, n111, n112, n113, n114, n115, n116, n117, n118, n119, n120, n121, n122, n123, n124, n125, n126, n127, n128, n129, n130, n131, n132, n133, n134, n135, n136, n137, n138, n139, n140, n141, n142, n143, n144, n145, n146, n147, n148, n149, n150, n151, n152, n153, n154, n155, n156, n157, n158, n159, n160, n161, n162, n163, n164, n165, n166, n167, n168, n169, n170, n171, n172, n173, n174, n175, n176, n177, n178, n179, n180, n181, n182, n183, n184, n185, n186, n187, n188, n189, n190, n191, n192, n193, n194, n195, n196, n197, n198, n199, n200, n201, n202, n203, n204, n205, n206, n207, n208, n209, n210, n211, n212, n213, n214, n215, n216, n217, n218, n219, n220, n221, n222, n223, n224, n225, n226, n227, n228, n229, n230, n231, n232, n233, n234, n235, n236, n237, n238, n239, n240, n241, n242, n243, n244, n245, n246, n247, n248, n249, n250, n251, n252, n253, n254, n255, n256, n257, n258, n259, n260, n261, n262, n263, n264, n265, n266, n267, n268, n269, n270, n271, n272, n273, n274, n275, n276, n277, n278, n279, n280, n281, n282, n283, n284, n285, n10000, n10001, n10002, n10003, n10004, n10005, n10006, n10007, n10008, n10009, n10010, n10011, n10012, n10013, n10014, n10015, n10016, n10017, n10018, n10019, n10020, n10021, n10022, n10023, n10024, n10025, n10026, n10027, n10028, n10029, n10030, n10031, n10032, n10033, n10034, n10035, n10036, n10037, n324, n325, n326, n327, n328, n329, n330, n331]
+
+n20000 = Node(0.63, 0.0, 2.82, num=20000)
+
+new_nodes = [n20000]
+
+nodes.extend(new_nodes)
 
 e0 = Edge(n0, n1, num=0)
 e1 = Edge(n0, n4, num=1)
@@ -1010,7 +1118,7 @@ e384 = Edge(n160, n180, num=384)
 e385 = Edge(n163, n167, num=385)
 e386 = Edge(n165, n218, num=386)
 e387 = Edge(n167, n168, num=387)
-e388 = Edge(n170, n256, num=388)
+# e388 = Edge(n170, n256, num=388)
 e389 = Edge(n180, n181, num=389)
 e390 = Edge(n180, n187, num=390)
 e391 = Edge(n181, n187, num=391)
@@ -1250,7 +1358,7 @@ e624 = Edge(n10013, n10000, num=624)
 e625 = Edge(n10000, n10008, num=625)
 e626 = Edge(n10008, n10031, num=626)
 e627 = Edge(n10031, n328, num=627)
-e628 = Edge(n325, n10022, num=628)
+# e628 = Edge(n325, n10022, num=628)
 e629 = Edge(n10022, n10018, num=629)
 e630 = Edge(n10018, n10020, num=630)
 e631 = Edge(n10020, n329, num=631)
@@ -2615,9 +2723,605 @@ ge1317 = Edge(n247, gn275, num=1317)  # Geometric edge
 ge1318 = Edge(n205, gn275, num=1318)  # Geometric edge
 ge1319 = Edge(n257, gn275, num=1319)  # Geometric edge
 ge1320 = Edge(n10032, gn275, num=1320)  # Geometric edge
-edges = [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, e23, e24, e25, e26, e27, e28, e29, e30, e31, e32, e33, e34, e35, e36, e37, e38, e39, e40, e41, e42, e43, e44, e45, e46, e47, e48, e49, e50, e51, e52, e53, e54, e55, e56, e57, e58, e59, e60, e61, e62, e63, e64, e65, e66, e67, e68, e69, e70, e71, e72, e73, e74, e75, e76, e77, e78, e79, e80, e81, e82, e83, e84, e85, e86, e87, e88, e89, e90, e91, e92, e93, e94, e95, e96, e97, e98, e99, e100, e101, e102, e103, e104, e105, e106, e107, e108, e109, e110, e111, e112, e113, e114, e115, e116, e117, e118, e119, e120, e121, e122, e123, e124, e125, e126, e127, e128, e129, e130, e131, e132, e133, e134, e135, e136, e137, e138, e139, e140, e141, e142, e143, e144, e145, e146, e147, e148, e149, e150, e151, e152, e153, e154, e155, e156, e157, e158, e159, e160, e161, e162, e163, e164, e165, e166, e167, e168, e169, e170, e171, e172, e173, e174, e175, e176, e177, e178, e179, e180, e181, e182, e183, e184, e185, e186, e187, e188, e189, e190, e191, e192, e193, e194, e195, e196, e197, e198, e199, e200, e201, e202, e203, e204, e205, e206, e207, e208, e209, e210, e211, e212, e213, e214, e215, e216, e217, e218, e219, e220, e221, e222, e223, e224, e225, e226, e227, e228, e229, e230, e231, e232, e233, e234, e235, e236, e237, e238, e239, e240, e241, e242, e243, e244, e245, e246, e247, e248, e249, e250, e251, e252, e253, e254, e255, e256, e257, e258, e259, e260, e261, e262, e263, e264, e265, e266, e267, e268, e269, e270, e271, e272, e273, e274, e275, e276, e277, e278, e279, e280, e281, e282, e283, e284, e285, e286, e287, e288, e289, e290, e291, e292, e293, e294, e295, e296, e297, e298, e299, e300, e301, e302, e303, e304, e305, e306, e307, e308, e309, e310, e311, e312, e313, e314, e315, e316, e317, e318, e319, e320, e321, e322, e323, e324, e325, e326, e327, e328, e329, e330, e331, e332, e333, e334, e335, e336, e337, e338, e339, e340, e341, e342, e343, e344, e345, e346, e347, e348, e349, e350, e351, e352, e353, e354, e355, e356, e357, e358, e359, e360, e361, e362, e363, e364, e365, e366, e367, e368, e369, e370, e371, e372, e373, e374, e375, e376, e377, e378, e379, e380, e381, e382, e383, e384, e385, e386, e387, e388, e389, e390, e391, e392, e393, e394, e395, e396, e397, e398, e399, e400, e401, e402, e403, e404, e405, e406, e407, e408, e409, e410, e411, e412, e413, e414, e415, e416, e417, e418, e419, e420, e421, e422, e423, e424, e425, e426, e427, e428, e429, e430, e431, e432, e433, e434, e435, e436, e437, e438, e439, e440, e441, e442, e10000, e10001, e10002, e10003, e10004, e10005, e10006, e10007, e10008, e10009, e10010, e10011, e10012, e10013, e10014, e10015, e10016, e10017, e10018, e10019, e10020, e10021, e10022, e10023, e10024, e10025, e10026, e10027, e10028, e10029, e10030, e10031, e10032, e10033, e10034, e10035, e10036, e10037, e10038, e10039, e10040, e10041, e10042, e10043, e10044, e10045, e10046, e10047, e10048, e10049, e10050, e10051, e10052, e10053, e10054, e10055, e10056, e10057, e10058, e10059, e10060, e10061, e10062, e10063, e10064, e10065, e10066, e10067, e10068, e10069, e10070, e10071, e10072, e10073, e10074, e10075, e10076, e10077, e10078, e10079, e10080, e10081, e10082, e10083, e10084, e10085, e10086, e10087, e10088, e10089, e10090, e10091, e10092, e10093, e10094, e10095, e10096, e10097, e10098, e10099, e10100, e10101, e10102, e10103, e10104, e10105, e10106, e10107, e10108, e10109, e10110, e10111, e10112, e10113, e10114, e10115, e10116, e10117, e10118, e10119, e10120, e10121, e10122, e10123, e10124, e10125, e10126, e10127, e10128, e10129, e10130, e10131, e10132, e10133, e10134, e10135, e10136, e10137, e10138, e10139, e10140, e10141, e10142, e10143, e10144, e10145, e10146, e10147, e10148, e10149, e10150, e10151, e10152, e10153, e10154, e10155, e10156, e10157, e10158, e10159, e10160, e10161, e10162, e10163, e10164, e10165, e10166, e10167, e10168, e10169, e10170, e10171, e10172, e10173, e10174, e10175, e10176, e10177, e10178, e622, e623, e624, e625, e626, e627, e628, e629, e630, e631, e632, e633, e634, e635, e636, e637, e638, e639, e640, e641, e642, e643, e644, e645, e646, e647, e648, e649, e650, e651, e652, e653, e654, e655, e656, e657, e658, e659, e660, e661, e662, e663, e664, e665, e666, e667, e668, e669, e670, e671]
+ge1322 = Edge(n10005, gn276, num=1322)  # Geometric edge
+ge1321 = Edge(n324, gn276, num=1321)  # Geometric edge
+ge1323 = Edge(n259, gn276, num=1323)  # Geometric edge
+ge1324 = Edge(n10007, gn276, num=1324)  # Geometric edge
+ge1326 = Edge(n10001, gn277, num=1326)  # Geometric edge
+ge1325 = Edge(n10005, gn277, num=1325)  # Geometric edge
+ge1327 = Edge(n258, gn277, num=1327)  # Geometric edge
+ge1328 = Edge(n259, gn277, num=1328)  # Geometric edge
+ge1330 = Edge(n10009, gn278, num=1330)  # Geometric edge
+ge1329 = Edge(n10001, gn278, num=1329)  # Geometric edge
+ge1331 = Edge(n260, gn278, num=1331)  # Geometric edge
+ge1332 = Edge(n262, gn278, num=1332)  # Geometric edge
+ge1333 = Edge(n258, gn278, num=1333)  # Geometric edge
+ge1335 = Edge(n10002, gn279, num=1335)  # Geometric edge
+ge1334 = Edge(n10009, gn279, num=1334)  # Geometric edge
+ge1336 = Edge(n261, gn279, num=1336)  # Geometric edge
+ge1337 = Edge(n265, gn279, num=1337)  # Geometric edge
+ge1338 = Edge(n260, gn279, num=1338)  # Geometric edge
+ge1340 = Edge(n326, gn280, num=1340)  # Geometric edge
+ge1339 = Edge(n10002, gn280, num=1339)  # Geometric edge
+ge1341 = Edge(n10004, gn280, num=1341)  # Geometric edge
+ge1342 = Edge(n261, gn280, num=1342)  # Geometric edge
+ge1344 = Edge(n10025, gn281, num=1344)  # Geometric edge
+ge1343 = Edge(n325, gn281, num=1343)  # Geometric edge
+ge1345 = Edge(n281, gn281, num=1345)  # Geometric edge
+ge1346 = Edge(n10023, gn281, num=1346)  # Geometric edge
+ge1348 = Edge(n10024, gn282, num=1348)  # Geometric edge
+ge1347 = Edge(n10025, gn282, num=1347)  # Geometric edge
+ge1349 = Edge(n284, gn282, num=1349)  # Geometric edge
+ge1350 = Edge(n140, gn282, num=1350)  # Geometric edge
+ge1351 = Edge(n276, gn282, num=1351)  # Geometric edge
+ge1352 = Edge(n281, gn282, num=1352)  # Geometric edge
+ge1354 = Edge(n10033, gn283, num=1354)  # Geometric edge
+ge1353 = Edge(n10024, gn283, num=1353)  # Geometric edge
+ge1355 = Edge(n285, gn283, num=1355)  # Geometric edge
+ge1356 = Edge(n284, gn283, num=1356)  # Geometric edge
+ge1358 = Edge(n327, gn284, num=1358)  # Geometric edge
+ge1357 = Edge(n10033, gn284, num=1357)  # Geometric edge
+ge1359 = Edge(n10029, gn284, num=1359)  # Geometric edge
+ge1360 = Edge(n283, gn284, num=1360)  # Geometric edge
+ge1361 = Edge(n285, gn284, num=1361)  # Geometric edge
+ge1363 = Edge(n10015, gn285, num=1363)  # Geometric edge
+ge1362 = Edge(n10007, gn285, num=1362)  # Geometric edge
+ge1364 = Edge(n270, gn285, num=1364)  # Geometric edge
+ge1365 = Edge(n269, gn285, num=1365)  # Geometric edge
+ge1366 = Edge(n262, gn285, num=1366)  # Geometric edge
+ge1367 = Edge(n258, gn285, num=1367)  # Geometric edge
+ge1368 = Edge(n259, gn285, num=1368)  # Geometric edge
+ge1370 = Edge(n10023, gn286, num=1370)  # Geometric edge
+ge1369 = Edge(n10037, gn286, num=1369)  # Geometric edge
+ge1371 = Edge(n281, gn286, num=1371)  # Geometric edge
+ge1372 = Edge(n270, gn286, num=1372)  # Geometric edge
+ge1374 = Edge(n10017, gn287, num=1374)  # Geometric edge
+ge1373 = Edge(n10004, gn287, num=1373)  # Geometric edge
+ge1375 = Edge(n273, gn287, num=1375)  # Geometric edge
+ge1376 = Edge(n272, gn287, num=1376)  # Geometric edge
+ge1377 = Edge(n265, gn287, num=1377)  # Geometric edge
+ge1378 = Edge(n261, gn287, num=1378)  # Geometric edge
+ge1380 = Edge(n10029, gn288, num=1380)  # Geometric edge
+ge1379 = Edge(n10017, gn288, num=1379)  # Geometric edge
+ge1381 = Edge(n283, gn288, num=1381)  # Geometric edge
+ge1382 = Edge(n273, gn288, num=1382)  # Geometric edge
+ge1384 = Edge(n260, gn289, num=1384)  # Geometric edge
+ge1383 = Edge(n265, gn289, num=1383)  # Geometric edge
+ge1385 = Edge(n262, gn289, num=1385)  # Geometric edge
+ge1386 = Edge(n269, gn289, num=1386)  # Geometric edge
+ge1387 = Edge(n276, gn289, num=1387)  # Geometric edge
+ge1388 = Edge(n277, gn289, num=1388)  # Geometric edge
+ge1389 = Edge(n284, gn289, num=1389)  # Geometric edge
+ge1390 = Edge(n285, gn289, num=1390)  # Geometric edge
+ge1391 = Edge(n283, gn289, num=1391)  # Geometric edge
+ge1392 = Edge(n273, gn289, num=1392)  # Geometric edge
+ge1393 = Edge(n272, gn289, num=1393)  # Geometric edge
+ge1395 = Edge(n10006, gn290, num=1395)  # Geometric edge
+ge1394 = Edge(n324, gn290, num=1394)  # Geometric edge
+ge1396 = Edge(n219, gn290, num=1396)  # Geometric edge
+ge1397 = Edge(n10007, gn290, num=1397)  # Geometric edge
+ge1399 = Edge(n10013, gn291, num=1399)  # Geometric edge
+ge1398 = Edge(n10006, gn291, num=1398)  # Geometric edge
+ge1400 = Edge(n222, gn291, num=1400)  # Geometric edge
+ge1401 = Edge(n234, gn291, num=1401)  # Geometric edge
+ge1402 = Edge(n233, gn291, num=1402)  # Geometric edge
+ge1403 = Edge(n219, gn291, num=1403)  # Geometric edge
+ge1405 = Edge(n10000, gn292, num=1405)  # Geometric edge
+ge1404 = Edge(n10013, gn292, num=1404)  # Geometric edge
+ge1406 = Edge(n213, gn292, num=1406)  # Geometric edge
+ge1407 = Edge(n224, gn292, num=1407)  # Geometric edge
+ge1408 = Edge(n222, gn292, num=1408)  # Geometric edge
+ge1410 = Edge(n10008, gn293, num=1410)  # Geometric edge
+ge1409 = Edge(n10000, gn293, num=1409)  # Geometric edge
+ge1411 = Edge(n214, gn293, num=1411)  # Geometric edge
+ge1412 = Edge(n213, gn293, num=1412)  # Geometric edge
+ge1414 = Edge(n10031, gn294, num=1414)  # Geometric edge
+ge1413 = Edge(n10008, gn294, num=1413)  # Geometric edge
+ge1415 = Edge(n218, gn294, num=1415)  # Geometric edge
+ge1416 = Edge(n223, gn294, num=1416)  # Geometric edge
+ge1417 = Edge(n228, gn294, num=1417)  # Geometric edge
+ge1418 = Edge(n227, gn294, num=1418)  # Geometric edge
+ge1419 = Edge(n214, gn294, num=1419)  # Geometric edge
+ge1421 = Edge(n328, gn295, num=1421)  # Geometric edge
+ge1420 = Edge(n10031, gn295, num=1420)  # Geometric edge
+ge1422 = Edge(n10014, gn295, num=1422)  # Geometric edge
+ge1423 = Edge(n223, gn295, num=1423)  # Geometric edge
+ge1424 = Edge(n218, gn295, num=1424)  # Geometric edge
+ge1426 = Edge(n10022, gn296, num=1426)  # Geometric edge
+ge1425 = Edge(n325, gn296, num=1425)  # Geometric edge
+ge1427 = Edge(n252, gn296, num=1427)  # Geometric edge
+ge1428 = Edge(n256, gn296, num=1428)  # Geometric edge
+ge1429 = Edge(n249, gn296, num=1429)  # Geometric edge
+ge1430 = Edge(n10023, gn296, num=1430)  # Geometric edge
+ge1432 = Edge(n10018, gn297, num=1432)  # Geometric edge
+ge1431 = Edge(n10022, gn297, num=1431)  # Geometric edge
+ge1433 = Edge(n243, gn297, num=1433)  # Geometric edge
+ge1434 = Edge(n236, gn297, num=1434)  # Geometric edge
+ge1435 = Edge(n235, gn297, num=1435)  # Geometric edge
+ge1436 = Edge(n245, gn297, num=1436)  # Geometric edge
+ge1437 = Edge(n252, gn297, num=1437)  # Geometric edge
+ge1439 = Edge(n10020, gn298, num=1439)  # Geometric edge
+ge1438 = Edge(n10018, gn298, num=1438)  # Geometric edge
+ge1440 = Edge(n246, gn298, num=1440)  # Geometric edge
+ge1441 = Edge(n243, gn298, num=1441)  # Geometric edge
+ge1443 = Edge(n329, gn299, num=1443)  # Geometric edge
+ge1442 = Edge(n10020, gn299, num=1442)  # Geometric edge
+ge1444 = Edge(n10019, gn299, num=1444)  # Geometric edge
+ge1445 = Edge(n237, gn299, num=1445)  # Geometric edge
+ge1446 = Edge(n246, gn299, num=1446)  # Geometric edge
+ge1448 = Edge(n10037, gn300, num=1448)  # Geometric edge
+ge1447 = Edge(n10015, gn300, num=1447)  # Geometric edge
+ge1449 = Edge(n238, gn300, num=1449)  # Geometric edge
+ge1450 = Edge(n233, gn300, num=1450)  # Geometric edge
+ge1451 = Edge(n219, gn300, num=1451)  # Geometric edge
+ge1453 = Edge(n10023, gn301, num=1453)  # Geometric edge
+ge1452 = Edge(n10037, gn301, num=1452)  # Geometric edge
+ge1454 = Edge(n249, gn301, num=1454)  # Geometric edge
+ge1455 = Edge(n238, gn301, num=1455)  # Geometric edge
+ge1457 = Edge(n10019, gn302, num=1457)  # Geometric edge
+ge1456 = Edge(n10014, gn302, num=1456)  # Geometric edge
+ge1458 = Edge(n237, gn302, num=1458)  # Geometric edge
+ge1459 = Edge(n228, gn302, num=1459)  # Geometric edge
+ge1460 = Edge(n223, gn302, num=1460)  # Geometric edge
+ge1462 = Edge(n213, gn303, num=1462)  # Geometric edge
+ge1461 = Edge(n224, gn303, num=1461)  # Geometric edge
+ge1463 = Edge(n214, gn303, num=1463)  # Geometric edge
+ge1464 = Edge(n227, gn303, num=1464)  # Geometric edge
+ge1465 = Edge(n236, gn303, num=1465)  # Geometric edge
+ge1466 = Edge(n235, gn303, num=1466)  # Geometric edge
+ge1468 = Edge(n222, gn304, num=1468)  # Geometric edge
+ge1467 = Edge(n234, gn304, num=1467)  # Geometric edge
+ge1469 = Edge(n224, gn304, num=1469)  # Geometric edge
+ge1470 = Edge(n235, gn304, num=1470)  # Geometric edge
+ge1471 = Edge(n245, gn304, num=1471)  # Geometric edge
+ge1473 = Edge(n227, gn305, num=1473)  # Geometric edge
+ge1472 = Edge(n228, gn305, num=1472)  # Geometric edge
+ge1474 = Edge(n236, gn305, num=1474)  # Geometric edge
+ge1475 = Edge(n243, gn305, num=1475)  # Geometric edge
+ge1476 = Edge(n246, gn305, num=1476)  # Geometric edge
+ge1477 = Edge(n237, gn305, num=1477)  # Geometric edge
+ge1479 = Edge(n233, gn306, num=1479)  # Geometric edge
+ge1478 = Edge(n234, gn306, num=1478)  # Geometric edge
+ge1480 = Edge(n238, gn306, num=1480)  # Geometric edge
+ge1481 = Edge(n249, gn306, num=1481)  # Geometric edge
+ge1482 = Edge(n256, gn306, num=1482)  # Geometric edge
+ge1483 = Edge(n252, gn306, num=1483)  # Geometric edge
+ge1484 = Edge(n245, gn306, num=1484)  # Geometric edge
+ge1486 = Edge(n10006, gn307, num=1486)  # Geometric edge
+ge1485 = Edge(n324, gn307, num=1485)  # Geometric edge
+ge1487 = Edge(n163, gn307, num=1487)  # Geometric edge
+ge1488 = Edge(n10005, gn307, num=1488)  # Geometric edge
+ge1490 = Edge(n10013, gn308, num=1490)  # Geometric edge
+ge1489 = Edge(n10006, gn308, num=1489)  # Geometric edge
+ge1491 = Edge(n168, gn308, num=1491)  # Geometric edge
+ge1492 = Edge(n167, gn308, num=1492)  # Geometric edge
+ge1493 = Edge(n163, gn308, num=1493)  # Geometric edge
+ge1495 = Edge(n10000, gn309, num=1495)  # Geometric edge
+ge1494 = Edge(n10013, gn309, num=1494)  # Geometric edge
+ge1496 = Edge(n171, gn309, num=1496)  # Geometric edge
+ge1497 = Edge(n179, gn309, num=1497)  # Geometric edge
+ge1498 = Edge(n178, gn309, num=1498)  # Geometric edge
+ge1499 = Edge(n168, gn309, num=1499)  # Geometric edge
+ge1501 = Edge(n10008, gn310, num=1501)  # Geometric edge
+ge1500 = Edge(n10000, gn310, num=1500)  # Geometric edge
+ge1502 = Edge(n169, gn310, num=1502)  # Geometric edge
+ge1503 = Edge(n171, gn310, num=1503)  # Geometric edge
+ge1505 = Edge(n10031, gn311, num=1505)  # Geometric edge
+ge1504 = Edge(n10008, gn311, num=1504)  # Geometric edge
+ge1506 = Edge(n165, gn311, num=1506)  # Geometric edge
+ge1507 = Edge(n174, gn311, num=1507)  # Geometric edge
+ge1508 = Edge(n169, gn311, num=1508)  # Geometric edge
+ge1510 = Edge(n328, gn312, num=1510)  # Geometric edge
+ge1509 = Edge(n10031, gn312, num=1509)  # Geometric edge
+ge1511 = Edge(n10010, gn312, num=1511)  # Geometric edge
+ge1512 = Edge(n190, gn312, num=1512)  # Geometric edge
+ge1513 = Edge(n185, gn312, num=1513)  # Geometric edge
+ge1514 = Edge(n174, gn312, num=1514)  # Geometric edge
+ge1515 = Edge(n165, gn312, num=1515)  # Geometric edge
+ge1517 = Edge(n10003, gn313, num=1517)  # Geometric edge
+ge1516 = Edge(n326, gn313, num=1516)  # Geometric edge
+ge1518 = Edge(n210, gn313, num=1518)  # Geometric edge
+ge1519 = Edge(n10002, gn313, num=1519)  # Geometric edge
+ge1521 = Edge(n10012, gn314, num=1521)  # Geometric edge
+ge1520 = Edge(n10003, gn314, num=1520)  # Geometric edge
+ge1522 = Edge(n209, gn314, num=1522)  # Geometric edge
+ge1523 = Edge(n201, gn314, num=1523)  # Geometric edge
+ge1524 = Edge(n199, gn314, num=1524)  # Geometric edge
+ge1525 = Edge(n210, gn314, num=1525)  # Geometric edge
+ge1527 = Edge(n10036, gn315, num=1527)  # Geometric edge
+ge1526 = Edge(n10012, gn315, num=1526)  # Geometric edge
+ge1528 = Edge(n211, gn315, num=1528)  # Geometric edge
+ge1529 = Edge(n207, gn315, num=1529)  # Geometric edge
+ge1530 = Edge(n209, gn315, num=1530)  # Geometric edge
+ge1532 = Edge(n10035, gn316, num=1532)  # Geometric edge
+ge1531 = Edge(n10036, gn316, num=1531)  # Geometric edge
+ge1533 = Edge(n208, gn316, num=1533)  # Geometric edge
+ge1534 = Edge(n202, gn316, num=1534)  # Geometric edge
+ge1535 = Edge(n196, gn316, num=1535)  # Geometric edge
+ge1536 = Edge(n203, gn316, num=1536)  # Geometric edge
+ge1537 = Edge(n207, gn316, num=1537)  # Geometric edge
+ge1538 = Edge(n211, gn316, num=1538)  # Geometric edge
+ge1540 = Edge(n330, gn317, num=1540)  # Geometric edge
+ge1539 = Edge(n10035, gn317, num=1539)  # Geometric edge
+ge1541 = Edge(n10011, gn317, num=1541)  # Geometric edge
+ge1542 = Edge(n198, gn317, num=1542)  # Geometric edge
+ge1543 = Edge(n202, gn317, num=1543)  # Geometric edge
+ge1544 = Edge(n208, gn317, num=1544)  # Geometric edge
+ge1546 = Edge(n10001, gn318, num=1546)  # Geometric edge
+ge1545 = Edge(n10005, gn318, num=1545)  # Geometric edge
+ge1547 = Edge(n177, gn318, num=1547)  # Geometric edge
+ge1548 = Edge(n167, gn318, num=1548)  # Geometric edge
+ge1549 = Edge(n163, gn318, num=1549)  # Geometric edge
+ge1551 = Edge(n10009, gn319, num=1551)  # Geometric edge
+ge1550 = Edge(n10001, gn319, num=1550)  # Geometric edge
+ge1552 = Edge(n191, gn319, num=1552)  # Geometric edge
+ge1553 = Edge(n182, gn319, num=1553)  # Geometric edge
+ge1554 = Edge(n177, gn319, num=1554)  # Geometric edge
+ge1556 = Edge(n10002, gn320, num=1556)  # Geometric edge
+ge1555 = Edge(n10009, gn320, num=1555)  # Geometric edge
+ge1557 = Edge(n210, gn320, num=1557)  # Geometric edge
+ge1558 = Edge(n199, gn320, num=1558)  # Geometric edge
+ge1559 = Edge(n191, gn320, num=1559)  # Geometric edge
+ge1561 = Edge(n10011, gn321, num=1561)  # Geometric edge
+ge1560 = Edge(n10010, gn321, num=1560)  # Geometric edge
+ge1562 = Edge(n198, gn321, num=1562)  # Geometric edge
+ge1563 = Edge(n190, gn321, num=1563)  # Geometric edge
+ge1565 = Edge(n188, gn322, num=1565)  # Geometric edge
+ge1564 = Edge(n185, gn322, num=1564)  # Geometric edge
+ge1566 = Edge(n196, gn322, num=1566)  # Geometric edge
+ge1567 = Edge(n202, gn322, num=1567)  # Geometric edge
+ge1568 = Edge(n198, gn322, num=1568)  # Geometric edge
+ge1569 = Edge(n190, gn322, num=1569)  # Geometric edge
+ge1571 = Edge(n188, gn323, num=1571)  # Geometric edge
+ge1570 = Edge(n185, gn323, num=1570)  # Geometric edge
+ge1572 = Edge(n186, gn323, num=1572)  # Geometric edge
+ge1573 = Edge(n179, gn323, num=1573)  # Geometric edge
+ge1574 = Edge(n171, gn323, num=1574)  # Geometric edge
+ge1575 = Edge(n169, gn323, num=1575)  # Geometric edge
+ge1576 = Edge(n174, gn323, num=1576)  # Geometric edge
+ge1578 = Edge(n188, gn324, num=1578)  # Geometric edge
+ge1577 = Edge(n186, gn324, num=1577)  # Geometric edge
+ge1579 = Edge(n196, gn324, num=1579)  # Geometric edge
+ge1580 = Edge(n203, gn324, num=1580)  # Geometric edge
+ge1581 = Edge(n193, gn324, num=1581)  # Geometric edge
+ge1583 = Edge(n186, gn325, num=1583)  # Geometric edge
+ge1582 = Edge(n179, gn325, num=1582)  # Geometric edge
+ge1584 = Edge(n193, gn325, num=1584)  # Geometric edge
+ge1585 = Edge(n192, gn325, num=1585)  # Geometric edge
+ge1586 = Edge(n183, gn325, num=1586)  # Geometric edge
+ge1587 = Edge(n178, gn325, num=1587)  # Geometric edge
+ge1589 = Edge(n177, gn326, num=1589)  # Geometric edge
+ge1588 = Edge(n167, gn326, num=1588)  # Geometric edge
+ge1590 = Edge(n182, gn326, num=1590)  # Geometric edge
+ge1591 = Edge(n183, gn326, num=1591)  # Geometric edge
+ge1592 = Edge(n178, gn326, num=1592)  # Geometric edge
+ge1593 = Edge(n168, gn326, num=1593)  # Geometric edge
+ge1595 = Edge(n191, gn327, num=1595)  # Geometric edge
+ge1594 = Edge(n182, gn327, num=1594)  # Geometric edge
+ge1596 = Edge(n199, gn327, num=1596)  # Geometric edge
+ge1597 = Edge(n201, gn327, num=1597)  # Geometric edge
+ge1598 = Edge(n192, gn327, num=1598)  # Geometric edge
+ge1599 = Edge(n183, gn327, num=1599)  # Geometric edge
+ge1601 = Edge(n193, gn328, num=1601)  # Geometric edge
+ge1600 = Edge(n203, gn328, num=1600)  # Geometric edge
+ge1602 = Edge(n192, gn328, num=1602)  # Geometric edge
+ge1603 = Edge(n201, gn328, num=1603)  # Geometric edge
+ge1604 = Edge(n209, gn328, num=1604)  # Geometric edge
+ge1605 = Edge(n207, gn328, num=1605)  # Geometric edge
+ge1607 = Edge(n10010, gn329, num=1607)  # Geometric edge
+ge1606 = Edge(n328, gn329, num=1606)  # Geometric edge
+ge1608 = Edge(n263, gn329, num=1608)  # Geometric edge
+ge1609 = Edge(n266, gn329, num=1609)  # Geometric edge
+ge1610 = Edge(n10014, gn329, num=1610)  # Geometric edge
+ge1612 = Edge(n10011, gn330, num=1612)  # Geometric edge
+ge1611 = Edge(n10010, gn330, num=1611)  # Geometric edge
+ge1613 = Edge(n264, gn330, num=1613)  # Geometric edge
+ge1614 = Edge(n263, gn330, num=1614)  # Geometric edge
+ge1616 = Edge(n330, gn331, num=1616)  # Geometric edge
+ge1615 = Edge(n10011, gn331, num=1615)  # Geometric edge
+ge1617 = Edge(n10016, gn331, num=1617)  # Geometric edge
+ge1618 = Edge(n267, gn331, num=1618)  # Geometric edge
+ge1619 = Edge(n268, gn331, num=1619)  # Geometric edge
+ge1620 = Edge(n264, gn331, num=1620)  # Geometric edge
+ge1622 = Edge(n10021, gn332, num=1622)  # Geometric edge
+ge1621 = Edge(n329, gn332, num=1621)  # Geometric edge
+ge1623 = Edge(n278, gn332, num=1623)  # Geometric edge
+ge1624 = Edge(n10019, gn332, num=1624)  # Geometric edge
+ge1626 = Edge(n10026, gn333, num=1626)  # Geometric edge
+ge1625 = Edge(n10021, gn333, num=1625)  # Geometric edge
+ge1627 = Edge(n280, gn333, num=1627)  # Geometric edge
+ge1628 = Edge(n274, gn333, num=1628)  # Geometric edge
+ge1629 = Edge(n271, gn333, num=1629)  # Geometric edge
+ge1630 = Edge(n278, gn333, num=1630)  # Geometric edge
+ge1632 = Edge(n10027, gn334, num=1632)  # Geometric edge
+ge1631 = Edge(n10026, gn334, num=1631)  # Geometric edge
+ge1633 = Edge(n282, gn334, num=1633)  # Geometric edge
+ge1634 = Edge(n279, gn334, num=1634)  # Geometric edge
+ge1635 = Edge(n280, gn334, num=1635)  # Geometric edge
+ge1637 = Edge(n331, gn335, num=1637)  # Geometric edge
+ge1636 = Edge(n10027, gn335, num=1636)  # Geometric edge
+ge1638 = Edge(n10016, gn335, num=1638)  # Geometric edge
+ge1639 = Edge(n267, gn335, num=1639)  # Geometric edge
+ge1640 = Edge(n268, gn335, num=1640)  # Geometric edge
+ge1641 = Edge(n275, gn335, num=1641)  # Geometric edge
+ge1642 = Edge(n279, gn335, num=1642)  # Geometric edge
+ge1643 = Edge(n282, gn335, num=1643)  # Geometric edge
+ge1645 = Edge(n10019, gn336, num=1645)  # Geometric edge
+ge1644 = Edge(n10014, gn336, num=1644)  # Geometric edge
+ge1646 = Edge(n278, gn336, num=1646)  # Geometric edge
+ge1647 = Edge(n271, gn336, num=1647)  # Geometric edge
+ge1648 = Edge(n266, gn336, num=1648)  # Geometric edge
+ge1650 = Edge(n263, gn337, num=1650)  # Geometric edge
+ge1649 = Edge(n264, gn337, num=1649)  # Geometric edge
+ge1651 = Edge(n266, gn337, num=1651)  # Geometric edge
+ge1652 = Edge(n271, gn337, num=1652)  # Geometric edge
+ge1653 = Edge(n274, gn337, num=1653)  # Geometric edge
+ge1654 = Edge(n275, gn337, num=1654)  # Geometric edge
+ge1655 = Edge(n268, gn337, num=1655)  # Geometric edge
+ge1657 = Edge(n275, gn338, num=1657)  # Geometric edge
+ge1656 = Edge(n274, gn338, num=1656)  # Geometric edge
+ge1658 = Edge(n279, gn338, num=1658)  # Geometric edge
+ge1659 = Edge(n280, gn338, num=1659)  # Geometric edge
+ge1661 = Edge(n10003, gn339, num=1661)  # Geometric edge
+ge1660 = Edge(n326, gn339, num=1660)  # Geometric edge
+ge1662 = Edge(n216, gn339, num=1662)  # Geometric edge
+ge1663 = Edge(n10004, gn339, num=1663)  # Geometric edge
+ge1665 = Edge(n10012, gn340, num=1665)  # Geometric edge
+ge1664 = Edge(n10003, gn340, num=1664)  # Geometric edge
+ge1666 = Edge(n217, gn340, num=1666)  # Geometric edge
+ge1667 = Edge(n220, gn340, num=1667)  # Geometric edge
+ge1668 = Edge(n216, gn340, num=1668)  # Geometric edge
+ge1670 = Edge(n10036, gn341, num=1670)  # Geometric edge
+ge1669 = Edge(n10012, gn341, num=1669)  # Geometric edge
+ge1671 = Edge(n215, gn341, num=1671)  # Geometric edge
+ge1672 = Edge(n225, gn341, num=1672)  # Geometric edge
+ge1673 = Edge(n226, gn341, num=1673)  # Geometric edge
+ge1674 = Edge(n217, gn341, num=1674)  # Geometric edge
+ge1676 = Edge(n10035, gn342, num=1676)  # Geometric edge
+ge1675 = Edge(n10036, gn342, num=1675)  # Geometric edge
+ge1677 = Edge(n221, gn342, num=1677)  # Geometric edge
+ge1678 = Edge(n229, gn342, num=1678)  # Geometric edge
+ge1679 = Edge(n231, gn342, num=1679)  # Geometric edge
+ge1680 = Edge(n225, gn342, num=1680)  # Geometric edge
+ge1681 = Edge(n215, gn342, num=1681)  # Geometric edge
+ge1683 = Edge(n330, gn343, num=1683)  # Geometric edge
+ge1682 = Edge(n10035, gn343, num=1682)  # Geometric edge
+ge1684 = Edge(n10016, gn343, num=1684)  # Geometric edge
+ge1685 = Edge(n244, gn343, num=1685)  # Geometric edge
+ge1686 = Edge(n239, gn343, num=1686)  # Geometric edge
+ge1687 = Edge(n240, gn343, num=1687)  # Geometric edge
+ge1688 = Edge(n229, gn343, num=1688)  # Geometric edge
+ge1689 = Edge(n221, gn343, num=1689)  # Geometric edge
+ge1691 = Edge(n10030, gn344, num=1691)  # Geometric edge
+ge1690 = Edge(n327, gn344, num=1690)  # Geometric edge
+ge1692 = Edge(n254, gn344, num=1692)  # Geometric edge
+ge1693 = Edge(n10029, gn344, num=1693)  # Geometric edge
+ge1695 = Edge(n10034, gn345, num=1695)  # Geometric edge
+ge1694 = Edge(n10030, gn345, num=1694)  # Geometric edge
+ge1696 = Edge(n257, gn345, num=1696)  # Geometric edge
+ge1697 = Edge(n253, gn345, num=1697)  # Geometric edge
+ge1698 = Edge(n254, gn345, num=1698)  # Geometric edge
+ge1700 = Edge(n10028, gn346, num=1700)  # Geometric edge
+ge1699 = Edge(n10032, gn346, num=1699)  # Geometric edge
+ge1701 = Edge(n251, gn346, num=1701)  # Geometric edge
+ge1702 = Edge(n250, gn346, num=1702)  # Geometric edge
+ge1703 = Edge(n255, gn346, num=1703)  # Geometric edge
+ge1704 = Edge(n248, gn346, num=1704)  # Geometric edge
+ge1705 = Edge(n247, gn346, num=1705)  # Geometric edge
+ge1706 = Edge(n242, gn346, num=1706)  # Geometric edge
+ge1707 = Edge(n241, gn346, num=1707)  # Geometric edge
+ge1708 = Edge(n253, gn346, num=1708)  # Geometric edge
+ge1709 = Edge(n257, gn346, num=1709)  # Geometric edge
+ge1711 = Edge(n331, gn347, num=1711)  # Geometric edge
+ge1710 = Edge(n10028, gn347, num=1710)  # Geometric edge
+ge1712 = Edge(n10016, gn347, num=1712)  # Geometric edge
+ge1713 = Edge(n244, gn347, num=1713)  # Geometric edge
+ge1714 = Edge(n251, gn347, num=1714)  # Geometric edge
+ge1716 = Edge(n10017, gn348, num=1716)  # Geometric edge
+ge1715 = Edge(n10004, gn348, num=1715)  # Geometric edge
+ge1717 = Edge(n232, gn348, num=1717)  # Geometric edge
+ge1718 = Edge(n220, gn348, num=1718)  # Geometric edge
+ge1719 = Edge(n216, gn348, num=1719)  # Geometric edge
+ge1721 = Edge(n10029, gn349, num=1721)  # Geometric edge
+ge1720 = Edge(n10017, gn349, num=1720)  # Geometric edge
+ge1722 = Edge(n254, gn349, num=1722)  # Geometric edge
+ge1723 = Edge(n253, gn349, num=1723)  # Geometric edge
+ge1724 = Edge(n241, gn349, num=1724)  # Geometric edge
+ge1725 = Edge(n232, gn349, num=1725)  # Geometric edge
+ge1727 = Edge(n217, gn350, num=1727)  # Geometric edge
+ge1726 = Edge(n220, gn350, num=1726)  # Geometric edge
+ge1728 = Edge(n226, gn350, num=1728)  # Geometric edge
+ge1729 = Edge(n242, gn350, num=1729)  # Geometric edge
+ge1730 = Edge(n241, gn350, num=1730)  # Geometric edge
+ge1731 = Edge(n232, gn350, num=1731)  # Geometric edge
+ge1733 = Edge(n225, gn351, num=1733)  # Geometric edge
+ge1732 = Edge(n226, gn351, num=1732)  # Geometric edge
+ge1734 = Edge(n231, gn351, num=1734)  # Geometric edge
+ge1735 = Edge(n248, gn351, num=1735)  # Geometric edge
+ge1736 = Edge(n247, gn351, num=1736)  # Geometric edge
+ge1737 = Edge(n242, gn351, num=1737)  # Geometric edge
+ge1739 = Edge(n229, gn352, num=1739)  # Geometric edge
+ge1738 = Edge(n230, gn352, num=1738)  # Geometric edge
+ge1740 = Edge(n240, gn352, num=1740)  # Geometric edge
+ge1741 = Edge(n239, gn352, num=1741)  # Geometric edge
+ge1743 = Edge(n229, gn353, num=1743)  # Geometric edge
+ge1742 = Edge(n230, gn353, num=1742)  # Geometric edge
+ge1744 = Edge(n231, gn353, num=1744)  # Geometric edge
+ge1745 = Edge(n248, gn353, num=1745)  # Geometric edge
+ge1746 = Edge(n255, gn353, num=1746)  # Geometric edge
+ge1747 = Edge(n250, gn353, num=1747)  # Geometric edge
+ge1748 = Edge(n251, gn353, num=1748)  # Geometric edge
+ge1749 = Edge(n244, gn353, num=1749)  # Geometric edge
+ge1750 = Edge(n239, gn353, num=1750)  # Geometric edge
+ge1752 = Edge(n10022, gn354, num=1752)  # Geometric edge
+ge1751 = Edge(n325, gn354, num=1751)  # Geometric edge
+ge1753 = Edge(n166, gn354, num=1753)  # Geometric edge
+ge1754 = Edge(n172, gn354, num=1754)  # Geometric edge
+ge1755 = Edge(n175, gn354, num=1755)  # Geometric edge
+ge1756 = Edge(n170, gn354, num=1756)  # Geometric edge
+ge1757 = Edge(n176, gn354, num=1757)  # Geometric edge
+ge1758 = Edge(n10025, gn354, num=1758)  # Geometric edge
+ge1760 = Edge(n10018, gn355, num=1760)  # Geometric edge
+ge1759 = Edge(n10022, gn355, num=1759)  # Geometric edge
+ge1761 = Edge(n164, gn355, num=1761)  # Geometric edge
+ge1762 = Edge(n166, gn355, num=1762)  # Geometric edge
+ge1764 = Edge(n10020, gn356, num=1764)  # Geometric edge
+ge1763 = Edge(n10018, gn356, num=1763)  # Geometric edge
+ge1765 = Edge(n162, gn356, num=1765)  # Geometric edge
+ge1766 = Edge(n173, gn356, num=1766)  # Geometric edge
+ge1767 = Edge(n164, gn356, num=1767)  # Geometric edge
+ge1769 = Edge(n329, gn357, num=1769)  # Geometric edge
+ge1768 = Edge(n10020, gn357, num=1768)  # Geometric edge
+ge1770 = Edge(n10021, gn357, num=1770)  # Geometric edge
+ge1771 = Edge(n162, gn357, num=1771)  # Geometric edge
+ge1773 = Edge(n10030, gn358, num=1773)  # Geometric edge
+ge1772 = Edge(n327, gn358, num=1772)  # Geometric edge
+ge1774 = Edge(n204, gn358, num=1774)  # Geometric edge
+ge1775 = Edge(n10033, gn358, num=1775)  # Geometric edge
+ge1777 = Edge(n10034, gn359, num=1777)  # Geometric edge
+ge1776 = Edge(n10030, gn359, num=1776)  # Geometric edge
+ge1778 = Edge(n205, gn359, num=1778)  # Geometric edge
+ge1779 = Edge(n200, gn359, num=1779)  # Geometric edge
+ge1780 = Edge(n204, gn359, num=1780)  # Geometric edge
+ge1782 = Edge(n10032, gn360, num=1782)  # Geometric edge
+ge1781 = Edge(n10034, gn360, num=1781)  # Geometric edge
+ge1783 = Edge(n197, gn360, num=1783)  # Geometric edge
+ge1784 = Edge(n205, gn360, num=1784)  # Geometric edge
+ge1786 = Edge(n10028, gn361, num=1786)  # Geometric edge
+ge1785 = Edge(n10032, gn361, num=1785)  # Geometric edge
+ge1787 = Edge(n206, gn361, num=1787)  # Geometric edge
+ge1788 = Edge(n212, gn361, num=1788)  # Geometric edge
+ge1789 = Edge(n195, gn361, num=1789)  # Geometric edge
+ge1790 = Edge(n197, gn361, num=1790)  # Geometric edge
+ge1792 = Edge(n331, gn362, num=1792)  # Geometric edge
+ge1791 = Edge(n10028, gn362, num=1791)  # Geometric edge
+ge1793 = Edge(n10027, gn362, num=1793)  # Geometric edge
+ge1794 = Edge(n206, gn362, num=1794)  # Geometric edge
+ge1796 = Edge(n10024, gn363, num=1796)  # Geometric edge
+ge1795 = Edge(n10025, gn363, num=1795)  # Geometric edge
+ge1797 = Edge(n184, gn363, num=1797)  # Geometric edge
+ge1798 = Edge(n176, gn363, num=1798)  # Geometric edge
+ge1800 = Edge(n10033, gn364, num=1800)  # Geometric edge
+ge1799 = Edge(n10024, gn364, num=1799)  # Geometric edge
+ge1801 = Edge(n204, gn364, num=1801)  # Geometric edge
+ge1802 = Edge(n200, gn364, num=1802)  # Geometric edge
+ge1803 = Edge(n194, gn364, num=1803)  # Geometric edge
+ge1804 = Edge(n161, gn364, num=1804)  # Geometric edge
+ge1805 = Edge(n184, gn364, num=1805)  # Geometric edge
+ge1807 = Edge(n10026, gn365, num=1807)  # Geometric edge
+ge1806 = Edge(n10021, gn365, num=1806)  # Geometric edge
+ge1808 = Edge(n189, gn365, num=1808)  # Geometric edge
+ge1809 = Edge(n187, gn365, num=1809)  # Geometric edge
+ge1810 = Edge(n180, gn365, num=1810)  # Geometric edge
+ge1811 = Edge(n173, gn365, num=1811)  # Geometric edge
+ge1812 = Edge(n162, gn365, num=1812)  # Geometric edge
+ge1814 = Edge(n10027, gn366, num=1814)  # Geometric edge
+ge1813 = Edge(n10026, gn366, num=1813)  # Geometric edge
+ge1815 = Edge(n206, gn366, num=1815)  # Geometric edge
+ge1816 = Edge(n189, gn366, num=1816)  # Geometric edge
+ge1818 = Edge(n197, gn367, num=1818)  # Geometric edge
+ge1817 = Edge(n194, gn367, num=1817)  # Geometric edge
+ge1819 = Edge(n205, gn367, num=1819)  # Geometric edge
+ge1820 = Edge(n200, gn367, num=1820)  # Geometric edge
+ge1822 = Edge(n197, gn368, num=1822)  # Geometric edge
+ge1821 = Edge(n194, gn368, num=1821)  # Geometric edge
+ge1823 = Edge(n195, gn368, num=1823)  # Geometric edge
+ge1824 = Edge(n187, gn368, num=1824)  # Geometric edge
+ge1825 = Edge(n181, gn368, num=1825)  # Geometric edge
+ge1826 = Edge(n161, gn368, num=1826)  # Geometric edge
+ge1828 = Edge(n161, gn369, num=1828)  # Geometric edge
+ge1827 = Edge(n181, gn369, num=1827)  # Geometric edge
+ge1829 = Edge(n175, gn369, num=1829)  # Geometric edge
+ge1830 = Edge(n172, gn369, num=1830)  # Geometric edge
+ge1832 = Edge(n212, gn370, num=1832)  # Geometric edge
+ge1831 = Edge(n195, gn370, num=1831)  # Geometric edge
+ge1833 = Edge(n206, gn370, num=1833)  # Geometric edge
+ge1834 = Edge(n189, gn370, num=1834)  # Geometric edge
+ge1835 = Edge(n187, gn370, num=1835)  # Geometric edge
+ge1837 = Edge(n184, gn371, num=1837)  # Geometric edge
+ge1836 = Edge(n176, gn371, num=1836)  # Geometric edge
+ge1838 = Edge(n161, gn371, num=1838)  # Geometric edge
+ge1839 = Edge(n175, gn371, num=1839)  # Geometric edge
+ge1840 = Edge(n170, gn371, num=1840)  # Geometric edge
+ge1842 = Edge(n164, gn372, num=1842)  # Geometric edge
+ge1841 = Edge(n166, gn372, num=1841)  # Geometric edge
+ge1843 = Edge(n173, gn372, num=1843)  # Geometric edge
+ge1844 = Edge(n180, gn372, num=1844)  # Geometric edge
+ge1845 = Edge(n181, gn372, num=1845)  # Geometric edge
+ge1846 = Edge(n172, gn372, num=1846)  # Geometric edge
+edges = [
+    e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16,
+    e17, e18, e19, e20, e21, e22, e23, e24, e25, e26, e27, e28, e29, e30, e31,
+    e32, e33, e34, e35, e36, e37, e38, e39, e40, e41, e42, e43, e44, e45, e46,
+    e47, e48, e49, e50, e51, e52, e53, e54, e55, e56, e57, e58, e59, e60, e61,
+    e62, e63, e64, e65, e66, e67, e68, e69, e70, e71, e72, e73, e74, e75, e76,
+    e77, e78, e79, e80, e81, e82, e83, e84, e85, e86, e87, e88, e89, e90, e91,
+    e92, e93, e94, e95, e96, e97, e98, e99, e100, e101, e102, e103, e104, e105,
+    e106, e107, e108, e109, e110, e111, e112, e113, e114, e115, e116, e117,
+    e118, e119, e120, e121, e122, e123, e124, e125, e126, e127, e128, e129,
+    e130, e131, e132, e133, e134, e135, e136, e137, e138, e139, e140, e141,
+    e142, e143, e144, e145, e146, e147, e148, e149, e150, e151, e152, e153,
+    e154, e155, e156, e157, e158, e159, e160, e161, e162, e163, e164, e165,
+    e166, e167, e168, e169, e170, e171, e172, e173, e174, e175, e176, e177,
+    e178, e179, e180, e181, e182, e183, e184, e185, e186, e187, e188, e189,
+    e190, e191, e192, e193, e194, e195, e196, e197, e198, e199, e200, e201,
+    e202, e203, e204, e205, e206, e207, e208, e209, e210, e211, e212, e213,
+    e214, e215, e216, e217, e218, e219, e220, e221, e222, e223, e224, e225,
+    e226, e227, e228, e229, e230, e231, e232, e233, e234, e235, e236, e237,
+    e238, e239, e240, e241, e242, e243, e244, e245, e246, e247, e248, e249,
+    e250, e251, e252, e253, e254, e255, e256, e257, e258, e259, e260, e261,
+    e262, e263, e264, e265, e266, e267, e269, e270, e271, e272, e273, e274,
+    e275, e276, e277, e278, e279, e280, e281, e282, e283, e284, e285, e286,
+    e287, e288, e289, e290, e291, e292, e293, e294, e295, e296, e297, e298,
+    e299, e300, e301, e302, e303, e304, e305, e306, e307, e308, e309, e310,
+    e311, e312, e313, e314, e315, e316, e317, e318, e319, e320, e321, e322,
+    e323, e324, e325, e326, e327, e328, e329, e330, e331, e332, e333, e334,
+    e335, e336, e337, e338, e339, e340, e341, e342, e343, e344, e345, e346,
+    e347, e348, e349, e350, e351, e352, e353, e354, e355, e356, e357, e358,
+    e359, e360, e361, e362, e363, e364, e365, e366, e367, e368, e369, e370,
+    e371, e372, e373, e374, e375, e376, e377, e378, e379, e380, e381, e382,
+    e383, e384, e385, e386, e387, e389, e390, e391, e392, e393, e394, e395,
+    e396, e397, e398, e399, e400, e401, e402, e403, e404, e405, e406, e407,
+    e408, e409, e410, e411, e412, e413, e414, e415, e416, e417, e418, e419,
+    e420, e421, e422, e423, e424, e425, e426, e427, e428, e429, e430, e431,
+    e432, e433, e434, e435, e436, e437, e438, e439, e440, e441, e442, e10000,
+    e10001, e10002, e10003, e10004, e10005, e10006, e10007, e10008, e10009,
+    e10010, e10011, e10012, e10013, e10014, e10015, e10016, e10017, e10018,
+    e10019, e10020, e10021, e10022, e10023, e10024, e10025, e10026, e10027,
+    e10028, e10029, e10030, e10031, e10032, e10033, e10034, e10035, e10036,
+    e10037, e10038, e10039, e10040, e10041, e10042, e10043, e10044, e10045,
+    e10046, e10047, e10048, e10049, e10050, e10051, e10052, e10053, e10054,
+    e10055, e10056, e10057, e10058, e10059, e10060, e10061, e10062, e10063,
+    e10064, e10065, e10066, e10067, e10068, e10069, e10070, e10071, e10072,
+    e10073, e10074, e10075, e10076, e10077, e10078, e10079, e10080, e10081,
+    e10082, e10083, e10084, e10085, e10086, e10087, e10088, e10089, e10090,
+    e10091, e10092, e10093, e10094, e10095, e10096, e10097, e10098, e10099,
+    e10100, e10101, e10102, e10103, e10104, e10105, e10106, e10107, e10108,
+    e10109, e10110, e10111, e10112, e10113, e10114, e10115, e10116, e10117,
+    e10118, e10119, e10120, e10121, e10122, e10123, e10124, e10125, e10126,
+    e10127, e10128, e10129, e10130, e10131, e10132, e10133, e10134, e10135,
+    e10136, e10137, e10138, e10139, e10140, e10141, e10142, e10143, e10144,
+    e10145, e10146, e10147, e10148, e10149, e10150, e10151, e10152, e10153,
+    e10154, e10155, e10156, e10157, e10158, e10159, e10160, e10161, e10162,
+    e10163, e10164, e10165, e10166, e10167, e10168, e10169, e10170, e10171,
+    e10172, e10173, e10174, e10175, e10176, e10177, e10178, e622, e623, e624,
+    e625, e626, e627, e629, e630, e631, e632, e633, e634, e635, e636,
+    e637, e638, e639, e640, e641, e642, e643, e644, e645, e646, e647, e648,
+    e649, e650, e651, e652, e653, e654, e655, e656, e657, e658, e659, e660,
+    e661, e662, e663, e664, e665, e666, e667, e668, e669, e670, e671,
+]
 
-geometric_edges = [ge1, ge0, ge2, ge3, ge5, ge4, ge6, ge7, ge9, ge8, ge10, ge11, ge12, ge13, ge15, ge14, ge16, ge17, ge19, ge18, ge20, ge21, ge22, ge24, ge23, ge25, ge26, ge27, ge29, ge28, ge30, ge31, ge32, ge34, ge33, ge35, ge36, ge38, ge37, ge39, ge40, ge41, ge43, ge42, ge44, ge45, ge47, ge46, ge48, ge49, ge51, ge50, ge52, ge53, ge55, ge54, ge56, ge57, ge58, ge60, ge59, ge61, ge62, ge63, ge65, ge64, ge66, ge67, ge68, ge70, ge69, ge71, ge72, ge74, ge73, ge75, ge76, ge78, ge77, ge79, ge80, ge81, ge83, ge82, ge84, ge85, ge86, ge88, ge87, ge89, ge90, ge92, ge91, ge93, ge94, ge95, ge97, ge96, ge98, ge99, ge100, ge102, ge101, ge103, ge104, ge105, ge107, ge106, ge108, ge109, ge111, ge110, ge112, ge113, ge115, ge114, ge116, ge117, ge119, ge118, ge120, ge121, ge122, ge124, ge123, ge125, ge126, ge128, ge127, ge129, ge130, ge131, ge132, ge134, ge133, ge135, ge136, ge138, ge137, ge139, ge140, ge142, ge141, ge143, ge144, ge146, ge145, ge147, ge148, ge150, ge149, ge151, ge152, ge154, ge153, ge155, ge156, ge157, ge159, ge158, ge160, ge161, ge163, ge162, ge164, ge165, ge166, ge168, ge167, ge169, ge170, ge171, ge173, ge172, ge174, ge175, ge177, ge176, ge178, ge179, ge181, ge180, ge182, ge183, ge184, ge186, ge185, ge187, ge188, ge189, ge191, ge190, ge192, ge193, ge194, ge195, ge197, ge196, ge198, ge199, ge201, ge200, ge202, ge203, ge204, ge205, ge207, ge206, ge208, ge209, ge210, ge212, ge211, ge213, ge214, ge215, ge217, ge216, ge218, ge219, ge221, ge220, ge222, ge223, ge224, ge226, ge225, ge227, ge228, ge229, ge231, ge230, ge232, ge233, ge234, ge236, ge235, ge237, ge238, ge240, ge239, ge241, ge242, ge243, ge244, ge246, ge245, ge247, ge248, ge250, ge249, ge251, ge252, ge253, ge255, ge254, ge256, ge257, ge258, ge260, ge259, ge261, ge262, ge263, ge265, ge264, ge266, ge267, ge269, ge268, ge270, ge271, ge272, ge273, ge275, ge274, ge276, ge277, ge279, ge278, ge280, ge281, ge282, ge284, ge283, ge285, ge286, ge288, ge287, ge289, ge290, ge292, ge291, ge293, ge294, ge295, ge296, ge298, ge297, ge299, ge300, ge302, ge301, ge303, ge304, ge306, ge305, ge307, ge308, ge309, ge311, ge310, ge312, ge313, ge314, ge316, ge315, ge317, ge318, ge320, ge319, ge321, ge322, ge323, ge325, ge324, ge326, ge327, ge328, ge329, ge331, ge330, ge332, ge333, ge334, ge336, ge335, ge337, ge338, ge339, ge341, ge340, ge342, ge343, ge344, ge346, ge345, ge347, ge348, ge349, ge351, ge350, ge352, ge353, ge354, ge356, ge355, ge357, ge358, ge360, ge359, ge361, ge362, ge363, ge365, ge364, ge366, ge367, ge368, ge370, ge369, ge371, ge372, ge373, ge375, ge374, ge376, ge377, ge378, ge380, ge379, ge381, ge382, ge383, ge385, ge384, ge386, ge387, ge389, ge388, ge390, ge391, ge392, ge393, ge395, ge394, ge396, ge397, ge399, ge398, ge400, ge401, ge402, ge404, ge403, ge405, ge406, ge407, ge409, ge408, ge410, ge411, ge412, ge413, ge415, ge414, ge416, ge417, ge418, ge419, ge420, ge422, ge421, ge423, ge424, ge425, ge427, ge426, ge428, ge429, ge430, ge431, ge433, ge432, ge434, ge435, ge436, ge438, ge437, ge439, ge440, ge441, ge442, ge444, ge443, ge445, ge446, ge447, ge448, ge450, ge449, ge451, ge452, ge454, ge453, ge455, ge456, ge457, ge459, ge458, ge460, ge461, ge462, ge464, ge463, ge465, ge466, ge468, ge467, ge469, ge470, ge472, ge471, ge473, ge474, ge476, ge475, ge477, ge478, ge479, ge481, ge480, ge482, ge483, ge484, ge486, ge485, ge487, ge488, ge489, ge491, ge490, ge492, ge493, ge494, ge496, ge495, ge497, ge498, ge499, ge501, ge500, ge502, ge503, ge504, ge506, ge505, ge507, ge508, ge509, ge511, ge510, ge512, ge513, ge514, ge515, ge517, ge516, ge518, ge519, ge521, ge520, ge522, ge523, ge524, ge526, ge525, ge527, ge528, ge529, ge530, ge532, ge531, ge533, ge534, ge535, ge536, ge538, ge537, ge539, ge540, ge542, ge541, ge543, ge544, ge545, ge547, ge546, ge548, ge549, ge550, ge551, ge553, ge552, ge554, ge555, ge557, ge556, ge558, ge559, ge560, ge562, ge561, ge563, ge564, ge566, ge565, ge567, ge568, ge569, ge571, ge570, ge572, ge573, ge574, ge576, ge575, ge577, ge578, ge579, ge581, ge580, ge582, ge583, ge584, ge586, ge585, ge587, ge588, ge589, ge591, ge590, ge592, ge593, ge594, ge596, ge595, ge597, ge598, ge599, ge601, ge600, ge602, ge603, ge604, ge606, ge605, ge607, ge608, ge609, ge611, ge610, ge612, ge613, ge614, ge616, ge615, ge617, ge618, ge619, ge620, ge622, ge621, ge623, ge624, ge625, ge627, ge626, ge628, ge629, ge630, ge632, ge631, ge633, ge634, ge636, ge635, ge637, ge638, ge640, ge639, ge641, ge642, ge644, ge643, ge645, ge646, ge647, ge649, ge648, ge650, ge651, ge652, ge653, ge655, ge654, ge656, ge657, ge658, ge660, ge659, ge661, ge662, ge664, ge663, ge665, ge666, ge667, ge669, ge668, ge670, ge671, ge672, ge674, ge673, ge675, ge676, ge678, ge677, ge679, ge680, ge681, ge683, ge682, ge684, ge685, ge686, ge687, ge689, ge688, ge690, ge691, ge693, ge692, ge694, ge695, ge696, ge698, ge697, ge699, ge700, ge702, ge701, ge703, ge704, ge706, ge705, ge707, ge708, ge710, ge709, ge711, ge712, ge713, ge715, ge714, ge716, ge717, ge719, ge718, ge720, ge721, ge722, ge724, ge723, ge725, ge726, ge727, ge728, ge730, ge729, ge731, ge732, ge734, ge733, ge735, ge736, ge737, ge739, ge738, ge740, ge741, ge742, ge744, ge743, ge745, ge746, ge748, ge747, ge749, ge750, ge751, ge753, ge752, ge754, ge755, ge757, ge756, ge758, ge759, ge760, ge762, ge761, ge763, ge764, ge765, ge767, ge766, ge768, ge769, ge771, ge770, ge772, ge773, ge774, ge776, ge775, ge777, ge778, ge779, ge780, ge782, ge781, ge783, ge784, ge786, ge785, ge787, ge788, ge789, ge790, ge792, ge791, ge793, ge794, ge796, ge795, ge797, ge798, ge799, ge801, ge800, ge802, ge803, ge804, ge806, ge805, ge807, ge808, ge809, ge811, ge810, ge812, ge813, ge814, ge816, ge815, ge817, ge818, ge819, ge820, ge822, ge821, ge823, ge824, ge825, ge827, ge826, ge828, ge829, ge830, ge832, ge831, ge833, ge834, ge835, ge837, ge836, ge838, ge839, ge840, ge842, ge841, ge843, ge844, ge845, ge847, ge846, ge848, ge849, ge850, ge851, ge853, ge852, ge854, ge855, ge856, ge858, ge857, ge859, ge860, ge861, ge863, ge862, ge864, ge865, ge866, ge868, ge867, ge869, ge870, ge871, ge873, ge872, ge874, ge875, ge876, ge878, ge877, ge879, ge880, ge881, ge883, ge882, ge884, ge885, ge886, ge887, ge889, ge888, ge890, ge891, ge892, ge894, ge893, ge895, ge896, ge897, ge899, ge898, ge900, ge901, ge903, ge902, ge904, ge905, ge906, ge908, ge907, ge909, ge910, ge911, ge913, ge912, ge914, ge915, ge916, ge918, ge917, ge919, ge920, ge921, ge923, ge922, ge924, ge925, ge926, ge928, ge927, ge929, ge930, ge931, ge932, ge934, ge933, ge935, ge936, ge938, ge937, ge939, ge940, ge941, ge943, ge942, ge944, ge945, ge946, ge947, ge949, ge948, ge950, ge951, ge952, ge954, ge953, ge955, ge956, ge957, ge959, ge958, ge960, ge961, ge962, ge964, ge963, ge965, ge966, ge968, ge967, ge969, ge970, ge971, ge973, ge972, ge974, ge975, ge976, ge978, ge977, ge979, ge980, ge981, ge983, ge982, ge984, ge985, ge986, ge987, ge989, ge988, ge990, ge991, ge992, ge994, ge993, ge995, ge996, ge997, ge999, ge998, ge1000, ge1001, ge1002, ge1004, ge1003, ge1005, ge1006, ge1007, ge1009, ge1008, ge1010, ge1011, ge1013, ge1012, ge1014, ge1015, ge1016, ge1018, ge1017, ge1019, ge1020, ge1021, ge1022, ge1024, ge1023, ge1025, ge1026, ge1028, ge1027, ge1029, ge1030, ge1031, ge1032, ge1034, ge1033, ge1035, ge1036, ge1037, ge1039, ge1038, ge1040, ge1041, ge1042, ge1044, ge1043, ge1045, ge1046, ge1047, ge1048, ge1050, ge1049, ge1051, ge1052, ge1053, ge1054, ge1056, ge1055, ge1057, ge1058, ge1059, ge1060, ge1062, ge1061, ge1063, ge1064, ge1065, ge1067, ge1066, ge1068, ge1069, ge1071, ge1070, ge1072, ge1073, ge1075, ge1074, ge1076, ge1077, ge1079, ge1078, ge1080, ge1081, ge1082, ge1084, ge1083, ge1085, ge1086, ge1088, ge1087, ge1089, ge1090, ge1091, ge1093, ge1092, ge1094, ge1095, ge1096, ge1098, ge1097, ge1099, ge1100, ge1102, ge1101, ge1103, ge1104, ge1105, ge1107, ge1106, ge1108, ge1109, ge1110, ge1112, ge1111, ge1113, ge1114, ge1116, ge1115, ge1117, ge1118, ge1120, ge1119, ge1121, ge1122, ge1124, ge1123, ge1125, ge1126, ge1127, ge1128, ge1130, ge1129, ge1131, ge1132, ge1133, ge1134, ge1136, ge1135, ge1137, ge1138, ge1140, ge1139, ge1141, ge1142, ge1144, ge1143, ge1145, ge1146, ge1147, ge1149, ge1148, ge1150, ge1151, ge1153, ge1152, ge1154, ge1155, ge1157, ge1156, ge1158, ge1159, ge1160, ge1162, ge1161, ge1163, ge1164, ge1166, ge1165, ge1167, ge1168, ge1170, ge1169, ge1171, ge1172, ge1173, ge1175, ge1174, ge1176, ge1177, ge1179, ge1178, ge1180, ge1181, ge1182, ge1184, ge1183, ge1185, ge1186, ge1188, ge1187, ge1189, ge1190, ge1192, ge1191, ge1193, ge1194, ge1195, ge1197, ge1196, ge1198, ge1199, ge1201, ge1200, ge1202, ge1203, ge1204, ge1206, ge1205, ge1207, ge1208, ge1209, ge1210, ge1212, ge1211, ge1213, ge1214, ge1215, ge1217, ge1216, ge1218, ge1219, ge1221, ge1220, ge1222, ge1223, ge1224, ge1226, ge1225, ge1227, ge1228, ge1230, ge1229, ge1231, ge1232, ge1234, ge1233, ge1235, ge1236, ge1237, ge1239, ge1238, ge1240, ge1241, ge1242, ge1244, ge1243, ge1245, ge1246, ge1247, ge1249, ge1248, ge1250, ge1251, ge1253, ge1252, ge1254, ge1255, ge1257, ge1256, ge1258, ge1259, ge1261, ge1260, ge1262, ge1263, ge1265, ge1264, ge1266, ge1267, ge1269, ge1268, ge1270, ge1271, ge1273, ge1272, ge1274, ge1275, ge1277, ge1276, ge1278, ge1279, ge1281, ge1280, ge1282, ge1283, ge1284, ge1285, ge1287, ge1286, ge1288, ge1289, ge1291, ge1290, ge1292, ge1293, ge1294, ge1296, ge1295, ge1297, ge1298, ge1300, ge1299, ge1301, ge1302, ge1304, ge1303, ge1305, ge1306, ge1308, ge1307, ge1309, ge1310, ge1312, ge1311, ge1313, ge1314, ge1316, ge1315, ge1317, ge1318, ge1319, ge1320]
+geometric_edges = [ge1, ge0, ge2, ge3, ge5, ge4, ge6, ge7, ge9, ge8, ge10, ge11, ge12, ge13, ge15, ge14, ge16, ge17, ge19, ge18, ge20, ge21, ge22, ge24, ge23, ge25, ge26, ge27, ge29, ge28, ge30, ge31, ge32, ge34, ge33, ge35, ge36, ge38, ge37, ge39, ge40, ge41, ge43, ge42, ge44, ge45, ge47, ge46, ge48, ge49, ge51, ge50, ge52, ge53, ge55, ge54, ge56, ge57, ge58, ge60, ge59, ge61, ge62, ge63, ge65, ge64, ge66, ge67, ge68, ge70, ge69, ge71, ge72, ge74, ge73, ge75, ge76, ge78, ge77, ge79, ge80, ge81, ge83, ge82, ge84, ge85, ge86, ge88, ge87, ge89, ge90, ge92, ge91, ge93, ge94, ge95, ge97, ge96, ge98, ge99, ge100, ge102, ge101, ge103, ge104, ge105, ge107, ge106, ge108, ge109, ge111, ge110, ge112, ge113, ge115, ge114, ge116, ge117, ge119, ge118, ge120, ge121, ge122, ge124, ge123, ge125, ge126, ge128, ge127, ge129, ge130, ge131, ge132, ge134, ge133, ge135, ge136, ge138, ge137, ge139, ge140, ge142, ge141, ge143, ge144, ge146, ge145, ge147, ge148, ge150, ge149, ge151, ge152, ge154, ge153, ge155, ge156, ge157, ge159, ge158, ge160, ge161, ge163, ge162, ge164, ge165, ge166, ge168, ge167, ge169, ge170, ge171, ge173, ge172, ge174, ge175, ge177, ge176, ge178, ge179, ge181, ge180, ge182, ge183, ge184, ge186, ge185, ge187, ge188, ge189, ge191, ge190, ge192, ge193, ge194, ge195, ge197, ge196, ge198, ge199, ge201, ge200, ge202, ge203, ge204, ge205, ge207, ge206, ge208, ge209, ge210, ge212, ge211, ge213, ge214, ge215, ge217, ge216, ge218, ge219, ge221, ge220, ge222, ge223, ge224, ge226, ge225, ge227, ge228, ge229, ge231, ge230, ge232, ge233, ge234, ge236, ge235, ge237, ge238, ge240, ge239, ge241, ge242, ge243, ge244, ge246, ge245, ge247, ge248, ge250, ge249, ge251, ge252, ge253, ge255, ge254, ge256, ge257, ge258, ge260, ge259, ge261, ge262, ge263, ge265, ge264, ge266, ge267, ge269, ge268, ge270, ge271, ge272, ge273, ge275, ge274, ge276, ge277, ge279, ge278, ge280, ge281, ge282, ge284, ge283, ge285, ge286, ge288, ge287, ge289, ge290, ge292, ge291, ge293, ge294, ge295, ge296, ge298, ge297, ge299, ge300, ge302, ge301, ge303, ge304, ge306, ge305, ge307, ge308, ge309, ge311, ge310, ge312, ge313, ge314, ge316, ge315, ge317, ge318, ge320, ge319, ge321, ge322, ge323, ge325, ge324, ge326, ge327, ge328, ge329, ge331, ge330, ge332, ge333, ge334, ge336, ge335, ge337, ge338, ge339, ge341, ge340, ge342, ge343, ge344, ge346, ge345, ge347, ge348, ge349, ge351, ge350, ge352, ge353, ge354, ge356, ge355, ge357, ge358, ge360, ge359, ge361, ge362, ge363, ge365, ge364, ge366, ge367, ge368, ge370, ge369, ge371, ge372, ge373, ge375, ge374, ge376, ge377, ge378, ge380, ge379, ge381, ge382, ge383, ge385, ge384, ge386, ge387, ge389, ge388, ge390, ge391, ge392, ge393, ge395, ge394, ge396, ge397, ge399, ge398, ge400, ge401, ge402, ge404, ge403, ge405, ge406, ge407, ge409, ge408, ge410, ge411, ge412, ge413, ge415, ge414, ge416, ge417, ge418, ge419, ge420, ge422, ge421, ge423, ge424, ge425, ge427, ge426, ge428, ge429, ge430, ge431, ge433, ge432, ge434, ge435, ge436, ge438, ge437, ge439, ge440, ge441, ge442, ge444, ge443, ge445, ge446, ge447, ge448, ge450, ge449, ge451, ge452, ge454, ge453, ge455, ge456, ge457, ge459, ge458, ge460, ge461, ge462, ge464, ge463, ge465, ge466, ge468, ge467, ge469, ge470, ge472, ge471, ge473, ge474, ge476, ge475, ge477, ge478, ge479, ge481, ge480, ge482, ge483, ge484, ge486, ge485, ge487, ge488, ge489, ge491, ge490, ge492, ge493, ge494, ge496, ge495, ge497, ge498, ge499, ge501, ge500, ge502, ge503, ge504, ge506, ge505, ge507, ge508, ge509, ge511, ge510, ge512, ge513, ge514, ge515, ge517, ge516, ge518, ge519, ge521, ge520, ge522, ge523, ge524, ge526, ge525, ge527, ge528, ge529, ge530, ge532, ge531, ge533, ge534, ge535, ge536, ge538, ge537, ge539, ge540, ge542, ge541, ge543, ge544, ge545, ge547, ge546, ge548, ge549, ge550, ge551, ge553, ge552, ge554, ge555, ge557, ge556, ge558, ge559, ge560, ge562, ge561, ge563, ge564, ge566, ge565, ge567, ge568, ge569, ge571, ge570, ge572, ge573, ge574, ge576, ge575, ge577, ge578, ge579, ge581, ge580, ge582, ge583, ge584, ge586, ge585, ge587, ge588, ge589, ge591, ge590, ge592, ge593, ge594, ge596, ge595, ge597, ge598, ge599, ge601, ge600, ge602, ge603, ge604, ge606, ge605, ge607, ge608, ge609, ge611, ge610, ge612, ge613, ge614, ge616, ge615, ge617, ge618, ge619, ge620, ge622, ge621, ge623, ge624, ge625, ge627, ge626, ge628, ge629, ge630, ge632, ge631, ge633, ge634, ge636, ge635, ge637, ge638, ge640, ge639, ge641, ge642, ge644, ge643, ge645, ge646, ge647, ge649, ge648, ge650, ge651, ge652, ge653, ge655, ge654, ge656, ge657, ge658, ge660, ge659, ge661, ge662, ge664, ge663, ge665, ge666, ge667, ge669, ge668, ge670, ge671, ge672, ge674, ge673, ge675, ge676, ge678, ge677, ge679, ge680, ge681, ge683, ge682, ge684, ge685, ge686, ge687, ge689, ge688, ge690, ge691, ge693, ge692, ge694, ge695, ge696, ge698, ge697, ge699, ge700, ge702, ge701, ge703, ge704, ge706, ge705, ge707, ge708, ge710, ge709, ge711, ge712, ge713, ge715, ge714, ge716, ge717, ge719, ge718, ge720, ge721, ge722, ge724, ge723, ge725, ge726, ge727, ge728, ge730, ge729, ge731, ge732, ge734, ge733, ge735, ge736, ge737, ge739, ge738, ge740, ge741, ge742, ge744, ge743, ge745, ge746, ge748, ge747, ge749, ge750, ge751, ge753, ge752, ge754, ge755, ge757, ge756, ge758, ge759, ge760, ge762, ge761, ge763, ge764, ge765, ge767, ge766, ge768, ge769, ge771, ge770, ge772, ge773, ge774, ge776, ge775, ge777, ge778, ge779, ge780, ge782, ge781, ge783, ge784, ge786, ge785, ge787, ge788, ge789, ge790, ge792, ge791, ge793, ge794, ge796, ge795, ge797, ge798, ge799, ge801, ge800, ge802, ge803, ge804, ge806, ge805, ge807, ge808, ge809, ge811, ge810, ge812, ge813, ge814, ge816, ge815, ge817, ge818, ge819, ge820, ge822, ge821, ge823, ge824, ge825, ge827, ge826, ge828, ge829, ge830, ge832, ge831, ge833, ge834, ge835, ge837, ge836, ge838, ge839, ge840, ge842, ge841, ge843, ge844, ge845, ge847, ge846, ge848, ge849, ge850, ge851, ge853, ge852, ge854, ge855, ge856, ge858, ge857, ge859, ge860, ge861, ge863, ge862, ge864, ge865, ge866, ge868, ge867, ge869, ge870, ge871, ge873, ge872, ge874, ge875, ge876, ge878, ge877, ge879, ge880, ge881, ge883, ge882, ge884, ge885, ge886, ge887, ge889, ge888, ge890, ge891, ge892, ge894, ge893, ge895, ge896, ge897, ge899, ge898, ge900, ge901, ge903, ge902, ge904, ge905, ge906, ge908, ge907, ge909, ge910, ge911, ge913, ge912, ge914, ge915, ge916, ge918, ge917, ge919, ge920, ge921, ge923, ge922, ge924, ge925, ge926, ge928, ge927, ge929, ge930, ge931, ge932, ge934, ge933, ge935, ge936, ge938, ge937, ge939, ge940, ge941, ge943, ge942, ge944, ge945, ge946, ge947, ge949, ge948, ge950, ge951, ge952, ge954, ge953, ge955, ge956, ge957, ge959, ge958, ge960, ge961, ge962, ge964, ge963, ge965, ge966, ge968, ge967, ge969, ge970, ge971, ge973, ge972, ge974, ge975, ge976, ge978, ge977, ge979, ge980, ge981, ge983, ge982, ge984, ge985, ge986, ge987, ge989, ge988, ge990, ge991, ge992, ge994, ge993, ge995, ge996, ge997, ge999, ge998, ge1000, ge1001, ge1002, ge1004, ge1003, ge1005, ge1006, ge1007, ge1009, ge1008, ge1010, ge1011, ge1013, ge1012, ge1014, ge1015, ge1016, ge1018, ge1017, ge1019, ge1020, ge1021, ge1022, ge1024, ge1023, ge1025, ge1026, ge1028, ge1027, ge1029, ge1030, ge1031, ge1032, ge1034, ge1033, ge1035, ge1036, ge1037, ge1039, ge1038, ge1040, ge1041, ge1042, ge1044, ge1043, ge1045, ge1046, ge1047, ge1048, ge1050, ge1049, ge1051, ge1052, ge1053, ge1054, ge1056, ge1055, ge1057, ge1058, ge1059, ge1060, ge1062, ge1061, ge1063, ge1064, ge1065, ge1067, ge1066, ge1068, ge1069, ge1071, ge1070, ge1072, ge1073, ge1075, ge1074, ge1076, ge1077, ge1079, ge1078, ge1080, ge1081, ge1082, ge1084, ge1083, ge1085, ge1086, ge1088, ge1087, ge1089, ge1090, ge1091, ge1093, ge1092, ge1094, ge1095, ge1096, ge1098, ge1097, ge1099, ge1100, ge1102, ge1101, ge1103, ge1104, ge1105, ge1107, ge1106, ge1108, ge1109, ge1110, ge1112, ge1111, ge1113, ge1114, ge1116, ge1115, ge1117, ge1118, ge1120, ge1119, ge1121, ge1122, ge1124, ge1123, ge1125, ge1126, ge1127, ge1128, ge1130, ge1129, ge1131, ge1132, ge1133, ge1134, ge1136, ge1135, ge1137, ge1138, ge1140, ge1139, ge1141, ge1142, ge1144, ge1143, ge1145, ge1146, ge1147, ge1149, ge1148, ge1150, ge1151, ge1153, ge1152, ge1154, ge1155, ge1157, ge1156, ge1158, ge1159, ge1160, ge1162, ge1161, ge1163, ge1164, ge1166, ge1165, ge1167, ge1168, ge1170, ge1169, ge1171, ge1172, ge1173, ge1175, ge1174, ge1176, ge1177, ge1179, ge1178, ge1180, ge1181, ge1182, ge1184, ge1183, ge1185, ge1186, ge1188, ge1187, ge1189, ge1190, ge1192, ge1191, ge1193, ge1194, ge1195, ge1197, ge1196, ge1198, ge1199, ge1201, ge1200, ge1202, ge1203, ge1204, ge1206, ge1205, ge1207, ge1208, ge1209, ge1210, ge1212, ge1211, ge1213, ge1214, ge1215, ge1217, ge1216, ge1218, ge1219, ge1221, ge1220, ge1222, ge1223, ge1224, ge1226, ge1225, ge1227, ge1228, ge1230, ge1229, ge1231, ge1232, ge1234, ge1233, ge1235, ge1236, ge1237, ge1239, ge1238, ge1240, ge1241, ge1242, ge1244, ge1243, ge1245, ge1246, ge1247, ge1249, ge1248, ge1250, ge1251, ge1253, ge1252, ge1254, ge1255, ge1257, ge1256, ge1258, ge1259, ge1261, ge1260, ge1262, ge1263, ge1265, ge1264, ge1266, ge1267, ge1269, ge1268, ge1270, ge1271, ge1273, ge1272, ge1274, ge1275, ge1277, ge1276, ge1278, ge1279, ge1281, ge1280, ge1282, ge1283, ge1284, ge1285, ge1287, ge1286, ge1288, ge1289, ge1291, ge1290, ge1292, ge1293, ge1294, ge1296, ge1295, ge1297, ge1298, ge1300, ge1299, ge1301, ge1302, ge1304, ge1303, ge1305, ge1306, ge1308, ge1307, ge1309, ge1310, ge1312, ge1311, ge1313, ge1314, ge1316, ge1315, ge1317, ge1318, ge1319, ge1320, ge1322, ge1321, ge1323, ge1324, ge1326, ge1325, ge1327, ge1328, ge1330, ge1329, ge1331, ge1332, ge1333, ge1335, ge1334, ge1336, ge1337, ge1338, ge1340, ge1339, ge1341, ge1342, ge1344, ge1343, ge1345, ge1346, ge1348, ge1347, ge1349, ge1350, ge1351, ge1352, ge1354, ge1353, ge1355, ge1356, ge1358, ge1357, ge1359, ge1360, ge1361, ge1363, ge1362, ge1364, ge1365, ge1366, ge1367, ge1368, ge1370, ge1369, ge1371, ge1372, ge1374, ge1373, ge1375, ge1376, ge1377, ge1378, ge1380, ge1379, ge1381, ge1382, ge1384, ge1383, ge1385, ge1386, ge1387, ge1388, ge1389, ge1390, ge1391, ge1392, ge1393, ge1395, ge1394, ge1396, ge1397, ge1399, ge1398, ge1400, ge1401, ge1402, ge1403, ge1405, ge1404, ge1406, ge1407, ge1408, ge1410, ge1409, ge1411, ge1412, ge1414, ge1413, ge1415, ge1416, ge1417, ge1418, ge1419, ge1421, ge1420, ge1422, ge1423, ge1424, ge1426, ge1425, ge1427, ge1428, ge1429, ge1430, ge1432, ge1431, ge1433, ge1434, ge1435, ge1436, ge1437, ge1439, ge1438, ge1440, ge1441, ge1443, ge1442, ge1444, ge1445, ge1446, ge1448, ge1447, ge1449, ge1450, ge1451, ge1453, ge1452, ge1454, ge1455, ge1457, ge1456, ge1458, ge1459, ge1460, ge1462, ge1461, ge1463, ge1464, ge1465, ge1466, ge1468, ge1467, ge1469, ge1470, ge1471, ge1473, ge1472, ge1474, ge1475, ge1476, ge1477, ge1479, ge1478, ge1480, ge1481, ge1482, ge1483, ge1484, ge1486, ge1485, ge1487, ge1488, ge1490, ge1489, ge1491, ge1492, ge1493, ge1495, ge1494, ge1496, ge1497, ge1498, ge1499, ge1501, ge1500, ge1502, ge1503, ge1505, ge1504, ge1506, ge1507, ge1508, ge1510, ge1509, ge1511, ge1512, ge1513, ge1514, ge1515, ge1517, ge1516, ge1518, ge1519, ge1521, ge1520, ge1522, ge1523, ge1524, ge1525, ge1527, ge1526, ge1528, ge1529, ge1530, ge1532, ge1531, ge1533, ge1534, ge1535, ge1536, ge1537, ge1538, ge1540, ge1539, ge1541, ge1542, ge1543, ge1544, ge1546, ge1545, ge1547, ge1548, ge1549, ge1551, ge1550, ge1552, ge1553, ge1554, ge1556, ge1555, ge1557, ge1558, ge1559, ge1561, ge1560, ge1562, ge1563, ge1565, ge1564, ge1566, ge1567, ge1568, ge1569, ge1571, ge1570, ge1572, ge1573, ge1574, ge1575, ge1576, ge1578, ge1577, ge1579, ge1580, ge1581, ge1583, ge1582, ge1584, ge1585, ge1586, ge1587, ge1589, ge1588, ge1590, ge1591, ge1592, ge1593, ge1595, ge1594, ge1596, ge1597, ge1598, ge1599, ge1601, ge1600, ge1602, ge1603, ge1604, ge1605, ge1607, ge1606, ge1608, ge1609, ge1610, ge1612, ge1611, ge1613, ge1614, ge1616, ge1615, ge1617, ge1618, ge1619, ge1620, ge1622, ge1621, ge1623, ge1624, ge1626, ge1625, ge1627, ge1628, ge1629, ge1630, ge1632, ge1631, ge1633, ge1634, ge1635, ge1637, ge1636, ge1638, ge1639, ge1640, ge1641, ge1642, ge1643, ge1645, ge1644, ge1646, ge1647, ge1648, ge1650, ge1649, ge1651, ge1652, ge1653, ge1654, ge1655, ge1657, ge1656, ge1658, ge1659, ge1661, ge1660, ge1662, ge1663, ge1665, ge1664, ge1666, ge1667, ge1668, ge1670, ge1669, ge1671, ge1672, ge1673, ge1674, ge1676, ge1675, ge1677, ge1678, ge1679, ge1680, ge1681, ge1683, ge1682, ge1684, ge1685, ge1686, ge1687, ge1688, ge1689, ge1691, ge1690, ge1692, ge1693, ge1695, ge1694, ge1696, ge1697, ge1698, ge1700, ge1699, ge1701, ge1702, ge1703, ge1704, ge1705, ge1706, ge1707, ge1708, ge1709, ge1711, ge1710, ge1712, ge1713, ge1714, ge1716, ge1715, ge1717, ge1718, ge1719, ge1721, ge1720, ge1722, ge1723, ge1724, ge1725, ge1727, ge1726, ge1728, ge1729, ge1730, ge1731, ge1733, ge1732, ge1734, ge1735, ge1736, ge1737, ge1739, ge1738, ge1740, ge1741, ge1743, ge1742, ge1744, ge1745, ge1746, ge1747, ge1748, ge1749, ge1750, ge1752, ge1751, ge1753, ge1754, ge1755, ge1756, ge1757, ge1758, ge1760, ge1759, ge1761, ge1762, ge1764, ge1763, ge1765, ge1766, ge1767, ge1769, ge1768, ge1770, ge1771, ge1773, ge1772, ge1774, ge1775, ge1777, ge1776, ge1778, ge1779, ge1780, ge1782, ge1781, ge1783, ge1784, ge1786, ge1785, ge1787, ge1788, ge1789, ge1790, ge1792, ge1791, ge1793, ge1794, ge1796, ge1795, ge1797, ge1798, ge1800, ge1799, ge1801, ge1802, ge1803, ge1804, ge1805, ge1807, ge1806, ge1808, ge1809, ge1810, ge1811, ge1812, ge1814, ge1813, ge1815, ge1816, ge1818, ge1817, ge1819, ge1820, ge1822, ge1821, ge1823, ge1824, ge1825, ge1826, ge1828, ge1827, ge1829, ge1830, ge1832, ge1831, ge1833, ge1834, ge1835, ge1837, ge1836, ge1838, ge1839, ge1840, ge1842, ge1841, ge1843, ge1844, ge1845, ge1846]
+
+
+e20000 = Edge(n256, n20000, num=20000)
+e20001 = Edge(n20000, n170, num=20001)
+e20002 = Edge(n325, n20000, num=20002)
+e20003 = Edge(n20000, n10022, num=20003)
+
+new_edges = []
+
+edges.extend([e20000, e20001, e20002, e20003])
 
 f10000 = Face([[-e3, ge1, -ge0], [e1, ge2, -ge1], [e17, ge3, -ge2], [e10000, ge0, -ge3]], num=10000)
 f10001 = Face([[-e3, ge5, -ge4], [e0, ge6, -ge5], [e6, ge7, -ge6], [e10001, ge4, -ge7]], num=10001)
@@ -2882,7 +3586,7 @@ f150 = Face([[e337, ge1201, -ge1200], [e342, ge1202, -ge1201], [e377, ge1203, -g
 f10109 = Face([[e339, -e440, e10133]], num=10109)
 f10110 = Face([[-e339, ge1206, -ge1205], [e337, ge1207, -ge1206], [e343, ge1208, -ge1207], [e380, ge1209, -ge1208], [e400, ge1210, -ge1209], [e10134, ge1205, -ge1210]], num=10110)
 f10111 = Face([[-e339, ge1212, -ge1211], [e338, ge1213, -ge1212], [e374, ge1214, -ge1213], [-e10136, ge1215, -ge1214], [-e10135, ge1211, -ge1215]], num=10111)
-f151 = Face([[e340, ge1217, -ge1216], [e369, ge1218, -ge1217], [e388, ge1219, -ge1218], [-e341, ge1216, -ge1219]], num=151)
+# f151 = Face([[e340, ge1217, -ge1216], [e369, ge1218, -ge1217], [e20000, e20001, ge1219, -ge1218], [-e341, ge1216, -ge1219]], num=151)
 f152 = Face([[e342, ge1221, -ge1220], [e378, ge1222, -ge1221], [e394, ge1223, -ge1222], [-e379, ge1224, -ge1223], [-e343, ge1220, -ge1224]], num=152)
 f153 = Face([[e344, ge1226, -ge1225], [e368, ge1227, -ge1226], [-e422, ge1228, -ge1227], [-e346, ge1225, -ge1228]], num=153)
 f10112 = Face([[-e346, ge1230, -ge1229], [e345, ge1231, -ge1230], [e382, ge1232, -ge1231], [e10137, ge1229, -ge1232]], num=10112)
@@ -2944,7 +3648,7 @@ f181 = Face([[e624, -e10005, -e10009, -e410, e10066]], num=181)
 f182 = Face([[e625, -e10032, -e407, e10005]], num=182)
 f183 = Face([[e626, e10165, e409, e411, e10076, e10035, e10032]], num=183)
 f184 = Face([[e627, e667, -e10069, -e409, -e10165]], num=184)
-f185 = Face([[e628, -e10122, e10119, e10127, -e10126, e662]], num=185)
+# f185 = Face([[e628, -e10122, e10119, e10127, -e10126, e662]], num=185)
 f186 = Face([[e629, -e10103, e10097, e10095, -e10096, e10121, e10122]], num=186)
 f187 = Face([[e630, -e10111, -e10102, e10103]], num=187)
 f188 = Face([[e631, -e669, -e10108, e10110, e10111]], num=188)
@@ -3004,7 +3708,7 @@ f241 = Face([[e10063, -e10065, -e10074, -e417, -e10098, e10073]], num=241)
 f242 = Face([[e10072, e412, -e10088, e10116, -e419, e10074]], num=242)
 f243 = Face([[e10080, e10089, -e10081, -e10085]], num=243)
 f244 = Face([[e10080, e413, -e10088, -e10118, e10137, e422, -e421, -e416, -e10085]], num=244)
-f245 = Face([[e628, e10123, e10160, e10120, -e10143, e10146, -e10145, -e647]], num=245)
+# f245 = Face([[e628, e10123, e10160, e10120, -e10143, e10146, -e10145, -e647]], num=245)
 f246 = Face([[e629, e10104, -e10139, -e10123]], num=246)
 f247 = Face([[e630, e10112, e10106, e10140, -e10104]], num=247)
 f248 = Face([[e631, e654, e10115, -e10112]], num=248)
@@ -3024,36 +3728,89 @@ f261 = Face([[e10128, -e10138, -e10129, e10142, e393]], num=261)
 f262 = Face([[e10131, -e10159, -e10132, -e10143, e10146]], num=262)
 f263 = Face([[e10139, -e10140, e10163, e389, -e10141, -e10160]], num=263)
 f264 = Face([[e389, e391, -e390]], num=264)
-faces = [f10000, f10001, f0, f10002, f1, f2, f10003, f10004, f3, f10005, f10006, f4, f10007, f10008, f5, f10009, f10010, f10011, f10012, f6, f7, f10013, f10014, f8, f10015, f10016, f10017, f10018, f10019, f10020, f10021, f10022, f10023, f9, f10, f10024, f10025, f10026, f10027, f10028, f11, f10029, f12, f10030, f13, f14, f15, f10031, f10032, f16, f17, f10033, f18, f10034, f19, f20, f21, f10035, f22, f10036, f23, f10037, f10038, f24, f25, f10039, f26, f10040, f27, f28, f10041, f29, f30, f31, f10042, f10043, f32, f33, f34, f10044, f35, f10045, f36, f37, f10046, f38, f39, f40, f10047, f41, f42, f43, f10048, f44, f10049, f10050, f10051, f10052, f45, f10053, f46, f47, f10054, f48, f49, f50, f51, f52, f53, f10055, f54, f55, f10056, f56, f57, f58, f59, f10057, f60, f61, f10058, f10059, f62, f63, f64, f65, f66, f67, f68, f69, f70, f10060, f10061, f10062, f71, f72, f10063, f73, f10064, f74, f75, f76, f77, f10065, f78, f10066, f10067, f10068, f79, f80, f81, f82, f83, f84, f85, f86, f10069, f10070, f87, f88, f89, f90, f91, f92, f10071, f93, f10072, f10073, f10074, f10075, f94, f95, f10076, f96, f97, f98, f99, f100, f101, f10077, f10078, f102, f10079, f103, f104, f105, f106, f107, f108, f109, f110, f111, f10080, f10081, f10082, f112, f10083, f113, f114, f115, f116, f117, f118, f119, f120, f121, f122, f123, f10084, f124, f10085, f125, f10086, f126, f127, f128, f129, f10087, f130, f10088, f10089, f10090, f10091, f131, f132, f133, f134, f10092, f10093, f135, f10094, f136, f10095, f10096, f137, f138, f10097, f139, f140, f141, f10098, f10099, f10100, f142, f143, f144, f10101, f10102, f10103, f10104, f145, f146, f10105, f147, f148, f10106, f149, f10107, f10108, f150, f10109, f10110, f10111, f151, f152, f153, f10112, f10113, f10114, f154, f10115, f10116, f10117, f10118, f10119, f10120, f155, f156, f10121, f10122, f157, f158, f10123, f10124, f10125, f10126, f10127, f10128, f10129, f10130, f10131, f159, f10132, f10133, f10134, f10135, f10136, f10137, f10138, f10139, f160, f161, f162, f163, f164, f165, f166, f167, f168, f169, f170, f171, f172, f173, f174, f175, f176, f177, f178, f179, f180, f181, f182, f183, f184, f185, f186, f187, f188, f189, f190, f191, f192, f193, f194, f195, f196, f197, f198, f199, f200, f201, f202, f203, f204, f205, f206, f207, f208, f209, f210, f211, f212, f213, f214, f215, f216, f217, f218, f219, f220, f221, f222, f223, f224, f225, f226, f227, f228, f229, f230, f231, f232, f233, f234, f235, f236, f237, f238, f239, f240, f241, f242, f243, f244, f245, f246, f247, f248, f249, f250, f251, f252, f253, f254, f255, f256, f257, f258, f259, f260, f261, f262, f263, f264]
+faces = [
+    f10000, f10001, f0, f10002, f1, f2, f10003, f10004, f3, f10005, f10006,
+    f4, f10007, f10008, f5, f10009, f10010, f10011, f10012, f6, f7, f10013,
+    f10014, f8, f10015, f10016, f10017, f10018, f10019, f10020, f10021, f10022,
+    f10023, f9, f10, f10024, f10025, f10026, f10027, f10028, f11, f10029, f12,
+    f10030, f13, f14, f15, f10031, f10032, f16, f17, f10033, f18, f10034, f19,
+    f20, f21, f10035, f22, f10036, f23, f10037, f10038, f24, f25, f10039, f26,
+    f10040, f27, f28, f10041, f29, f30, f31, f10042, f10043, f32, f33, f34,
+    f10044, f35, f10045, f36, f37, f10046, f38, f39, f40, f10047, f41, f42,
+    f43, f10048, f44, f10049, f10050, f10051, f10052, f45, f10053, f46, f47,
+    f10054, f48, f49, f50, f51, f52, f53, f10055, f54, f55, f10056, f56, f57,
+    f58, f59, f10057, f60, f61, f10058, f10059, f62, f63, f64, f65, f66, f67,
+    f68, f69, f70, f10060, f10061, f10062, f71, f72, f10063, f73, f10064, f74,
+    f75, f76, f77, f10065, f78, f10066, f10067, f10068, f79, f80, f81, f82,
+    f83, f84, f85, f86, f10069, f10070, f87, f88, f89, f90, f91, f92, f10071,
+    f93, f10072, f10073, f10074, f10075, f94, f95, f10076, f96, f97, f98, f99,
+    f100, f101, f10077, f10078, f102, f103, f104, f105, f106, f107,
+    f108, f109, f110, f111, f10080, f10081, f10082, f112, f10083, f113, f114,
+    f115, f116, f118, f119, f120, f121, f122, f123, f10084, f124, f10085,
+    f125, f10086, f127, f128, f129, f10087, f130, f10088, f10089, f10090,
+    f10091, f131, f132, f133, f134, f10092, f10093, f135, f10094, f136, f10095,
+    f10096, f137, f138, f10097, f139, f140, f141, f10098, f10099, f10100, f142,
+    f143, f144, f10101, f10102, f10103, f10104, f145, f146, f10105, f147, f148,
+    f10106, f149, f10107, f10108, f150, f10109, f10110, f10111, f152, # f151,
+    f153, f10112, f10113, f10114, f154, f10115, f10116, f10117, f10118, f10119,
+    f10120, f155, f156, f10121, f10122, f157, f158, f10123, f10124, f10125,
+    f10126, f10127, f10128, f10129, f10130, f10131, f159, f10132, f10133,
+    f10134, f10135, f10136, f10137, f10138, f10139, f160, f161, f162, f163,
+    f164, f165, f166, f167, f168, f169, f170, f171, f172, f173, f174, f175,
+    f176, f177, f178, f179, f180, f181, f182, f183, f184, f186, f187,   # f185,
+    f188, f189, f190, f191, f192, f193, f194, f195, f196, f197, f198, f199,
+    f200, f201, f202, f203, f204, f205, f206, f207, f208, f209, f210, f211,
+    f212, f213, f214, f215, f216, f217, f218, f219, f220, f221, f222, f223,
+    f224, f225, f226, f227, f228, f229, f230, f231, f232, f233, f234, f235,
+    f236, f237, f238, f239, f240, f241, f242, f243, f244, f246, f247,
+    f248, f249, f250, f251, f252, f253, f254, f255, f256, f257, f258, f259,
+    f260, f261, f262, f263, f264,
+]
 
-v0 = Volume([f10000, -f10001, f0, -f10003, f10007, -f10006, f5, f10013, -f10025, f20, f30, f200, -f213], num=0, accept_incomplete_geometry=True)
-v1 = Volume([f10000, -f10002, -f1, f10014, -f17, f10036, -f23, f25, -f211, -f212], num=1, accept_incomplete_geometry=True)
+f20000 = Face([e20003, -e10122, e10119, e20000], num=20000)
+f20001 = Face([e20003, e10123, e10160, e10120, -e10143, -e20001], num=20001)
+f20002 = Face([e20001, -e369, -e340, e341, e20000], num=20002)
+f20003 = Face([e20002, e20001, e10146, -e10145, -e647], num=20003)
+f20004 = Face([e662, e20002, -e20000, e10127, -e10126], num=20004)
+
+# for e in [e20003, -e10022, e10119, e20000]:
+#     if e.is_reverse:
+#         e = -e
+#     e.color = tc.TUMRose()
+
+new_faces = []
+
+faces.extend([f20000, f20001, f20002, f20003, f20004])
+
+
+v0 = Volume([f10000, -f10001, f0, -f10003, f10007, -f10006, f5, f10013, -f10025, f20, f30, -f213], num=0, accept_incomplete_geometry=True)
+v1 = Volume([f10000, -f10002, -f1, f10014, -f17, f10036, -f23, f25, -f212], num=1, accept_incomplete_geometry=True)
 v2 = Volume([f10001, -f10002, -f2, f10004, f10031, -f10033, -f214], num=2, accept_incomplete_geometry=True)
 v3 = Volume([-f0, -f1, f2, -f3, f8, -f16, f18, f33, f34, -f42, f56, f69, -f83, -f97], num=3, accept_incomplete_geometry=True)
 v4 = Volume([f10003, -f10004, f3, -f10032, f10034, -f21, f10043, f10046, -f39, -f215], num=4, accept_incomplete_geometry=True)
 v5 = Volume([f10005, f10006, -f4, -f10024, f182, -f200], num=5, accept_incomplete_geometry=True)
 v6 = Volume([-f10005, -f10007, f10008, -f10034, -f19, -f10042, f10053, -f46, f181, -f199], num=6, accept_incomplete_geometry=True)
-v7 = Volume([f4, -f10008, -f5, f10026, -f28, f48, -f10056, f10062, -f10078, -f182, f193], num=7, accept_incomplete_geometry=True)
+v7 = Volume([f4, -f10008, -f5, f10026, -f28, f48, -f10056, f10062, -f10078, f193], num=7, accept_incomplete_geometry=True)
 v8 = Volume([f10009, f10010, -f10011, -f10021, -f9, -f161, f208], num=8, accept_incomplete_geometry=True)
 v9 = Volume([-f10009, -f10012, f6, f10027, f10028, -f11, -f162, f209], num=9, accept_incomplete_geometry=True)
 v10 = Volume([-f10010, f10012, f7, -f13, f14, f15, f10042, -f10043, -f32, f40, f47, -f64, f216], num=10, accept_incomplete_geometry=True)
-v11 = Volume([f10011, -f6, -f7, f10023, f10, -f10038, f66, -f10068, f161, f169, -f189], num=11, accept_incomplete_geometry=True)
-v12 = Volume([f10013, -f10014, f8, f10035, -f22, f10041, f31, f10055, f10133], num=12, accept_incomplete_geometry=True)
+v11 = Volume([f10011, -f6, -f7, f10023, f10, -f10038, f66, -f10068, f169, -f189], num=11, accept_incomplete_geometry=True)
+v12 = Volume([-f10013, f10014, -f8, -f10035, f22, -f10041, -f31, -f10055, -f10133, f219, f184, -f202], num=12, accept_incomplete_geometry=True)
 v13 = Volume([f10015, f10016, -f10017, -f10029, -f10028, f10030, -f163, f210], num=13, accept_incomplete_geometry=True)
 v14 = Volume([-f10015, -f10018, f10019, -f10040, -f10045, -f36, f10049, -f10050, f204, -f230], num=14, accept_incomplete_geometry=True)
-v15 = Volume([f10016, -f10018, -f10020], num=15, accept_incomplete_geometry=True)
+v15 = Volume([-f10016, f10018, f10020, -f164, -f229, f203], num=15, accept_incomplete_geometry=True)
 v16 = Volume([f10017, -f10019, -f10020, -f27, f10048, -f44, -f10058, -f90, f104, -f10082, f10083, -f172, f239], num=16, accept_incomplete_geometry=True)
-v17 = Volume([f10021, -f10022, -f10023, f189], num=17, accept_incomplete_geometry=True)
+v17 = Volume([f10021, -f10022, -f10023, -f197, -f160, f179], num=17, accept_incomplete_geometry=True) #f189
 v18 = Volume([f10022, f9, -f10, f13, -f10053, f10054, -f65, -f10067, -f10074, f180, -f198], num=18, accept_incomplete_geometry=True)
 v19 = Volume([f10024, f10025, -f10026, f10041, f29, f53, -f10061, f10133, f183, -f201], num=19, accept_incomplete_geometry=True)
 v20 = Volume([-f10027, f10029, f12, -f14, f10040, f27, f10044, f35, -f10046, f38, f217], num=20, accept_incomplete_geometry=True)
-v21 = Volume([f11, -f12, -f10030, -f15, f10038, -f10048, f49, -f58, f70], num=21, accept_incomplete_geometry=True)
+# v21 = Volume([f11, -f12, -f10030, -f15, f10038, -f10048, f49, -f58, f70, f174], num=21, accept_incomplete_geometry=True)
 v22 = Volume([-f10031, f10032, f16, -f24, -f10044, f10045, -f37, f43, f10051, f45, f60, -f67, f218], num=22, accept_incomplete_geometry=True)
 v23 = Volume([-f17, f10033, -f18, f24, -f10047, -f41, -f59, f61, -f68, f74, -f78, -f82, f92, -f10137, f10138, f206, -f232], num=23, accept_incomplete_geometry=True)
 v24 = Volume([f19, -f20, f21, f28, f32, -f34, f51, f52, -f55, f98, f102, f116], num=24, accept_incomplete_geometry=True)
 v25 = Volume([f10035, f10036, -f10037, -f10039, -f211, f220], num=25, accept_incomplete_geometry=True)
-v26 = Volume([f22, f23, -f10037, -f26, f33, -f41, -f62, f10060, -f75, -f84, f95, f220, f227], num=26, accept_incomplete_geometry=True)
-v27 = Volume([f25, f10039, -f26, f10047, -f10064, f10065, -f86, f10137], num=27, accept_incomplete_geometry=True)
+v26 = Volume([f22, f23, -f10037, -f26, f33, -f41, -f62, f10060, -f75, -f84, f95, f227], num=26, accept_incomplete_geometry=True)
+# v27 = Volume([f25, f10039, -f26, f10047, -f10064, f10065, -f86, f10137, f207, f221, f233], num=27, accept_incomplete_geometry=True)
 v28 = Volume([-f29, -f30, f31, f42, -f48, -f51, f54, -f62, f71, -f85, f96, -f99, f107, -f123], num=28, accept_incomplete_geometry=True)
 v29 = Volume([-f35, f36, f37, f44, f50, -f57, f58, -f63, f81, f91, -f105, -f114], num=29, accept_incomplete_geometry=True)
 v30 = Volume([-f38, f39, -f40, -f43, -f49, f55, -f56, f57, -f73, f76, f80, f100, f101, f113, -f118], num=30, accept_incomplete_geometry=True)
@@ -3062,58 +3819,133 @@ v32 = Volume([f10050, -f10052, -f45, -f50, f10058, -f10059, f103, -f10081, -f241
 v33 = Volume([f46, -f47, -f10054, -f52, f10056, -f72, f73, -f10077, f10079, f117, -f137, f194], num=33, accept_incomplete_geometry=True)
 v34 = Volume([-f53, f10055, -f54, f10060, -f10063, f10076, -f122, -f10089, f192, -f226], num=34, accept_incomplete_geometry=True)
 v35 = Volume([f10057, -f60, -f61, f10059, f63, -f77, -f10071, f111, -f128, f10094, -f242], num=35, accept_incomplete_geometry=True)
-v36 = Volume([f64, f65, -f66, -f70, f72, f79, -f80, f94, -f108, f120, f138, -f143, f144, -f147, -f148, -f171, f10139, f177, -f178], num=36, accept_incomplete_geometry=True)
+v36 = Volume([f64, f65, -f66, -f70, f72, f79, -f80, f94, -f108, f120, f138, -f143, f144, -f147, -f148, f177, -f178], num=36, accept_incomplete_geometry=True)
 v37 = Volume([f67, f68, -f69, -f76, f77, -f81, f87, f88, -f93, f106, -f115, -f132, -f136], num=37, accept_incomplete_geometry=True)
-v38 = Volume([f10061, -f10062, -f71, f10063, -f10080, f10084, -f10090, f187, -f195], num=38, accept_incomplete_geometry=True)
-v39 = Volume([f10064, -f74, -f75, -f10066, f10070, -f88, -f89, f10073, -f133, -f145, f153, -f157], num=39, accept_incomplete_geometry=True)
+v38 = Volume([f10061, -f10062, -f71, f10063, -f10080, f10084, -f10090, -f195], num=38, accept_incomplete_geometry=True)
+# v39 = Volume([f10064, -f74, -f75, -f10066, f10070, -f88, -f89, f10073, -f133, -f145, f153, -f157, f225], num=39, accept_incomplete_geometry=True)
+# _log.warning("Split v39???")
 v40 = Volume([-f10065, f78, f10066, f10069, -f10072, f243], num=40, accept_incomplete_geometry=True)
-v41 = Volume([f10067, f10068, -f79, -f10075, f10139, f170, f189, -f190], num=41, accept_incomplete_geometry=True)
+v41 = Volume([f10067, f10068, -f79, -f10075, f10139, f170, -f190], num=41, accept_incomplete_geometry=True)
 v42 = Volume([f82, f83, -f84, f85, -f87, f89, -f109, -f110, f134, f146, f228], num=42, accept_incomplete_geometry=True)
-v43 = Volume([f86, -f10069, -f10070], num=43, accept_incomplete_geometry=True)
-v44 = Volume([f90, -f91, -f101, f108, f119, f124, f130, f10106, f149, -f150], num=44, accept_incomplete_geometry=True)
-v45 = Volume([f92, -f10071, -f93, -f10072, f10073, -f10096, f140, f10112], num=45, accept_incomplete_geometry=True)
-v46 = Volume([f10074, f10075, -f94, f10077, -f10097, -f10099, f10101, -f10103, f191, -f196], num=46, accept_incomplete_geometry=True)
+# v43 = Volume([f86, -f10069, -f10070], num=43, accept_incomplete_geometry=True)
+# v44 = Volume([f90, -f91, -f101, f108, f119, f124, f130, f10106, f149, -f150], num=44, accept_incomplete_geometry=True)
+# v45 = Volume([f92, -f10071, -f93, -f10072, f10073, -f10096, f140, f10112, f244], num=45, accept_incomplete_geometry=True)
+v46 = Volume([f10074, f10075, -f94, f10077, -f10097, -f10099, f10101, -f10103, -f196], num=46, accept_incomplete_geometry=True)
 v47 = Volume([f95, -f10076, -f96, f109, f10087, f131, -f10093, -f10117, f10122, f10132, -f223, f256], num=47, accept_incomplete_geometry=True)
 v48 = Volume([f97, -f98, f99, -f100, -f106, f110, -f125, f127, f129, -f131, f135, f139, -f154, -f264], num=48, accept_incomplete_geometry=True)
 v49 = Volume([f10078, -f102, -f10079, -f107, f10080, f10085, f125, -f126, f10099, -f10100, f10114, -f186, f246], num=49, accept_incomplete_geometry=True)
-v50 = Volume([f103, f104, -f105, f111, -f112, f119, f121, f10088, f141, -f152, -f10121, f10134, f236, -f10136, -f251, -f258], num=50, accept_incomplete_geometry=True)
+# v50 = Volume([f103, f104, -f105, f111, -f112, f119, f121, f10088, f141, -f152, -f10121, f10134, f236, -f10136, -f251, -f258, f237], num=50, accept_incomplete_geometry=True)
 v51 = Volume([f10081, f10082, -f112, f10086, -f155, f10125, -f173, f240], num=51, accept_incomplete_geometry=True)
-v52 = Volume([f10083, -f121, f10086, -f10110, -f10109, -f156, f10126, f167, f10135, -f173, f176], num=52, accept_incomplete_geometry=True)
+# v52 = Volume([f10083, -f121, f10086, -f10110, -f10109, -f156, f10126, f174], num=52, accept_incomplete_geometry=True)  # f176
 v53 = Volume([-f113, f114, f115, -f124, f128, -f129, f10088, f10092, f10095, f142, f10130, -f259], num=53, accept_incomplete_geometry=True)
 v54 = Volume([-f116, -f117, f118, -f120, f126, -f127, -f130, -f10092, f10098, f10108, -f10116, f260], num=54, accept_incomplete_geometry=True)
 v55 = Volume([f122, f123, -f10084, -f10085, -f10087, f10091, -f135, -f10115, -f187, f247], num=55, accept_incomplete_geometry=True)
-v56 = Volume([f10089, f10090, -f10091, f10093], num=56, accept_incomplete_geometry=True)
-v57 = Volume([f132, f133, -f134, -f139, f140, -f142, f10104, -f10105, -f10113, f10117, f158, -f257, -f261], num=57, accept_incomplete_geometry=True)
-v58 = Volume([f10094, -f136, f10095, f10096, -f141, f10104, f159, -f10134, f10136, -f236, f251], num=58, accept_incomplete_geometry=True)
-v59 = Volume([f137, -f138, f10097, -f10098, f10100, -f151, f10118, -f10129], num=59, accept_incomplete_geometry=True)
-v60 = Volume([f143, -f10101, -f10102, -f10139, -f170, f171, -f191], num=60, accept_incomplete_geometry=True)
-v61 = Volume([f144, -f10102, -f10103, -f151, f10119, f10120], num=61, accept_incomplete_geometry=True)
+v56 = Volume([f10089, f10090, -f10091, f10093, f248, -f222, -f188], num=56, accept_incomplete_geometry=True)
+v57 = Volume([f132, f133, -f134, -f139, f140, -f142, f10104, -f10105, -f10113, f10117, f158, -f261], num=57, accept_incomplete_geometry=True)
+# v58 = Volume([f10094, -f136, f10095, f10096, -f141, f10104, f159, -f10134, f10136, -f236, f251, f252], num=58, accept_incomplete_geometry=True)
+v59 = Volume([f137, -f138, f10097, -f10098, f10100, f10118, -f10129, -f20000, f20001, f20002], num=59, accept_incomplete_geometry=True)
+v60 = Volume([f143, -f10101, -f10102, -f10139, f171, -f191], num=60, accept_incomplete_geometry=True)
+v61 = Volume([-f144, f10102, f10103, -f10119, -f10120, f165, -f20002, f20003, -f20004], num=61, accept_incomplete_geometry=True)
 v62 = Volume([f145, -f146, f10105, -f10122, f10123, -f224, f257], num=62, accept_incomplete_geometry=True)
-v63 = Volume([f147, -f10106, -f10107, -f10111, -f10109, f10119, f166, f175, f176, -f254], num=63, accept_incomplete_geometry=True)
-v64 = Volume([f148, -f149, f10107, -f10108, -f10118, f10120, -f10128, f254, -f262], num=64, accept_incomplete_geometry=True)
+# v63 = Volume([f147, -f10106, -f10107, -f10111, -f10109, f10119, f166, f175, f176, -f254], num=63, accept_incomplete_geometry=True)
+v64 = Volume([f148, -f149, f10107, -f10108, -f10118, f10120, -f10128, -f262], num=64, accept_incomplete_geometry=True)
 v65 = Volume([f150, -f10110, f10111, -f152, f10128, -f10130, -f10131, f10135, f167, -f255], num=65, accept_incomplete_geometry=True)
-v66 = Volume([f153, -f10112, -f10113, f10124, -f159], num=66, accept_incomplete_geometry=True)
-v67 = Volume([f10114, -f154, -f10115, -f10116, -f10129, f10132, f246, -f263], num=67, accept_incomplete_geometry=True)
+# v66 = Volume([f153, -f10112, -f10113, f10124, -f159, f252], num=66, accept_incomplete_geometry=True)
+v67 = Volume([f10114, -f154, -f10115, -f10116, -f10129, f10132, -f263], num=67, accept_incomplete_geometry=True)
 v68 = Volume([f155, -f156, -f10121, f10127, f10131, f10136, f235, -f250], num=68, accept_incomplete_geometry=True)
-v69 = Volume([f157, -f158, -f10123, f10124], num=69, accept_incomplete_geometry=True)
-v70 = Volume([f10125, -f10126, f10127, f10135], num=70, accept_incomplete_geometry=True)
-v71 = Volume([f10133], num=71, accept_incomplete_geometry=True)
-v72 = Volume([f10137], num=72, accept_incomplete_geometry=True)
-volumes = [v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23, v24, v25, v26, v27, v28, v29, v30, v31, v32, v33, v34, v35, v36, v37, v38, v39, v40, v41, v42, v43, v44, v45, v46, v47, v48, v49, v50, v51, v52, v53, v54, v55, v56, v57, v58, v59, v60, v61, v62, v63, v64, v65, v66, v67, v68, v69, v70, v71, v72]
+# v69 = Volume([f157, -f158, -f10123, f10124, f253, f238, f225], num=69, accept_incomplete_geometry=True)
+v70 = Volume([-f10125, f10126, -f10127, -f10135, -f249, f234, f168], num=70, accept_incomplete_geometry=True)
+# v71 = Volume([f10133], num=71, accept_incomplete_geometry=True)
+# v72 = Volume([f10137], num=72, accept_incomplete_geometry=True)
+# volumes = [v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v21, v22, v23, v24, v25, v26, v27, v28, v29, v30, v31, v32, v33, v34, v35, v36, v37, v38, v39, v40, v41, v42, v43, v44, v45, v46, v47, v48, v49, v50, v51, v52, v53, v54, v55, v56, v57, v58, v59, v60, v61, v62, v63, v64, v65, v66, v67, v68, v69, v70, v71, v72]
 
-plotly_nodes = NodePlotly(nodes)
-plotly_fig_nodes = plotly_nodes.plot_nodes_plotly()
-plotly_fig_nodes.show()
+volumes = [v0, v1, v2, v3, v4, v5, v6, v7, v8, v9, v10, v11, v12, v13, v14, v15, v16, v17, v18, v19, v20, v22, v23, v24, v25, v26, v28, v29, v30, v31, v32, v33, v34, v35, v36, v37, v38, v40, v41, v42, v46, v47, v48, v49, v51, v53, v54, v55, v56, v57, v60, v62, v64, v65, v67, v68, v70]
 
-plotly_edges = EdgePlotly(edges+geometric_edges)
-plotly_fig_edges = plotly_edges.plot_edges_plotly()
-plotly_fig_edges.show()
 
-plotly_faces = FacePlotly(faces)
-plotly_fig_faces = plotly_faces.plot_faces_plotly()
-plotly_fig_faces.show()
+faces_for_volume = [-f144, f10102, f10103, -f10119, -f10120, f165, -f20002, f20003, -f20004]
 
-plotly_volumes = VolumePlotly(volumes)
-plotly_fig_volumes = plotly_volumes.plot_volumes_plotly()
-plotly_fig_volumes.show()
 
+
+
+v_current = v61
+
+# for f in v_current.faces:
+#     f.color = tc.TUMRose()
+
+faces_to_plot = []
+
+finished_faces = [
+    f184, f192, f195, f188, f183, f219, f182, f193, f230, f205, f201, f202,
+    f200, f213, f226, f222, f248, f187, f264, f259, f247, f256, f223, f257,
+    f261, f214, f218, f215, f199, f227, f231, f242, f181, f211, f212, f206,
+    f241, f217, f216, f224, f228, f194, f186, f180, f198, f208, f204, f197,
+    f232, f220, f260, f263, f246, f209, f210, f203, f163, f172, f170, f190,
+    f164, f229, f196, f161, f189, f160, f179, f169, f162, f177, f178, f162,
+    f239, f171, f191, f262, f173, f240, f234, f235, f167, f168, f249, f250,
+    f255, f165,
+    f20000, f20001, f20002, f20003, f20004,
+]
+
+for f in faces:
+    if f in finished_faces:
+        continue
+    match len(f.volumes):
+        case 0:
+            faces_to_plot.append(f)
+            f.color = tc.TUMGreen()
+        case 1:
+            faces_to_plot.append(f)
+            f.color = tc.TUMMustard()
+        case 2:
+            pass
+        case _:
+            _log.error("Face %s belongs to more than two volumes.", f)
+
+
+for f in faces_for_volume:
+    f.color = tc.TUMRose()
+
+edges_to_plot = []
+for f in faces_to_plot:
+    for e in f.edges:
+        if e.is_reverse:
+            e = -e
+        if e not in edges_to_plot:
+            edges_to_plot.append(e)
+
+nodes_to_plot = []
+for e in edges_to_plot:
+    if e.startNode not in nodes_to_plot:
+        nodes_to_plot.append(e.startNode)
+    if e.endNode not in nodes_to_plot:
+        nodes_to_plot.append(e.endNode)
+
+
+
+# plotly_nodes = NodePlotly(nodes)
+# plotly_fig_nodes = plotly_nodes.plot_nodes_plotly(show_label=False)
+# plotly_fig_nodes.show()
+
+# plotly_edges = EdgePlotly(edges+geometric_edges)
+# plotly_fig_edges = plotly_edges.plot_edges_plotly(show_label=False, show_direction=False)
+# plotly_fig_edges.show()
+
+# plotly_faces = FacePlotly(faces)
+# plotly_fig_faces = plotly_faces.plot_faces_plotly(show_label=False, show_normal_vec=False)
+# plotly_fig_faces.show()
+
+plotly_nodes_2 = NodePlotly(nodes_to_plot + new_nodes)
+plotly_edges_2 = EdgePlotly(edges_to_plot + new_edges)
+plotly_faces_2 = FacePlotly(faces_to_plot + new_faces)
+plotly_fig = plotly_faces_2.plot_faces_plotly(show_label=False, show_normal_vec=False)
+plotly_fig = plotly_edges_2.plot_edges_plotly(plotly_fig, show_label=False, cone_size=0.1)
+plotly_fig = plotly_nodes_2.plot_nodes_plotly(plotly_fig, show_label=False)
+plotly_fig.show()
+
+plotly_faces_3 = FacePlotly(faces_for_volume)
+plotly_fig_3 = plotly_faces_3.plot_faces_plotly(show_label=True, show_normal_vec=True)
+plotly_fig_3.show()
+
+# plotly_volumes = VolumePlotly(volumes)
+# plotly_fig_volumes = plotly_volumes.plot_volumes_plotly(show_label=False)
+# plotly_fig_volumes.show()

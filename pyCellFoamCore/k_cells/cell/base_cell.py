@@ -136,17 +136,66 @@ class BaseCellPlotly:
     def __init__(self):
         pass
 
-    def _create_plotly_figure(self):
-        plotly_figure = go.Figure()
+    def _create_plotly_figure(self, old_fig=None, show_axes=None):
+
+        if old_fig is None:
+            plotly_figure = go.Figure()
+        else:
+            plotly_figure = old_fig
+
+        # plotly_figure.update_layout(
+        #     scene={
+        #         "xaxis_title": "X Axis",
+        #         "yaxis_title": "Y Axis",
+        #         "zaxis_title": "Z Axis",
+        #     },
+        #     paper_bgcolor='white',
+        #     plot_bgcolor='white'
+        # )
+
+        # plotly_figure.update_layout(
+        #     scene=dict(
+        #         xaxis_title='X Axis',
+        #         yaxis_title='Y Axis',
+        #         zaxis_title='Z Axis',
+        #         camera=dict(
+        #             up=dict(x=0, y=0, z=1),
+        #             center=dict(x=0, y=0, z=0),
+        #             eye=dict(x=1.25, y=1.25, z=1.25)
+        #         ),
+        #         dragmode='orbit'
+        #     ),
+        #     scene_camera_projection=dict(type='perspective')
+        # )
+
         plotly_figure.update_layout(
             scene={
                 "xaxis_title": "X Axis",
                 "yaxis_title": "Y Axis",
                 "zaxis_title": "Z Axis",
+                "camera": {
+                    "up": {"x": -0.234, "y": 0.908, "z": -0.344},
+                    "center": {"x": 0, "y": 0, "z": 0},
+                    "eye": {"x": 1.075, "y": 0.899, "z": 1.648},
+                },
+                "dragmode": "orbit",
+                # "xaxis": {"visible": show_axes},
+                # "yaxis": {"visible": show_axes},
+                # "zaxis": {"visible": show_axes},
             },
+            scene_camera_projection={"type": "perspective"},
             paper_bgcolor='white',
             plot_bgcolor='white'
         )
+
+        if show_axes is not None:
+            plotly_figure.update_layout(
+                scene={
+                    "xaxis": {"visible": show_axes},
+                    "yaxis": {"visible": show_axes},
+                    "zaxis": {"visible": show_axes},
+                }
+            )
 
         return plotly_figure
 

@@ -1275,7 +1275,12 @@ if __name__ == '__main__':
             pic = pc.plotComplexTikZ()
             pic.scale = 5
             file = True
-            pic.writeLaTeXFile('latex','primalComplex3D',compileFile=file,openFile=file)
+            pic.writeLaTeXFile(
+                'latex',
+                'primalComplex3D',
+                compileFile=file,
+                openFile=file,
+            )
 
             picNodes = pc.plotNodesTikZ()
             picNodes.scale = 2
@@ -1297,12 +1302,27 @@ if __name__ == '__main__':
             edge_plotly = EdgePlotly(pc.edges)
             face_plotly = FacePlotly(pc.faces)
 
-            plotly_fig_nodes_edges = node_plotly.plot_nodes_plotly(show_label=True)
-            edge_plotly.plot_edges_plotly(plotly_fig_nodes_edges, show_label=True, show_barycenter=False, cone_size=0.05)
+            plotly_fig_nodes_edges = node_plotly.plot_nodes_plotly(
+                show_label=True
+            )
+            edge_plotly.plot_edges_plotly(
+                plotly_fig_nodes_edges,
+                show_label=True,
+                show_barycenter=False,
+                cone_size=0.05,
+            )
             plotly_fig_nodes_edges.show()
 
-            plotly_fig_edges_faces = edge_plotly.plot_edges_plotly(show_label=False, show_barycenter=False, cone_size=0.05)
-            face_plotly.plot_faces_plotly(plotly_fig_edges_faces, show_label=True, show_barycenter=False)
+            plotly_fig_edges_faces = edge_plotly.plot_edges_plotly(
+                show_label=False,
+                show_barycenter=False,
+                cone_size=0.05,
+            )
+            face_plotly.plot_faces_plotly(
+                plotly_fig_edges_faces,
+                show_label=True,
+                show_barycenter=False,
+            )
             plotly_fig_edges_faces.show()
 
         case "None":

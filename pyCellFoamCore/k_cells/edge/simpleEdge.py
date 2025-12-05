@@ -110,6 +110,7 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
 
         self.__simpleFaces = []
         self.__cylinder = None
+        self.__radius = 0
 
         _log.debug('Initialized SimpleEdge')
 
@@ -175,15 +176,27 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
     #
     # '''
 
-    def __getRadius(self): return self.cylinder.radius
+    def __getRadius(self): return self.__radius
 
-    def __setRadius(self, r): self.cylinder.radius = r
+    def __setRadius(self, r): self.__radius = r
 
     radius = property(__getRadius, __setRadius)
     '''
     Radius of the simple or respectively a cylinder with the identical volume.
 
     '''
+
+    def __get_cylinder_volume(self):
+        length = np.linalg.norm(self.connectionVec)
+        return np.pi*self.__radius**2*length
+
+    cylinder_volume = property(__get_cylinder_volume)
+
+    def __get_cylinder_surface_area(self):
+        length = np.linalg.norm(self.connectionVec)
+        return 2*np.pi*self.__radius*length
+
+    cylinder_surface_area = property(__get_cylinder_surface_area)
 
 # =============================================================================
 #    METHODS
