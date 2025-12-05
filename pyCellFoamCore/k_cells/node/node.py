@@ -721,7 +721,7 @@ class NodePlotly(BaseCellPlotly):
         super().__init__()
         self.nodes = nodes
 
-    def plot_nodes_plotly(self, fig=None, show_label=True, **kwargs):
+    def plot_nodes_plotly(self, fig=None, show_label=True, marker_size=5, **kwargs):
         """
         kwargs:
             show_axes: bool
@@ -747,7 +747,7 @@ class NodePlotly(BaseCellPlotly):
             textposition='top center',
             textfont=dict(size=12),
             marker=dict(
-                size=5,
+                size=marker_size,
                 color=colors,
                 opacity=0.8
             ),

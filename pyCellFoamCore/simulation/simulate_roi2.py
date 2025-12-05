@@ -66,7 +66,7 @@ set_logging_format(logging.INFO)
 # ==============================================================================
 
 dt = 0.001           # s - Start timestep length
-numSteps = 8000      # Number of timesteps that should be calculated
+numSteps = 8      # Number of timesteps that should be calculated
 maxError = 2e-5     # Maximal relative error for step length control
 maxTime = 200       # Maximal time that should be simulated
 
@@ -84,8 +84,8 @@ laF = 0.026/1e3     # W / (mm K) for air
 
 alpha = 100/1e6     # W / (mm^2 K) for air
 
-radiusEdge = 0.4    # mm
-radiusNode = 0.8    # mm
+radiusEdge = 0.8    # mm
+radiusNode = 1.2    # mm
 
 
 

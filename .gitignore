@@ -41,3 +41,5 @@ localConfig.py
 *.bbl
 *.blg
 *.mat
+*.pkl
+*.csv

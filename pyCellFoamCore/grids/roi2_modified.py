@@ -560,27 +560,32 @@ if __name__ == "__main__":
     # for e in geometric_edges:
         # e.color = tc.TUMGreen()
 
+    pc = PrimalComplex3D(nodes, edges, faces, volumes)
+
+    for n in pc.borderNodes:
+        n.color = tc.TUMGreen()
+
     plotly_nodes = NodePlotly(nodes)
     plotly_edges = EdgePlotly(edges)
     plotly_faces = FacePlotly(faces)
-    plotly_faces2 = FacePlotly(faces_for_volumes)
+    # plotly_faces2 = FacePlotly(faces_for_volumes)
     plotly_volumes = VolumePlotly(volumes)
 
-    # plotly_fig_nodes_edges = plotly_nodes.plot_nodes_plotly(show_label=False)
-    # plotly_edges.plot_edges_plotly(plotly_fig_nodes_edges, show_label=False, cone_size=1.5)
-    # plotly_fig_nodes_edges.show()
+    plotly_fig_nodes_edges = plotly_nodes.plot_nodes_plotly(show_label=False, show_axes=False, marker_size=20)
+    plotly_edges.plot_edges_plotly(plotly_fig_nodes_edges, show_label=False, cone_size=0.25, show_barycenter=False)
+    plotly_fig_nodes_edges.show()
 
-    plotly_fig_edges_faces = plotly_edges.plot_edges_plotly(show_label=False, cone_size=0.05, show_barycenter=False, show_axes=False)
-    plotly_faces.plot_faces_plotly(plotly_fig_edges_faces, show_label=False, cone_size=0.05, show_barycenter=False)
-    plotly_fig_edges_faces.update_layout(
-        scene={
-            "camera": {
-                "up": {"x": -0.234, "y": 0.908, "z": -0.344},
-                "center": {"x": 0, "y": 0, "z": 0},
-                "eye": {"x": 1.075, "y": 0.899, "z": 1.648},
-            },
-        }
-    )
+    # plotly_fig_edges_faces = plotly_edges.plot_edges_plotly(show_label=False, cone_size=0.05, show_barycenter=False, show_axes=False)
+    # plotly_faces.plot_faces_plotly(plotly_fig_edges_faces, show_label=False, cone_size=0.05, show_barycenter=False)
+    # plotly_fig_edges_faces.update_layout(
+    #     scene={
+    #         "camera": {
+    #             "up": {"x": -0.234, "y": 0.908, "z": -0.344},
+    #             "center": {"x": 0, "y": 0, "z": 0},
+    #             "eye": {"x": 1.075, "y": 0.899, "z": 1.648},
+    #         },
+    #     }
+    # )
     # plotly_fig_edges_faces.show()
 
     # for f in faces:
@@ -601,8 +606,8 @@ if __name__ == "__main__":
     # plotly_fig_volumes = plotly_volumes.plot_volumes_plotly()
     # plotly_fig_volumes.show()
 
-    pc = PrimalComplex3D(nodes, edges, faces, volumes)
-    dc = DualComplex3D(pc)
+    # pc = PrimalComplex3D(nodes, edges, faces, volumes)
+    # dc = DualComplex3D(pc)
 
 
 
@@ -644,7 +649,7 @@ if __name__ == "__main__":
     # plotly_fig_faces_dual = plotly_faces_dual.plot_faces_plotly(show_normal_vec=False, show_label=False)
     # plotly_fig_faces_dual.show()
 
-    dc.checkAllIncidenceMatrices()
+    # dc.checkAllIncidenceMatrices()
 
     # print(len(pc.borderNodes), len(dc.borderVolumes))
 
