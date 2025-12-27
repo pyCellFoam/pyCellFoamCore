@@ -2,48 +2,42 @@
 
 class SuperBaseCell:
     __slots__ = (
-        "__label_text",
-        "__label_text_changed",
-        "__my_reverse",
+        "__slot_super_base_cell",
     )
 
-    def __init__(self, my_reverse=None):
-        self.__my_reverse = my_reverse
-        self.__label_text = ""
-        self.__label_text_changed = True
+    def __init__(self, slot_super_base_cell=None):
+        self.__slot_super_base_cell = slot_super_base_cell
 
-    def __get_label_text(self):
-        if self.__label_text_changed:
-            self.__label_text = "label_text"
-            self.__label_text_changed = False
-        return self.__label_text
+    def __get_slot_super_base_cell(self):
+        return self.__slot_super_base_cell
 
-    label_text = property(__get_label_text)
+    def __set_slot_super_base_cell(self, value):
+        self.__slot_super_base_cell = value
 
-    def __get_my_reverse(self):
-        return self.__my_reverse
-
-    my_reverse = property(__get_my_reverse)
-
-    def __neg__(self):
-        return self.__my_reverse
+    slot_super_base_cell = property(
+        __get_slot_super_base_cell,
+        __set_slot_super_base_cell,
+    )
 
 
 class SuperCell(SuperBaseCell):
-    __slots__ = ()
+    __slots__ = (
+        "__slot_super_cell",
+    )
 
-    def __init__(self, *args, my_reverse=None, **kwargs):
+    def __init__(self, slot_super_cell, *args, **kwargs):
 
-        if my_reverse is None:
-            my_reverse = SuperReversedCell(*args, my_reverse=self, **kwargs)
+        self.__slot_super_cell = slot_super_cell
+        super().__init__(*args, **kwargs)
 
-        super().__init__(*args, my_reverse=my_reverse, **kwargs)
-
-    def __get_my_reverse(self):
-        return self.__my_reverse
-
-    my_reverse = property(__get_my_reverse)
-
+    def __get_slot_super_cell(self):
+        return self.__slot_super_cell
+    def __set_slot_super_cell(self, value):
+        self.__slot_super_cell = value
+    slot_super_cell = property(
+        __get_slot_super_cell,
+        __set_slot_super_cell,
+    )
 
 class SuperReversedCell(SuperBaseCell):
     __slots__ = ()
@@ -54,16 +48,34 @@ class SuperReversedCell(SuperBaseCell):
 # Cells
 
 class BaseCell(SuperBaseCell):
-    __slots__ = ()
+    __slots__ = (
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+
+
 
 class Cell(BaseCell, SuperCell):
-    __slots__ = ()
+    __slots__ = (
+        "__slot_cell",
+    )
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, slot_cell, *args, **kwargs):
+        self.__slot_cell = slot_cell
         super().__init__(*args, **kwargs)
+
+    def __get_slot_cell(self):
+        return self.__slot_cell
+
+    def __set_slot_cell(self, value):
+        self.__slot_cell = value
+
+    slot_cell = property(
+        __get_slot_cell,
+        __set_slot_cell,
+    )
 
 class ReversedCell(BaseCell, SuperReversedCell):
     __slots__ = ()
@@ -99,6 +111,62 @@ class ReversedSimpleCell(BaseSimpleCell, SuperReversedCell):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
+# Edges
+
+class BaseEdge(BaseCell):
+    __slots__ = ()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+class Edge(BaseEdge, Cell):
+    __slots__ = (
+        "__slot_edge"
+    )
+
+    def __init__(self, slot_edge, *args, **kwargs):
+        self.__slot_edge = slot_edge
+        super().__init__(*args, **kwargs)
+
+    def __get_slot_edge(self):
+        return self.__slot_edge
+
+    def __set_slot_edge(self, value):
+        self.__slot_edge = value
+
+    slot_edge = property(
+        __get_slot_edge,
+        __set_slot_edge,
+    )
+
+
+
+class ReversedEdge(BaseEdge, ReversedCell):
+    __slots__ = ()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+
+class DualEdge1D(Edge, DualCell):
+    __slots__ = ()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+class DualEdge2D(Edge, DualCell):
+    __slots__ = ()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+class DualEdge3D(Edge, DualCell):
+    __slots__ = ()
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
 
 # Simple Edges
 
@@ -111,34 +179,16 @@ class BaseSimpleEdge(BaseSimpleCell):
 
 
 
+
 class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
     __slots__ = ()
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-
-    def __get_start_node(self):
-        return self.my_reverse.end_node
-
-    def __set_start_node(self, n):
-        self.my_reverse.end_node = n
-
-    start_node = property(__get_start_node, __set_start_node)
-
-    def __get_end_node(self):
-        return self.my_reverse.start_node
-
-    def __set_end_node(self, n):
-        self.my_reverse.start_node = n
-
-    end_node = property(__get_end_node, __set_end_node)
-
-
 class SimpleEdge(BaseSimpleEdge, SimpleCell):
     __slots__ = (
-        "__start_node",
-        "__end_node",
+        "__slot_simple_edge"
     )
 
     def __init__(self, start_node, end_node, *args, **kwargs):
@@ -167,8 +217,9 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
     end_node = property(__get_end_node, __set_end_node)
 
 
-se = SimpleEdge('A', 'B')
-mse = -se
+de = DualEdge3D(slot_edge="edge_slot",
+                slot_cell="cell_slot",
+                slot_super_cell="super_cell_slot",
+                slot_super_base_cell="super_base_cell_slot")
 
-print(se.start_node, se.end_node)
-print(mse.start_node, mse.end_node)
+print("DualEdge3D:", de.slot_super_base_cell)
