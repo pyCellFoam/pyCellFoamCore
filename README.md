@@ -37,3 +37,151 @@ Sphinx and this library need to be added to the environment variables:
 # Tutorial
 
 # Related Publications
+
+# UML
+
+```mermaid
+classDiagram
+
+    class SuperBaseCell{
+        <<slots>>
+    }
+
+    class SuperCell {
+        
+    }
+
+    class SuperReversedCell{
+    }
+
+    class BaseCell {
+    }
+
+    class Cell{
+        <<slots>>
+    }
+
+    class ReversedCell{
+    
+    }
+
+    class DualCell{
+    
+    }
+
+    class BaseSimpleCell{
+    
+    }
+
+    class SimpleCell{
+    
+    }
+
+    class ReversedSimpleCell{
+    
+    }
+
+    class Node{
+        <<slots>>
+    }
+
+    class DualNode0D{
+    
+    }
+
+    class DualNode1D{
+    
+    }
+
+    class DualNode2D{
+    
+    }
+
+    class DualNode3D{
+    
+    }
+
+    class BaseEdge{
+    
+    }
+
+    class Edge{
+        <<slots>>
+    }
+
+    class ReversedEdge{
+    
+    }
+
+    class DualEdge1D{
+    
+    }
+
+    class DualEdge2D{
+    
+    }
+
+    class DualEdge3D{
+    
+    }
+
+    class BaseSimpleEdge{
+    
+    }    
+    
+    class SimpleEdge{
+    
+    }
+
+    class ReversedSimpleEdge{
+        
+    }
+    
+
+    SuperBaseCell <|-- SuperCell
+    SuperBaseCell <|-- BaseCell
+    SuperBaseCell <|-- SuperReversedCell
+    SuperBaseCell <|-- BaseSimpleCell
+    BaseCell <|-- Cell
+    BaseCell <|-- ReversedCell 
+    BaseCell <|-- BaseEdge
+    SuperCell <|-- Cell
+    SuperCell <|-- SimpleCell
+    SuperReversedCell <|-- ReversedCell
+    SuperReversedCell <|-- ReversedSimpleCell
+    Cell <|-- DualCell
+    Cell <|-- Node
+    Cell <|-- Edge
+    ReversedCell <|-- ReversedEdge
+    DualCell <|-- DualNode0D
+    DualCell <|-- DualNode1D
+    DualCell <|-- DualNode2D
+    DualCell <|-- DualNode3D
+    DualCell <|-- DualEdge1D
+    DualCell <|-- DualEdge2D
+    DualCell <|-- DualEdge3D
+    BaseSimpleCell <|-- SimpleCell
+    BaseSimpleCell <|-- ReversedSimpleCell
+    BaseSimpleCell <|-- BaseSimpleEdge
+    SimpleCell <|-- SimpleEdge
+    ReversedSimpleCell <|-- ReversedSimpleEdge
+    Node <|-- DualNode0D
+    Node <|-- DualNode1D
+    Node <|-- DualNode2D
+    Node <|-- DualNode3D
+    BaseEdge <|-- Edge
+    BaseEdge <|-- ReversedEdge
+    Edge <|-- DualEdge1D
+    Edge <|-- DualEdge2D
+    Edge <|-- DualEdge3D
+    BaseSimpleEdge <|-- SimpleEdge
+    BaseSimpleEdge <|-- ReversedSimpleEdge
+    
+
+```
+
+```mermaid
+classDiagram
+    class Animal:::someclass
+    classDef someclass fill:#f96
+```
