@@ -174,15 +174,18 @@ class IMorphInterfacePlateauCellGraph(IMorphInterface):
             error = self.loadNodesGraphNodes(self.pathToNodesFile)
 
 
+
+
         self.__boundingBox = BoundingBox(self.xLim, self.yLim, self.zLim)
 
         if not error:
             error = self.loadEdgesGraphTubes(self.pathToTubesFile)
 
+
         if not error:
             error = self.loadFaces(self.pathToNodeThroatsFile)
 
-
+        error = True
 
         if not error:
             error = self.distribute_nodes_edges_to_bounding_box()
@@ -552,9 +555,11 @@ if __name__ == '__main__':
 
     # interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Div6\Cutout2\original\Porous')
     # interface1 = IMorphInterfacePlateauCellGraph(r'C:\_local\TUM\06_iMorph_October_20\database_share\data\Sample01\Acquisition3\Roi1\original\Porous')
-    interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Acquisition3\Roi1\original\Porous')
+    # interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Acquisition3\Roi1\original\Porous')
+    # interface1 = IMorphInterfacePlateauCellGraph(r'D:\iMorph\06_iMorph_October_20\database\data\Sample01\Acquisition3\Roi3\original\Porous')
+    interface1 = IMorphInterfacePlateauCellGraph(r'C:\_local\TUM\06_iMorph_October_20\database_share\data\Sample01\Acquisition3\Roi3\original\Porous')
 
-    interface1.code_generator("roi1.py")
+    interface1.code_generator("roi3.py")
 
 
 

@@ -98,6 +98,7 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
         '''
 
         '''
+        self.__barycenter = None
         if belongsTo is None:
             belongsToRev = None
         else:

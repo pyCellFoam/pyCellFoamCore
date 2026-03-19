@@ -234,14 +234,15 @@ class FacePlotly(BaseCellPlotly):
                         vertex_count += 3
                         triangle_colors.append(sf.color.html)
 
-                barycenters_x.append(sf.barycenter[0])
-                barycenters_y.append(sf.barycenter[1])
-                barycenters_z.append(sf.barycenter[2])
-                barycenter_colors.append(sf.color.html)
-                cones_direction_x.append(sf.normalVec[0])
-                cones_direction_y.append(sf.normalVec[1])
-                cones_direction_z.append(sf.normalVec[2])
-                labels.append(sf.label_text.replace("$", ""))
+                if sf.barycenter is not None:
+                    barycenters_x.append(sf.barycenter[0])
+                    barycenters_y.append(sf.barycenter[1])
+                    barycenters_z.append(sf.barycenter[2])
+                    barycenter_colors.append(sf.color.html)
+                    cones_direction_x.append(sf.normalVec[0])
+                    cones_direction_y.append(sf.normalVec[1])
+                    cones_direction_z.append(sf.normalVec[2])
+                    labels.append(sf.label_text.replace("$", ""))
 
         cones = {}
 
