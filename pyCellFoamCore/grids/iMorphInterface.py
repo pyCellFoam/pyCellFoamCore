@@ -494,7 +494,7 @@ class IMorphInterface(PrimalComplex3D):
         #---------------------------------------------------------------------
         readFaces = False
         maxNumberOfLines = float('inf')
-        maxNumberOfLines = 500
+        maxNumberOfLines = 2000
         # max_number_of_open_throats = 5
 
         numberOfClosedThroats = 0
