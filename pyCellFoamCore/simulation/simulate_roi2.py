@@ -66,7 +66,7 @@ set_logging_format(logging.INFO)
 # ==============================================================================
 
 dt = 0.001           # s - Start timestep length
-numSteps = 8      # Number of timesteps that should be calculated
+numSteps = 8000      # Number of timesteps that should be calculated
 maxError = 2e-5     # Maximal relative error for step length control
 maxTime = 200       # Maximal time that should be simulated
 

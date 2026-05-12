@@ -66,7 +66,7 @@ set_logging_format(logging.INFO)
 # ==============================================================================
 
 dt = 0.001           # s - Start timestep length
-numSteps = 8      # Number of timesteps that should be calculated
+numSteps = 10000      # Number of timesteps that should be calculated
 maxError = 2e-5     # Maximal relative error for step length control
 maxTime = 200       # Maximal time that should be simulated
 
@@ -84,8 +84,8 @@ laF = 0.026/1e3     # W / (mm K) for air
 
 alpha = 100/1e6     # W / (mm^2 K) for air
 
-radiusEdge = 0.8    # mm
-radiusNode = 1.2    # mm
+radiusEdge = 0.008    # mm
+radiusNode = 0.012    # mm
 
 
 
@@ -329,7 +329,7 @@ for i in range(numSteps):
         relError = absError/np.linalg.norm(np.absolute(UiS1))
         error = relError
 
-        _log.info(' \tIteration {:2.0f}:\tdt = {:.4f}\trelErr = {:6.3f} %\tabsErr = {:.3f}'.format(count,dt,error*100,absError))
+        _log.info(' \tIteration {:2.0f}:\tdt = {:.6f}\trelErr = {:6.3f} %\tabsErr = {:.3f}'.format(count,dt,error*100,absError))
         if error > maxError:
             dt = dt/2
 
@@ -342,22 +342,22 @@ for i in range(numSteps):
     UiF[:,i+1] = UiF[:,i]+UdotF*dt
     time[i+1] = time[i] + dt
 
-fig = go.Figure()
-for i in range(len(pc.innerNodes)):
-    fig.add_trace(go.Scatter(x=time[:-1], y=TiS[i,:-1], mode='lines', name=f'Inner Solid Temperature Node {i}'))
-for i in range(len(pc.borderNodes)):
-    fig.add_trace(go.Scatter(x=time[:-1], y=TbS[i,:-1], mode='lines', name=f'Border Solid Temperature Node {i}'))
+# fig = go.Figure()
+# for i in range(len(pc.innerNodes)):
+#     fig.add_trace(go.Scatter(x=time[:-1], y=TiS[i,:-1], mode='lines', name=f'Inner Solid Temperature Node {i}'))
+# for i in range(len(pc.borderNodes)):
+#     fig.add_trace(go.Scatter(x=time[:-1], y=TbS[i,:-1], mode='lines', name=f'Border Solid Temperature Node {i}'))
 
 
-fig.update_layout(
-    title='Temperature Evolution in Solid Phase over Time',
-    xaxis_title='Time (s)',
-    yaxis_title='Temperature (K)',
-    showlegend=False
-)
-fig.show()
+# fig.update_layout(
+#     title='Temperature Evolution in Solid Phase over Time',
+#     xaxis_title='Time (s)',
+#     yaxis_title='Temperature (K)',
+#     showlegend=False
+# )
+# fig.show()
 
-with open('simulation_roi2_results.pkl', 'wb') as f:
+with open('simulation_roi1_results.pkl', 'wb') as f:
     pickle.dump({
         'time': time,
         'TiS': TiS,
