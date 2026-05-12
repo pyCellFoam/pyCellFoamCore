@@ -205,7 +205,7 @@ class DualNode2D(Node, DualCell):
 # ------------------------------------------------------------------------
 #    Three simple faces, for example at corner
 # ------------------------------------------------------------------------
-        elif len(face.barycenter) == 3:
+        elif len(face.barycenter) >= 3:
 
             # # find all geometric Nodes
             # geometricNodes = []

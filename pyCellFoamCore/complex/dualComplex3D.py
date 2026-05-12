@@ -241,7 +241,7 @@ class DualComplex3D(Complex3D):
         if self.__createNodes:
             _log.info("Create 3D dual nodes")
             for v in self.__primalComplex.volumes:
-                cc.printBlue("Create dual node of {}".format(v))
+                _log.critical("Create dual node of %s", v)
                 dualNodes.append(DualNode3D(v))
             for f in self.__primalComplex.borderFaces1:
                 dualNodes.append(DualNode2D(f))

@@ -1,6 +1,7 @@
 # Auto-generated code for Complex3D
 import logging
 from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.node.dualNode3D import DualNode3D
 from pyCellFoamCore.k_cells.node.node import NodePlotly
 from pyCellFoamCore.k_cells.edge.edge import Edge
 from pyCellFoamCore.k_cells.edge.baseEdge import EdgePlotly
@@ -3148,7 +3149,7 @@ v40 = Volume([-f10065, f78, f10066, f10069, -f10072, f243], num=40, accept_incom
 v41 = Volume([f10067, f10068, -f79, -f10075, f10139, f170, -f190], num=41, accept_incomplete_geometry=True)
 v42 = Volume([f82, f83, -f84, f85, -f87, f89, -f109, -f110, f134, f146, f228], num=42, accept_incomplete_geometry=True)
 # v43 = Volume([f86, -f10069, -f10070], num=43, accept_incomplete_geometry=True)
-# v44 = Volume([f90, -f91, -f101, f108, f119, f124, f130, f10106, f149, -f150], num=44, accept_incomplete_geometry=True)
+v44 = Volume([f90, -f91, -f101, f108, f119, f124, f130, f10106, f149, -f150, f20000, f20015, -f20014, -f175], num=44, accept_incomplete_geometry=True)
 v45 = Volume([-f92, f10071, f93, f10072, -f10073, f10096, -f140, -f10112, f244], num=45, accept_incomplete_geometry=True)
 v46 = Volume([f10074, f10075, -f94, f10077, -f10097, -f10099, f10101, -f10103, -f196], num=46, accept_incomplete_geometry=True)
 v47 = Volume([f95, -f10076, -f96, f109, f10087, f131, -f10093, -f10117, f10122, f10132, -f223, f256], num=47, accept_incomplete_geometry=True)
@@ -3192,14 +3193,26 @@ volumes = [
     v70,
 ]
 
+# for f in v27.faces:
+#     f.color = tc.TUMRose()
+v27.category1 = "inner"
+dn = DualNode3D(v27)
+dn.color = tc.TUMRose()
+
+plotly_nodes_dual = NodePlotly([dn])
 
 plotly_nodes = NodePlotly(nodes)
 plotly_edges = EdgePlotly(edges)
-plotly_faces = FacePlotly(faces)
+plotly_faces = FacePlotly(v27.faces)
 
 
 plotly_fig = plotly_edges.plot_edges_plotly(show_label=False, show_direction=True, show_barycenter=False, cone_size=0.05)
 plotly_nodes.plot_nodes_plotly(fig=plotly_fig, show_label=False)
-plotly_faces.plot_faces_plotly(fig=plotly_fig, show_label=False, show_normal_vec=False, show_barycenter=False)
+plotly_faces.plot_faces_plotly(fig=plotly_fig, show_label=False, show_normal_vec=False, show_barycenter=True)
+plotly_nodes_dual.plot_nodes_plotly(fig=plotly_fig)
+
+# plotly_faces_2 = FacePlotly(v27.faces)
+# plotly_fig_2 = plotly_faces_2.plot_faces_plotly()
 
 plotly_fig.show()
+# plotly_fig_2.show()

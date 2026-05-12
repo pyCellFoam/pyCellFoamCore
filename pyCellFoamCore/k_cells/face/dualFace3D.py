@@ -128,6 +128,12 @@ class DualFace3D(Face, DualCell):
             # Find all simple edges that define a closed circle around the
             # dual face
             simpleEdgesForFaces = []
+
+            if not dualEdgesSorted:
+                _log.error("No sorted dual edges. Deleting.")
+                self.delete()
+                return
+
             for e in dualEdgesSorted:
                 for se in e.simpleEdges:
                     simpleEdgesForFaces.append(se)

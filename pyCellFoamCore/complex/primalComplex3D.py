@@ -593,7 +593,7 @@ class PrimalComplex3D(Complex3D):
                             if f in self.additionalBorderFaces2:
                                 self.additionalBorderFaces2.remove(f)
                             else:
-                                _log.error('Cannot remove face {} from additional border faces 2!'.format(f.info_text))
+                                _log.info('Cannot remove face {} from additional border faces 2!'.format(f.info_text))
                             f.delete()
 
                         self.faces.append(newFace)

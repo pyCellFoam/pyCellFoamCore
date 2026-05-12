@@ -260,7 +260,7 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
                 if np.linalg.norm(vec-vec0) > tol \
                         and np.linalg.norm(vec+vec0) > tol:
                     inPlane = False
-                    _log.error('Simple face {} is not a plane'
+                    _log.warning('Simple face {} is not a plane'
                                       .format(self))
 
         # return result
