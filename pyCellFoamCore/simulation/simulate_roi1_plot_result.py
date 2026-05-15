@@ -11,7 +11,7 @@ time = data['time']
 TiS = data['TiS']
 
 # Create new time array with 200 points
-time_resampled = np.linspace(0, 10, 2000)
+time_resampled = np.linspace(0, 20, 2000)
 
 # Interpolate TiS to match the new time points
 TiS_resampled = np.array([np.interp(time_resampled, time, TiS[i, :]) for i in range(TiS.shape[0])])
@@ -19,6 +19,8 @@ TiS_resampled = np.array([np.interp(time_resampled, time, TiS[i, :]) for i in ra
 # Update the arrays
 time = time_resampled
 TiS = TiS_resampled
+
+
 
 
 fig = go.Figure()

@@ -172,7 +172,7 @@ class FacePlotly(BaseCellPlotly):
     def __init__(self, faces):
         self.faces = faces
 
-    def plot_faces_plotly(self, fig=None, show_label=True, show_barycenter=True, show_normal_vec=True, cone_size=0.05, **kwargs):
+    def plot_faces_plotly(self, fig=None, show_label=True, show_barycenter=True, show_normal_vec=True, cone_size=0.05, opacity=0.5, **kwargs):
 
         # TODO: Instead of creating a new vertex for each triangle, reuse
         # vertices by creating one vertex per node and referencing them
@@ -268,7 +268,7 @@ class FacePlotly(BaseCellPlotly):
             j=j_data,
             k=k_data,
             facecolor=triangle_colors,
-            opacity=0.5,
+            opacity=opacity,
             hoverinfo='skip',
         ))
 

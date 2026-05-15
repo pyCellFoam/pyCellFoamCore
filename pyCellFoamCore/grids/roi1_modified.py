@@ -631,6 +631,38 @@ def get_k_cells():
     nodes = [n0, n1, n2, n3, n4, n5, n6, n7, n8, n9, n10, n11, n12, n13, n14, n15, n16, n17, n18, n19, n20, n21, n22, n23, n24, n25, n26, n27, n28, n29, n30, n31, n32, n33, n34, n35, n36, n37, n38, n39, n40, n41, n42, n43, n44, n45, n46, n47, n48, n49, n50, n51, n52, n53, n54, n55, n56, n57, n58, n59, n60, n61, n62, n63, n64, n65, n66, n67, n68, n69, n70, n71, n72, n73, n74, n75, n76, n77, n78, n79, n80, n81, n82, n83, n84, n85, n86, n87, n88, n89, n90, n91, n92, n93, n94, n95, n96, n97, n98, n99, n100, n101, n102, n103, n104, n105, n106, n107, n108, n109, n110, n111, n112, n113, n114, n115, n116, n117, n118, n119, n120, n121, n122, n123, n124, n125, n126, n127, n128, n129, n130, n131, n132, n133, n134, n135, n136, n137, n138, n139, n140, n141, n142, n143, n144, n145, n146, n147, n148, n149, n150, n151, n152, n153, n154, n155, n156, n157, n158, n159, n160, n161, n162, n163, n164, n165, n166, n167, n168, n169, n170, n171, n172, n173, n174, n175, n176, n177, n178, n179, n180, n181, n182, n183, n184, n185, n186, n187, n188, n189, n190, n191, n192, n193, n194, n195, n196, n197, n198, n199, n200, n201, n202, n203, n204, n205, n206, n207, n208, n209, n210, n211, n212, n213, n214, n215, n216, n217, n218, n219, n220, n221, n222, n223, n224, n225, n226, n227, n228, n229, n230, n231, n232, n233, n234, n235, n236, n237, n238, n239, n240, n241, n242, n243, n245, n246, n247, n248, n249, n250, n251, n252, n253, n254, n255, n256, n257, n258, n259, n260, n261, n262, n263, n264, n265, n266, n267, n268, n269, n270, n271, n272, n273, n274, n275, n276, n277, n278, n279, n280, n281, n282, n283, n284, n285, n10000, n10001, n10002, n10003, n10004, n10005, n10006, n10007, n10008, n10009, n10010, n10011, n10012, n10013, n10014, n10015, n10017, n10018, n10019, n10020, n10021, n10022, n10023, n10024, n10025, n10026, n10027, n10028, n10029, n10030, n10031, n10032, n10033, n10034, n10035, n10036, n10037, n324, n325, n326, n327, n328, n329, n330, n331]
 
 
+    geometric_nodes = [
+        gn0, gn1, gn2, gn3, gn4, gn5, gn6, gn7, gn8, gn9,
+        gn10, gn11, gn12, gn13, gn14, gn15, gn16, gn17, gn18, gn19,
+        gn20, gn21, gn22, gn23, gn24, gn25, gn26, gn27, gn28, gn29,
+        gn30, gn31, gn32, gn33, gn34, gn35, gn36, gn37, gn38, gn39,
+        gn40, gn41, gn42, gn43, gn44, gn45, gn46, gn47, gn48, gn49,
+        gn50, gn51, gn52, gn53, gn54, gn55, gn56, gn57, gn58, gn59,
+        gn60, gn61, gn62, gn63, gn64, gn65, gn66, gn67, gn68, gn69,
+        gn70, gn71, gn72, gn73, gn74, gn75, gn76, gn77, gn78, gn79,
+        gn80, gn81, gn82, gn83, gn84, gn85, gn86, gn87, gn88, gn89,
+        gn90, gn91, gn92, gn93, gn94, gn95, gn96, gn97, gn98, gn99,
+        gn100, gn101, gn102, gn103, gn104, gn105, gn106, gn107, gn108, gn109,
+        gn110, gn111, gn112, gn113, gn114, gn115, gn116, gn117, gn118, gn119,
+        gn120, gn121, gn122, gn123, gn124, gn125, gn126, gn127, gn128, gn129,
+        gn130, gn131, gn132, gn133, gn134, gn135, gn136, gn137, gn138, gn139,
+        gn140, gn141, gn142, gn143, gn144, gn145, gn146, gn147, gn148, gn149,
+        gn150, gn151, gn152, gn153, gn154, gn155, gn156, gn157, gn158, gn159,
+        gn160, gn161, gn162, gn163, gn164, gn165, gn166, gn167, gn168, gn169,
+        gn170, gn171, gn172, gn173, gn174, gn175, gn176, gn177, gn178, gn179,
+        gn180, gn181, gn182, gn183, gn184, gn185, gn186, gn187, gn188, gn189,
+        gn190, gn191, gn192, gn193, gn194, gn195, gn196, gn197, gn198, gn199,
+        gn200, gn201, gn202, gn203, gn204, gn205, gn206, gn207, gn208, gn209,
+        gn210, gn211, gn212, gn213, gn214, gn215, gn216, gn217, gn218, gn219,
+        gn220, gn221, gn222, gn223, gn224, gn225, gn226, gn227, gn228, gn229,
+        gn230, gn231, gn232, gn233, gn234, gn235, gn236, gn237, gn238, gn239,
+        gn240, gn241, gn242, gn243, gn244, gn245, gn246, gn247, gn248, gn249,
+        gn250, gn251, gn252, gn253, gn254, gn255, gn256, gn257, gn258, gn259,
+        gn260, gn261, gn262, gn263, gn264, gn265, gn266, gn267, gn268, gn269,
+        gn270, gn271, gn272, gn273, gn274, gn275,
+    ]
+
+
     n20000 = Node(2.4, 3.0, 2.82, num=20000)
     n20001 = Node(0.66, 0.0, 2.82, num=20001)
     n20002 = Node(3.42, 3.0, 2.3, num=20002)
@@ -639,6 +671,12 @@ def get_k_cells():
 
     for n in new_nodes:
         nodes.append(n)
+
+
+    for n in nodes+geometric_nodes:
+        n.xCoordinate = n.xCoordinate * 10
+        n.yCoordinate = n.yCoordinate * 10
+        n.zCoordinate = n.zCoordinate * 10
 
     e0 = Edge(n0, n1, num=0)
     e1 = Edge(n0, n4, num=1)
@@ -3278,24 +3316,33 @@ if __name__ == "__main__":
     for v in volumes:
         if v.category1 == "undefined":
             v.category1 == "inner"
-            for f in v.faces:
-                f.color = tc.TUMLightBlue()
 
     pc = PrimalComplex3D(nodes, edges, faces, volumes, renumber=False)
 
-    faces_new = []
-    for f in faces:
-        if len(f.volumes) > 1 and len(f.barycenter) > 1:
-            if all([v.category1 == "border" for v in f.volumes]):
-                _log.critical("Face %s is between border volumes", f)
-                _log.critical("Number of barycenters: %s", len(f.barycenter))
-                f.color = tc.TUMRose()
-                faces_new.append(f)
+    # pc.useCategory = 2
+
+    for f in pc.additionalBorderFaces:
+        f.color = tc.TUMRose()
 
 
-    faces = faces_new
+    for f in pc.borderFaces:
+        f.color = tc.TUMLightBlue()
 
-    # plotly_nodes = NodePlotly(nodes)
+    # faces = pc.borderFaces
+
+    # faces_new = []
+    # for f in faces:
+    #     if len(f.volumes) > 1 and len(f.barycenter) > 1:
+    #         if all([v.category1 == "border" for v in f.volumes]):
+    #             _log.critical("Face %s is between border volumes", f)
+    #             _log.critical("Number of barycenters: %s", len(f.barycenter))
+    #             f.color = tc.TUMRose()
+    #             faces_new.append(f)
+
+
+    # faces = faces_new
+
+    plotly_nodes = NodePlotly(nodes)
     plotly_edges = EdgePlotly(edges)
     plotly_faces = FacePlotly(faces)
     # plotly_faces_new = FacePlotly(faces_new)
@@ -3305,19 +3352,24 @@ if __name__ == "__main__":
 
 
 
-    plotly_fig = plotly_edges.plot_edges_plotly(show_label=False, show_direction=True, show_barycenter=False, cone_size=0.05)
-    # plotly_nodes.plot_nodes_plotly(fig=plotly_fig, show_label=False)
-    plotly_faces.plot_faces_plotly(fig=plotly_fig, show_label=False, show_normal_vec=False, show_barycenter=True)
+    plotly_fig = plotly_edges.plot_edges_plotly(show_label=False, show_direction=True, show_barycenter=False, cone_size=0.1)
+    plotly_nodes.plot_nodes_plotly(fig=plotly_fig, show_label=False, marker_size=10)
+    # plotly_faces.plot_faces_plotly(fig=plotly_fig, show_label=False, show_normal_vec=False, show_barycenter=True, opacity=0.5)
 
 
 
     plotly_fig.show()
 
-
+    raise SystemExit(0)
 
 
 
     dc = DualComplex3D(pc, createFaces=True, createVolumes=False)
+
+    dc.useCategory = 2
+
+    for f in dc.borderFaces:
+        f.color = tc.TUMRose()
 
     plotly_nodes_dual = NodePlotly(dc.nodes)
     plotly_edges_dual = EdgePlotly(dc.edges)
@@ -3325,7 +3377,7 @@ if __name__ == "__main__":
 
     plotly_fig_dual = plotly_edges_dual.plot_edges_plotly(show_label=False, show_direction=True, show_barycenter=False, cone_size=0.05)
     plotly_nodes_dual.plot_nodes_plotly(fig=plotly_fig_dual, show_label=False)
-    plotly_faces_dual.plot_faces_plotly(fig=plotly_fig_dual, show_label=False, show_normal_vec=False, show_barycenter=False)
+    plotly_faces_dual.plot_faces_plotly(fig=plotly_fig_dual, show_label=False, show_normal_vec=False, show_barycenter=False, opacity=1)
     # plotly_faces_new.plot_faces_plotly(fig=plotly_fig_dual)
 
 

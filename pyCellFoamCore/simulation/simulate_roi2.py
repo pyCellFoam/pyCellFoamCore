@@ -59,7 +59,7 @@ import pyCellFoamCore.tools.tumcolor as tc
 _log = logging.getLogger(__name__)
 _log.setLevel(logging.INFO)
 
-set_logging_format(logging.INFO)
+set_logging_format(logging.WARNING)
 
 # ==============================================================================
 #    SETTINGS
@@ -99,6 +99,8 @@ _log.info("k-cells loaded.")
 
 pc = PrimalComplex3D(nodes, edges, faces, volumes)
 dc = DualComplex3D(pc)
+
+pc.useCategory = 2
 
 _log.info("Primal and dual complex created.")
 
@@ -204,6 +206,8 @@ yLen = pc.yMax-pc.yMin
 zLen = pc.zMax-pc.zMin
 print('Size of the foam: {:.3f} mm × {:.3f} mm × {:.3f} mm'.format(xLen,yLen,zLen))
 
+raise SystemExit(0)
+
 
 #-------------------------------------------------------------------------
 #    Solid and fluid part of the faces
@@ -255,11 +259,14 @@ PhiiF = np.zeros((len(dc.innerFaces),numSteps+1))
 TiS0 = np.ones(len(pc.innerNodes)) * 293.15  # K
 TiF0 = np.ones(len(pc.innerNodes)) * 293.15  # K
 
+u = np.ones(len(pc.borderVolumes))
+
 UiS[:,0] = cVS*rhoS*TiS0 @ ViS
 UiF[:,0] = cVF*rhoF*TiF0 @ ViF
 
 TiS[:,0] = TiS0
 TiF[:,0] = TiF0
+
 
 boundaryTempBottom = np.zeros(numSteps+1)
 boundaryTempTop = np.zeros(numSteps+1)
@@ -297,8 +304,8 @@ for i in range(numSteps):
     PhiiFi = laF*AiF @ FiF
     PhiiSFi = alpha * AiFS @ FiSF
 
-    UdotS = -dc.incidenceMatrix3ii.transpose().dot(PhiiSi) + PhiiSFi # + dc.incidenceMatrix3bi.transpose() @ u
-    UdotF = -dc.incidenceMatrix3ii.transpose().dot(PhiiFi) - PhiiSFi # + dc.incidenceMatrix3bi.transpose() @ u
+    UdotS = -dc.incidenceMatrix3ii.transpose().dot(PhiiSi) + PhiiSFi  + dc.incidenceMatrix3bi.transpose() @ u
+    UdotF = -dc.incidenceMatrix3ii.transpose().dot(PhiiFi) - PhiiSFi  + dc.incidenceMatrix3bi.transpose() @ u
 
 
     TiS[:,i+1] = TiSi

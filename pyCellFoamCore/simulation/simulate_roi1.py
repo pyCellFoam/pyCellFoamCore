@@ -59,7 +59,7 @@ import pyCellFoamCore.tools.tumcolor as tc
 _log = logging.getLogger(__name__)
 _log.setLevel(logging.INFO)
 
-set_logging_format(logging.INFO)
+set_logging_format(logging.WARNING)
 
 # ==============================================================================
 #    SETTINGS
@@ -84,8 +84,8 @@ laF = 0.026/1e3     # W / (mm K) for air
 
 alpha = 100/1e6     # W / (mm^2 K) for air
 
-radiusEdge = 0.008    # mm
-radiusNode = 0.012    # mm
+radiusEdge = 0.8    # mm
+radiusNode = 1.2    # mm
 
 
 
@@ -99,6 +99,8 @@ _log.info("k-cells loaded.")
 
 pc = PrimalComplex3D(nodes, edges, faces, volumes)
 dc = DualComplex3D(pc)
+
+pc.useCategory = 2
 
 _log.info("Primal and dual complex created.")
 
@@ -255,6 +257,8 @@ PhiiF = np.zeros((len(dc.innerFaces),numSteps+1))
 TiS0 = np.ones(len(pc.innerNodes)) * 293.15  # K
 TiF0 = np.ones(len(pc.innerNodes)) * 293.15  # K
 
+u = np.ones(len(dc.borderFaces)) * 1000
+
 UiS[:,0] = cVS*rhoS*TiS0 @ ViS
 UiF[:,0] = cVF*rhoF*TiF0 @ ViF
 
@@ -297,8 +301,8 @@ for i in range(numSteps):
     PhiiFi = laF*AiF @ FiF
     PhiiSFi = alpha * AiFS @ FiSF
 
-    UdotS = -dc.incidenceMatrix3ii.transpose().dot(PhiiSi) + PhiiSFi # + dc.incidenceMatrix3bi.transpose() @ u
-    UdotF = -dc.incidenceMatrix3ii.transpose().dot(PhiiFi) - PhiiSFi # + dc.incidenceMatrix3bi.transpose() @ u
+    UdotS = -dc.incidenceMatrix3ii.transpose().dot(PhiiSi) + PhiiSFi + dc.incidenceMatrix3bi.transpose() @ u
+    UdotF = -dc.incidenceMatrix3ii.transpose().dot(PhiiFi) - PhiiSFi + dc.incidenceMatrix3bi.transpose() @ u
 
 
     TiS[:,i+1] = TiSi
