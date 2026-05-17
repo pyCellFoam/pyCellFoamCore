@@ -259,7 +259,8 @@ def get_k_cells():
     n236 = Node(2.28, 0.0, 1.5, num=236)
     n237 = Node(3.1799999999999997, 0.0, 1.5899999999999999, num=237)
     n238 = Node(0.18, 0.0, 1.65, num=238)
-    n239 = Node(3.21, 3.0, 1.65, num=239)
+    # n239 = Node(3.21, 3.0, 1.65, num=239)
+    n239 = Node(3.01, 3.0, 1.45, num=239)
     n240 = Node(2.67, 3.0, 1.68, num=240)
     n241 = Node(0.72, 3.0, 1.74, num=241)
     n242 = Node(1.02, 3.0, 1.77, num=242)
@@ -292,7 +293,8 @@ def get_k_cells():
     n269 = Node(0.0, 0.99, 0.99, num=269)
     n270 = Node(0.0, 0.3, 1.29, num=270)
     n271 = Node(3.42, 1.17, 1.44, num=271)
-    n272 = Node(0.0, 2.25, 1.44, num=272)
+    # n272 = Node(0.0, 2.25, 1.44, num=272)
+    n272 = Node(0.0, 2.05, 1.44, num=272)
     n273 = Node(0.0, 2.79, 1.47, num=273)
     n274 = Node(3.42, 1.41, 1.5899999999999999, num=274)
     n275 = Node(3.42, 1.92, 1.5899999999999999, num=275)
@@ -3154,7 +3156,7 @@ def get_k_cells():
     faces = [f10000, f10001, f0, f10002, f1, f2, f10003, f10004, f3, f10005, f10006, f4, f10007, f10008, f5, f10009, f10010, f10011, f10012, f6, f7, f10013, f10014, f8, f10015, f10016, f10017, f10018, f10019, f10020, f10021, f10022, f10023, f9, f10, f10024, f10025, f10026, f10027, f10028, f11, f10029, f12, f10030, f13, f14, f15, f10031, f10032, f16, f17, f10033, f18, f10034, f19, f20, f21, f10035, f22, f10036, f23, f10037, f10038, f24, f25, f10039, f26, f10040, f27, f28, f10041, f29, f30, f31, f10042, f10043, f32, f33, f34, f10044, f35, f10045, f36, f37, f10046, f38, f39, f40, f10047, f41, f42, f43, f10048, f44, f10049, f10050, f10051, f10052, f45, f10053, f46, f47, f10054, f48, f49, f50, f51, f52, f53, f10055, f54, f55, f10056, f56, f57, f58, f59, f10057, f60, f61, f10058, f10059, f62, f63, f64, f65, f66, f67, f68, f69, f70, f10060, f10061, f10062, f71, f72, f10063, f73, f10064, f74, f75, f76, f77, f10065, f78, f10066, f10067, f10068, f79, f80, f81, f82, f83, f84, f85, f86, f10069, f87, f88, f89, f90, f91, f92, f10071, f93, f10072, f10073, f10074, f10075, f94, f95, f10076, f96, f97, f98, f99, f100, f101, f10077, f10078, f102, f10079, f103, f104, f105, f106, f107, f108, f109, f110, f111, f10080, f10081, f10082, f112, f10083, f113, f114, f115, f116, f117, f118, f119, f120, f121, f122, f123, f10084, f124, f10085, f125, f10086, f126, f127, f128, f129, f10087, f130, f10088, f10089, f10090, f10091, f131, f132, f133, f134, f10092, f10093, f135, f10094, f136, f10095, f10096, f137, f138, f10097, f139, f140, f141, f10098, f10099, f10100, f142, f143, f144, f10101, f10102, f10103, f10104, f145, f146, f10105, f147, f148, f10106, f149, f10107, f10108, f150, f10110, f10111, f151, f152, f153, f10112, f10113, f10114, f154, f10115, f10116, f10117, f10118, f10119, f10120, f155, f156, f10121, f10122, f158, f10123, f10124, f10125, f10126, f10127, f10128, f10129, f10130, f10131, f159, f10132, f10133, f10135, f10136, f10137, f10138, f10139, f160, f161, f162, f163, f164, f165, f167, f168, f169, f170, f171, f172, f173, f175, f177, f178, f179, f180, f181, f182, f183, f184, f186, f187, f188, f189, f190, f191, f192, f193, f194, f195, f196, f197, f198, f199, f200, f201, f202, f203, f204, f205, f206, f207, f208, f209, f210, f211, f212, f213, f214, f215, f216, f217, f218, f219, f220, f222, f223, f224, f226, f227, f228, f229, f230, f231, f232, f234, f235, f236, f239, f240, f241, f242, f243, f244, f246, f247, f248, f249, f250, f253, f254, f255, f256, f257, f258, f259, f260, f261, f262, f263, f264, f10109]
 
     f20000 = Face([e20000, -e243, -e194, e193, e213, e228], num=20000, triangulate=True)
-    f20001 = Face([e20000, e10060, e10040, e426, -e10049, e431], num=20001, triangulate=True)
+    f20001 = Face([e20000, e10060, e10040, e426, -e10049, e431], num=20001, triangulate=False)
     f20002 = Face([e20003, -e10152, -e422, -e10137, -e20002], num=20002)
     f20003 = Face([e10138, e20001, e20003, e10153], num=20003)
     f20004 = Face([e10170, e639, -e20004], num=20004)
@@ -3276,12 +3278,18 @@ def get_k_cells():
         v70, v71,
     ]
 
-    return (nodes, edges, faces, volumes)
+    return (nodes, edges, faces, volumes, geometric_edges)
 
 if __name__ == "__main__":
     set_logging_format(logging.WARNING)
 
-    (nodes, edges, faces, volumes) = get_k_cells()
+    (nodes, edges, faces, volumes, geometric_edges) = get_k_cells()
+
+    for ge in geometric_edges:
+        if not ge.is_geometrical:
+            _log.critical("geometric edge %s: %s", ge, ge.is_geometrical)
+
+    raise SystemExit(0)
 
     # for v in volumes:
     #     v.category1 = 'inner'
@@ -3321,71 +3329,215 @@ if __name__ == "__main__":
 
     # pc.useCategory = 2
 
-    for f in pc.additionalBorderFaces:
-        f.color = tc.TUMRose()
+    # for f in pc.additionalBorderFaces:
+    #     f.color = tc.TUMRose()
 
 
-    for f in pc.borderFaces:
-        f.color = tc.TUMLightBlue()
+    # for f in pc.borderFaces:
+    #     f.color = tc.TUMLightBlue()
 
-    # faces = pc.borderFaces
+    # # faces = pc.borderFaces
 
     # faces_new = []
     # for f in faces:
-    #     if len(f.volumes) > 1 and len(f.barycenter) > 1:
-    #         if all([v.category1 == "border" for v in f.volumes]):
-    #             _log.critical("Face %s is between border volumes", f)
-    #             _log.critical("Number of barycenters: %s", len(f.barycenter))
-    #             f.color = tc.TUMRose()
-    #             faces_new.append(f)
+    #     if f.geometricNodes:
+    #         faces_new.append(f)
 
 
     # faces = faces_new
 
-    plotly_nodes = NodePlotly(nodes)
-    plotly_edges = EdgePlotly(edges)
-    plotly_faces = FacePlotly(faces)
-    # plotly_faces_new = FacePlotly(faces_new)
+    if False:
+
+        plotly_nodes = NodePlotly(nodes)
+        plotly_edges = EdgePlotly(edges)
+        plotly_faces = FacePlotly(faces)
+        # plotly_faces_new = FacePlotly(faces_new)
 
 
 
 
 
 
-    plotly_fig = plotly_edges.plot_edges_plotly(show_label=False, show_direction=True, show_barycenter=False, cone_size=0.1)
-    plotly_nodes.plot_nodes_plotly(fig=plotly_fig, show_label=False, marker_size=10)
-    # plotly_faces.plot_faces_plotly(fig=plotly_fig, show_label=False, show_normal_vec=False, show_barycenter=True, opacity=0.5)
+        plotly_fig = plotly_edges.plot_edges_plotly(show_label=False, show_direction=True, show_barycenter=False, cone_size=0.1)
+        plotly_nodes.plot_nodes_plotly(fig=plotly_fig, show_label=False, marker_size=10)
+        plotly_faces.plot_faces_plotly(fig=plotly_fig, show_label=False, show_normal_vec=False, show_barycenter=True, opacity=0.5)
 
 
 
-    plotly_fig.show()
+        plotly_fig.show()
 
-    raise SystemExit(0)
-
-
-
-    dc = DualComplex3D(pc, createFaces=True, createVolumes=False)
-
-    dc.useCategory = 2
-
-    for f in dc.borderFaces:
-        f.color = tc.TUMRose()
-
-    plotly_nodes_dual = NodePlotly(dc.nodes)
-    plotly_edges_dual = EdgePlotly(dc.edges)
-    plotly_faces_dual = FacePlotly(dc.faces)
-
-    plotly_fig_dual = plotly_edges_dual.plot_edges_plotly(show_label=False, show_direction=True, show_barycenter=False, cone_size=0.05)
-    plotly_nodes_dual.plot_nodes_plotly(fig=plotly_fig_dual, show_label=False)
-    plotly_faces_dual.plot_faces_plotly(fig=plotly_fig_dual, show_label=False, show_normal_vec=False, show_barycenter=False, opacity=1)
-    # plotly_faces_new.plot_faces_plotly(fig=plotly_fig_dual)
+    # raise SystemExit(0)
 
 
-    plotly_fig_dual.show()
 
-    # for f in faces:
-    #     if f.num == 10005:
-    #         for ge in f.geometricEdges:
-    #             for n in [ge.startNode, ge.endNode]:
-    #                 if n.is_geometrical:
-    #                     _log.critical("geometric node: %s", n)
+    dc = DualComplex3D(pc, createFaces=True, createVolumes=True, simplify_faces=False)
+
+
+
+    # dc.useCategory = 2
+
+    # for f in dc.borderFaces:
+    #     f.color = tc.TUMRose()
+
+    if False:
+        plotly_nodes_dual = NodePlotly(dc.nodes)
+        plotly_edges_dual = EdgePlotly(dc.edges)
+        plotly_faces_dual = FacePlotly(dc.faces)
+
+        plotly_fig_dual = plotly_edges_dual.plot_edges_plotly(show_label=False, show_direction=True, show_barycenter=False, cone_size=0.05)
+        plotly_nodes_dual.plot_nodes_plotly(fig=plotly_fig_dual, show_label=False)
+        plotly_faces_dual.plot_faces_plotly(fig=plotly_fig_dual, show_label=False, show_normal_vec=False, show_barycenter=True, opacity=0.5)
+        # plotly_faces_new.plot_faces_plotly(fig=plotly_fig_dual)
+
+
+        plotly_fig_dual.show()
+
+        # for f in faces:
+        #     if f.num == 10005:
+        #         for ge in f.geometricEdges:
+        #             for n in [ge.startNode, ge.endNode]:
+        #                 if n.is_geometrical:
+        #                     _log.critical("geometric node: %s", n)
+
+
+    # v_i + n^_i | v_b + n^_b
+    if False:
+        plotly_edges_primal = EdgePlotly(pc.edges)
+        for v in pc.volumes[60:70]:
+            plotly_fig = plotly_edges_primal.plot_edges_plotly(show_label=False, show_direction=False, show_barycenter=False)
+
+            plotly_volumes_primal = FacePlotly(v.faces)
+            plotly_volumes_primal.plot_faces_plotly(fig=plotly_fig, show_label=False, show_normal_vec=False)
+
+            plotly_nodes_dual = NodePlotly([v.dualCell3D])
+            plotly_nodes_dual.plot_nodes_plotly(fig=plotly_fig, show_label=False, marker_size=10)
+
+
+            plotly_nodes_primal = NodePlotly(pc.nodes)
+            plotly_nodes_primal.plot_nodes_plotly(fig=plotly_fig, show_label=False)
+
+            plotly_fig.update_layout(
+                title=f"Dual node {v.dualCell3D} of {v}",
+            )
+            plotly_fig.show()
+
+        _log.critical("Number of primal volumes: %s", len(pc.volumes))
+
+    # f_b + n^_B
+    if False:
+        plotly_edges_primal = EdgePlotly(pc.edges)
+        for f in pc.borderFaces[60:70]:
+            plotly_fig = plotly_edges_primal.plot_edges_plotly(show_label=False, show_direction=False, show_barycenter=False)
+
+            plotly_faces_primal = FacePlotly([f])
+            plotly_faces_primal.plot_faces_plotly(fig=plotly_fig, show_label=False, show_normal_vec=False)
+
+            plotly_nodes_dual = NodePlotly([f.dualCell2D])
+            plotly_nodes_dual.plot_nodes_plotly(fig=plotly_fig, show_label=False, marker_size=10)
+
+
+            plotly_nodes_primal = NodePlotly(pc.nodes)
+            plotly_nodes_primal.plot_nodes_plotly(fig=plotly_fig, show_label=False)
+
+            plotly_fig.update_layout(
+                title=f"Dual node {f.dualCell2D} of {f}",
+            )
+            plotly_fig.show()
+
+        _log.critical("Number of primal border faces: %s", len(pc.borderFaces))
+
+    if False:
+        plotly_edges_primal = EdgePlotly(pc.edges)
+
+
+        num_of_faces_per_plot = 5
+        faces_to_plot = pc.innerFaces + pc.borderFaces
+        for n in range(150, 200, num_of_faces_per_plot):
+
+            faces_temp = pc.faces[n:n+num_of_faces_per_plot]
+            plotly_fig = plotly_edges_primal.plot_edges_plotly(show_label=False, show_direction=False, show_barycenter=False)
+
+            plotly_faces_primal = FacePlotly(faces_temp)
+            plotly_faces_primal.plot_faces_plotly(fig=plotly_fig, show_label=False, show_normal_vec=False)
+
+            dual_edges = [f.dualCell3D for f in faces_temp]
+
+            for dual_edge in dual_edges:
+                dual_edge.color = tc.TUMRose()
+
+            plotly_edges_dual = EdgePlotly(dual_edges)
+            plotly_edges_dual.plot_edges_plotly(fig=plotly_fig, show_label=False, show_direction=False, show_barycenter=False)
+
+
+            plotly_nodes_primal = NodePlotly(pc.nodes)
+            plotly_nodes_primal.plot_nodes_plotly(fig=plotly_fig, show_label=False)
+
+            nodes_temp = []
+            for dual_edge in dual_edges:
+                if e.startNode not in nodes_temp:
+                    nodes_temp.append(dual_edge.startNode)
+                if e.endNode not in nodes_temp:
+                    nodes_temp.append(dual_edge.endNode)
+
+            for dual_node in nodes_temp:
+                dual_node.color = tc.TUMBlack()
+
+            plot_nodes_dual = NodePlotly(nodes_temp)
+            plot_nodes_dual.plot_nodes_plotly(fig=plotly_fig, show_label=False, marker_size=10)
+
+            plotly_fig.update_layout(
+                title=f"Dual edges {dual_edges} of {faces_temp}",
+            )
+            plotly_fig.show()
+
+        _log.critical("Number of primal faces: %s", len(pc.faces))
+
+    if False:
+        primal_edge = None
+        for e in pc.edges:
+            if e.num == 4:
+                primal_edge = e
+                break
+
+        dual_face = primal_edge.dualCell3D
+
+        dual_edges = dual_face.edges
+
+        primal_edge.color = tc.TUMRose()
+
+        plotly_edges_primal = EdgePlotly(pc.edges)
+        plotly_fig = plotly_edges_primal.plot_edges_plotly(show_label=False, show_direction=False, show_barycenter=False)
+
+        plotly_edges_dual = EdgePlotly(dual_edges)
+        plotly_edges_dual.plot_edges_plotly(fig=plotly_fig, show_label=True, show_direction=True, show_barycenter=False, cone_size=0.5)
+
+        plotly_faces_dual = FacePlotly([dual_face])
+        plotly_faces_dual.plot_faces_plotly(fig=plotly_fig, show_label=True, show_normal_vec=False)
+
+        plotly_geometric_edges_dual = EdgePlotly(dual_face.geometricEdges)
+        plotly_geometric_edges_dual.plot_edges_plotly(fig=plotly_fig, show_label=False, cone_size=0.5)
+
+        plotly_fig.show()
+        _log.critical("Normal vector: %s", dual_face.normalVec)
+        _log.critical("Edges: %s", dual_face.edges)
+
+
+    if True:
+
+        plotly_edges_primal = EdgePlotly(pc.edges)
+        plotly_fig = plotly_edges_primal.plot_edges_plotly(show_label=False, show_direction=False, show_barycenter=False)
+
+        primal_node = None
+
+        for n in pc.nodes:
+            if n.num == 2:
+                primal_node = n
+                break
+
+        plotly_nodes_primal = NodePlotly([primal_node])
+        plotly_nodes_primal.plot_nodes_plotly(fig=plotly_fig, show_label=False, marker_size=10)
+
+        plotly_volumes_dual = VolumePlotly([primal_node.dualCell3D])
+        plotly_volumes_dual.plot_volumes_plotly(fig=plotly_fig, show_label=False, show_normal_vec=False, show_barycenter=True, opacity=0.5)
+
+        plotly_fig.show()
