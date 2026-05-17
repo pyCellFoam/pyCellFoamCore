@@ -241,12 +241,13 @@ class DualComplex3D(Complex3D):
 
         # Dual nodes
         if self.__createNodes:
+            _log.critical("Creating dual nodes")
             _log.info("Create 3D dual nodes")
             for v in self.__primalComplex.volumes:
-                _log.critical("Create dual node of %s", v)
+                _log.info("Create dual node of %s", v)
                 dualNodes.append(DualNode3D(v))
             for f in self.__primalComplex.borderFaces1:
-                _log.critical("Create dual node of %s", f)
+                _log.info("Create dual node of %s", f)
                 dualNodes.append(DualNode2D(f))
         else:
             _log.warning('Creation of nodes has been disabled')
@@ -255,26 +256,28 @@ class DualComplex3D(Complex3D):
 
         # Dual edges
         if self.__createEdges and self.__createNodes:
+            _log.critical("Creating dual edges")
             for f in self.__primalComplex.innerFaces1 + self.__primalComplex.borderFaces1:
-                _log.critical("Create dual edge of %s", f)
+                _log.info("Create dual edge of %s", f)
                 dualEdges.append(DualEdge3D(f))
             for e in self.__primalComplex.borderEdges1:
-                _log.critical("Create dual edge of %s", e)
+                _log.info("Create dual edge of %s", e)
                 dualEdges.append(DualEdge2D(e))
         else:
             _log.warning('Creation of edges has been disabled')
 
         # Dual faces
         if self.__createFaces and self.__createEdges and self.__createNodes:
+            _log.critical("Creating dual faces")
             for e in self.__primalComplex.innerEdges1 +  self.__primalComplex.borderEdges1:
-                _log.critical("Create dual face of %s", e)
+                _log.info("Create dual face of %s", e)
                 dualFaces.append(DualFace3D(e))
             for n in self.__primalComplex.borderNodes1:
-                _log.critical("Create dual face of %s", n)
+                _log.info("Create dual face of %s", n)
                 dualFaces.append(DualFace2D(n))
 
             if self.__simplify_faces:
-                _log.critical("Simplifying faces")
+                _log.info("Simplifying faces")
                 for f in dualFaces:
                     f.simplifyFace()
         else:
@@ -283,8 +286,9 @@ class DualComplex3D(Complex3D):
 
         # Dual volumes
         if self.__createVolumes and self.__createFaces and self.__createEdges and self.__createNodes:
+            _log.critical("Creating dual volumes")
             for n in self.__primalComplex.borderNodes1+self.__primalComplex.innerNodes1:
-                _log.critical("Create dual volume of %s", n)
+                _log.info("Create dual volume of %s", n)
                 dualVolumes.append(DualVolume3D(n))
         else:
             _log.warning('Creation of volumes has been disabled')

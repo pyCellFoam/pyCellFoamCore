@@ -66,8 +66,8 @@ set_logging_format(logging.WARNING)
 # ==============================================================================
 
 dt = 0.001           # s - Start timestep length
-numSteps = 10000      # Number of timesteps that should be calculated
-maxError = 2e-5     # Maximal relative error for step length control
+numSteps = 10      # Number of timesteps that should be calculated
+maxError = 1e-4     # Maximal relative error for step length control
 maxTime = 200       # Maximal time that should be simulated
 
 # ==============================================================================
@@ -94,8 +94,19 @@ radiusNode = 1.2    # mm
 #    CREATE COMPLEX
 # =============================================================================
 
-(nodes, edges, faces, volumes) = get_k_cells()
+(nodes, edges, faces, volumes, _) = get_k_cells()
 _log.info("k-cells loaded.")
+
+for v in volumes:
+    for f in v.faces:
+        for e in f.edges:
+            for n in [e.startNode, e.endNode]:
+                if n.zCoordinate < 0.1:
+                    if v.category1 == "undefined":
+                        v.category1 = "border"
+for v in volumes:
+    if v.category1 == "undefined":
+        v.category1 = "inner"
 
 pc = PrimalComplex3D(nodes, edges, faces, volumes)
 dc = DualComplex3D(pc)
@@ -220,10 +231,21 @@ for f in dc.innerFaces:
     AiSList.append(areaSolid)
     AiFList.append(areaFluid)
 
+AbSList = []
+AbFList = []
+for f in dc.borderFaces:
+    areaTotal = f.area[-1]
+    areaSolid = f.dualCell3D.radius**2*1/2*math.tau
+    areaFluid = areaTotal - areaSolid
+    AbSList.append(areaSolid)
+    AbFList.append(areaFluid)
+
 AiS = np.diag(AiSList)
 AiF = np.diag(AiFList)
 AiSinv = np.diag([1/x for x in AiSList])
 AiFinv = np.diag([1/x for x in AiFList])
+AbS = np.array(AbSList)
+AbF = np.array(AbFList)
 
 #-------------------------------------------------------------------------
 #    Length of the edges
@@ -257,7 +279,7 @@ PhiiF = np.zeros((len(dc.innerFaces),numSteps+1))
 TiS0 = np.ones(len(pc.innerNodes)) * 293.15  # K
 TiF0 = np.ones(len(pc.innerNodes)) * 293.15  # K
 
-u = np.ones(len(dc.borderFaces)) * 1000
+u = AbS * 0.5  # W / mm^2
 
 UiS[:,0] = cVS*rhoS*TiS0 @ ViS
 UiF[:,0] = cVF*rhoF*TiF0 @ ViF
@@ -300,6 +322,16 @@ for i in range(numSteps):
     PhiiSi = laS*AiS @ FiS
     PhiiFi = laF*AiF @ FiF
     PhiiSFi = alpha * AiFS @ FiSF
+
+    # internal_part = -dc.incidenceMatrix3ii.transpose().dot(PhiiSi) + PhiiSFi
+    # boundary_part = dc.incidenceMatrix3bi.transpose() @ u
+
+    # internal_part_max = np.max(np.absolute(internal_part))
+    # boundary_part_max = np.max(np.absolute(boundary_part))
+    # internal_part_ratio = internal_part_max / (internal_part_max + boundary_part_max)
+    # boundary_part_ratio = boundary_part_max / (internal_part_max + boundary_part_max)
+
+    # _log.critical("Internal part: %s, Boundary part: %s", internal_part_ratio, boundary_part_ratio)
 
     UdotS = -dc.incidenceMatrix3ii.transpose().dot(PhiiSi) + PhiiSFi + dc.incidenceMatrix3bi.transpose() @ u
     UdotF = -dc.incidenceMatrix3ii.transpose().dot(PhiiFi) - PhiiSFi + dc.incidenceMatrix3bi.transpose() @ u
@@ -361,6 +393,8 @@ for i in range(numSteps):
 # )
 # fig.show()
 
+
+
 with open('simulation_roi1_results.pkl', 'wb') as f:
     pickle.dump({
         'time': time,
@@ -371,7 +405,8 @@ with open('simulation_roi1_results.pkl', 'wb') as f:
         'UiS': UiS,
         'UiF': UiF,
         'PhiiS': PhiiS,
-        'PhiiF': PhiiF
+        'PhiiF': PhiiF,
+        'coordinates': [n.coordinates for n in pc.innerNodes],
     }, f)
 
 
@@ -387,3 +422,7 @@ with open('simulation_roi1_results.pkl', 'wb') as f:
 #         else:
 #             TbS[n.num,j] = boundaryTempBottom[j]
 #             TbF[n.num,j] = boundaryTempBottom[j]
+
+
+for n in pc.nodes:
+    _log.critical("Node %s: %s", n, n.coordinates)

@@ -1352,24 +1352,24 @@ def get_k_cells():
     e669 = Edge(n10019, n329, num=669)
     # e670 = Edge(n330, n10016, num=670)
     # e671 = Edge(n10016, n331, num=671)
-    ge1 = Edge(n0, gn0, num=1)  # Geometric edge
-    ge0 = Edge(n188, gn0, num=0)  # Geometric edge
-    ge2 = Edge(n4, gn0, num=2)  # Geometric edge
-    ge3 = Edge(n185, gn0, num=3)  # Geometric edge
-    ge5 = Edge(n0, gn1, num=5)  # Geometric edge
-    ge4 = Edge(n188, gn1, num=4)  # Geometric edge
-    ge6 = Edge(n1, gn1, num=6)  # Geometric edge
-    ge7 = Edge(n186, gn1, num=7)  # Geometric edge
+    # ge1 = Edge(n0, gn0, num=1)  # Geometric edge
+    # ge0 = Edge(n188, gn0, num=0)  # Geometric edge
+    # ge2 = Edge(n4, gn0, num=2)  # Geometric edge
+    # ge3 = Edge(n185, gn0, num=3)  # Geometric edge
+    # ge5 = Edge(n0, gn1, num=5)  # Geometric edge
+    # ge4 = Edge(n188, gn1, num=4)  # Geometric edge
+    # ge6 = Edge(n1, gn1, num=6)  # Geometric edge
+    # ge7 = Edge(n186, gn1, num=7)  # Geometric edge
     ge9 = Edge(n1, gn2, num=9)  # Geometric edge
     ge8 = Edge(n0, gn2, num=8)  # Geometric edge
     ge10 = Edge(n23, gn2, num=10)  # Geometric edge
     ge11 = Edge(n46, gn2, num=11)  # Geometric edge
     ge12 = Edge(n27, gn2, num=12)  # Geometric edge
     ge13 = Edge(n4, gn2, num=13)  # Geometric edge
-    ge15 = Edge(n0, gn3, num=15)  # Geometric edge
-    ge14 = Edge(n188, gn3, num=14)  # Geometric edge
-    ge16 = Edge(n12, gn3, num=16)  # Geometric edge
-    ge17 = Edge(n196, gn3, num=17)  # Geometric edge
+    # ge15 = Edge(n0, gn3, num=15)  # Geometric edge
+    # ge14 = Edge(n188, gn3, num=14)  # Geometric edge
+    # ge16 = Edge(n12, gn3, num=16)  # Geometric edge
+    # ge17 = Edge(n196, gn3, num=17)  # Geometric edge
     ge19 = Edge(n4, gn4, num=19)  # Geometric edge
     ge18 = Edge(n0, gn4, num=18)  # Geometric edge
     ge20 = Edge(n22, gn4, num=20)  # Geometric edge
@@ -1380,37 +1380,37 @@ def get_k_cells():
     ge25 = Edge(n11, gn5, num=25)  # Geometric edge
     ge26 = Edge(n16, gn5, num=26)  # Geometric edge
     ge27 = Edge(n12, gn5, num=27)  # Geometric edge
-    ge29 = Edge(n1, gn6, num=29)  # Geometric edge
-    ge28 = Edge(n186, gn6, num=28)  # Geometric edge
-    ge30 = Edge(n23, gn6, num=30)  # Geometric edge
-    ge31 = Edge(n13, gn6, num=31)  # Geometric edge
-    ge32 = Edge(n179, gn6, num=32)  # Geometric edge
-    ge34 = Edge(n1, gn7, num=34)  # Geometric edge
-    ge33 = Edge(n186, gn7, num=33)  # Geometric edge
-    ge35 = Edge(n11, gn7, num=35)  # Geometric edge
-    ge36 = Edge(n193, gn7, num=36)  # Geometric edge
+    # ge29 = Edge(n1, gn6, num=29)  # Geometric edge
+    # ge28 = Edge(n186, gn6, num=28)  # Geometric edge
+    # ge30 = Edge(n23, gn6, num=30)  # Geometric edge
+    # ge31 = Edge(n13, gn6, num=31)  # Geometric edge
+    # ge32 = Edge(n179, gn6, num=32)  # Geometric edge
+    # ge34 = Edge(n1, gn7, num=34)  # Geometric edge
+    # ge33 = Edge(n186, gn7, num=33)  # Geometric edge
+    # ge35 = Edge(n11, gn7, num=35)  # Geometric edge
+    # ge36 = Edge(n193, gn7, num=36)  # Geometric edge
     ge38 = Edge(n11, gn8, num=38)  # Geometric edge
     ge37 = Edge(n1, gn8, num=37)  # Geometric edge
     ge39 = Edge(n42, gn8, num=39)  # Geometric edge
     ge40 = Edge(n50, gn8, num=40)  # Geometric edge
     ge41 = Edge(n23, gn8, num=41)  # Geometric edge
-    ge43 = Edge(n2, gn9, num=43)  # Geometric edge
-    ge42 = Edge(n213, gn9, num=42)  # Geometric edge
-    ge44 = Edge(n171, gn9, num=44)  # Geometric edge
-    ge45 = Edge(n10000, gn9, num=45)  # Geometric edge
-    ge47 = Edge(n2, gn10, num=47)  # Geometric edge
-    ge46 = Edge(n171, gn10, num=46)  # Geometric edge
-    ge48 = Edge(n7, gn10, num=48)  # Geometric edge
-    ge49 = Edge(n169, gn10, num=49)  # Geometric edge
+    # ge43 = Edge(n2, gn9, num=43)  # Geometric edge
+    # ge42 = Edge(n213, gn9, num=42)  # Geometric edge
+    # ge44 = Edge(n171, gn9, num=44)  # Geometric edge
+    # ge45 = Edge(n10000, gn9, num=45)  # Geometric edge
+    # ge47 = Edge(n2, gn10, num=47)  # Geometric edge
+    # ge46 = Edge(n171, gn10, num=46)  # Geometric edge
+    # ge48 = Edge(n7, gn10, num=48)  # Geometric edge
+    # ge49 = Edge(n169, gn10, num=49)  # Geometric edge
     ge51 = Edge(n7, gn11, num=51)  # Geometric edge
     ge50 = Edge(n2, gn11, num=50)  # Geometric edge
     ge52 = Edge(n214, gn11, num=52)  # Geometric edge
     ge53 = Edge(n213, gn11, num=53)  # Geometric edge
-    ge55 = Edge(n2, gn12, num=55)  # Geometric edge
-    ge54 = Edge(n171, gn12, num=54)  # Geometric edge
-    ge56 = Edge(n19, gn12, num=56)  # Geometric edge
-    ge57 = Edge(n13, gn12, num=57)  # Geometric edge
-    ge58 = Edge(n179, gn12, num=58)  # Geometric edge
+    # ge55 = Edge(n2, gn12, num=55)  # Geometric edge
+    # ge54 = Edge(n171, gn12, num=54)  # Geometric edge
+    # ge56 = Edge(n19, gn12, num=56)  # Geometric edge
+    # ge57 = Edge(n13, gn12, num=57)  # Geometric edge
+    # ge58 = Edge(n179, gn12, num=58)  # Geometric edge
     ge60 = Edge(n2, gn13, num=60)  # Geometric edge
     ge59 = Edge(n213, gn13, num=59)  # Geometric edge
     ge61 = Edge(n19, gn13, num=61)  # Geometric edge
@@ -1421,24 +1421,24 @@ def get_k_cells():
     ge66 = Edge(n33, gn14, num=66)  # Geometric edge
     ge67 = Edge(n37, gn14, num=67)  # Geometric edge
     ge68 = Edge(n19, gn14, num=68)  # Geometric edge
-    ge70 = Edge(n3, gn15, num=70)  # Geometric edge
-    ge69 = Edge(n258, gn15, num=69)  # Geometric edge
-    ge71 = Edge(n177, gn15, num=71)  # Geometric edge
-    ge72 = Edge(n10001, gn15, num=72)  # Geometric edge
-    ge74 = Edge(n3, gn16, num=74)  # Geometric edge
-    ge73 = Edge(n177, gn16, num=73)  # Geometric edge
-    ge75 = Edge(n9, gn16, num=75)  # Geometric edge
-    ge76 = Edge(n167, gn16, num=76)  # Geometric edge
+    # ge70 = Edge(n3, gn15, num=70)  # Geometric edge
+    # ge69 = Edge(n258, gn15, num=69)  # Geometric edge
+    # ge71 = Edge(n177, gn15, num=71)  # Geometric edge
+    # ge72 = Edge(n10001, gn15, num=72)  # Geometric edge
+    # ge74 = Edge(n3, gn16, num=74)  # Geometric edge
+    # ge73 = Edge(n177, gn16, num=73)  # Geometric edge
+    # ge75 = Edge(n9, gn16, num=75)  # Geometric edge
+    # ge76 = Edge(n167, gn16, num=76)  # Geometric edge
     ge78 = Edge(n3, gn17, num=78)  # Geometric edge
     ge77 = Edge(n258, gn17, num=77)  # Geometric edge
     ge79 = Edge(n9, gn17, num=79)  # Geometric edge
     ge80 = Edge(n6, gn17, num=80)  # Geometric edge
     ge81 = Edge(n259, gn17, num=81)  # Geometric edge
-    ge83 = Edge(n3, gn18, num=83)  # Geometric edge
-    ge82 = Edge(n177, gn18, num=82)  # Geometric edge
-    ge84 = Edge(n15, gn18, num=84)  # Geometric edge
-    ge85 = Edge(n10, gn18, num=85)  # Geometric edge
-    ge86 = Edge(n182, gn18, num=86)  # Geometric edge
+    # ge83 = Edge(n3, gn18, num=83)  # Geometric edge
+    # ge82 = Edge(n177, gn18, num=82)  # Geometric edge
+    # ge84 = Edge(n15, gn18, num=84)  # Geometric edge
+    # ge85 = Edge(n10, gn18, num=85)  # Geometric edge
+    # ge86 = Edge(n182, gn18, num=86)  # Geometric edge
     ge88 = Edge(n15, gn19, num=88)  # Geometric edge
     ge87 = Edge(n3, gn19, num=87)  # Geometric edge
     ge89 = Edge(n262, gn19, num=89)  # Geometric edge
@@ -1448,37 +1448,37 @@ def get_k_cells():
     ge93 = Edge(n53, gn20, num=93)  # Geometric edge
     ge94 = Edge(n55, gn20, num=94)  # Geometric edge
     ge95 = Edge(n15, gn20, num=95)  # Geometric edge
-    ge97 = Edge(n4, gn21, num=97)  # Geometric edge
-    ge96 = Edge(n185, gn21, num=96)  # Geometric edge
-    ge98 = Edge(n27, gn21, num=98)  # Geometric edge
-    ge99 = Edge(n20, gn21, num=99)  # Geometric edge
-    ge100 = Edge(n174, gn21, num=100)  # Geometric edge
-    ge102 = Edge(n4, gn22, num=102)  # Geometric edge
-    ge101 = Edge(n185, gn22, num=101)  # Geometric edge
-    ge103 = Edge(n22, gn22, num=103)  # Geometric edge
-    ge104 = Edge(n14, gn22, num=104)  # Geometric edge
-    ge105 = Edge(n190, gn22, num=105)  # Geometric edge
+    # ge97 = Edge(n4, gn21, num=97)  # Geometric edge
+    # ge96 = Edge(n185, gn21, num=96)  # Geometric edge
+    # ge98 = Edge(n27, gn21, num=98)  # Geometric edge
+    # ge99 = Edge(n20, gn21, num=99)  # Geometric edge
+    # ge100 = Edge(n174, gn21, num=100)  # Geometric edge
+    # ge102 = Edge(n4, gn22, num=102)  # Geometric edge
+    # ge101 = Edge(n185, gn22, num=101)  # Geometric edge
+    # ge103 = Edge(n22, gn22, num=103)  # Geometric edge
+    # ge104 = Edge(n14, gn22, num=104)  # Geometric edge
+    # ge105 = Edge(n190, gn22, num=105)  # Geometric edge
     ge107 = Edge(n22, gn23, num=107)  # Geometric edge
     ge106 = Edge(n4, gn23, num=106)  # Geometric edge
     ge108 = Edge(n49, gn23, num=108)  # Geometric edge
     ge109 = Edge(n27, gn23, num=109)  # Geometric edge
-    ge111 = Edge(n5, gn24, num=111)  # Geometric edge
-    ge110 = Edge(n210, gn24, num=110)  # Geometric edge
-    ge112 = Edge(n18, gn24, num=112)  # Geometric edge
-    ge113 = Edge(n199, gn24, num=113)  # Geometric edge
-    ge115 = Edge(n5, gn25, num=115)  # Geometric edge
-    ge114 = Edge(n261, gn25, num=114)  # Geometric edge
-    ge116 = Edge(n210, gn25, num=116)  # Geometric edge
-    ge117 = Edge(n10002, gn25, num=117)  # Geometric edge
+    # ge111 = Edge(n5, gn24, num=111)  # Geometric edge
+    # ge110 = Edge(n210, gn24, num=110)  # Geometric edge
+    # ge112 = Edge(n18, gn24, num=112)  # Geometric edge
+    # ge113 = Edge(n199, gn24, num=113)  # Geometric edge
+    # ge115 = Edge(n5, gn25, num=115)  # Geometric edge
+    # ge114 = Edge(n261, gn25, num=114)  # Geometric edge
+    # ge116 = Edge(n210, gn25, num=116)  # Geometric edge
+    # ge117 = Edge(n10002, gn25, num=117)  # Geometric edge
     ge119 = Edge(n5, gn26, num=119)  # Geometric edge
     ge118 = Edge(n261, gn26, num=118)  # Geometric edge
     ge120 = Edge(n18, gn26, num=120)  # Geometric edge
     ge121 = Edge(n29, gn26, num=121)  # Geometric edge
     ge122 = Edge(n265, gn26, num=122)  # Geometric edge
-    ge124 = Edge(n5, gn27, num=124)  # Geometric edge
-    ge123 = Edge(n216, gn27, num=123)  # Geometric edge
-    ge125 = Edge(n210, gn27, num=125)  # Geometric edge
-    ge126 = Edge(n10003, gn27, num=126)  # Geometric edge
+    # ge124 = Edge(n5, gn27, num=124)  # Geometric edge
+    # ge123 = Edge(n216, gn27, num=123)  # Geometric edge
+    # ge125 = Edge(n210, gn27, num=125)  # Geometric edge
+    # ge126 = Edge(n10003, gn27, num=126)  # Geometric edge
     ge128 = Edge(n5, gn28, num=128)  # Geometric edge
     ge127 = Edge(n216, gn28, num=127)  # Geometric edge
     ge129 = Edge(n18, gn28, num=129)  # Geometric edge
@@ -1489,59 +1489,59 @@ def get_k_cells():
     ge133 = Edge(n261, gn29, num=133)  # Geometric edge
     ge135 = Edge(n216, gn29, num=135)  # Geometric edge
     ge136 = Edge(n10004, gn29, num=136)  # Geometric edge
-    ge138 = Edge(n6, gn30, num=138)  # Geometric edge
-    ge137 = Edge(n259, gn30, num=137)  # Geometric edge
-    ge139 = Edge(n163, gn30, num=139)  # Geometric edge
-    ge140 = Edge(n10005, gn30, num=140)  # Geometric edge
-    ge142 = Edge(n6, gn31, num=142)  # Geometric edge
-    ge141 = Edge(n219, gn31, num=141)  # Geometric edge
-    ge143 = Edge(n163, gn31, num=143)  # Geometric edge
-    ge144 = Edge(n10006, gn31, num=144)  # Geometric edge
+    # ge138 = Edge(n6, gn30, num=138)  # Geometric edge
+    # ge137 = Edge(n259, gn30, num=137)  # Geometric edge
+    # ge139 = Edge(n163, gn30, num=139)  # Geometric edge
+    # ge140 = Edge(n10005, gn30, num=140)  # Geometric edge
+    # ge142 = Edge(n6, gn31, num=142)  # Geometric edge
+    # ge141 = Edge(n219, gn31, num=141)  # Geometric edge
+    # ge143 = Edge(n163, gn31, num=143)  # Geometric edge
+    # ge144 = Edge(n10006, gn31, num=144)  # Geometric edge
     ge146 = Edge(n6, gn32, num=146)  # Geometric edge
     ge145 = Edge(n259, gn32, num=145)  # Geometric edge
     ge147 = Edge(n219, gn32, num=147)  # Geometric edge
     ge148 = Edge(n10007, gn32, num=148)  # Geometric edge
-    ge150 = Edge(n9, gn33, num=150)  # Geometric edge
-    ge149 = Edge(n6, gn33, num=149)  # Geometric edge
-    ge151 = Edge(n167, gn33, num=151)  # Geometric edge
-    ge152 = Edge(n163, gn33, num=152)  # Geometric edge
+    # ge150 = Edge(n9, gn33, num=150)  # Geometric edge
+    # ge149 = Edge(n6, gn33, num=149)  # Geometric edge
+    # ge151 = Edge(n167, gn33, num=151)  # Geometric edge
+    # ge152 = Edge(n163, gn33, num=152)  # Geometric edge
     ge154 = Edge(n9, gn34, num=154)  # Geometric edge
     ge153 = Edge(n6, gn34, num=153)  # Geometric edge
     ge155 = Edge(n53, gn34, num=155)  # Geometric edge
     ge156 = Edge(n65, gn34, num=156)  # Geometric edge
     ge157 = Edge(n219, gn34, num=157)  # Geometric edge
-    ge159 = Edge(n7, gn35, num=159)  # Geometric edge
-    ge158 = Edge(n214, gn35, num=158)  # Geometric edge
-    ge160 = Edge(n169, gn35, num=160)  # Geometric edge
-    ge161 = Edge(n10008, gn35, num=161)  # Geometric edge
-    ge163 = Edge(n7, gn36, num=163)  # Geometric edge
-    ge162 = Edge(n169, gn36, num=162)  # Geometric edge
-    ge164 = Edge(n33, gn36, num=164)  # Geometric edge
-    ge165 = Edge(n20, gn36, num=165)  # Geometric edge
-    ge166 = Edge(n174, gn36, num=166)  # Geometric edge
+    # ge159 = Edge(n7, gn35, num=159)  # Geometric edge
+    # ge158 = Edge(n214, gn35, num=158)  # Geometric edge
+    # ge160 = Edge(n169, gn35, num=160)  # Geometric edge
+    # ge161 = Edge(n10008, gn35, num=161)  # Geometric edge
+    # ge163 = Edge(n7, gn36, num=163)  # Geometric edge
+    # ge162 = Edge(n169, gn36, num=162)  # Geometric edge
+    # ge164 = Edge(n33, gn36, num=164)  # Geometric edge
+    # ge165 = Edge(n20, gn36, num=165)  # Geometric edge
+    # ge166 = Edge(n174, gn36, num=166)  # Geometric edge
     ge168 = Edge(n7, gn37, num=168)  # Geometric edge
     ge167 = Edge(n214, gn37, num=167)  # Geometric edge
     ge169 = Edge(n33, gn37, num=169)  # Geometric edge
     ge170 = Edge(n57, gn37, num=170)  # Geometric edge
     ge171 = Edge(n227, gn37, num=171)  # Geometric edge
-    ge173 = Edge(n8, gn38, num=173)  # Geometric edge
-    ge172 = Edge(n191, gn38, num=172)  # Geometric edge
-    ge174 = Edge(n10, gn38, num=174)  # Geometric edge
-    ge175 = Edge(n182, gn38, num=175)  # Geometric edge
-    ge177 = Edge(n8, gn39, num=177)  # Geometric edge
-    ge176 = Edge(n260, gn39, num=176)  # Geometric edge
-    ge178 = Edge(n191, gn39, num=178)  # Geometric edge
-    ge179 = Edge(n10009, gn39, num=179)  # Geometric edge
+    # ge173 = Edge(n8, gn38, num=173)  # Geometric edge
+    # ge172 = Edge(n191, gn38, num=172)  # Geometric edge
+    # ge174 = Edge(n10, gn38, num=174)  # Geometric edge
+    # ge175 = Edge(n182, gn38, num=175)  # Geometric edge
+    # ge177 = Edge(n8, gn39, num=177)  # Geometric edge
+    # ge176 = Edge(n260, gn39, num=176)  # Geometric edge
+    # ge178 = Edge(n191, gn39, num=178)  # Geometric edge
+    # ge179 = Edge(n10009, gn39, num=179)  # Geometric edge
     ge181 = Edge(n10, gn40, num=181)  # Geometric edge
     ge180 = Edge(n8, gn40, num=180)  # Geometric edge
     ge182 = Edge(n15, gn40, num=182)  # Geometric edge
     ge183 = Edge(n262, gn40, num=183)  # Geometric edge
     ge184 = Edge(n260, gn40, num=184)  # Geometric edge
-    ge186 = Edge(n8, gn41, num=186)  # Geometric edge
-    ge185 = Edge(n191, gn41, num=185)  # Geometric edge
-    ge187 = Edge(n29, gn41, num=187)  # Geometric edge
-    ge188 = Edge(n18, gn41, num=188)  # Geometric edge
-    ge189 = Edge(n199, gn41, num=189)  # Geometric edge
+    # ge186 = Edge(n8, gn41, num=186)  # Geometric edge
+    # ge185 = Edge(n191, gn41, num=185)  # Geometric edge
+    # ge187 = Edge(n29, gn41, num=187)  # Geometric edge
+    # ge188 = Edge(n18, gn41, num=188)  # Geometric edge
+    # ge189 = Edge(n199, gn41, num=189)  # Geometric edge
     ge191 = Edge(n10, gn42, num=191)  # Geometric edge
     ge190 = Edge(n8, gn42, num=190)  # Geometric edge
     ge192 = Edge(n35, gn42, num=192)  # Geometric edge
@@ -1552,55 +1552,55 @@ def get_k_cells():
     ge196 = Edge(n260, gn43, num=196)  # Geometric edge
     ge198 = Edge(n29, gn43, num=198)  # Geometric edge
     ge199 = Edge(n265, gn43, num=199)  # Geometric edge
-    ge201 = Edge(n53, gn44, num=201)  # Geometric edge
-    ge200 = Edge(n9, gn44, num=200)  # Geometric edge
-    ge202 = Edge(n58, gn44, num=202)  # Geometric edge
-    ge203 = Edge(n32, gn44, num=203)  # Geometric edge
-    ge204 = Edge(n168, gn44, num=204)  # Geometric edge
-    ge205 = Edge(n167, gn44, num=205)  # Geometric edge
-    ge207 = Edge(n35, gn45, num=207)  # Geometric edge
-    ge206 = Edge(n10, gn45, num=206)  # Geometric edge
-    ge208 = Edge(n25, gn45, num=208)  # Geometric edge
-    ge209 = Edge(n183, gn45, num=209)  # Geometric edge
-    ge210 = Edge(n182, gn45, num=210)  # Geometric edge
+    # ge201 = Edge(n53, gn44, num=201)  # Geometric edge
+    # ge200 = Edge(n9, gn44, num=200)  # Geometric edge
+    # ge202 = Edge(n58, gn44, num=202)  # Geometric edge
+    # ge203 = Edge(n32, gn44, num=203)  # Geometric edge
+    # ge204 = Edge(n168, gn44, num=204)  # Geometric edge
+    # ge205 = Edge(n167, gn44, num=205)  # Geometric edge
+    # ge207 = Edge(n35, gn45, num=207)  # Geometric edge
+    # ge206 = Edge(n10, gn45, num=206)  # Geometric edge
+    # ge208 = Edge(n25, gn45, num=208)  # Geometric edge
+    # ge209 = Edge(n183, gn45, num=209)  # Geometric edge
+    # ge210 = Edge(n182, gn45, num=210)  # Geometric edge
     ge212 = Edge(n15, gn46, num=212)  # Geometric edge
     ge211 = Edge(n10, gn46, num=211)  # Geometric edge
     ge213 = Edge(n55, gn46, num=213)  # Geometric edge
     ge214 = Edge(n66, gn46, num=214)  # Geometric edge
     ge215 = Edge(n35, gn46, num=215)  # Geometric edge
-    ge217 = Edge(n11, gn47, num=217)  # Geometric edge
-    ge216 = Edge(n193, gn47, num=216)  # Geometric edge
-    ge218 = Edge(n16, gn47, num=218)  # Geometric edge
-    ge219 = Edge(n203, gn47, num=219)  # Geometric edge
-    ge221 = Edge(n11, gn48, num=221)  # Geometric edge
-    ge220 = Edge(n193, gn48, num=220)  # Geometric edge
-    ge222 = Edge(n42, gn48, num=222)  # Geometric edge
-    ge223 = Edge(n28, gn48, num=223)  # Geometric edge
-    ge224 = Edge(n192, gn48, num=224)  # Geometric edge
+    # ge217 = Edge(n11, gn47, num=217)  # Geometric edge
+    # ge216 = Edge(n193, gn47, num=216)  # Geometric edge
+    # ge218 = Edge(n16, gn47, num=218)  # Geometric edge
+    # ge219 = Edge(n203, gn47, num=219)  # Geometric edge
+    # ge221 = Edge(n11, gn48, num=221)  # Geometric edge
+    # ge220 = Edge(n193, gn48, num=220)  # Geometric edge
+    # ge222 = Edge(n42, gn48, num=222)  # Geometric edge
+    # ge223 = Edge(n28, gn48, num=223)  # Geometric edge
+    # ge224 = Edge(n192, gn48, num=224)  # Geometric edge
     ge226 = Edge(n16, gn49, num=226)  # Geometric edge
     ge225 = Edge(n11, gn49, num=225)  # Geometric edge
     ge227 = Edge(n54, gn49, num=227)  # Geometric edge
     ge228 = Edge(n62, gn49, num=228)  # Geometric edge
     ge229 = Edge(n42, gn49, num=229)  # Geometric edge
-    ge231 = Edge(n34, gn50, num=231)  # Geometric edge
-    ge230 = Edge(n12, gn50, num=230)  # Geometric edge
-    ge232 = Edge(n26, gn50, num=232)  # Geometric edge
-    ge233 = Edge(n202, gn50, num=233)  # Geometric edge
-    ge234 = Edge(n196, gn50, num=234)  # Geometric edge
-    ge236 = Edge(n12, gn51, num=236)  # Geometric edge
-    ge235 = Edge(n196, gn51, num=235)  # Geometric edge
-    ge237 = Edge(n16, gn51, num=237)  # Geometric edge
-    ge238 = Edge(n203, gn51, num=238)  # Geometric edge
+    # ge231 = Edge(n34, gn50, num=231)  # Geometric edge
+    # ge230 = Edge(n12, gn50, num=230)  # Geometric edge
+    # ge232 = Edge(n26, gn50, num=232)  # Geometric edge
+    # ge233 = Edge(n202, gn50, num=233)  # Geometric edge
+    # ge234 = Edge(n196, gn50, num=234)  # Geometric edge
+    # ge236 = Edge(n12, gn51, num=236)  # Geometric edge
+    # ge235 = Edge(n196, gn51, num=235)  # Geometric edge
+    # ge237 = Edge(n16, gn51, num=237)  # Geometric edge
+    # ge238 = Edge(n203, gn51, num=238)  # Geometric edge
     ge240 = Edge(n16, gn52, num=240)  # Geometric edge
     ge239 = Edge(n12, gn52, num=239)  # Geometric edge
     ge241 = Edge(n54, gn52, num=241)  # Geometric edge
     ge242 = Edge(n72, gn52, num=242)  # Geometric edge
     ge243 = Edge(n68, gn52, num=243)  # Geometric edge
     ge244 = Edge(n34, gn52, num=244)  # Geometric edge
-    ge246 = Edge(n13, gn53, num=246)  # Geometric edge
-    ge245 = Edge(n179, gn53, num=245)  # Geometric edge
-    ge247 = Edge(n21, gn53, num=247)  # Geometric edge
-    ge248 = Edge(n178, gn53, num=248)  # Geometric edge
+    # ge246 = Edge(n13, gn53, num=246)  # Geometric edge
+    # ge245 = Edge(n179, gn53, num=245)  # Geometric edge
+    # ge247 = Edge(n21, gn53, num=247)  # Geometric edge
+    # ge248 = Edge(n178, gn53, num=248)  # Geometric edge
     ge250 = Edge(n19, gn54, num=250)  # Geometric edge
     ge249 = Edge(n13, gn54, num=249)  # Geometric edge
     ge251 = Edge(n41, gn54, num=251)  # Geometric edge
@@ -1616,20 +1616,20 @@ def get_k_cells():
     ge261 = Edge(n40, gn56, num=261)  # Geometric edge
     ge262 = Edge(n50, gn56, num=262)  # Geometric edge
     ge263 = Edge(n23, gn56, num=263)  # Geometric edge
-    ge265 = Edge(n14, gn57, num=265)  # Geometric edge
-    ge264 = Edge(n263, gn57, num=264)  # Geometric edge
-    ge266 = Edge(n190, gn57, num=266)  # Geometric edge
-    ge267 = Edge(n10010, gn57, num=267)  # Geometric edge
+    # ge265 = Edge(n14, gn57, num=265)  # Geometric edge
+    # ge264 = Edge(n263, gn57, num=264)  # Geometric edge
+    # ge266 = Edge(n190, gn57, num=266)  # Geometric edge
+    # ge267 = Edge(n10010, gn57, num=267)  # Geometric edge
     ge269 = Edge(n22, gn58, num=269)  # Geometric edge
     ge268 = Edge(n14, gn58, num=268)  # Geometric edge
     ge270 = Edge(n49, gn58, num=270)  # Geometric edge
     ge271 = Edge(n56, gn58, num=271)  # Geometric edge
     ge272 = Edge(n266, gn58, num=272)  # Geometric edge
     ge273 = Edge(n263, gn58, num=273)  # Geometric edge
-    ge275 = Edge(n14, gn59, num=275)  # Geometric edge
-    ge274 = Edge(n190, gn59, num=274)  # Geometric edge
-    ge276 = Edge(n17, gn59, num=276)  # Geometric edge
-    ge277 = Edge(n198, gn59, num=277)  # Geometric edge
+    # ge275 = Edge(n14, gn59, num=275)  # Geometric edge
+    # ge274 = Edge(n190, gn59, num=274)  # Geometric edge
+    # ge276 = Edge(n17, gn59, num=276)  # Geometric edge
+    # ge277 = Edge(n198, gn59, num=277)  # Geometric edge
     ge279 = Edge(n17, gn60, num=279)  # Geometric edge
     ge278 = Edge(n14, gn60, num=278)  # Geometric edge
     ge280 = Edge(n26, gn60, num=280)  # Geometric edge
@@ -1643,30 +1643,30 @@ def get_k_cells():
     ge287 = Edge(n262, gn62, num=287)  # Geometric edge
     ge289 = Edge(n55, gn62, num=289)  # Geometric edge
     ge290 = Edge(n269, gn62, num=290)  # Geometric edge
-    ge292 = Edge(n54, gn63, num=292)  # Geometric edge
-    ge291 = Edge(n16, gn63, num=291)  # Geometric edge
-    ge293 = Edge(n63, gn63, num=293)  # Geometric edge
-    ge294 = Edge(n45, gn63, num=294)  # Geometric edge
-    ge295 = Edge(n207, gn63, num=295)  # Geometric edge
-    ge296 = Edge(n203, gn63, num=296)  # Geometric edge
-    ge298 = Edge(n26, gn64, num=298)  # Geometric edge
-    ge297 = Edge(n17, gn64, num=297)  # Geometric edge
-    ge299 = Edge(n202, gn64, num=299)  # Geometric edge
-    ge300 = Edge(n198, gn64, num=300)  # Geometric edge
-    ge302 = Edge(n17, gn65, num=302)  # Geometric edge
-    ge301 = Edge(n264, gn65, num=301)  # Geometric edge
-    ge303 = Edge(n198, gn65, num=303)  # Geometric edge
-    ge304 = Edge(n10011, gn65, num=304)  # Geometric edge
+    # ge292 = Edge(n54, gn63, num=292)  # Geometric edge
+    # ge291 = Edge(n16, gn63, num=291)  # Geometric edge
+    # ge293 = Edge(n63, gn63, num=293)  # Geometric edge
+    # ge294 = Edge(n45, gn63, num=294)  # Geometric edge
+    # ge295 = Edge(n207, gn63, num=295)  # Geometric edge
+    # ge296 = Edge(n203, gn63, num=296)  # Geometric edge
+    # ge298 = Edge(n26, gn64, num=298)  # Geometric edge
+    # ge297 = Edge(n17, gn64, num=297)  # Geometric edge
+    # ge299 = Edge(n202, gn64, num=299)  # Geometric edge
+    # ge300 = Edge(n198, gn64, num=300)  # Geometric edge
+    # ge302 = Edge(n17, gn65, num=302)  # Geometric edge
+    # ge301 = Edge(n264, gn65, num=301)  # Geometric edge
+    # ge303 = Edge(n198, gn65, num=303)  # Geometric edge
+    # ge304 = Edge(n10011, gn65, num=304)  # Geometric edge
     ge306 = Edge(n26, gn66, num=306)  # Geometric edge
     ge305 = Edge(n17, gn66, num=305)  # Geometric edge
     ge307 = Edge(n61, gn66, num=307)  # Geometric edge
     ge308 = Edge(n268, gn66, num=308)  # Geometric edge
     ge309 = Edge(n264, gn66, num=309)  # Geometric edge
-    ge311 = Edge(n18, gn67, num=311)  # Geometric edge
-    ge310 = Edge(n199, gn67, num=310)  # Geometric edge
-    ge312 = Edge(n30, gn67, num=312)  # Geometric edge
-    ge313 = Edge(n24, gn67, num=313)  # Geometric edge
-    ge314 = Edge(n201, gn67, num=314)  # Geometric edge
+    # ge311 = Edge(n18, gn67, num=311)  # Geometric edge
+    # ge310 = Edge(n199, gn67, num=310)  # Geometric edge
+    # ge312 = Edge(n30, gn67, num=312)  # Geometric edge
+    # ge313 = Edge(n24, gn67, num=313)  # Geometric edge
+    # ge314 = Edge(n201, gn67, num=314)  # Geometric edge
     ge316 = Edge(n29, gn68, num=316)  # Geometric edge
     ge315 = Edge(n18, gn68, num=315)  # Geometric edge
     ge317 = Edge(n44, gn68, num=317)  # Geometric edge
@@ -1697,16 +1697,16 @@ def get_k_cells():
     ge342 = Edge(n49, gn73, num=342)  # Geometric edge
     ge343 = Edge(n56, gn73, num=343)  # Geometric edge
     ge344 = Edge(n39, gn73, num=344)  # Geometric edge
-    ge346 = Edge(n21, gn74, num=346)  # Geometric edge
-    ge345 = Edge(n178, gn74, num=345)  # Geometric edge
-    ge347 = Edge(n38, gn74, num=347)  # Geometric edge
-    ge348 = Edge(n32, gn74, num=348)  # Geometric edge
-    ge349 = Edge(n168, gn74, num=349)  # Geometric edge
-    ge351 = Edge(n21, gn75, num=351)  # Geometric edge
-    ge350 = Edge(n178, gn75, num=350)  # Geometric edge
-    ge352 = Edge(n40, gn75, num=352)  # Geometric edge
-    ge353 = Edge(n25, gn75, num=353)  # Geometric edge
-    ge354 = Edge(n183, gn75, num=354)  # Geometric edge
+    # ge346 = Edge(n21, gn74, num=346)  # Geometric edge
+    # ge345 = Edge(n178, gn74, num=345)  # Geometric edge
+    # ge347 = Edge(n38, gn74, num=347)  # Geometric edge
+    # ge348 = Edge(n32, gn74, num=348)  # Geometric edge
+    # ge349 = Edge(n168, gn74, num=349)  # Geometric edge
+    # ge351 = Edge(n21, gn75, num=351)  # Geometric edge
+    # ge350 = Edge(n178, gn75, num=350)  # Geometric edge
+    # ge352 = Edge(n40, gn75, num=352)  # Geometric edge
+    # ge353 = Edge(n25, gn75, num=353)  # Geometric edge
+    # ge354 = Edge(n183, gn75, num=354)  # Geometric edge
     ge356 = Edge(n38, gn76, num=356)  # Geometric edge
     ge355 = Edge(n21, gn76, num=355)  # Geometric edge
     ge357 = Edge(n60, gn76, num=357)  # Geometric edge
@@ -1721,21 +1721,21 @@ def get_k_cells():
     ge366 = Edge(n80, gn78, num=366)  # Geometric edge
     ge367 = Edge(n81, gn78, num=367)  # Geometric edge
     ge368 = Edge(n50, gn78, num=368)  # Geometric edge
-    ge370 = Edge(n24, gn79, num=370)  # Geometric edge
-    ge369 = Edge(n201, gn79, num=369)  # Geometric edge
-    ge371 = Edge(n43, gn79, num=371)  # Geometric edge
-    ge372 = Edge(n28, gn79, num=372)  # Geometric edge
-    ge373 = Edge(n192, gn79, num=373)  # Geometric edge
+    # ge370 = Edge(n24, gn79, num=370)  # Geometric edge
+    # ge369 = Edge(n201, gn79, num=369)  # Geometric edge
+    # ge371 = Edge(n43, gn79, num=371)  # Geometric edge
+    # ge372 = Edge(n28, gn79, num=372)  # Geometric edge
+    # ge373 = Edge(n192, gn79, num=373)  # Geometric edge
     ge375 = Edge(n30, gn80, num=375)  # Geometric edge
     ge374 = Edge(n24, gn80, num=374)  # Geometric edge
     ge376 = Edge(n44, gn80, num=376)  # Geometric edge
     ge377 = Edge(n51, gn80, num=377)  # Geometric edge
     ge378 = Edge(n43, gn80, num=378)  # Geometric edge
-    ge380 = Edge(n24, gn81, num=380)  # Geometric edge
-    ge379 = Edge(n201, gn81, num=379)  # Geometric edge
-    ge381 = Edge(n36, gn81, num=381)  # Geometric edge
-    ge382 = Edge(n31, gn81, num=382)  # Geometric edge
-    ge383 = Edge(n209, gn81, num=383)  # Geometric edge
+    # ge380 = Edge(n24, gn81, num=380)  # Geometric edge
+    # ge379 = Edge(n201, gn81, num=379)  # Geometric edge
+    # ge381 = Edge(n36, gn81, num=381)  # Geometric edge
+    # ge382 = Edge(n31, gn81, num=382)  # Geometric edge
+    # ge383 = Edge(n209, gn81, num=383)  # Geometric edge
     ge385 = Edge(n30, gn82, num=385)  # Geometric edge
     ge384 = Edge(n24, gn82, num=384)  # Geometric edge
     ge386 = Edge(n47, gn82, num=386)  # Geometric edge
@@ -1746,10 +1746,10 @@ def get_k_cells():
     ge391 = Edge(n73, gn83, num=391)  # Geometric edge
     ge392 = Edge(n67, gn83, num=392)  # Geometric edge
     ge393 = Edge(n43, gn83, num=393)  # Geometric edge
-    ge395 = Edge(n25, gn84, num=395)  # Geometric edge
-    ge394 = Edge(n183, gn84, num=394)  # Geometric edge
-    ge396 = Edge(n28, gn84, num=396)  # Geometric edge
-    ge397 = Edge(n192, gn84, num=397)  # Geometric edge
+    # ge395 = Edge(n25, gn84, num=395)  # Geometric edge
+    # ge394 = Edge(n183, gn84, num=394)  # Geometric edge
+    # ge396 = Edge(n28, gn84, num=396)  # Geometric edge
+    # ge397 = Edge(n192, gn84, num=397)  # Geometric edge
     ge399 = Edge(n28, gn85, num=399)  # Geometric edge
     ge398 = Edge(n25, gn85, num=398)  # Geometric edge
     ge400 = Edge(n43, gn85, num=400)  # Geometric edge
@@ -1801,20 +1801,20 @@ def get_k_cells():
     ge446 = Edge(n99, gn93, num=446)  # Geometric edge
     ge447 = Edge(n85, gn93, num=447)  # Geometric edge
     ge448 = Edge(n47, gn93, num=448)  # Geometric edge
-    ge450 = Edge(n31, gn94, num=450)  # Geometric edge
-    ge449 = Edge(n217, gn94, num=449)  # Geometric edge
-    ge451 = Edge(n209, gn94, num=451)  # Geometric edge
-    ge452 = Edge(n10012, gn94, num=452)  # Geometric edge
+    # ge450 = Edge(n31, gn94, num=450)  # Geometric edge
+    # ge449 = Edge(n217, gn94, num=449)  # Geometric edge
+    # ge451 = Edge(n209, gn94, num=451)  # Geometric edge
+    # ge452 = Edge(n10012, gn94, num=452)  # Geometric edge
     ge454 = Edge(n31, gn95, num=454)  # Geometric edge
     ge453 = Edge(n217, gn95, num=453)  # Geometric edge
     ge455 = Edge(n36, gn95, num=455)  # Geometric edge
     ge456 = Edge(n47, gn95, num=456)  # Geometric edge
     ge457 = Edge(n220, gn95, num=457)  # Geometric edge
-    ge459 = Edge(n31, gn96, num=459)  # Geometric edge
-    ge458 = Edge(n209, gn96, num=458)  # Geometric edge
-    ge460 = Edge(n48, gn96, num=460)  # Geometric edge
-    ge461 = Edge(n45, gn96, num=461)  # Geometric edge
-    ge462 = Edge(n207, gn96, num=462)  # Geometric edge
+    # ge459 = Edge(n31, gn96, num=459)  # Geometric edge
+    # ge458 = Edge(n209, gn96, num=458)  # Geometric edge
+    # ge460 = Edge(n48, gn96, num=460)  # Geometric edge
+    # ge461 = Edge(n45, gn96, num=461)  # Geometric edge
+    # ge462 = Edge(n207, gn96, num=462)  # Geometric edge
     ge464 = Edge(n31, gn97, num=464)  # Geometric edge
     ge463 = Edge(n217, gn97, num=463)  # Geometric edge
     ge465 = Edge(n48, gn97, num=465)  # Geometric edge
@@ -1823,10 +1823,10 @@ def get_k_cells():
     ge467 = Edge(n31, gn98, num=467)  # Geometric edge
     ge469 = Edge(n52, gn98, num=469)  # Geometric edge
     ge470 = Edge(n48, gn98, num=470)  # Geometric edge
-    ge472 = Edge(n32, gn99, num=472)  # Geometric edge
-    ge471 = Edge(n222, gn99, num=471)  # Geometric edge
-    ge473 = Edge(n168, gn99, num=473)  # Geometric edge
-    ge474 = Edge(n10013, gn99, num=474)  # Geometric edge
+    # ge472 = Edge(n32, gn99, num=472)  # Geometric edge
+    # ge471 = Edge(n222, gn99, num=471)  # Geometric edge
+    # ge473 = Edge(n168, gn99, num=473)  # Geometric edge
+    # ge474 = Edge(n10013, gn99, num=474)  # Geometric edge
     ge476 = Edge(n38, gn100, num=476)  # Geometric edge
     ge475 = Edge(n32, gn100, num=475)  # Geometric edge
     ge477 = Edge(n41, gn100, num=477)  # Geometric edge
@@ -2085,9 +2085,9 @@ def get_k_cells():
     ge729 = Edge(n70, gn152, num=729)  # Geometric edge
     ge731 = Edge(n116, gn152, num=731)  # Geometric edge
     ge732 = Edge(n90, gn152, num=732)  # Geometric edge
-    ge734 = Edge(n71, gn153, num=734)  # Geometric edge
-    ge733 = Edge(n267, gn153, num=733)  # Geometric edge
-    ge735 = Edge(n239, gn153, num=735)  # Geometric edge
+    # ge734 = Edge(n71, gn153, num=734)  # Geometric edge
+    # ge733 = Edge(n267, gn153, num=733)  # Geometric edge
+    # ge735 = Edge(n239, gn153, num=735)  # Geometric edge
     # ge736 = Edge(n244, gn153, num=736)  # Geometric edge
     # ge737 = Edge(n10016, gn153, num=737)  # Geometric edge
     ge739 = Edge(n74, gn154, num=739)  # Geometric edge
@@ -2642,11 +2642,11 @@ def get_k_cells():
     ge1286 = Edge(n280, gn268, num=1286)  # Geometric edge
     ge1288 = Edge(n189, gn268, num=1288)  # Geometric edge
     ge1289 = Edge(n10026, gn268, num=1289)  # Geometric edge
-    ge1291 = Edge(n152, gn269, num=1291)  # Geometric edge
-    ge1290 = Edge(n151, gn269, num=1290)  # Geometric edge
-    ge1292 = Edge(n251, gn269, num=1292)  # Geometric edge
+    # ge1291 = Edge(n152, gn269, num=1291)  # Geometric edge
+    # ge1290 = Edge(n151, gn269, num=1290)  # Geometric edge
+    # ge1292 = Edge(n251, gn269, num=1292)  # Geometric edge
     # ge1293 = Edge(n244, gn269, num=1293)  # Geometric edge
-    ge1294 = Edge(n282, gn269, num=1294)  # Geometric edge
+    # ge1294 = Edge(n282, gn269, num=1294)  # Geometric edge
     ge1296 = Edge(n151, gn270, num=1296)  # Geometric edge
     ge1295 = Edge(n282, gn270, num=1295)  # Geometric edge
     ge1297 = Edge(n206, gn270, num=1297)  # Geometric edge
@@ -2667,17 +2667,147 @@ def get_k_cells():
     ge1311 = Edge(n254, gn274, num=1311)  # Geometric edge
     ge1313 = Edge(n204, gn274, num=1313)  # Geometric edge
     ge1314 = Edge(n10030, gn274, num=1314)  # Geometric edge
-    ge1316 = Edge(n128, gn275, num=1316)  # Geometric edge
-    ge1315 = Edge(n197, gn275, num=1315)  # Geometric edge
-    ge1317 = Edge(n247, gn275, num=1317)  # Geometric edge
-    ge1318 = Edge(n205, gn275, num=1318)  # Geometric edge
-    ge1319 = Edge(n257, gn275, num=1319)  # Geometric edge
-    ge1320 = Edge(n10032, gn275, num=1320)  # Geometric edge
+    # ge1316 = Edge(n128, gn275, num=1316)  # Geometric edge
+    # ge1315 = Edge(n197, gn275, num=1315)  # Geometric edge
+    # ge1317 = Edge(n247, gn275, num=1317)  # Geometric edge
+    # ge1318 = Edge(n205, gn275, num=1318)  # Geometric edge
+    # ge1319 = Edge(n257, gn275, num=1319)  # Geometric edge
+    # ge1320 = Edge(n10032, gn275, num=1320)  # Geometric edge
 
 
     edges = [e0, e1, e2, e3, e4, e5, e6, e7, e8, e9, e10, e11, e12, e13, e14, e15, e16, e17, e18, e19, e20, e21, e22, e23, e24, e25, e26, e27, e28, e29, e30, e31, e32, e33, e34, e35, e36, e37, e38, e39, e40, e41, e42, e43, e44, e45, e46, e47, e48, e49, e50, e51, e52, e53, e54, e55, e56, e57, e58, e59, e60, e61, e62, e63, e64, e65, e66, e67, e68, e69, e70, e71, e72, e73, e74, e75, e76, e77, e78, e79, e80, e81, e82, e83, e84, e85, e86, e87, e88, e89, e90, e91, e92, e93, e94, e95, e96, e97, e98, e99, e100, e101, e102, e103, e104, e105, e106, e107, e108, e109, e110, e111, e112, e113, e114, e115, e116, e117, e118, e119, e120, e121, e122, e123, e124, e125, e126, e127, e128, e129, e130, e131, e132, e133, e134, e135, e136, e137, e138, e139, e140, e141, e142, e143, e144, e145, e146, e147, e148, e149, e150, e151, e152, e153, e154, e155, e156, e157, e158, e159, e160, e161, e162, e163, e164, e165, e166, e167, e168, e169, e170, e171, e172, e173, e174, e175, e176, e177, e178, e179, e180, e181, e182, e183, e184, e185, e186, e187, e188, e189, e190, e191, e192, e193, e194, e195, e196, e197, e198, e199, e200, e201, e202, e203, e204, e205, e206, e207, e208, e209, e210, e211, e212, e213, e214, e215, e216, e217, e218, e219, e220, e221, e222, e223, e224, e225, e226, e227, e228, e229, e230, e231, e232, e233, e234, e235, e236, e237, e238, e239, e240, e241, e242, e243, e244, e245, e246, e247, e248, e249, e250, e251, e252, e253, e254, e255, e256, e257, e258, e259, e260, e261, e262, e263, e264, e265, e266, e267, e268, e269, e270, e271, e272, e273, e274, e275, e276, e277, e278, e279, e280, e281, e282, e283, e284, e285, e286, e287, e288, e289, e290, e291, e292, e293, e294, e295, e296, e297, e298, e299, e300, e301, e302, e303, e304, e305, e306, e307, e308, e309, e310, e311, e312, e313, e314, e315, e316, e317, e318, e319, e320, e321, e322, e323, e324, e325, e326, e327, e328, e329, e330, e331, e332, e333, e334, e335, e336, e337, e338, e339, e340, e341, e342, e343, e344, e345, e346, e347, e348, e349, e350, e351, e352, e353, e354, e355, e356, e357, e358, e359, e360, e361, e362, e363, e364, e365, e366, e367, e368, e369, e370, e371, e372, e373, e374, e375, e376, e377, e378, e379, e380, e381, e382, e383, e384, e385, e386, e387, e388, e389, e390, e391, e392, e393, e394, e395, e396, e397, e398, e399, e400, e401, e402, e403, e404, e405, e407, e408, e409, e410, e411, e412, e413, e414, e415, e417, e418, e419, e422, e423, e424, e425, e426, e427, e428, e429, e430, e431, e432, e433, e434, e435, e436, e437, e438, e439, e440, e441, e442, e10000, e10001, e10002, e10003, e10004, e10005, e10006, e10007, e10008, e10009, e10010, e10011, e10012, e10013, e10014, e10015, e10016, e10017, e10018, e10019, e10020, e10021, e10022, e10023, e10024, e10025, e10026, e10027, e10028, e10029, e10030, e10031, e10032, e10033, e10034, e10035, e10036, e10037, e10038, e10039, e10040, e10041, e10042, e10043, e10044, e10045, e10046, e10047, e10048, e10049, e10050, e10051, e10052, e10053, e10054, e10055, e10056, e10057, e10058, e10059, e10060, e10061, e10062, e10063, e10064, e10065, e10066, e10067, e10068, e10069, e10070, e10071, e10072, e10073, e10074, e10075, e10076, e10077, e10078, e10079, e10080, e10081, e10082, e10083, e10084, e10085, e10088, e10089, e10090, e10091, e10092, e10093, e10094, e10095, e10096, e10097, e10098, e10099, e10100, e10101, e10102, e10103, e10104, e10105, e10106, e10107, e10108, e10109, e10110, e10111, e10112, e10113, e10114, e10115, e10116, e10117, e10118, e10119, e10120, e10121, e10122, e10123, e10124, e10125, e10126, e10127, e10128, e10129, e10130, e10131, e10132, e10133, e10134, e10135, e10136, e10137, e10138, e10139, e10140, e10141, e10142, e10143, e10144, e10145, e10146, e10147, e10148, e10149, e10150, e10151, e10152, e10153, e10154, e10155, e10156, e10157, e10158, e10159, e10160, e10161, e10162, e10163, e10164, e10165, e10167, e10168, e10169, e10170, e10171, e10172, e10173, e10174, e10175, e10176, e10177, e622, e623, e624, e625, e626, e627, e629, e630, e631, e632, e633, e634, e635, e636, e637, e638, e639, e641, e642, e643, e644, e645, e646, e647, e648, e649, e650, e651, e652, e653, e654, e655, e656, e657, e658, e659, e660, e661, e662, e663, e664, e665, e666, e667, e668, e669]
 
-    geometric_edges = [ge1, ge0, ge2, ge3, ge5, ge4, ge6, ge7, ge9, ge8, ge10, ge11, ge12, ge13, ge15, ge14, ge16, ge17, ge19, ge18, ge20, ge21, ge22, ge24, ge23, ge25, ge26, ge27, ge29, ge28, ge30, ge31, ge32, ge34, ge33, ge35, ge36, ge38, ge37, ge39, ge40, ge41, ge43, ge42, ge44, ge45, ge47, ge46, ge48, ge49, ge51, ge50, ge52, ge53, ge55, ge54, ge56, ge57, ge58, ge60, ge59, ge61, ge62, ge63, ge65, ge64, ge66, ge67, ge68, ge70, ge69, ge71, ge72, ge74, ge73, ge75, ge76, ge78, ge77, ge79, ge80, ge81, ge83, ge82, ge84, ge85, ge86, ge88, ge87, ge89, ge90, ge92, ge91, ge93, ge94, ge95, ge97, ge96, ge98, ge99, ge100, ge102, ge101, ge103, ge104, ge105, ge107, ge106, ge108, ge109, ge111, ge110, ge112, ge113, ge115, ge114, ge116, ge117, ge119, ge118, ge120, ge121, ge122, ge124, ge123, ge125, ge126, ge128, ge127, ge129, ge130, ge131, ge132, ge134, ge133, ge135, ge136, ge138, ge137, ge139, ge140, ge142, ge141, ge143, ge144, ge146, ge145, ge147, ge148, ge150, ge149, ge151, ge152, ge154, ge153, ge155, ge156, ge157, ge159, ge158, ge160, ge161, ge163, ge162, ge164, ge165, ge166, ge168, ge167, ge169, ge170, ge171, ge173, ge172, ge174, ge175, ge177, ge176, ge178, ge179, ge181, ge180, ge182, ge183, ge184, ge186, ge185, ge187, ge188, ge189, ge191, ge190, ge192, ge193, ge194, ge195, ge197, ge196, ge198, ge199, ge201, ge200, ge202, ge203, ge204, ge205, ge207, ge206, ge208, ge209, ge210, ge212, ge211, ge213, ge214, ge215, ge217, ge216, ge218, ge219, ge221, ge220, ge222, ge223, ge224, ge226, ge225, ge227, ge228, ge229, ge231, ge230, ge232, ge233, ge234, ge236, ge235, ge237, ge238, ge240, ge239, ge241, ge242, ge243, ge244, ge246, ge245, ge247, ge248, ge250, ge249, ge251, ge252, ge253, ge255, ge254, ge256, ge257, ge258, ge260, ge259, ge261, ge262, ge263, ge265, ge264, ge266, ge267, ge269, ge268, ge270, ge271, ge272, ge273, ge275, ge274, ge276, ge277, ge279, ge278, ge280, ge281, ge282, ge284, ge283, ge285, ge286, ge288, ge287, ge289, ge290, ge292, ge291, ge293, ge294, ge295, ge296, ge298, ge297, ge299, ge300, ge302, ge301, ge303, ge304, ge306, ge305, ge307, ge308, ge309, ge311, ge310, ge312, ge313, ge314, ge316, ge315, ge317, ge318, ge320, ge319, ge321, ge322, ge323, ge325, ge324, ge326, ge327, ge328, ge329, ge331, ge330, ge332, ge333, ge334, ge336, ge335, ge337, ge338, ge339, ge341, ge340, ge342, ge343, ge344, ge346, ge345, ge347, ge348, ge349, ge351, ge350, ge352, ge353, ge354, ge356, ge355, ge357, ge358, ge360, ge359, ge361, ge362, ge363, ge365, ge364, ge366, ge367, ge368, ge370, ge369, ge371, ge372, ge373, ge375, ge374, ge376, ge377, ge378, ge380, ge379, ge381, ge382, ge383, ge385, ge384, ge386, ge387, ge389, ge388, ge390, ge391, ge392, ge393, ge395, ge394, ge396, ge397, ge399, ge398, ge400, ge401, ge402, ge404, ge403, ge405, ge406, ge407, ge409, ge408, ge410, ge411, ge412, ge413, ge415, ge414, ge416, ge417, ge418, ge419, ge420, ge422, ge421, ge423, ge424, ge425, ge427, ge426, ge428, ge429, ge430, ge431, ge433, ge432, ge434, ge435, ge436, ge438, ge437, ge439, ge440, ge441, ge442, ge444, ge443, ge445, ge446, ge447, ge448, ge450, ge449, ge451, ge452, ge454, ge453, ge455, ge456, ge457, ge459, ge458, ge460, ge461, ge462, ge464, ge463, ge465, ge466, ge468, ge467, ge469, ge470, ge472, ge471, ge473, ge474, ge476, ge475, ge477, ge478, ge479, ge481, ge480, ge482, ge483, ge484, ge486, ge485, ge487, ge488, ge489, ge491, ge490, ge492, ge493, ge494, ge496, ge495, ge497, ge498, ge499, ge501, ge500, ge502, ge503, ge504, ge506, ge505, ge507, ge508, ge509, ge511, ge510, ge512, ge513, ge514, ge515, ge517, ge516, ge518, ge519, ge521, ge520, ge522, ge523, ge524, ge526, ge525, ge527, ge528, ge529, ge530, ge532, ge531, ge533, ge534, ge535, ge536, ge538, ge537, ge539, ge540, ge542, ge541, ge543, ge544, ge545, ge547, ge546, ge548, ge549, ge550, ge551, ge553, ge552, ge554, ge555, ge557, ge556, ge558, ge559, ge560, ge562, ge561, ge563, ge564, ge566, ge565, ge567, ge568, ge569, ge571, ge570, ge572, ge573, ge574, ge576, ge575, ge577, ge578, ge579, ge581, ge580, ge582, ge583, ge584, ge586, ge585, ge587, ge588, ge589, ge591, ge590, ge592, ge593, ge594, ge596, ge595, ge597, ge598, ge599, ge601, ge600, ge602, ge603, ge604, ge606, ge605, ge607, ge608, ge609, ge611, ge610, ge612, ge613, ge614, ge616, ge615, ge617, ge618, ge619, ge620, ge622, ge621, ge623, ge624, ge625, ge627, ge626, ge628, ge629, ge630, ge632, ge631, ge633, ge634, ge636, ge635, ge637, ge638, ge640, ge639, ge641, ge642, ge644, ge643, ge645, ge646, ge647, ge649, ge648, ge650, ge651, ge652, ge653, ge655, ge654, ge656, ge657, ge658, ge660, ge659, ge661, ge662, ge664, ge663, ge665, ge666, ge667, ge669, ge668, ge670, ge671, ge672, ge674, ge673, ge675, ge676, ge678, ge677, ge679, ge680, ge681, ge683, ge682, ge684, ge685, ge686, ge687, ge689, ge688, ge690, ge691, ge693, ge692, ge694, ge695, ge696, ge698, ge697, ge699, ge700, ge702, ge701, ge703, ge704, ge706, ge705, ge707, ge708, ge710, ge709, ge711, ge712, ge713, ge715, ge714, ge716, ge717, ge719, ge718, ge720, ge721, ge722, ge724, ge723, ge725, ge726, ge727, ge728, ge730, ge729, ge731, ge732, ge734, ge733, ge735, ge739, ge738, ge740, ge741, ge742, ge744, ge743, ge745, ge746, ge748, ge747, ge749, ge750, ge751, ge753, ge752, ge754, ge755, ge757, ge756, ge758, ge759, ge760, ge762, ge761, ge763, ge764, ge765, ge767, ge766, ge768, ge769, ge771, ge770, ge772, ge773, ge774, ge776, ge775, ge777, ge778, ge779, ge780, ge782, ge781, ge783, ge784, ge786, ge785, ge787, ge788, ge789, ge790, ge792, ge791, ge793, ge794, ge796, ge795, ge797, ge798, ge799, ge801, ge800, ge802, ge803, ge804, ge806, ge805, ge807, ge808, ge809, ge811, ge810, ge812, ge813, ge814, ge816, ge815, ge817, ge818, ge819, ge820, ge822, ge821, ge823, ge824, ge825, ge827, ge826, ge828, ge829, ge830, ge832, ge831, ge833, ge834, ge835, ge837, ge836, ge838, ge839, ge840, ge842, ge841, ge843, ge844, ge845, ge847, ge846, ge848, ge849, ge850, ge851, ge853, ge852, ge854, ge855, ge856, ge858, ge857, ge859, ge860, ge861, ge863, ge862, ge864, ge865, ge866, ge868, ge867, ge869, ge870, ge871, ge873, ge872, ge874, ge875, ge876, ge878, ge877, ge879, ge880, ge881, ge883, ge882, ge884, ge885, ge886, ge887, ge889, ge888, ge890, ge891, ge892, ge894, ge893, ge895, ge896, ge897, ge899, ge898, ge900, ge901, ge903, ge902, ge904, ge905, ge906, ge908, ge907, ge909, ge910, ge911, ge913, ge912, ge914, ge915, ge916, ge918, ge917, ge919, ge920, ge921, ge923, ge922, ge924, ge925, ge926, ge928, ge927, ge929, ge930, ge931, ge932, ge934, ge933, ge935, ge936, ge938, ge937, ge939, ge940, ge941, ge943, ge942, ge944, ge945, ge946, ge947, ge949, ge948, ge950, ge951, ge952, ge954, ge953, ge955, ge956, ge957, ge959, ge958, ge960, ge961, ge962, ge964, ge963, ge965, ge966, ge968, ge967, ge969, ge970, ge971, ge973, ge972, ge974, ge975, ge976, ge978, ge977, ge979, ge980, ge981, ge983, ge982, ge984, ge985, ge986, ge987, ge989, ge988, ge990, ge991, ge992, ge994, ge993, ge995, ge996, ge997, ge999, ge998, ge1000, ge1001, ge1002, ge1004, ge1003, ge1005, ge1006, ge1007, ge1009, ge1008, ge1010, ge1011, ge1013, ge1012, ge1014, ge1015, ge1016, ge1018, ge1017, ge1019, ge1020, ge1021, ge1022, ge1024, ge1023, ge1025, ge1026, ge1028, ge1027, ge1029, ge1030, ge1031, ge1032, ge1034, ge1033, ge1035, ge1036, ge1037, ge1039, ge1038, ge1040, ge1041, ge1042, ge1044, ge1043, ge1045, ge1046, ge1047, ge1048, ge1050, ge1049, ge1051, ge1052, ge1053, ge1054, ge1056, ge1055, ge1057, ge1058, ge1059, ge1060, ge1062, ge1061, ge1063, ge1064, ge1065, ge1067, ge1066, ge1068, ge1069, ge1071, ge1070, ge1072, ge1073, ge1075, ge1074, ge1076, ge1077, ge1079, ge1078, ge1080, ge1081, ge1082, ge1084, ge1083, ge1085, ge1086, ge1088, ge1087, ge1089, ge1090, ge1091, ge1093, ge1092, ge1094, ge1095, ge1096, ge1098, ge1097, ge1099, ge1100, ge1102, ge1101, ge1103, ge1104, ge1105, ge1107, ge1106, ge1108, ge1109, ge1110, ge1112, ge1111, ge1113, ge1114, ge1116, ge1115, ge1117, ge1118, ge1120, ge1119, ge1121, ge1122, ge1124, ge1123, ge1125, ge1126, ge1127, ge1128, ge1130, ge1129, ge1131, ge1132, ge1133, ge1134, ge1136, ge1135, ge1137, ge1138, ge1140, ge1139, ge1141, ge1142, ge1144, ge1143, ge1145, ge1146, ge1147, ge1149, ge1148, ge1150, ge1151, ge1153, ge1152, ge1154, ge1155, ge1157, ge1156, ge1158, ge1159, ge1160, ge1162, ge1161, ge1163, ge1164, ge1166, ge1165, ge1167, ge1168, ge1170, ge1169, ge1171, ge1172, ge1173, ge1175, ge1174, ge1176, ge1177, ge1179, ge1178, ge1180, ge1181, ge1182, ge1184, ge1183, ge1185, ge1186, ge1188, ge1187, ge1189, ge1190, ge1192, ge1191, ge1193, ge1194, ge1195, ge1197, ge1196, ge1198, ge1199, ge1201, ge1200, ge1202, ge1203, ge1204, ge1206, ge1205, ge1207, ge1208, ge1209, ge1210, ge1212, ge1211, ge1213, ge1214, ge1215, ge1217, ge1216, ge1218, ge1219, ge1221, ge1220, ge1222, ge1223, ge1224, ge1226, ge1225, ge1227, ge1228, ge1230, ge1229, ge1231, ge1232, ge1234, ge1233, ge1235, ge1236, ge1237, ge1239, ge1238, ge1240, ge1241, ge1242, ge1244, ge1243, ge1245, ge1246, ge1247, ge1249, ge1248, ge1250, ge1251, ge1253, ge1252, ge1254, ge1255, ge1257, ge1256, ge1258, ge1259, ge1261, ge1260, ge1262, ge1263, ge1265, ge1264, ge1266, ge1267, ge1269, ge1268, ge1270, ge1271, ge1273, ge1272, ge1274, ge1275, ge1277, ge1276, ge1278, ge1279, ge1281, ge1280, ge1282, ge1283, ge1284, ge1285, ge1287, ge1286, ge1288, ge1289, ge1291, ge1290, ge1292, ge1294, ge1296, ge1295, ge1297, ge1298, ge1300, ge1299, ge1301, ge1302, ge1304, ge1303, ge1305, ge1306, ge1308, ge1307, ge1309, ge1310, ge1312, ge1311, ge1313, ge1314, ge1316, ge1315, ge1317, ge1318, ge1319, ge1320]
+    geometric_edges = [
+        ge9, ge8, ge10, ge11, ge12, ge13, ge19, ge18,
+        ge20, ge21, ge22, ge24, ge23, ge25, ge26, ge27,
+        ge38, ge37, ge39,
+        ge40, ge41, ge51,
+        ge50, ge52, ge53,
+        ge60, ge59, ge61, ge62, ge63, ge65, ge64, ge66, ge67, ge68,
+        ge78, ge77, ge79,
+        ge80, ge81, ge88, ge87, ge89,
+        ge90, ge92, ge91, ge93, ge94, ge95,
+        ge106, ge107, ge108, ge109,
+        ge119, ge118,
+        ge120, ge121, ge122, ge128, ge127, ge129,
+        ge130, ge131, ge132, ge134, ge133, ge135, ge136,
+        ge146, ge145, ge147, ge148,
+        ge154, ge153, ge155, ge156, ge157,
+        ge168, ge167, ge169,
+        ge170, ge171, ge181,
+        ge180, ge182, ge183, ge184, ge191,
+        ge190, ge192, ge193, ge194, ge195, ge197, ge196, ge198, ge199,
+        ge212, ge211, ge213, ge214, ge215,
+        ge226, ge225, ge227, ge228, ge229,
+        ge240, ge239, ge241, ge242, ge243, ge244,
+        ge250, ge249, ge251, ge252, ge253, ge255, ge254, ge256, ge257, ge258,
+        ge260, ge259, ge261, ge262, ge263, ge269, ge268,
+        ge270, ge271, ge272, ge273, ge279, ge278,
+        ge280, ge281, ge282, ge284, ge283, ge285, ge286, ge288, ge287, ge289,
+        ge290,
+        ge306, ge305, ge307, ge308, ge309,
+        ge316, ge315, ge317, ge318,
+        ge320, ge319, ge321, ge322, ge323, ge325, ge324, ge326, ge327, ge328, ge329, ge331,
+        ge330, ge332, ge333, ge334, ge336, ge335, ge337, ge338, ge339, ge341,
+        ge340, ge342, ge343, ge344,
+        ge356, ge355, ge357, ge358,
+        ge360, ge359, ge361, ge362, ge363, ge365, ge364, ge366, ge367, ge368,
+        ge375, ge374, ge376, ge377, ge378,
+        ge385, ge384, ge386, ge387, ge389, ge388,
+        ge390, ge391, ge392, ge393, ge399, ge398,
+        ge400, ge401, ge402, ge404, ge403, ge405, ge406, ge407, ge409, ge408,
+        ge410, ge411, ge412, ge413, ge415, ge414, ge416, ge417, ge418, ge419,
+        ge420, ge422, ge421, ge423, ge424, ge425, ge427, ge426, ge428, ge429,
+        ge430, ge431, ge433, ge432, ge434, ge435, ge436, ge438, ge437, ge439,
+        ge440, ge441, ge442, ge444, ge443, ge445, ge446, ge447, ge448,
+        ge454, ge453, ge455, ge456, ge457,
+        ge464, ge463, ge465, ge466, ge468, ge467, ge469,
+        ge470, ge476, ge475, ge477, ge478, ge479, ge481,
+        ge480, ge482, ge483, ge484, ge486, ge485, ge487, ge488, ge489, ge491,
+        ge490, ge492, ge493, ge494, ge496, ge495, ge497, ge498, ge499, ge501,
+        ge500, ge502, ge503, ge504, ge506, ge505, ge507, ge508, ge509, ge511,
+        ge510, ge512, ge513, ge514, ge515, ge517, ge516, ge518, ge519, ge521,
+        ge520, ge522, ge523, ge524, ge526, ge525, ge527, ge528, ge529,
+        ge530, ge532, ge531, ge533, ge534, ge535, ge536, ge538, ge537, ge539,
+        ge540, ge542, ge541, ge543, ge544, ge545, ge547, ge546, ge548, ge549,
+        ge550, ge551, ge553, ge552, ge554, ge555, ge557, ge556, ge558, ge559,
+        ge560, ge562, ge561, ge563, ge564, ge566, ge565, ge567, ge568, ge569, ge571,
+        ge570, ge572, ge573, ge574, ge576, ge575, ge577, ge578, ge579, ge581,
+        ge580, ge582, ge583, ge584, ge586, ge585, ge587, ge588, ge589, ge591,
+        ge590, ge592, ge593, ge594, ge596, ge595, ge597, ge598, ge599, ge601,
+        ge600, ge602, ge603, ge604, ge606, ge605, ge607, ge608, ge609, ge611,
+        ge610, ge612, ge613, ge614, ge616, ge615, ge617, ge618, ge619,
+        ge620, ge622, ge621, ge623, ge624, ge625, ge627, ge626, ge628, ge629,
+        ge630, ge632, ge631, ge633, ge634, ge636, ge635, ge637, ge638,
+        ge640, ge639, ge641, ge642, ge644, ge643, ge645, ge646, ge647, ge649, ge648,
+        ge650, ge651, ge652, ge653, ge655, ge654, ge656, ge657, ge658,
+        ge660, ge659, ge661, ge662, ge664, ge663, ge665, ge666, ge667, ge669, ge668,
+        ge670, ge671, ge672, ge674, ge673, ge675, ge676, ge678, ge677, ge679,
+        ge680, ge681, ge683, ge682, ge684, ge685, ge686, ge687, ge689, ge688,
+        ge690, ge691, ge693, ge692, ge694, ge695, ge696, ge698, ge697, ge699,
+        ge700, ge702, ge701, ge703, ge704, ge706, ge705, ge707, ge708,
+        ge710, ge709, ge711, ge712, ge713, ge715, ge714, ge716, ge717, ge719, ge718,
+        ge720, ge721, ge722, ge724, ge723, ge725, ge726, ge727, ge728,
+        ge730, ge729, ge731, ge732, ge739, ge738,
+        ge740, ge741, ge742, ge744, ge743, ge745, ge746, ge748, ge747, ge749,
+        ge750, ge751, ge753, ge752, ge754, ge755, ge757, ge756, ge758, ge759,
+        ge760, ge762, ge761, ge763, ge764, ge765, ge767, ge766, ge768, ge769, ge771,
+        ge770, ge772, ge773, ge774, ge776, ge775, ge777, ge778, ge779,
+        ge780, ge782, ge781, ge783, ge784, ge786, ge785, ge787, ge788, ge789,
+        ge790, ge792, ge791, ge793, ge794, ge796, ge795, ge797, ge798, ge799, ge801,
+        ge800, ge802, ge803, ge804, ge806, ge805, ge807, ge808, ge809, ge811,
+        ge810, ge812, ge813, ge814, ge816, ge815, ge817, ge818, ge819,
+        ge820, ge822, ge821, ge823, ge824, ge825, ge827, ge826, ge828, ge829,
+        ge830, ge832, ge831, ge833, ge834, ge835, ge837, ge836, ge838, ge839,
+        ge840, ge842, ge841, ge843, ge844, ge845, ge847, ge846, ge848, ge849,
+        ge850, ge851, ge853, ge852, ge854, ge855, ge856, ge858, ge857, ge859,
+        ge860, ge861, ge863, ge862, ge864, ge865, ge866, ge868, ge867, ge869,
+        ge870, ge871, ge873, ge872, ge874, ge875, ge876, ge878, ge877, ge879,
+        ge880, ge881, ge883, ge882, ge884, ge885, ge886, ge887, ge889, ge888,
+        ge890, ge891, ge892, ge894, ge893, ge895, ge896, ge897, ge899, ge898,
+        ge900, ge901, ge903, ge902, ge904, ge905, ge906, ge908, ge907, ge909,
+        ge910, ge911, ge913, ge912, ge914, ge915, ge916, ge918, ge917, ge919,
+        ge920, ge921, ge923, ge922, ge924, ge925, ge926, ge928, ge927, ge929,
+        ge930, ge931, ge932, ge934, ge933, ge935, ge936, ge938, ge937, ge939,
+        ge940, ge941, ge943, ge942, ge944, ge945, ge946, ge947, ge949, ge948,
+        ge950, ge951, ge952, ge954, ge953, ge955, ge956, ge957, ge959, ge958,
+        ge960, ge961, ge962, ge964, ge963, ge965, ge966, ge968, ge967, ge969,
+        ge970, ge971, ge973, ge972, ge974, ge975, ge976, ge978, ge977, ge979,
+        ge980, ge981, ge983, ge982, ge984, ge985, ge986, ge987, ge989, ge988,
+        ge990, ge991, ge992, ge994, ge993, ge995, ge996, ge997, ge999, ge998,
+        ge1000, ge1001, ge1002, ge1004, ge1003, ge1005, ge1006, ge1007, ge1009, ge1008,
+        ge1010, ge1011, ge1013, ge1012, ge1014, ge1015, ge1016, ge1018, ge1017, ge1019,
+        ge1020, ge1021, ge1022, ge1024, ge1023, ge1025, ge1026, ge1028, ge1027, ge1029,
+        ge1030, ge1031, ge1032, ge1034, ge1033, ge1035, ge1036, ge1037, ge1039, ge1038,
+        ge1040, ge1041, ge1042, ge1044, ge1043, ge1045, ge1046, ge1047, ge1048,
+        ge1050, ge1049, ge1051, ge1052, ge1053, ge1054, ge1056, ge1055, ge1057, ge1058, ge1059,
+        ge1060, ge1062, ge1061, ge1063, ge1064, ge1065, ge1067, ge1066, ge1068, ge1069, ge1071,
+        ge1070, ge1072, ge1073, ge1075, ge1074, ge1076, ge1077, ge1079, ge1078,
+        ge1080, ge1081, ge1082, ge1084, ge1083, ge1085, ge1086, ge1088, ge1087, ge1089,
+        ge1090, ge1091, ge1093, ge1092, ge1094, ge1095, ge1096, ge1098, ge1097, ge1099,
+        ge1100, ge1102, ge1101, ge1103, ge1104, ge1105, ge1107, ge1106, ge1108, ge1109,
+        ge1110, ge1112, ge1111, ge1113, ge1114, ge1116, ge1115, ge1117, ge1118,
+        ge1120, ge1119, ge1121, ge1122, ge1124, ge1123, ge1125, ge1126, ge1127, ge1128,
+        ge1130, ge1129, ge1131, ge1132, ge1133, ge1134, ge1136, ge1135, ge1137, ge1138,
+        ge1140, ge1139, ge1141, ge1142, ge1144, ge1143, ge1145, ge1146, ge1147, ge1149, ge1148,
+        ge1150, ge1151, ge1153, ge1152, ge1154, ge1155, ge1157, ge1156, ge1158, ge1159,
+        ge1160, ge1162, ge1161, ge1163, ge1164, ge1166, ge1165, ge1167, ge1168,
+        ge1170, ge1169, ge1171, ge1172, ge1173, ge1175, ge1174, ge1176, ge1177, ge1179, ge1178,
+        ge1180, ge1181, ge1182, ge1184, ge1183, ge1185, ge1186, ge1188, ge1187, ge1189,
+        ge1190, ge1192, ge1191, ge1193, ge1194, ge1195, ge1197, ge1196, ge1198, ge1199, ge1201,
+        ge1200, ge1202, ge1203, ge1204, ge1206, ge1205, ge1207, ge1208, ge1209,
+        ge1210, ge1212, ge1211, ge1213, ge1214, ge1215, ge1217, ge1216, ge1218, ge1219, ge1221,
+        ge1220, ge1222, ge1223, ge1224, ge1226, ge1225, ge1227, ge1228,
+        ge1230, ge1229, ge1231, ge1232, ge1234, ge1233, ge1235, ge1236, ge1237, ge1239, ge1238,
+        ge1240, ge1241, ge1242, ge1244, ge1243, ge1245, ge1246, ge1247, ge1249, ge1248,
+        ge1250, ge1251, ge1253, ge1252, ge1254, ge1255, ge1257, ge1256, ge1258, ge1259, ge1261,
+        ge1260, ge1262, ge1263, ge1265, ge1264, ge1266, ge1267, ge1269, ge1268,
+        ge1270, ge1271, ge1273, ge1272, ge1274, ge1275, ge1277, ge1276, ge1278, ge1279, ge1281,
+        ge1280, ge1282, ge1283, ge1284, ge1285, ge1287, ge1286, ge1288, ge1289,
+        ge1296, ge1295, ge1297, ge1298,
+        ge1300, ge1299, ge1301, ge1302, ge1304, ge1303, ge1305, ge1306, ge1308, ge1307, ge1309,
+        ge1310, ge1312, ge1311, ge1313, ge1314,
+    ]
 
 
     e20000 = Edge(n276, n272, num=20000)
@@ -3289,7 +3419,7 @@ if __name__ == "__main__":
         if not ge.is_geometrical:
             _log.critical("geometric edge %s: %s", ge, ge.is_geometrical)
 
-    raise SystemExit(0)
+    # raise SystemExit(0)
 
     # for v in volumes:
     #     v.category1 = 'inner'
@@ -3323,7 +3453,7 @@ if __name__ == "__main__":
                             v.category1 = "border"
     for v in volumes:
         if v.category1 == "undefined":
-            v.category1 == "inner"
+            v.category1 = "inner"
 
     pc = PrimalComplex3D(nodes, edges, faces, volumes, renumber=False)
 
@@ -3374,19 +3504,24 @@ if __name__ == "__main__":
 
 
 
-    # dc.useCategory = 2
+    dc.useCategory = 2
 
-    # for f in dc.borderFaces:
-    #     f.color = tc.TUMRose()
 
-    if False:
+
+    if True:
+        for f in dc.borderFaces:
+            f.color = tc.TUMRose()
+
+        for f in dc.additionalBorderFaces:
+            f.color = tc.TUMLightBlue()
+
         plotly_nodes_dual = NodePlotly(dc.nodes)
         plotly_edges_dual = EdgePlotly(dc.edges)
         plotly_faces_dual = FacePlotly(dc.faces)
 
         plotly_fig_dual = plotly_edges_dual.plot_edges_plotly(show_label=False, show_direction=True, show_barycenter=False, cone_size=0.05)
         plotly_nodes_dual.plot_nodes_plotly(fig=plotly_fig_dual, show_label=False)
-        plotly_faces_dual.plot_faces_plotly(fig=plotly_fig_dual, show_label=False, show_normal_vec=False, show_barycenter=True, opacity=0.5)
+        plotly_faces_dual.plot_faces_plotly(fig=plotly_fig_dual, show_label=False, show_normal_vec=False, show_barycenter=True, opacity=1)
         # plotly_faces_new.plot_faces_plotly(fig=plotly_fig_dual)
 
 
@@ -3522,7 +3657,7 @@ if __name__ == "__main__":
         _log.critical("Edges: %s", dual_face.edges)
 
 
-    if True:
+    if False:
 
         plotly_edges_primal = EdgePlotly(pc.edges)
         plotly_fig = plotly_edges_primal.plot_edges_plotly(show_label=False, show_direction=False, show_barycenter=False)
@@ -3541,3 +3676,6 @@ if __name__ == "__main__":
         plotly_volumes_dual.plot_volumes_plotly(fig=plotly_fig, show_label=False, show_normal_vec=False, show_barycenter=True, opacity=0.5)
 
         plotly_fig.show()
+
+
+    pass
