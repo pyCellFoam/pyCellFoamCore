@@ -170,9 +170,19 @@ class BaseCellPlotly:
 
         plotly_figure.update_layout(
             scene={
-                "xaxis_title": "X Axis",
-                "yaxis_title": "Y Axis",
-                "zaxis_title": "Z Axis",
+                # "xaxis_title": "X",
+                "xaxis_title": {
+                    "text": "X",
+                    "font": {"size": 30, "color": "black"},
+                },
+                "yaxis_title": {
+                    "text": "Y",
+                    "font": {"size": 30, "color": "black"},
+                },
+                "zaxis_title": {
+                    "text": "Z",
+                    "font": {"size": 30, "color": "black"},
+                },
                 "camera": {
                     "up": {"x": -0.234, "y": 0.908, "z": -0.344},
                     "center": {"x": 0, "y": 0, "z": 0},
@@ -185,7 +195,13 @@ class BaseCellPlotly:
             },
             scene_camera_projection={"type": "perspective"},
             paper_bgcolor='white',
-            plot_bgcolor='white'
+            plot_bgcolor='white',
+            xaxis={
+                "title": {
+                    "text": "X Axis",
+                    "font": {"size": 12, "color": "black"},
+                },
+            },
         )
 
         if show_axes is not None:

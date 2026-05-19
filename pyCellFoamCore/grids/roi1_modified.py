@@ -3476,11 +3476,11 @@ if __name__ == "__main__":
 
     # faces = faces_new
 
-    if False:
+    if True:
 
         plotly_nodes = NodePlotly(nodes)
         plotly_edges = EdgePlotly(edges)
-        plotly_faces = FacePlotly(faces)
+        # plotly_faces = FacePlotly(faces)
         # plotly_faces_new = FacePlotly(faces_new)
 
 
@@ -3488,15 +3488,16 @@ if __name__ == "__main__":
 
 
 
-        plotly_fig = plotly_edges.plot_edges_plotly(show_label=False, show_direction=True, show_barycenter=False, cone_size=0.1)
-        plotly_nodes.plot_nodes_plotly(fig=plotly_fig, show_label=False, marker_size=10)
-        plotly_faces.plot_faces_plotly(fig=plotly_fig, show_label=False, show_normal_vec=False, show_barycenter=True, opacity=0.5)
+        plotly_fig = plotly_edges.plot_edges_plotly(show_label=False, show_direction=False, show_barycenter=False, cone_size=1)
+        plotly_nodes.plot_nodes_plotly(fig=plotly_fig, show_label=False, marker_size=5)
+        # plotly_faces.plot_faces_plotly(fig=plotly_fig, show_label=False, show_normal_vec=False, show_barycenter=True, opacity=0.5)
 
 
 
         plotly_fig.show()
 
     # raise SystemExit(0)
+
 
 
 
@@ -3512,16 +3513,16 @@ if __name__ == "__main__":
         for f in dc.borderFaces:
             f.color = tc.TUMRose()
 
-        for f in dc.additionalBorderFaces:
-            f.color = tc.TUMLightBlue()
+        # for f in dc.additionalBorderFaces:
+        #     f.color = tc.TUMLightBlue()
 
-        plotly_nodes_dual = NodePlotly(dc.nodes)
+        # plotly_nodes_dual = NodePlotly(dc.nodes)
         plotly_edges_dual = EdgePlotly(dc.edges)
         plotly_faces_dual = FacePlotly(dc.faces)
 
-        plotly_fig_dual = plotly_edges_dual.plot_edges_plotly(show_label=False, show_direction=True, show_barycenter=False, cone_size=0.05)
-        plotly_nodes_dual.plot_nodes_plotly(fig=plotly_fig_dual, show_label=False)
-        plotly_faces_dual.plot_faces_plotly(fig=plotly_fig_dual, show_label=False, show_normal_vec=False, show_barycenter=True, opacity=1)
+        plotly_fig_dual = plotly_edges_dual.plot_edges_plotly(show_label=False, show_direction=False, show_barycenter=False, cone_size=1)
+        # plotly_nodes_dual.plot_nodes_plotly(fig=plotly_fig_dual, show_label=False)
+        plotly_faces_dual.plot_faces_plotly(fig=plotly_fig_dual, show_label=False, show_normal_vec=False, show_barycenter=False, opacity=1)
         # plotly_faces_new.plot_faces_plotly(fig=plotly_fig_dual)
 
 
