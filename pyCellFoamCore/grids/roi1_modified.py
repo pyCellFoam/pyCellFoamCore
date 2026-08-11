@@ -3478,7 +3478,10 @@ if __name__ == "__main__":
 
     if True:
 
-        plotly_nodes = NodePlotly(nodes)
+        selected_nodes = [pc.innerNodes[i] for i in [120, 131, 142, 154, 160]]
+        for (n, color) in zip(selected_nodes, [tc.TUMBlue(), tc.TUMGreen(), tc.TUMOrange(), tc.TUMGray(), tc.TUMDarkBlue()]):
+            n.color = color
+        plotly_nodes = NodePlotly([pc.innerNodes[i] for i in [120, 131, 142, 154, 160]])
         plotly_edges = EdgePlotly(edges)
         # plotly_faces = FacePlotly(faces)
         # plotly_faces_new = FacePlotly(faces_new)
@@ -3489,14 +3492,14 @@ if __name__ == "__main__":
 
 
         plotly_fig = plotly_edges.plot_edges_plotly(show_label=False, show_direction=False, show_barycenter=False, cone_size=1)
-        plotly_nodes.plot_nodes_plotly(fig=plotly_fig, show_label=False, marker_size=5)
+        plotly_nodes.plot_nodes_plotly(fig=plotly_fig, show_label=False, marker_size=50)
         # plotly_faces.plot_faces_plotly(fig=plotly_fig, show_label=False, show_normal_vec=False, show_barycenter=True, opacity=0.5)
 
 
 
         plotly_fig.show()
 
-    # raise SystemExit(0)
+    raise SystemExit(0)
 
 
 
@@ -3509,7 +3512,7 @@ if __name__ == "__main__":
 
 
 
-    if True:
+    if False:
         for f in dc.borderFaces:
             f.color = tc.TUMRose()
 
