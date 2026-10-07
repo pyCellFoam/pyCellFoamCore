@@ -3,10 +3,12 @@
 class SuperBaseCell:
     __slots__ = (
         "__slot_super_base_cell",
+        "__my_reverse",
     )
 
-    def __init__(self, slot_super_base_cell=None):
+    def __init__(self, slot_super_base_cell=None, my_reverse=None):
         self.__slot_super_base_cell = slot_super_base_cell
+        self.__my_reverse = my_reverse
 
     def __get_slot_super_base_cell(self):
         return self.__slot_super_base_cell
@@ -17,6 +19,17 @@ class SuperBaseCell:
     slot_super_base_cell = property(
         __get_slot_super_base_cell,
         __set_slot_super_base_cell,
+    )
+
+    def __get_my_reverse(self):
+        return self.__my_reverse
+
+    def __set_my_reverse(self, value):
+        self.__my_reverse = value
+
+    my_reverse = property(
+        __get_my_reverse,
+        __set_my_reverse,
     )
 
 
@@ -127,7 +140,11 @@ class Edge(BaseEdge, Cell):
 
     def __init__(self, slot_edge, *args, **kwargs):
         self.__slot_edge = slot_edge
-        super().__init__(*args, **kwargs)
+        super().__init__(
+            *args,
+            my_reverse=ReversedEdge(my_reverse=self),
+            **kwargs,
+        )
 
     def __get_slot_edge(self):
         return self.__slot_edge
@@ -147,6 +164,17 @@ class ReversedEdge(BaseEdge, ReversedCell):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+
+    def __get_slot_edge(self):
+        return self.my_reverse.slot_edge
+
+    def __set_slot_edge(self, value):
+        self.my_reverse.slot_edge = value
+
+    slot_edge = property(
+        __get_slot_edge,
+        __set_slot_edge,
+    )
 
 
 class DualEdge1D(Edge, DualCell):
@@ -222,4 +250,24 @@ de = DualEdge3D(slot_edge="edge_slot",
                 slot_super_cell="super_cell_slot",
                 slot_super_base_cell="super_base_cell_slot")
 
+
 print("DualEdge3D:", de.slot_super_base_cell)
+print("DualEdge3D slot_edge:", de.slot_edge)
+
+e = Edge(slot_edge="edge_slot",
+         slot_cell="cell_slot",
+         slot_super_cell="super_cell_slot",
+         slot_super_base_cell="super_base_cell_slot")
+
+print("Edge:", e.slot_super_base_cell)
+print("Edge slot_edge:", e.slot_edge)
+
+re = e.my_reverse
+print("ReversedEdge:", re.slot_super_base_cell)
+print("ReversedEdge slot_edge:", re.slot_edge)
+
+try:
+    re.test = 5
+    print("ReversedEdge test attribute:", re.test)
+except AttributeError as e:
+    print("Caught AttributeError as expected:", e)
