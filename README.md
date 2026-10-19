@@ -38,7 +38,9 @@ Sphinx and this library need to be added to the environment variables:
 
 # Related Publications
 
-# UML
+# Slots
+
+## UML
 
 ```mermaid
 classDiagram
@@ -62,23 +64,23 @@ classDiagram
     }
 
     class ReversedCell{
-    
+
     }
 
     class DualCell{
-    
+
     }
 
     class BaseSimpleCell{
-    
+
     }
 
     class SimpleCell{
-    
+
     }
 
     class ReversedSimpleCell{
-    
+
     }
 
     class Node{
@@ -86,23 +88,23 @@ classDiagram
     }
 
     class DualNode0D{
-    
+
     }
 
     class DualNode1D{
-    
+
     }
 
     class DualNode2D{
-    
+
     }
 
     class DualNode3D{
-    
+
     }
 
     class BaseEdge{
-    
+
     }
 
     class Edge{
@@ -110,40 +112,40 @@ classDiagram
     }
 
     class ReversedEdge{
-    
+
     }
 
     class DualEdge1D{
-    
+
     }
 
     class DualEdge2D{
-    
+
     }
 
     class DualEdge3D{
-    
+
     }
 
     class BaseSimpleEdge{
-    
-    }    
-    
+
+    }
+
     class SimpleEdge{
-    
+
     }
 
     class ReversedSimpleEdge{
-        
+
     }
-    
+
 
     SuperBaseCell <|-- SuperCell
     SuperBaseCell <|-- BaseCell
     SuperBaseCell <|-- SuperReversedCell
     SuperBaseCell <|-- BaseSimpleCell
     BaseCell <|-- Cell
-    BaseCell <|-- ReversedCell 
+    BaseCell <|-- ReversedCell
     BaseCell <|-- BaseEdge
     SuperCell <|-- Cell
     SuperCell <|-- SimpleCell
@@ -176,12 +178,84 @@ classDiagram
     Edge <|-- DualEdge3D
     BaseSimpleEdge <|-- SimpleEdge
     BaseSimpleEdge <|-- ReversedSimpleEdge
-    
-
 ```
 
-```mermaid
-classDiagram
-    class Animal:::someclass
-    classDef someclass fill:#f96
-```
+## Todos
+
+### Cell
+
+- [ ] SuperBaseCell
+
+- [ ] SuperCell
+
+- [ ] SuperReversedCell
+
+- [ ] BaseCell
+
+- [ ] Cell
+
+- [ ] ReversedCell
+
+- [ ] BaseSimpleCell
+
+- [ ] SimpleCell
+
+- [ ] ReversedSimpleCell
+
+- [ ] DualCell
+
+### Node
+
+- [ ] Node
+
+- [ ] DualNode0D
+
+- [ ] DualNode1D
+
+- [ ] DualNode2D
+
+- [ ] DualNode3D
+
+### Edge
+
+- [ ] BaseEdge
+
+- [ ] Edge
+
+- [ ] ReversedEdge
+
+- [ ] BaseSimpleEdge
+
+- [ ] SimpleEdge
+
+- [ ] ReversedSimpleEdge
+
+- [ ] DualEdge1D
+
+- [ ] DualEdge2D
+
+- [ ] DualEdge3D
+
+### Face
+
+- [ ] BaseFace
+
+- [ ] Face
+
+- [ ] ReversedFace
+
+- [ ] BaseSimpleFace
+
+- [ ] SimpleFace
+
+- [ ] ReversedSimpleFace
+
+- [ ] DualFace2D
+
+- [ ] DualFace3D
+
+### Volume
+
+- [ ] Volume
+
+- [ ] DualVolume3D
