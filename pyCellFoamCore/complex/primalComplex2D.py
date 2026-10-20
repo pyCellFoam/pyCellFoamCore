@@ -17,17 +17,9 @@
 #    IMPORTS
 #==============================================================================
 #-------------------------------------------------------------------------
-#    Change to Main Directory
-#-------------------------------------------------------------------------
-import os
-if __name__ == '__main__':
-    os.chdir('../')
-
-
-#-------------------------------------------------------------------------
 #    Standard Libraries
 #-------------------------------------------------------------------------
-
+import logging
 
 #-------------------------------------------------------------------------
 #    Local Libraries
@@ -36,18 +28,22 @@ if __name__ == '__main__':
 
 #    kCells
 #--------------------------------------------------------------------
-from k_cells import Node, Edge, Face
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.face.face import Face
 
 
 #    Complex & Grids
 #--------------------------------------------------------------------
-from complex.complex2D import Complex2D
+from pyCellFoamCore.complex.complex2D import Complex2D
 
 
 #    Tools
 #--------------------------------------------------------------------
-import tools.colorConsole as cc
+import pyCellFoamCore.tools.colorConsole as cc
 
+
+_log = logging.getLogger(__name__)
 
 #==============================================================================
 #    CLASS DEFINITION
@@ -127,7 +123,7 @@ class PrimalComplex2D(Complex2D):
                 for c in self.__dualComplex.nodes+self.__dualComplex.edges+self.__dualComplex.faces:
                     c.useCategory = u
         else:
-            self.logger.error('Cannot set useCategory of to {} - It must be either 1 or 2'.format(u))
+            _log.error('Cannot set useCategory of to {} - It must be either 1 or 2'.format(u))
     useCategory = property(__getUseCategory,__setUseCategory)
     '''
 
@@ -146,7 +142,7 @@ class PrimalComplex2D(Complex2D):
         if self.__dualComplex is None:
             self.__dualComplex = d
         else:
-            self.logger.error('Dual complex is already set')
+            _log.error('Dual complex is already set')
     dualComplex = property(__getDualComplex,__setDualComplex)
     '''
 
@@ -183,20 +179,20 @@ class PrimalComplex2D(Complex2D):
         for e in self.edges:
             if e.category1 == 'undefined':
                 if len(e.faces) == 0:
-                    self.logger.warning('Edge {} does not belong to a face'.format(e))
+                    _log.warning('Edge {} does not belong to a face'.format(e))
                 elif len(e.faces) == 1:
                     if e.faces[0].category1 == 'inner':
                         e.category1 = 'border'
                     elif e.faces[0].category1 == 'border':
                         e.category1 = 'additionalBorder'
                     else:
-                        self.logger.error('Unknown category1 {} of face {}'.format(e.faces[0].category1,e.faces[0]))
+                        _log.error('Unknown category1 {} of face {}'.format(e.faces[0].category1,e.faces[0]))
                 elif len(e.faces) == 2:
                     e.category1 = 'inner'
                 else:
-                    self.logger.error('Edge {} has {} faces, this is too much'.format(e,len(e.faces)))
+                    _log.error('Edge {} has {} faces, this is too much'.format(e,len(e.faces)))
             else:
-                self.logger.error('Edge {} was already categorized'.format(e))
+                _log.error('Edge {} was already categorized'.format(e))
 
 
         # Categorize nodes
@@ -224,7 +220,7 @@ class PrimalComplex2D(Complex2D):
                         n.category1 = 'additionalBorder'
 
                 else:
-                    self.logger.error('Node {} was already categorized'.format(n))
+                    _log.error('Node {} was already categorized'.format(n))
 
 
 
@@ -249,14 +245,14 @@ class PrimalComplex2D(Complex2D):
         for e in self.edges:
             if e.category2 == 'undefined':
                 if len(e.faces) == 0:
-                    self.logger.warning('Edge {} does not belong to a face'.format(e))
+                    _log.warning('Edge {} does not belong to a face'.format(e))
                 elif len(e.faces) == 1:
                     if e.faces[0].category2 == 'inner':
                         e.category2 = 'inner'
                     elif e.faces[0].category2 == 'border':
                         e.category2 = 'additionalBorder'
                     else:
-                        self.logger.error('Unknown category2 {} of face {}'.format(e.faces[0].category2,e.faces[0]))
+                        _log.error('Unknown category2 {} of face {}'.format(e.faces[0].category2,e.faces[0]))
                 elif len(e.faces) == 2:
                     if e.faces[0].category2 == 'inner' or e.faces[1].category2 == 'inner':
                         e.category2 = 'inner'
@@ -265,13 +261,13 @@ class PrimalComplex2D(Complex2D):
                     else:
                         for f in e.faces:
                             if f.category2 not in ['inner','border']:
-                                self.logger.error('Unknown category2 {} of face {}'.format(f.category2,f))
+                                _log.error('Unknown category2 {} of face {}'.format(f.category2,f))
 
 
                 else:
-                    self.logger.error('Edge {} has {} faces, this is too much'.format(e,len(e.faces)))
+                    _log.error('Edge {} has {} faces, this is too much'.format(e,len(e.faces)))
             else:
-                self.logger.error('Edge {} was already categorized'.format(e))
+                _log.error('Edge {} was already categorized'.format(e))
 
 
 
@@ -305,7 +301,7 @@ class PrimalComplex2D(Complex2D):
                     else:
                         n.category2 = 'inner'
                 else:
-                    self.logger.error('Node {} was already categorized'.format(n))
+                    _log.error('Node {} was already categorized'.format(n))
 
 
 
@@ -316,11 +312,11 @@ class PrimalComplex2D(Complex2D):
 
         '''
         if myPrintDebug == None:
-            myPrintDebug = self.logger.debug
+            myPrintDebug = _log.debug
         if myPrintError == None:
-            myPrintError = self.logger.error
+            myPrintError = _log.error
         if myPrintInfo == None:
-            myPrintInfo = self.logger.info
+            myPrintInfo = _log.info
 
         for f in self.borderFaces1:
             myPrintDebug('Checking  border face {}'.format(f))
@@ -406,7 +402,7 @@ class PrimalComplex2D(Complex2D):
             self.__changedNumbering = False
 
         else:
-            self.logger.error('Unknown useCategory {}'.format(self.useCategory))
+            _log.error('Unknown useCategory {}'.format(self.useCategory))
 
 
 

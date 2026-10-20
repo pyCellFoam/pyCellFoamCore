@@ -15,17 +15,25 @@
 #==============================================================================
 #    IMPORTS
 #==============================================================================
-import os
-if __name__ == '__main__':
-    os.chdir('../')
+import logging
 
-from k_cells import Node, DualNode2D, DualNode1D
-from k_cells import Edge, DualEdge2D, DualEdge1D
-from k_cells import Face, DualFace2D
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.node.dualNode2D import DualNode2D
+from pyCellFoamCore.k_cells.node.dualNode1D import DualNode1D
 
-from complex.primalComplex2D import PrimalComplex2D
-from complex.complex2D import Complex2D
-import tools.colorConsole as cc
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.edge.dualEdge2D import DualEdge2D
+from pyCellFoamCore.k_cells.edge.dualEdge1D import DualEdge1D
+
+from pyCellFoamCore.k_cells.face.face import Face
+from pyCellFoamCore.k_cells.face.dualFace2D import DualFace2D
+
+from pyCellFoamCore.complex.primalComplex2D import PrimalComplex2D
+from pyCellFoamCore.complex.complex2D import Complex2D
+import pyCellFoamCore.tools.colorConsole as cc
+
+
+_log = logging.getLogger(__name__)
 #==============================================================================
 #    CLASS DEFINITION
 #==============================================================================
@@ -74,13 +82,13 @@ class DualComplex2D(Complex2D):
         if self.primalComplex:
             return self.primalComplex.useCategory
         else:
-            self.logger.error('Cannot get useCategory: no primalComplex defined')
+            _log.error('Cannot get useCategory: no primalComplex defined')
             return None
     def __setUseCategory(self,u):
         if self.primalComplex:
             self.primalComplex.useCategory = u
         else:
-            self.logger.error('Cannot set useCategory: no primalComplex defined')
+            _log.error('Cannot set useCategory: no primalComplex defined')
     useCategory = property(__getUseCategory,__setUseCategory)
     '''
 
@@ -90,7 +98,7 @@ class DualComplex2D(Complex2D):
         if self.primalComplex:
             return self.primalComplex.changedNumbering
         else:
-            self.logger.error('Cannot get changedNumbering: no primalComplex defined')
+            _log.error('Cannot get changedNumbering: no primalComplex defined')
             return False
     changedNumbering = property(__getChangedNumbering)
     '''
@@ -112,7 +120,7 @@ class DualComplex2D(Complex2D):
         '''
 
         '''
-        self.logger.info('Called "Set Up" in DualComplex2D class')
+        _log.info('Called "Set Up" in DualComplex2D class')
         self.__construct()
         self.sortPrimal()
         self.sortDual()
@@ -144,7 +152,7 @@ class DualComplex2D(Complex2D):
             for e in self.__primalComplex.borderEdges1:
                 dualNodes.append(DualNode1D(e))
         else:
-            self.logger.warning('Creation of nodes has been disabled')
+            _log.warning('Creation of nodes has been disabled')
 
 
         # Dual edges
@@ -154,7 +162,7 @@ class DualComplex2D(Complex2D):
             for n in self.__primalComplex.borderNodes1:
                 dualEdges.append(DualEdge1D(n))
         else:
-            self.logger.warning('Creation of edges has been disabled')
+            _log.warning('Creation of edges has been disabled')
 
 
         # Dual faces
@@ -162,7 +170,7 @@ class DualComplex2D(Complex2D):
             for n in self.__primalComplex.innerNodes1 +  self.__primalComplex.borderNodes1:
                 dualFaces.append(DualFace2D(n))
         else:
-            self.logger.warning('Creation of faces has been disabled')
+            _log.warning('Creation of faces has been disabled')
 
         self.nodes = dualNodes
         self.edges = dualEdges
@@ -180,7 +188,7 @@ class DualComplex2D(Complex2D):
         if self.primalComplex:
             self.primalComplex.renumber()
         else:
-            self.logger.error('Cannot renumber: no primalComplex defined')
+            _log.error('Cannot renumber: no primalComplex defined')
 
 
 
@@ -250,9 +258,9 @@ class DualComplex2D(Complex2D):
 #    TEST FUNCTIONS
 #==============================================================================
 if __name__ == '__main__':
-    import tools.placeFigures as pf
+    import pyCellFoamCore.tools.placeFigures as pf
 
-    from tools.myLogging import MyLogging
+    from pyCellFoamCore.tools.myLogging import MyLogging
 
     with MyLogging('DualComplex2D',debug=False):
 

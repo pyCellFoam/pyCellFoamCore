@@ -16,15 +16,16 @@
 #-------------------------------------------------------------------------
 #    Change to Main Directory
 #-------------------------------------------------------------------------
-import os
-if __name__ == '__main__':
-    os.chdir('../')
-
 #-------------------------------------------------------------------------
 #    Standard Libraries
 #-------------------------------------------------------------------------
-import numpy as np
 
+import logging
+
+#-------------------------------------------------------------------------
+#    Third Party Libraries
+#-------------------------------------------------------------------------
+import numpy as np
 
 #-------------------------------------------------------------------------
 #    Local Libraries
@@ -32,20 +33,25 @@ import numpy as np
 
 #    kCells
 #--------------------------------------------------------------------
-from k_cells import Node, Edge, Face
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.face.face import Face
 
 
 #    Complex & Grids
 #--------------------------------------------------------------------
-from complex.complex import Complex
+from pyCellFoamCore.complex.complex import Complex
 
 
 #    Tools
 #--------------------------------------------------------------------
-import tools.colorConsole as cc
-from tools.tikZPicture.tikZPicture2D import TikZPicture2D
-from tools.printTable import Table
+import pyCellFoamCore.tools.colorConsole as cc
+from pyCellFoamCore.tools.tikZPicture.tikZPicture2D import TikZPicture2D
+from pyCellFoamCore.tools.printTable import Table
 
+
+
+_log = logging.getLogger(__name__)
 
 #==============================================================================
 #    CLASS DEFINITION
@@ -127,7 +133,7 @@ class Complex2D(Complex):
         self.__yMax = None
         self.__changedLimits = True
 
-        super().__init__(loggerName)
+        super().__init__()
 
 
 
@@ -749,7 +755,7 @@ class Complex2D(Complex):
         '''
 
         '''
-        self.logger.info('Called "Set Up" in Complex2D class')
+        _log.info('Called "Set Up" in Complex2D class')
         self.updateComplex2D()
 
 
@@ -780,7 +786,7 @@ class Complex2D(Complex):
             elif f.category1 == 'border':
                 self.addToList(f,self.borderFaces1)
             else:
-                self.logger.error('Unknown category1 {} of face {}'.format(f.category1,f))
+                _log.error('Unknown category1 {} of face {}'.format(f.category1,f))
 
 
 
@@ -793,7 +799,7 @@ class Complex2D(Complex):
             elif e.category1 == 'additionalBorder':
                 self.addToList(e,self.additionalBorderEdges1)
             else:
-                self.logger.error('Unknown category1 {} of edge {}'.format(e.category1,e))
+                _log.error('Unknown category1 {} of edge {}'.format(e.category1,e))
 
 
 
@@ -821,7 +827,7 @@ class Complex2D(Complex):
             elif n.category1 == 'additionalBorder':
                 self.addToList(n,self.additionalBorderNodes1)
             else:
-                self.logger.error('Unknown category1 {} of node {}'.format(n.category1,n))
+                _log.error('Unknown category1 {} of node {}'.format(n.category1,n))
 
 
 #-------------------------------------------------------------------------
@@ -849,7 +855,7 @@ class Complex2D(Complex):
             elif f.category2 == 'border':
                 self.addToList(f,self.borderFaces2)
             else:
-                self.logger.error('Unknown category2 {} of face {}'.format(f.category2,f))
+                _log.error('Unknown category2 {} of face {}'.format(f.category2,f))
 
 
 
@@ -862,14 +868,14 @@ class Complex2D(Complex):
             elif e.category2 == 'additionalBorder':
                 self.addToList(e,self.additionalBorderEdges2)
             else:
-                self.logger.error('Unknown category2 {} of edge {}'.format(e.category2,e))
+                _log.error('Unknown category2 {} of edge {}'.format(e.category2,e))
 
 
 
         # Sort nodes
         for n in self.nodes:
             if n.is_geometrical:
-                self.logger.error('Geometrical nodes should not be in the list of nodes anymore')
+                _log.error('Geometrical nodes should not be in the list of nodes anymore')
 
         for n in self.nodes:
             if n.category2 == 'inner':
@@ -879,7 +885,7 @@ class Complex2D(Complex):
             elif n.category2 == 'additionalBorder':
                 self.addToList(n,self.additionalBorderNodes2)
             else:
-                self.logger.error('Unknown category2 {} of node {}'.format(n.category2,n))
+                _log.error('Unknown category2 {} of node {}'.format(n.category2,n))
 
 
 
@@ -893,7 +899,7 @@ class Complex2D(Complex):
         '''
 
         '''
-        self.logger.info('Calculating limits')
+        _log.info('Calculating limits')
         self.__xMax = self.myMax([n.xCoordinate for n in self.nodes])
         self.__yMax = self.myMax([n.yCoordinate for n in self.nodes])
         self.__xMin = self.myMin([n.xCoordinate for n in self.nodes])
@@ -964,7 +970,7 @@ class Complex2D(Complex):
 
 
         if tikZPicture.dim != 2:
-            self.logger.error('Trying to plot in a 3-dimensional tikZPicture, but a 1-D complex should be plotted in a 2D-picture')
+            _log.error('Trying to plot in a 3-dimensional tikZPicture, but a 1-D complex should be plotted in a 2D-picture')
         else:
 
             if plotNodes:
@@ -1080,8 +1086,8 @@ class Complex2D(Complex):
 #==============================================================================
 
 if __name__ == '__main__':
-    import tools.placeFigures as pf
-    from tools.myLogging import MyLogging
+    import pyCellFoamCore.tools.placeFigures as pf
+    from pyCellFoamCore.tools.myLogging import MyLogging
 
     with MyLogging('complex2D'):
 

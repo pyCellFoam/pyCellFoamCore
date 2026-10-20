@@ -51,6 +51,7 @@ if __name__ == '__main__':
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
+import logging
 import numpy as np
 
 # ------------------------------------------------------------------------
@@ -60,20 +61,24 @@ import numpy as np
 
 #    kCells
 # -------------------------------------------------------------------
-from k_cells.cell import DualCell
-from k_cells.node import Node, DualNode0D, DualNode1D
+from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.node.dualNode0D import DualNode0D
+from pyCellFoamCore.k_cells.node.dualNode1D import DualNode1D
 
 #    Complex & Grids
 # -------------------------------------------------------------------
-from k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.edge.edge import Edge
 
 #    Tools
 # -------------------------------------------------------------------
-import tools.colorConsole as cc
-import tools.placeFigures as pf
-from tools import MyLogging
-import tools.tumcolor as tc
+import pyCellFoamCore.tools.colorConsole as cc
+import pyCellFoamCore.tools.placeFigures as pf
+from pyCellFoamCore.tools.myLogging import MyLogging
+import pyCellFoamCore.tools.tumcolor as tc
 
+
+_log = logging.getLogger(__name__)
 
 # =============================================================================
 #    CLASS DEFINITION
@@ -114,10 +119,10 @@ class DualEdge1D(Edge, DualCell):
                          **kwargs)
 
         if myPrintDebug is None:
-            myPrintDebug = self.logger.debug
+            myPrintDebug = _log.debug
             # myPrintDebug = cc.printYellow
         if myPrintError is None:
-            myPrintError = self.logger.error
+            myPrintError = _log.error
             # myPrintError = cc.printRed
 
         error = True
@@ -136,7 +141,7 @@ class DualEdge1D(Edge, DualCell):
                 self.category1 = node.category1
                 error = False
             else:
-                self.logger.error('Can calcute the 1D dual of an inner node ' +
+                _log.error('Can calcute the 1D dual of an inner node ' +
                                   'only if it belongs to exactly 2 edges')
 
         elif node.category1 == 'border':
@@ -169,10 +174,10 @@ class DualEdge1D(Edge, DualCell):
                     self.category1 = 'additionalBorder'
                     self.category2 = 'additionalBorder'
                     if not edges[0].dualCell1D:
-                        self.logger.error('{} has no 1D '.format(edges[0]) +
+                        _log.error('{} has no 1D '.format(edges[0]) +
                                           'dual, but that is needed')
                     elif not edges[1].dualCell1D:
-                        self.logger.error('{} has no 1D '.format(edges[1]) +
+                        _log.error('{} has no 1D '.format(edges[1]) +
                                           'dual, but that is needed')
 
                     else:
@@ -199,7 +204,7 @@ class DualEdge1D(Edge, DualCell):
 
         if error:
             self.delete()
-            self.logger.error('An error occured during the creation process ' +
+            _log.error('An error occured during the creation process ' +
                               'of dual Edge --> deleting')
         else:
             self.dualCell1D = node

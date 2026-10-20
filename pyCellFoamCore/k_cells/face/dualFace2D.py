@@ -111,9 +111,7 @@ class DualFace2D(Face, DualCell):
             _log.debug('Creating 2D dual of inner node {}'
                          .format(node.info_text))
             dualEdges = [e.dualCell2D for e in node.edges]
-            dualSortedEdges = self.__sortEdges(dualEdges,
-                                               _log.debug,
-                                               _log.error)
+            dualSortedEdges = self.__sortEdges(dualEdges)
             _log.debug(dualSortedEdges)
             self.edges = dualSortedEdges
             self.setUp()
@@ -146,9 +144,7 @@ class DualFace2D(Face, DualCell):
                     if e.dualCell2D:
                         dualEdges.append(e.dualCell2D)
                 dualEdges.append(node.dualCell1D)
-                dualSortedEdges = self.__sortEdges(dualEdges,
-                                                   _log.debug,
-                                                   _log.error)
+                dualSortedEdges = self.__sortEdges(dualEdges)
                 _log.debug(dualSortedEdges)
 
                 if dualSortedEdges:
