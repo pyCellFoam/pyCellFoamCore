@@ -188,7 +188,7 @@ classDiagram
 
 - [x] SuperCell
 
-- [ ] SuperReversedCell
+- [x] SuperReversedCell
 
 - [ ] BaseCell
 

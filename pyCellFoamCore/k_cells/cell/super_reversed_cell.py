@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# =============================================================================
+# #############################################################################
 # SUPER REVERSED CELL
-# =============================================================================
+# #############################################################################
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -17,17 +17,10 @@ Parent class for all negative (simple) k-Cells.
 # =============================================================================
 #    IMPORTS
 # =============================================================================
-# ------------------------------------------------------------------------
-#    Change to Main Directory
-# ------------------------------------------------------------------------
-import os
-if __name__ == '__main__':
-    os.chdir('../../')
 
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
-
 import logging
 
 # ------------------------------------------------------------------------
@@ -41,7 +34,6 @@ from pyCellFoamCore.k_cells.cell.super_base_cell import SuperBaseCell
 
 #    Tools
 # -------------------------------------------------------------------
-import pyCellFoamCore.tools.colorConsole as cc
 from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
@@ -54,7 +46,7 @@ _log.setLevel(logging.INFO)
 
 
 # =============================================================================
-#    CLASS DEFINITION
+#    CLASS SUPER REVERSED CELL
 # =============================================================================
 class SuperReversedCell(SuperBaseCell):
     '''
@@ -62,9 +54,14 @@ class SuperReversedCell(SuperBaseCell):
 
     '''
 
-# =============================================================================
-#    INITIALIZATION
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Slots
+    # ------------------------------------------------------------------------
+    __slots__ = ()
+
+    # ------------------------------------------------------------------------
+    #    Initialization
+    # ------------------------------------------------------------------------
     def __init__(self, *args, **kwargs):
         '''
         :param SuperBaseCell my_reverse:
@@ -74,9 +71,9 @@ class SuperReversedCell(SuperBaseCell):
         super().__init__(*args, **kwargs)
         _log.debug('Initialized SuperReversedCell')
 
-# =============================================================================
-#    SETTER AND GETTER
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Properties
+    # ------------------------------------------------------------------------
 
     def __get_label_prefix(self): return '-'
 
@@ -104,8 +101,10 @@ class SuperReversedCell(SuperBaseCell):
 
     '''
 
-    def __getis_reverse(self): return True
-    is_reverse = property(__getis_reverse)
+    def __get_is_reverse(self):
+        return True
+
+    is_reverse = property(__get_is_reverse)
     '''
     All child k-cells are negative, therefor this is always true.
 
@@ -123,10 +122,9 @@ class SuperReversedCell(SuperBaseCell):
 
     '''
 
-
-# =============================================================================
-#    METHODS
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Methods
+    # ------------------------------------------------------------------------
 
     def delete(self):
         '''
@@ -136,19 +134,19 @@ class SuperReversedCell(SuperBaseCell):
         if self.my_reverse:
             self.my_reverse.delete()
         else:
-            _log.error('Cannot delete reversed cell that does not ' +
-                              'belong to a cell')
+            _log.error(
+                "Cannot delete reversed cell that does not belong to a cell"
+            )
 
 
 # =============================================================================
-#    TEST FUNCTIONS
+#    TESTING
 # =============================================================================
 
 
 if __name__ == '__main__':
 
     set_logging_format(logging.DEBUG)
-    cc.printBlue('Create Super Reversed Cell')
-    testSUPRC = SuperReversedCell()
-    cc.printBlue('The reversed should not be defined')
-    print(-testSUPRC)
+    _log.info('Create Super Reversed Cell')
+    test_src = SuperReversedCell()
+    _log.info('The reversed should not be defined: %s', test_src.my_reverse)
