@@ -184,9 +184,9 @@ classDiagram
 
 ### Cell
 
-- [ ] SuperBaseCell
+- [x] SuperBaseCell
 
-- [ ] SuperCell
+- [x] SuperCell
 
 - [ ] SuperReversedCell
 
