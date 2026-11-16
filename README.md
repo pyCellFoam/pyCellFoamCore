@@ -190,11 +190,11 @@ classDiagram
 
 - [x] SuperReversedCell
 
-- [ ] BaseCell
+- [x] BaseCell
 
-- [ ] Cell
+- [x] Cell
 
-- [ ] ReversedCell
+- [x] ReversedCell
 
 - [ ] BaseSimpleCell
 

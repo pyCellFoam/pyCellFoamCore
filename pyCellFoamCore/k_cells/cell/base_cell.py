@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# =============================================================================
+# #############################################################################
 # BASE CELL
-# =============================================================================
+# #############################################################################
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -26,7 +26,6 @@ import logging
 # ------------------------------------------------------------------------
 #    Third-Party Libraries
 # ------------------------------------------------------------------------
-import numpy as np
 import plotly.graph_objects as go
 
 # ------------------------------------------------------------------------
@@ -53,10 +52,10 @@ from pyCellFoamCore.tools import set_logging_format
 _log = logging.getLogger(__name__)
 _log.setLevel(logging.INFO)
 
+
 # =============================================================================
 #    CLASS BASE CELL
 # =============================================================================
-
 
 class BaseCell(SuperBaseCell):
     """
@@ -66,14 +65,12 @@ class BaseCell(SuperBaseCell):
     # ------------------------------------------------------------------------
     #    Slots
     # ------------------------------------------------------------------------
-    __slots__ = (
-        "__tikz_label_position",
-    )
+    __slots__ = ()
 
     # ------------------------------------------------------------------------
     #    Initialization
     # ------------------------------------------------------------------------
-    def __init__(self, *args, tikZLabelPosition="below right", **kwargs):
+    def __init__(self, *args, **kwargs):
         """
 
         :param SuperBaseCell my_reverse:
@@ -83,16 +80,12 @@ class BaseCell(SuperBaseCell):
         """
 
         super().__init__(*args, **kwargs)
-        if self.__check_tikz_label_position(tikZLabelPosition):
-            self.__tikz_label_position = tikZLabelPosition
-        else:
-            self.__tikz_label_position = "below right"
 
         _log.debug("Initialized BaseCell")
 
-# =============================================================================
-#    SETTER AND GETTER
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Properties
+    # ------------------------------------------------------------------------
 
     def __get_label_suffix(self):
         return ""
@@ -101,32 +94,6 @@ class BaseCell(SuperBaseCell):
     k-cells  have no suffix (only simple cells do)
 
     """
-
-    def __get_tikz_label_position(self):
-        return self.__tikz_label_position
-
-    def __set_tikz_label_position(self, t):
-        if self.__check_tikz_label_position(t):
-            self.__tikz_label_position = t
-
-    tikz_label_position = property(
-        __get_tikz_label_position,
-        __set_tikz_label_position,
-    )
-
-# =============================================================================
-#    METHODS
-# =============================================================================
-
-    def __check_tikz_label_position(self, label_position):
-        if label_position in [
-            "left", "right", "above", "below", "below right", "below left",
-            "above right", "above left"
-        ]:
-            return True
-
-        _log.error("Unknown position for TikZ label %s", label_position)
-        return False
 
 
 # =============================================================================
@@ -148,31 +115,6 @@ class BaseCellPlotly:
             plotly_figure = go.Figure()
         else:
             plotly_figure = old_fig
-
-        # plotly_figure.update_layout(
-        #     scene={
-        #         "xaxis_title": "X Axis",
-        #         "yaxis_title": "Y Axis",
-        #         "zaxis_title": "Z Axis",
-        #     },
-        #     paper_bgcolor="white",
-        #     plot_bgcolor="white"
-        # )
-
-        # plotly_figure.update_layout(
-        #     scene=dict(
-        #         xaxis_title="X Axis",
-        #         yaxis_title="Y Axis",
-        #         zaxis_title="Z Axis",
-        #         camera=dict(
-        #             up=dict(x=0, y=0, z=1),
-        #             center=dict(x=0, y=0, z=0),
-        #             eye=dict(x=1.25, y=1.25, z=1.25)
-        #         ),
-        #         dragmode="orbit"
-        #     ),
-        #     scene_camera_projection=dict(type="perspective")
-        # )
 
         plotly_figure.update_layout(
             scene={
@@ -222,11 +164,9 @@ class BaseCellPlotly:
         return plotly_figure
 
 
-
 # =============================================================================
-#    TEST FUNCTIONS
+#    TESTING
 # =============================================================================
-
 
 if __name__ == "__main__":
     set_logging_format(logging.DEBUG)
