@@ -196,11 +196,11 @@ classDiagram
 
 - [x] ReversedCell
 
-- [ ] BaseSimpleCell
+- [x] BaseSimpleCell
 
-- [ ] SimpleCell
+- [x] SimpleCell
 
-- [ ] ReversedSimpleCell
+- [x] ReversedSimpleCell
 
 - [ ] DualCell
 
