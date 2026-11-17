@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# =============================================================================
+# #############################################################################
 # DUAL CELL
-# =============================================================================
+# #############################################################################
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -46,7 +46,7 @@ _log.setLevel(logging.INFO)
 
 
 # =============================================================================
-#    CLASS DEFINITION
+#    CLASS DUAL CELL
 # =============================================================================
 
 class DualCell(Cell):
@@ -55,14 +55,14 @@ class DualCell(Cell):
 
     '''
 
-# =============================================================================
-#    SLOTS
-# =============================================================================
-#    __slots__ = ()
+    # ------------------------------------------------------------------------
+    #    Slots
+    # ------------------------------------------------------------------------
+    __slots__ = ()
 
-# =============================================================================
-#    INITIALIZATION
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Initialization
+    # ------------------------------------------------------------------------
     def __init__(self, *args, **kwargs):
         '''
 
@@ -82,49 +82,45 @@ class DualCell(Cell):
         super().__init__(*args, **kwargs)
         _log.debug('Initialized DualCell')
 
-# =============================================================================
-#    SETTER AND GETTER
-# =============================================================================
-    def __get_is_dual(self): return True
+    # ------------------------------------------------------------------------
+    #    Properties
+    # ------------------------------------------------------------------------
+    def __get_is_dual(self):
+        return True
     is_dual = property(__get_is_dual)
     '''
 
     '''
 
-# =============================================================================
-#    METHODS
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Methods
+    # ------------------------------------------------------------------------
     def updateNum(self, myPrintInfo=None, myPrintError=None):
         '''
 
         '''
-        if myPrintInfo is None:
-            myPrintInfo = _log.info
-        if myPrintError is None:
-            _log.error
 
         if self.is_geometrical:
-            myPrintInfo('Not copying number for geometrical kCell')
+            _log.info('Not copying number for geometrical kCell')
         else:
             if self.dualCell3D:
                 self.num = self.dualCell3D.num
-                myPrintInfo('Copying number of {} from 3D dual'.format(self))
+                _log.info('Copying number of %s from 3D dual', self)
             elif self.dualCell2D:
                 self.num = self.dualCell2D.num
-                myPrintInfo('Copying number of {} from 2D dual'.format(self))
+                _log.info('Copying number of %s from 2D dual', self)
             elif self.dualCell1D:
                 self.num = self.dualCell1D.num
-                myPrintInfo('Copying number of {} from 1D dual'.format(self))
+                _log.info('Copying number of %s from 1D dual', self)
             elif self.dualCell0D:
                 self.num = self.dualCell0D.num
-                myPrintInfo('Copying number of {} from 0D dual'.format(self))
+                _log.info('Copying number of %s from 0D dual', self)
             else:
-                myPrintError('{} has no dual - '.format(self)
-                             + 'cannot update number')
+                _log.error('%s has no dual - cannot update number', self)
 
 
 # =============================================================================
-#    TEST FUNCTIONS
+#    TESTING
 # =============================================================================
 if __name__ == '__main__':
     set_logging_format(logging.DEBUG)

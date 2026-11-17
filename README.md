@@ -202,7 +202,7 @@ classDiagram
 
 - [x] ReversedSimpleCell
 
-- [ ] DualCell
+- [x] DualCell
 
 ### Node
 
