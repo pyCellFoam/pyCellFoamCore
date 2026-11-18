@@ -224,11 +224,11 @@ classDiagram
 
 - [ ] ReversedEdge
 
-- [ ] BaseSimpleEdge
+- [x] BaseSimpleEdge
 
-- [ ] SimpleEdge
+- [x] SimpleEdge
 
-- [ ] ReversedSimpleEdge
+- [x] ReversedSimpleEdge
 
 - [ ] DualEdge1D
 

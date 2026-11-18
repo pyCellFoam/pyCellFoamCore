@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# =============================================================================
+# #############################################################################
 # SIMPLE EDGE
-# =============================================================================
+# #############################################################################
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -17,13 +17,6 @@
 # =============================================================================
 #    IMPORTS
 # =============================================================================
-# ------------------------------------------------------------------------
-#    Change to Main Directory
-# ------------------------------------------------------------------------
-import os
-if __name__ == '__main__':
-    os.chdir('../../')
-
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
@@ -45,6 +38,7 @@ import numpy as np
 from pyCellFoamCore.k_cells.cell.simple_cell import SimpleCell
 from pyCellFoamCore.k_cells.edge.baseSimpleEdge import BaseSimpleEdge
 from pyCellFoamCore.k_cells.edge.reversedSimpleEdge import ReversedSimpleEdge
+from pyCellFoamCore.k_cells.node.node import Node
 
 #    Complex & Grids
 # -------------------------------------------------------------------
@@ -67,7 +61,7 @@ _log = logging.getLogger(__name__)
 _log.setLevel(logging.INFO)
 
 # =============================================================================
-#    CLASS DEFINITION
+#    CLASS SIMPLE EDGE
 # =============================================================================
 
 
@@ -76,9 +70,23 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
 
     '''
 
-# =============================================================================
-#    INITIALIZATION
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Slots
+    # ------------------------------------------------------------------------
+    __slots__ = (
+        "__startNode",
+        "__endNode",
+        "__directionVec",
+        "__connectionVec",
+        "__barycenter",
+        "__simpleFaces",
+        "__cylinder",
+        "__radius",
+    )
+
+    # ------------------------------------------------------------------------
+    #    Initialization
+    # ------------------------------------------------------------------------
     def __init__(self, start, end, *args, belongsTo=None, **kwargs):
         '''
         Defines the edge and prepares further properties.
@@ -91,13 +99,8 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
         :param bool is_dual: Does this edge belong to a dual complex
 
         '''
-        if belongsTo is None:
-            belongsToRev = None
-        else:
-            belongsToRev = belongsTo.my_reverse
         super().__init__(*args,
-                         my_reverse=ReversedSimpleEdge(my_reverse=self,
-                                                      belongsTo=belongsToRev),
+                         my_reverse=ReversedSimpleEdge(my_reverse=self),
                          belongsTo=belongsTo,
                          **kwargs)
 
@@ -114,9 +117,9 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
 
         _log.debug('Initialized SimpleEdge')
 
-# =============================================================================
-#    GETTER AND SETTER
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Properties
+    # ------------------------------------------------------------------------
     def __getStartNode(self): return self.__startNode
 
     startNode = property(__getStartNode)
@@ -198,13 +201,12 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
 
     cylinder_surface_area = property(__get_cylinder_surface_area)
 
-# =============================================================================
-#    METHODS
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Methods
+    # ------------------------------------------------------------------------
 
-# ------------------------------------------------------------------------
-#    Calculate barycenter of simple edge
-# ------------------------------------------------------------------------
+    #    Calculate barycenter of simple edge
+    # --------------------------------------------------------------------
     def __calcBarycenter(self):
         '''
         Calculate the barycenter of the simple edge
@@ -214,9 +216,8 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
         v2 = self.__endNode.coordinates
         self.__barycenter = (v1+v2)/2
 
-# ------------------------------------------------------------------------
-#    Create direction vector
-# ------------------------------------------------------------------------
+    #    Create direction vector
+    # --------------------------------------------------------------------
     def __createDirVec(self):
         '''
         Calculate the direction vector (normalized) and connection vector
@@ -240,9 +241,8 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
                         self.endNode,
                         self.endNode.coordinates))
 
-# ------------------------------------------------------------------------
-#    Add a simple face that uses this simple edge
-# ------------------------------------------------------------------------
+    #    Add a simple face that uses this simple edge
+    # --------------------------------------------------------------------
     def addSimpleFace(self, simpleFace):
         '''
         Register a new simple face that is created by using this simple edge.
@@ -255,9 +255,8 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
         else:
             self.__simpleFaces.append(simpleFace)
 
-# ------------------------------------------------------------------------
-#    Delete a simple face that uses this simple edge
-# ------------------------------------------------------------------------
+    #    Delete a simple face that uses this simple edge
+    # --------------------------------------------------------------------
     def delSimpleFace(self, simpleFace):
         '''
         Unregister a simple face that used this simple edge.
@@ -273,9 +272,8 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
                 'Cannot remove simple face {} from simple edge {}!'
                 .format(simpleFace.info_text, self.info_text))
 
-# ------------------------------------------------------------------------
-#    Delete this simple edge
-# ------------------------------------------------------------------------
+    #    Delete this simple edge
+    # --------------------------------------------------------------------
     def delete(self):
         '''
         Delete this simple edge and unregister it from the nodes.
@@ -287,17 +285,16 @@ class SimpleEdge(BaseSimpleEdge, SimpleCell):
 
 
 # =============================================================================
-# TEST FUNCTIONS
+#    TESTING
 # =============================================================================
 
 
 if __name__ == '__main__':
-    from k_cells.node import Node
-    import tools.placeFigures as pf
+    import pyCellFoamCore.tools.placeFigures as pf
     set_logging_format(logging.DEBUG)
 
     # Create some figures on second screen
-    (fig, ax) = pf.getFigures(numTotal=2)
+    (figs, ax) = pf.getFigures(numTotal=2)
 
     # Create some nodes
     n1 = Node(1, 2, -3, num=1)
@@ -321,8 +318,10 @@ if __name__ == '__main__':
     cc.printBlue(se1.directionVec)
     cc.printBlue(se1.barycenter)
 
-    mse1 = -se1
-    mse1.plotEdge(ax[1])
+    figs[0].show()
 
-    cc.printBlue(mse1.directionVec)
-    cc.printBlue(mse1.barycenter)
+    # mse1 = -se1
+    # mse1.plotEdge(ax[1])
+
+    # cc.printBlue(mse1.directionVec)
+    # cc.printBlue(mse1.barycenter)
