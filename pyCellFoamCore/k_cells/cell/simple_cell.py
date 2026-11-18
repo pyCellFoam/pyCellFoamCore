@@ -87,7 +87,8 @@ class SimpleCell(BaseSimpleCell, SuperCell):
 
         '''
 
-        my_reverse = ReversedSimpleCell(my_reverse=self, **kwargs)
+        if my_reverse is None:
+            my_reverse = ReversedSimpleCell(my_reverse=self, **kwargs)
 
         super().__init__(*args,
                          my_reverse=my_reverse,
