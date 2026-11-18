@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# =============================================================================
+# #############################################################################
 # DUAL NODE 3D
-# =============================================================================
+# #############################################################################
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -78,13 +78,6 @@ therefor does not occur in the complex itself.
 # =============================================================================
 #    IMPORTS
 # =============================================================================
-# ------------------------------------------------------------------------
-#    Change to Main Directory
-# ------------------------------------------------------------------------
-import os
-if __name__ == '__main__':
-    os.chdir('../../')
-
 
 # ------------------------------------------------------------------------
 #    Standard Libraries
@@ -106,11 +99,16 @@ import numpy as np
 
 #    kCells
 # -------------------------------------------------------------------
-from pyCellFoamCore.k_cells.node.node import Node
-from pyCellFoamCore.k_cells.node.dualNode2D import DualNode2D
-from pyCellFoamCore.k_cells.node.dualNode1D import DualNode1D
-from pyCellFoamCore.k_cells.node.dualNode0D import DualNode0D
 from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.node.dualNode0D import DualNode0D
+from pyCellFoamCore.k_cells.node.dualNode1D import DualNode1D
+from pyCellFoamCore.k_cells.node.dualNode2D import DualNode2D
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.face.face import Face
+from pyCellFoamCore.k_cells.volume.volume import Volume
+
+
 
 
 #    Tools
@@ -127,13 +125,18 @@ _log = logging.getLogger(__name__)
 _log.setLevel(logging.INFO)
 
 # =============================================================================
-#    CLASS DEFINITION
+#    CLASS DUAL NODE 3D
 # =============================================================================
 
 class DualNode3D(Node, DualCell):
     '''
 
     '''
+
+    # ------------------------------------------------------------------------
+    #    Slots
+    # ------------------------------------------------------------------------
+    __slots__ = ()
 
 # =============================================================================
 #    NEW
@@ -607,19 +610,11 @@ class DualNode3D(Node, DualCell):
 
 
 # =============================================================================
-#    TEST FUNCTIONS
+#    TESTING
 # =============================================================================
 
 
 if __name__ == "__main__":
-    from k_cells.edge import Edge
-    from k_cells.face import Face
-    from k_cells.volume.volume import Volume
-    import tools.placeFigures as pf
-    # import tools.colorConsole as cc
-    # import matplotlib.pyplot as plt
-    import tools.tumcolor as tc
-    from tools import MyLogging
 
 # ------------------------------------------------------------------------
 #    Inner volume
@@ -686,7 +681,7 @@ if __name__ == "__main__":
     f202.useCategory = 1
     f202.category1 = 'additionalBorder'
     for f in [f200, f201, f203]:
-        f.useCategory1 = 1
+        f.useCategory = 1
         f.category1 = 'inner'
 
     v200 = Volume([-f200, -f201, f202, f203], num=2)
@@ -975,6 +970,9 @@ if __name__ == "__main__":
 
         dn500.color = tc.TUMRose()
         dn500.plotNode(axes[4], size=500)
+
+        for fig in figs:
+            fig.show()
 
 #    VTK
 # --------------------------------------------------------------------

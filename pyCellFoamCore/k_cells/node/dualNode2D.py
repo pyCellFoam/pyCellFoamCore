@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# =============================================================================
+# #############################################################################
 # DUAL NODE 2D
-# =============================================================================
+# #############################################################################
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -61,12 +61,6 @@ case equals the 0D dual of the corner node.
 # =============================================================================
 #    IMPORTS
 # =============================================================================
-# ------------------------------------------------------------------------
-#    Change to Main Directory
-# ------------------------------------------------------------------------
-import os
-if __name__ == '__main__':
-    os.chdir('../../')
 
 # ------------------------------------------------------------------------
 #    Standard Libraries
@@ -81,14 +75,17 @@ import logging
 #    kCells
 # -------------------------------------------------------------------
 from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.node.dualNode1D import DualNode1D
+from pyCellFoamCore.k_cells.node.dualNode0D import DualNode0D
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.face.face import Face
 
 #    Tools
 # -------------------------------------------------------------------
 import pyCellFoamCore.tools.colorConsole as cc
-
-from pyCellFoamCore.k_cells.node.node import Node
-from pyCellFoamCore.k_cells.node.dualNode1D import DualNode1D
-from pyCellFoamCore.k_cells.node.dualNode0D import DualNode0D
+import pyCellFoamCore.tools.tumcolor as tc
+import pyCellFoamCore.tools.placeFigures as pf
 from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
 
@@ -101,7 +98,7 @@ _log.setLevel(logging.INFO)
 
 
 # =============================================================================
-#    CLASS DEFINITION
+#    CLASS DUAL NODE 2D
 # =============================================================================
 
 
@@ -110,10 +107,10 @@ class DualNode2D(Node, DualCell):
 
     '''
 
-# =============================================================================
-#    SLOTS
-# =============================================================================
-#    __slots__ = ()
+    # ------------------------------------------------------------------------
+    #    Slots
+    # ------------------------------------------------------------------------
+    __slots__ = ()
 
 # =============================================================================
 #    INITIALIZATION
@@ -375,18 +372,12 @@ class DualNode2D(Node, DualCell):
 
 
 # =============================================================================
-#    TEST FUNCTIONS
+#    TESTING
 # =============================================================================
 
 
 if __name__ == '__main__':
-    from k_cells.edge import Edge
-    from k_cells.face import Face
-    import tools.placeFigures as pf
-    from tools import MyLogging
-    import tools.tumcolor as tc
-
-    set_logging_format(logging.DEBUG)
+    set_logging_format(logging.INFO)
 
     n0 = Node(0, 0, 0)
     n1 = Node(1, 0, 0)
@@ -477,6 +468,11 @@ if __name__ == '__main__':
     f3.plotFace(ax[3])
     dn3.color = tc.TUMRose()
     dn3.plotNode(ax[3], size=150)
+
+    for fig in figs:
+        fig.show()
+
+
 
     cc.printBlue()
     cc.printBlue('Example 1')

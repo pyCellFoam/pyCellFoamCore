@@ -208,13 +208,13 @@ classDiagram
 
 - [x] Node
 
-- [ ] DualNode0D
+- [x] DualNode0D
 
-- [ ] DualNode1D
+- [x] DualNode1D
 
-- [ ] DualNode2D
+- [x] DualNode2D
 
-- [ ] DualNode3D
+- [x] DualNode3D
 
 ### Edge
 
