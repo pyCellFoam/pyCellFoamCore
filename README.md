@@ -206,7 +206,7 @@ classDiagram
 
 ### Node
 
-- [ ] Node
+- [x] Node
 
 - [ ] DualNode0D
 

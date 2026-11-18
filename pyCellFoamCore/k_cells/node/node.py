@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# =============================================================================
+# #############################################################################
 # NODE
-# =============================================================================
+# #############################################################################
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -66,7 +66,29 @@ class Node(Cell):
     A class to define nodes.
 
     '''
+
+    # ------------------------------------------------------------------------
+    #    Class Variables
+    # ------------------------------------------------------------------------
+
     nodeCount = 0
+
+    # ------------------------------------------------------------------------
+    #    Slots
+    # ------------------------------------------------------------------------
+    __slots__ = [
+        '__coordinates',
+        '__edges',
+        '__simpleEdges',
+        '__connectedNodes',
+        '__sphere',
+        '__projectedNode',
+        '__projectionEdge',
+        '__draw',
+        '__onBoundingBoxSides',
+        '__tikZNodes',
+        '__radius'
+    ]
 
     # ------------------------------------------------------------------------
     #    Initialization
@@ -91,10 +113,10 @@ class Node(Cell):
                          num=num,
                          label=label,
                          my_reverse=False,
+                         color=tc.TUMOrange(),
                          **kwargs)
 
         self.__coordinates = np.array([float(x), float(y), float(z)])
-        self.color = tc.TUMOrange()
         self.__edges = []
         self.__simpleEdges = []
         self.__connectedNodes = []
