@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-#==============================================================================
-# TITLE
-#==============================================================================
+# #############################################################################
+# DUAL VOLUME 3D
+# #############################################################################
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -40,22 +40,34 @@ Always remember that the last line has to be blank
 #==============================================================================
 #    IMPORTS
 #==============================================================================
-if __name__== '__main__':
-    import os
-    os.chdir('../../')
-
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
 import logging
 
-from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
-from pyCellFoamCore.k_cells.volume.volume import Volume
-from pyCellFoamCore.k_cells.face.dualFace3D import DualFace3D
-import pyCellFoamCore.tools.colorConsole as cc
-import numpy as np
+# ------------------------------------------------------------------------
+#    Local Libraries
+# ------------------------------------------------------------------------
 
+#    k-Cells
+# -------------------------------------------------------------------
+
+from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.node.dualNode3D import DualNode3D
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.edge.dualEdge3D import DualEdge3D
+from pyCellFoamCore.k_cells.face.face import Face
+from pyCellFoamCore.k_cells.face.dualFace3D import DualFace3D
+from pyCellFoamCore.k_cells.volume.volume import Volume
+
+
+
+#    Tools
+# -------------------------------------------------------------------
 from pyCellFoamCore.tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.colorConsole as cc
+import pyCellFoamCore.tools.placeFigures as pf
 
 
 # =============================================================================
@@ -67,24 +79,26 @@ _log.setLevel(logging.INFO)
 
 
 #==============================================================================
-#    CLASS DEFINITION
+#    CLASS DUAL VOLUME 3D
 #==============================================================================
 
-class DualVolume3D(Volume,DualCell):
+class DualVolume3D(Volume, DualCell):
     '''
     This is the explanation of this class.
 
     '''
 
-#==============================================================================
-#    SLOTS
-#==============================================================================
-#    __slots__ = ('__facesTemp',
-#                 '__edgesTemp')
+    # ------------------------------------------------------------------------
+    #    Slots
+    # ------------------------------------------------------------------------
+    __slots__ = (
+        "__facesTemp",
+        "__edgesTemp",
+    )
 
-#==============================================================================
-#    INITIALIZATION
-#==============================================================================
+    # ------------------------------------------------------------------------
+    #    Initialization
+    # ------------------------------------------------------------------------
     def __init__(self,node,*args,**kwargs):
 
         '''
@@ -249,11 +263,6 @@ class DualVolume3D(Volume,DualCell):
 #==============================================================================
 if __name__ == '__main__':
 
-    from tools import MyLogging
-    from k_cells.node import Node
-    from k_cells.edge import Edge
-    from k_cells.face import Face
-    import tools.placeFigures as pf
 
     set_logging_format(logging.DEBUG)
 
@@ -441,10 +450,6 @@ if __name__ == '__main__':
     for v in volumes:
         v.plotVolume(ax[2])
 
-
-    from k_cells.node import DualNode3D
-    from k_cells.edge import DualEdge3D
-#        from kCells.face import DualFace3D
     for v in volumes:
         n = DualNode3D(v)
         n.plotNode(ax[2])
@@ -467,3 +472,6 @@ if __name__ == '__main__':
     dv = DualVolume3D(n13)
 
     dv.plotVolume(ax[0])
+
+    for fig in figs:
+        fig.show()

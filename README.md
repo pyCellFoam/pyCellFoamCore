@@ -258,4 +258,4 @@ classDiagram
 
 - [x] Volume
 
-- [ ] DualVolume3D
+- [x] DualVolume3D
