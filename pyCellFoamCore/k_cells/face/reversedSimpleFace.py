@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# =============================================================================
+# #############################################################################
 # REVERSED SIMPLE FACE
-# =============================================================================
+# #############################################################################
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -12,9 +12,6 @@
 # =============================================================================
 #    IMPORTS
 # =============================================================================
-if __name__ == '__main__':
-    import os
-    os.chdir('../../')
 
 # ------------------------------------------------------------------------
 #    Standard Libraries
@@ -47,14 +44,16 @@ class ReversedSimpleFace(BaseSimpleFace, ReversedSimpleCell):
 
     '''
 
-# =============================================================================
-#    SLOTS
-# =============================================================================
-#    __slots__ = ('__coordinates',
-#                 '__nodes',
-#                 '__normalVec',
-#                 '__area')
-#
+    # ------------------------------------------------------------------------
+    #    Slots
+    # ------------------------------------------------------------------------
+    __slots__ = (
+        '__coordinates',
+        '__nodes',
+        '__normalVec',
+        '__area',
+    )
+
 
 # =============================================================================
 #    INITIALIZATION
@@ -160,7 +159,7 @@ class ReversedSimpleFace(BaseSimpleFace, ReversedSimpleCell):
 
 
 if __name__ == '__main__':
-    import tools.colorConsole as cc
+    import pyCellFoamCore.tools.colorConsole as cc
 
     set_logging_format(logging.DEBUG)
     rsf = ReversedSimpleFace()

@@ -244,11 +244,11 @@ classDiagram
 
 - [ ] ReversedFace
 
-- [ ] BaseSimpleFace
+- [x] BaseSimpleFace
 
-- [ ] SimpleFace
+- [x] SimpleFace
 
-- [ ] ReversedSimpleFace
+- [x] ReversedSimpleFace
 
 - [ ] DualFace2D
 
