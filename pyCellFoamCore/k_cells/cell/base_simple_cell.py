@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# =============================================================================
+# #############################################################################
 # BASE SIMPLE CELL
-# =============================================================================
+# #############################################################################
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -48,7 +48,7 @@ _log.setLevel(logging.INFO)
 
 
 # =============================================================================
-#    CLASS DEFINITION
+#    CLASS BASE SIMPLE CELL
 # =============================================================================
 
 class BaseSimpleCell(SuperBaseCell):
@@ -57,10 +57,15 @@ class BaseSimpleCell(SuperBaseCell):
 
     '''
 
-    # =========================================================================
-    #    INITIALIZATION
-    # =========================================================================
-    def __init__(self, *args, belongsTo=None, **kwargs):
+    # ------------------------------------------------------------------------
+    #    Slots
+    # ------------------------------------------------------------------------
+    __slots__ = ()
+
+    # ------------------------------------------------------------------------
+    #    Initialization
+    # ------------------------------------------------------------------------
+    def __init__(self, *args, **kwargs):
         '''
         :param Cell belongsTo: A cell that this simple cell is part of.
         :param SuperBaseCell my_reverse:
@@ -69,20 +74,21 @@ class BaseSimpleCell(SuperBaseCell):
 
         '''
         super().__init__(*args, **kwargs)
-        self.__belongs_to = belongsTo
-        self.__tikz_label_position = None
         _log.debug('Initialized BaseSimpleCell')
 
-    # =========================================================================
-    #    SETTER AND GETTER
-    # =========================================================================
+    # ------------------------------------------------------------------------
+    #    Properties
+    # ------------------------------------------------------------------------
 
-    def __get_belongs_to(self): return self.__belongs_to
+    def __get_belongs_to(self):
+        return None
     belongs_to = property(__get_belongs_to)
     '''
     This is the k-cell that this simple cell belongs to.
 
     '''
+
+
 
     def __get_tikz_label_position(self):
         if self.__tikz_label_position is None and self.__belongs_to:
@@ -226,12 +232,7 @@ class BaseSimpleCell(SuperBaseCell):
     '''
 
 # =============================================================================
-#    METHODS
-# =============================================================================
-
-
-# =============================================================================
-#    TEST FUNCTIONS
+#    TESTING
 # =============================================================================
 
 
@@ -258,7 +259,3 @@ if __name__ == '__main__':
 
     cc.printBlue('Check that it does not belong to a cell')
     print('Belongs to:', sc1.belongs_to)
-
-    cc.printBlue('Check that the label position can be set and read')
-    sc1.tikz_label_position = 'below'
-    print('TikZ Label:', sc1.tikz_label_position)

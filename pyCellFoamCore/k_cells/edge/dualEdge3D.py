@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# =============================================================================
+# #############################################################################
 # DUAL EDGE 3D
-# =============================================================================
+# #############################################################################
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -44,24 +44,35 @@ this volume with the 2D dual node of the face itself.
 # =============================================================================
 #    IMPORTS
 # =============================================================================
-if __name__ == '__main__':
-    import os
-    os.chdir('../../')
-
-
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
 
 import logging
 
-from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
-from pyCellFoamCore.k_cells.edge.edge import Edge
-from pyCellFoamCore.k_cells.node.node import Node
-from pyCellFoamCore.k_cells.node.dualNode3D import DualNode3D
-from pyCellFoamCore.k_cells.node.dualNode2D import DualNode2D
-import pyCellFoamCore.tools.colorConsole as cc
+# ------------------------------------------------------------------------
+#    Third-Party Libraries
+# ------------------------------------------------------------------------
 import numpy as np
+
+# ------------------------------------------------------------------------
+#    Local Libraries
+# ------------------------------------------------------------------------
+
+#    k-Cells
+# -------------------------------------------------------------------
+from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.node.dualNode2D import DualNode2D
+from pyCellFoamCore.k_cells.node.dualNode3D import DualNode3D
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.face.face import Face
+from pyCellFoamCore.k_cells.volume.volume import Volume
+
+#    Tools
+# -------------------------------------------------------------------
+import pyCellFoamCore.tools.colorConsole as cc
+
 import pyCellFoamCore.tools.placeFigures as pf
 from pyCellFoamCore.tools.logging_formatter import set_logging_format
 
@@ -74,7 +85,7 @@ _log = logging.getLogger(__name__)
 _log.setLevel(logging.INFO)
 
 # =============================================================================
-#    CLASS DEFINITION
+#    CLASS DUAL EDGE 3D
 # =============================================================================
 
 
@@ -84,14 +95,15 @@ class DualEdge3D(Edge, DualCell):
 
     '''
 
-# =============================================================================
-#    SLOTS
-# =============================================================================
-#    __slots__ = ()
 
-# =============================================================================
-#    INITIALIZATION
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Slots
+    # ------------------------------------------------------------------------
+    __slots__ = ()
+
+    # ------------------------------------------------------------------------
+    #    Initialization
+    # ------------------------------------------------------------------------
     def __init__(self,
                  face,
                  *args,
@@ -333,9 +345,6 @@ class DualEdge3D(Edge, DualCell):
 #    TEST FUNCTIONS
 # =============================================================================
 if __name__ == "__main__":
-    from k_cells.face import Face
-    from k_cells.volume.volume import Volume
-
     set_logging_format(logging.DEBUG)
 
     a = 2
@@ -451,6 +460,9 @@ if __name__ == "__main__":
             v.plotVolume(axes[3])
         for de in dualEdges:
             de.plotEdge(axes[3])
+
+        for fig in figs:
+            fig.show()
 
 #    VTK
 # --------------------------------------------------------------------

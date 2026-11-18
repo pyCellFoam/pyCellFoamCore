@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# =============================================================================
+# #############################################################################
 # REVERSED SIMPLE EDGE
-# =============================================================================
+# #############################################################################
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -38,7 +38,7 @@ _log = logging.getLogger(__name__)
 _log.setLevel(logging.INFO)
 
 # =============================================================================
-#    CLASS DEFINITION
+#    CLASS REVERSED SIMPLE EDGE
 # =============================================================================
 
 
@@ -50,18 +50,18 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
 # =============================================================================
 #    SLOTS
 # =============================================================================
-#    __slots__ = ()
+    __slots__ = ()
 
-# =============================================================================
-#    INITIALIZATION
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Initialization
+    # ------------------------------------------------------------------------
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         _log.debug('Initialized ReversedSimpleEdge')
 
-# =============================================================================
-#    SETTER AND GETTER
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Properties
+    # ------------------------------------------------------------------------
 
     def __getStartNode(self): return self.my_reverse.endNode
 
@@ -143,12 +143,13 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
 
     radius = property(__getRadius, __setRadius)
 
-# =============================================================================
-#    METHODS
-# =============================================================================
-# ------------------------------------------------------------------------
-#    Add a simple face that uses this simple edge
-# ------------------------------------------------------------------------
+
+    # ------------------------------------------------------------------------
+    #    Methods
+    # ------------------------------------------------------------------------
+
+    #    Add a simple face that uses this simple edge
+    # --------------------------------------------------------------------
     def addSimpleFace(self, simpleFace):
         '''
         Add the negative simple face to the non-reversed simple edge.
@@ -162,9 +163,8 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
                 'to reversed simple edge {} '.format(self.info_text) +
                 'because it does not belong to a simple edge')
 
-# ------------------------------------------------------------------------
-#    Delete a simple face that uses this simple edge
-# ------------------------------------------------------------------------
+    #    Delete a simple face that uses this simple edge
+    # --------------------------------------------------------------------
     def delSimpleFace(self, simpleFace):
         '''
         Delete the negative simple face from the non-reversed simple edge.
@@ -180,7 +180,7 @@ class ReversedSimpleEdge(BaseSimpleEdge, ReversedSimpleCell):
 
 
 # =============================================================================
-#    TEST FUNCTIONS
+#    TESTING
 # =============================================================================
 
 

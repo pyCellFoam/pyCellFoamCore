@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# =============================================================================
-# TITLE
-# =============================================================================
+# #############################################################################
+# DUAL FACE 2D
+# #############################################################################
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -41,26 +41,43 @@ Always remember that the last line has to be blank
 #    IMPORTS
 # =============================================================================
 
-if __name__ == '__main__':
-    import os
-    os.chdir('../../')
-
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
-
 import logging
 
-from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
-from pyCellFoamCore.k_cells.edge.edge import Edge
-from pyCellFoamCore.k_cells.edge.dualEdge2D import DualEdge2D
-from pyCellFoamCore.k_cells.edge.baseEdge import BaseEdge
-from pyCellFoamCore.k_cells.face.face import Face
-from pyCellFoamCore.k_cells.node.dualNode0D import DualNode0D
-
+# ------------------------------------------------------------------------
+#    Third-Party Libraries
+# ------------------------------------------------------------------------
 import numpy as np
+
+# ------------------------------------------------------------------------
+#    Local Libraries
+# ------------------------------------------------------------------------
+
+#    k-Cells
+# -------------------------------------------------------------------
+from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
+from pyCellFoamCore.k_cells.node.node import Node
+from pyCellFoamCore.k_cells.node.dualNode0D import DualNode0D
+from pyCellFoamCore.k_cells.node.dualNode2D import DualNode2D
+from pyCellFoamCore.k_cells.node.dualNode3D import DualNode3D
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.edge.baseEdge import BaseEdge
+from pyCellFoamCore.k_cells.edge.dualEdge2D import DualEdge2D
+from pyCellFoamCore.k_cells.edge.dualEdge3D import DualEdge3D
+from pyCellFoamCore.k_cells.face.face import Face
+from pyCellFoamCore.k_cells.volume.volume import Volume
+
+
+
+
+#    Tools
+# -------------------------------------------------------------------
 import pyCellFoamCore.tools.colorConsole as cc
 from pyCellFoamCore.tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.tumcolor as tc
+import pyCellFoamCore.tools.placeFigures as pf
 
 
 # =============================================================================
@@ -71,7 +88,7 @@ _log = logging.getLogger(__name__)
 _log.setLevel(logging.INFO)
 
 # =============================================================================
-#    CLASS DEFINITION
+#    CLASS DUAL FACE 2D
 # =============================================================================
 
 
@@ -81,14 +98,14 @@ class DualFace2D(Face, DualCell):
 
     '''
 
-# =============================================================================
-#    SLOTS
-# =============================================================================
-#    __slots__ = ()
+    # ------------------------------------------------------------------------
+    #    Slots
+    # ------------------------------------------------------------------------
+    __slots__ = ()
 
-# =============================================================================
-#    INITIALIZATION
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Initialization
+    # ------------------------------------------------------------------------
     def __init__(self,
                  node,
                  *args,
@@ -269,13 +286,13 @@ class DualFace2D(Face, DualCell):
             self.dualCell2D = node
             node.dualCell2D = self
 
-# =============================================================================
-#    SETTER AND GETTER
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Properties
+    # ------------------------------------------------------------------------
 
-# =============================================================================
-#    METHODS
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Methods
+    # ------------------------------------------------------------------------
 
     def __sortEdges(self, edges):
 
@@ -307,22 +324,13 @@ class DualFace2D(Face, DualCell):
 
 
 # =============================================================================
-#    TEST FUNCTIONS
+#    TESTING
 # =============================================================================
 
 
 if __name__ == "__main__":
 
-    from k_cells.node import Node
-    from k_cells.node import DualNode3D, DualNode2D
-#    from edge import Edge
-    from k_cells.face import Face
-    from k_cells.volume.volume import Volume
-    import tools.placeFigures as pf
-#    import tools.colorConsole as cc
-#    from tools import MyLogging
-    import tools.myLogging as ml
-    import tools.tumcolor as tc
+
     set_logging_format(logging.DEBUG)
     n0 = Node(0, 0, 0)
     n1 = Node(1, 0, 0)
@@ -334,7 +342,7 @@ if __name__ == "__main__":
     nodes = [n0, n1, n2, n3, n4, n5, n6]
 
     for n in nodes:
-        n.useCategory1 = 1
+        n.useCategory = 1
 
     e0 = Edge(n0, n1)
     e1 = Edge(n0, n2)
@@ -444,3 +452,6 @@ if __name__ == "__main__":
         e.showArrow = False
         e.showLabel = False
         e.plotEdge(ax[3])
+
+    for fig in figs:
+        fig.show()

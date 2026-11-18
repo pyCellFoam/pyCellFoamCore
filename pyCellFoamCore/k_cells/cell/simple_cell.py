@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# =============================================================================
+# #############################################################################
 # SIMPLE CELL
-# =============================================================================
+# #############################################################################
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -53,7 +53,7 @@ _log.setLevel(logging.INFO)
 
 
 # =============================================================================
-#    CLASS DEFINITION
+#    CLASS SIMPLE CELL
 # =============================================================================
 
 
@@ -63,9 +63,17 @@ class SimpleCell(BaseSimpleCell, SuperCell):
 
     '''
 
-# =============================================================================
-#    INITIALIZATION
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Slots
+    # ------------------------------------------------------------------------
+    __slots__ = (
+        "__label_suffix",
+        "__belongs_to"
+    )
+
+    # ------------------------------------------------------------------------
+    #    Initialization
+    # ------------------------------------------------------------------------
     def __init__(self, *args, my_reverse=None, belongsTo=None,
                  label_suffix='NO_SUFFIX', **kwargs):
         '''
@@ -78,24 +86,27 @@ class SimpleCell(BaseSimpleCell, SuperCell):
             class at the lowest level by loggerName = __name__
 
         '''
+
         if my_reverse is None:
-            if belongsTo is not None:
-                belongsToReversed = belongsTo.my_reverse
-            else:
-                belongsToReversed = None
-            my_reverse = ReversedSimpleCell(my_reverse=self,
-                                           belongsTo=belongsToReversed,
-                                           **kwargs)
+            my_reverse = ReversedSimpleCell(my_reverse=self, **kwargs)
+
         super().__init__(*args,
-                         belongsTo=belongsTo,
                          my_reverse=my_reverse,
                          **kwargs)
         self.__label_suffix = label_suffix
+        self.__belongs_to = belongsTo
         _log.debug('Initialized SimpleCell')
 
-# =============================================================================
-#    SETTER AND GETTER
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Properties
+    # ------------------------------------------------------------------------
+
+    def __get_belongs_to(self): return self.__belongs_to
+    belongs_to = property(__get_belongs_to)
+    '''
+    This is the k-cell that this simple cell belongs to.
+
+    '''
 
     def __get_label_suffix(self):
         return self.__label_suffix
@@ -111,12 +122,7 @@ class SimpleCell(BaseSimpleCell, SuperCell):
     '''
 
 # =============================================================================
-#    METHODS
-# =============================================================================
-
-
-# =============================================================================
-#    TEST FUNCTIONS
+#    TESTING
 # =============================================================================
 
 

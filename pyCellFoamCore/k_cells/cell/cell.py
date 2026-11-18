@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# =============================================================================
+# #############################################################################
 # CELL
-# =============================================================================
+# #############################################################################
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -48,9 +48,8 @@ _log.setLevel(logging.INFO)
 
 
 # =============================================================================
-#    CLASS DEFINITION
+#    CLASS CELL
 # =============================================================================
-
 
 class Cell(BaseCell, SuperCell):
     '''
@@ -58,19 +57,47 @@ class Cell(BaseCell, SuperCell):
 
     '''
 
-    # =========================================================================
-    #    INITIALIZATION
-    # =========================================================================
-    def __init__(self,
-                 *args,
-                 num=-2,
-                 label='c',
-                 show_label=True,
-                 color=tc.TUMBlue(),
-                 my_reverse=None,
-                 category='undefined',
-                 is_geometrical=False,
-                 **kwargs):
+    # ------------------------------------------------------------------------
+    #    Slots
+    # ------------------------------------------------------------------------
+    __slots__ = (
+        "__label",
+        "__num",
+        "__category1",
+        "__category2",
+        "__category_text",
+        "__category_text_changed",
+        "__show_label",
+        "__color",
+        "__tikz_label_position",
+        "__dual_cell_3d",
+        "__dual_cell_2d",
+        "__dual_cell_1d",
+        "__dual_cell_0d",
+        "__is_geometrical",
+        "__use_category",
+        "__geometry_changed",
+        "__show_in_plot",
+        "__gray_in_tikz",
+        "__imorph_type",
+    )
+
+    # ------------------------------------------------------------------------
+    #    Initialization
+    # ------------------------------------------------------------------------
+    def __init__(
+        self,
+        *args,
+        num=-2,
+        label='c',
+        show_label=True,
+        color=tc.TUMBlue(),
+        my_reverse=None,
+        category='undefined',
+        is_geometrical=False,
+        tikZLabelPosition="below right",
+        **kwargs
+    ):
         '''
 
         :param int num: number of this k-cell
@@ -98,7 +125,7 @@ class Cell(BaseCell, SuperCell):
         self.__category_text_changed = True
         super().__init__(*args, my_reverse=my_reverse, **kwargs)
         self.__show_label = show_label
-        self.color = color
+        self.__color = color
         self.__dual_cell_3d = None
         self.__dual_cell_2d = None
         self.__dual_cell_1d = None
@@ -109,11 +136,16 @@ class Cell(BaseCell, SuperCell):
         self.__show_in_plot = True
         self.__gray_in_tikz = False
         self.__imorph_type = None
+
+        if self.__check_tikz_label_position(tikZLabelPosition):
+            self.__tikz_label_position = tikZLabelPosition
+        else:
+            self.__tikz_label_position = "below right"
         _log.debug('Initialized Cell')
 
-    # =========================================================================
-    #    SETTER AND GETTER
-    # =========================================================================
+    # ------------------------------------------------------------------------
+    #    Properties
+    # ------------------------------------------------------------------------
 
     def __get_num(self): return self.__num
 
@@ -186,9 +218,12 @@ class Cell(BaseCell, SuperCell):
             else:
                 _log.error('Unknwon category %s', t)
         else:
-            _log.error('Attempting to change type of {} from {} to {}'
-                              .format(self.info_text, self.category2,
-                                      t))
+            _log.error(
+                'Attempting to change type of %s from %s to %s',
+                self.info_text,
+                self.category2,
+                t,
+            )
 
     category2 = property(__get_category2, __set_category2)
     '''
@@ -205,9 +240,10 @@ class Cell(BaseCell, SuperCell):
         elif self.useCategory == 2:
             return self.__category2
         else:
-            _log.error('useCategory is set to '
-                              + '{}'.format(self.useCategory)
-                              + ' - this is not ok: only 1 and 2 is allowed')
+            _log.error(
+                'useCategory is set to %s - only 1 and 2 is allowed',
+                self.useCategory,
+            )
             return self.__category1
 
     def __setCategory(self, c):
@@ -414,9 +450,32 @@ class Cell(BaseCell, SuperCell):
 
     '''
 
+    def __get_tikz_label_position(self):
+        return self.__tikz_label_position
+
+    def __set_tikz_label_position(self, t):
+        if self.__check_tikz_label_position(t):
+            self.__tikz_label_position = t
+
+    tikz_label_position = property(
+        __get_tikz_label_position,
+        __set_tikz_label_position,
+    )
+
     # =========================================================================
     #    METHODS
     # =========================================================================
+
+    def __check_tikz_label_position(self, label_position):
+        if label_position in [
+            "left", "right", "above", "below", "below right", "below left",
+            "above right", "above left"
+        ]:
+            return True
+
+        _log.error("Unknown position for TikZ label %s", label_position)
+        return False
+
 
     def __createcategory_text(self):
         '''
@@ -445,7 +504,7 @@ class Cell(BaseCell, SuperCell):
 
 
 # =============================================================================
-#    TEST FUNCTIONS
+#    TESTING
 # =============================================================================
 
 

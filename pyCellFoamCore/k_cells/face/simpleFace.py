@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# =============================================================================
+# #############################################################################
 # SIMPLE FACE
-# =============================================================================
+# #############################################################################
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -23,11 +23,6 @@
 # =============================================================================
 #    IMPORTS
 # =============================================================================
-
-if __name__ == '__main__':
-    import os
-    os.chdir('../../')
-
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
@@ -70,7 +65,7 @@ _log = logging.getLogger(__name__)
 _log.setLevel(logging.INFO)
 
 # =============================================================================
-#    CLASS DEFINITION
+#    CLASS SIMPLE FACE
 # =============================================================================
 
 
@@ -80,16 +75,18 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
 
     '''
 
-# =============================================================================
-#    SLOTS
-# =============================================================================
-#    __slots__ = ('__simpleEdges',
-#                 '__coordinates',
-#                 '__barycenter',
-#                 '__normalVec',
-#                 '__polygon',
-#                 '__area',
-#                 '__nodes')
+    # ------------------------------------------------------------------------
+    #    Slots
+    # ------------------------------------------------------------------------
+    __slots__ = (
+        '__simpleEdges',
+        '__coordinates',
+        '__barycenter',
+        '__normalVec',
+        '__polygon',
+        '__area',
+        '__nodes',
+    )
 
 # =============================================================================
 #    INITIALIZATION
@@ -99,13 +96,8 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
 
         '''
         self.__barycenter = None
-        if belongsTo is None:
-            belongsToRev = None
-        else:
-            belongsToRev = belongsTo.my_reverse
         super().__init__(*args,
-                         my_reverse=ReversedSimpleFace(my_reverse=self,
-                                                      belongsTo=belongsToRev),
+                         my_reverse=ReversedSimpleFace(my_reverse=self),
                          belongsTo=belongsTo,
                          **kwargs)
         self.__simpleEdges = simpleEdges
@@ -129,13 +121,12 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
                 .format(self.__simpleEdges))
             self.__coordinates = []
 
-#        self.__polygon = None
 
         _log.debug('Initialized SimpleFace')
 
-# =============================================================================
-#    SETTER AND GETTER
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Properties
+    # ------------------------------------------------------------------------
 
     def __getSimpleEdges(self): return self.__simpleEdges
 
@@ -414,13 +405,13 @@ class SimpleFace(BaseSimpleFace, SimpleCell):
                         n3**2*(1-cos(a))+cos(a)
                     ]])
 
+# =============================================================================
+#    TESTING
+# =============================================================================
 
-# =============================================================================
-#    TEST FUNCTIONS
-# =============================================================================
 if __name__ == '__main__':
 
-    set_logging_format(logging.DEBUG)
+    set_logging_format(logging.INFO)
 
     n0 = Node(0, 0, 0)
     n1 = Node(5, 0, 0)
@@ -463,6 +454,8 @@ if __name__ == '__main__':
             e.plotEdge(axes[0])
 
         sf.plotFace(axes[0])
+
+        figs[0].show()
 
 #    VTK
 # --------------------------------------------------------------------

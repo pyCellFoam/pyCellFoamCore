@@ -184,78 +184,78 @@ classDiagram
 
 ### Cell
 
-- [ ] SuperBaseCell
+- [x] SuperBaseCell
 
-- [ ] SuperCell
+- [x] SuperCell
 
-- [ ] SuperReversedCell
+- [x] SuperReversedCell
 
-- [ ] BaseCell
+- [x] BaseCell
 
-- [ ] Cell
+- [x] Cell
 
-- [ ] ReversedCell
+- [x] ReversedCell
 
-- [ ] BaseSimpleCell
+- [x] BaseSimpleCell
 
-- [ ] SimpleCell
+- [x] SimpleCell
 
-- [ ] ReversedSimpleCell
+- [x] ReversedSimpleCell
 
-- [ ] DualCell
+- [x] DualCell
 
 ### Node
 
-- [ ] Node
+- [x] Node
 
-- [ ] DualNode0D
+- [x] DualNode0D
 
-- [ ] DualNode1D
+- [x] DualNode1D
 
-- [ ] DualNode2D
+- [x] DualNode2D
 
-- [ ] DualNode3D
+- [x] DualNode3D
 
 ### Edge
 
-- [ ] BaseEdge
+- [x] BaseEdge
 
-- [ ] Edge
+- [x] Edge
 
-- [ ] ReversedEdge
+- [x] ReversedEdge
 
-- [ ] BaseSimpleEdge
+- [x] BaseSimpleEdge
 
-- [ ] SimpleEdge
+- [x] SimpleEdge
 
-- [ ] ReversedSimpleEdge
+- [x] ReversedSimpleEdge
 
-- [ ] DualEdge1D
+- [x] DualEdge1D
 
-- [ ] DualEdge2D
+- [x] DualEdge2D
 
-- [ ] DualEdge3D
+- [x] DualEdge3D
 
 ### Face
 
-- [ ] BaseFace
+- [x] BaseFace
 
-- [ ] Face
+- [x] Face
 
-- [ ] ReversedFace
+- [x] ReversedFace
 
-- [ ] BaseSimpleFace
+- [x] BaseSimpleFace
 
-- [ ] SimpleFace
+- [x] SimpleFace
 
-- [ ] ReversedSimpleFace
+- [x] ReversedSimpleFace
 
-- [ ] DualFace2D
+- [x] DualFace2D
 
-- [ ] DualFace3D
+- [x] DualFace3D
 
 ### Volume
 
-- [ ] Volume
+- [x] Volume
 
-- [ ] DualVolume3D
+- [x] DualVolume3D

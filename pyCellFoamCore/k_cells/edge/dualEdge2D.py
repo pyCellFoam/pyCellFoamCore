@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# =============================================================================
+# #############################################################################
 # DUAL EDGE 2D
-# =============================================================================
+# #############################################################################
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -19,27 +19,38 @@
 # =============================================================================
 #    IMPORTS
 # =============================================================================
-if __name__ == '__main__':
-    import os
-    os.chdir('../../')
-
 # ------------------------------------------------------------------------
 #    Standard Libraries
 # ------------------------------------------------------------------------
 
 import logging
 
+# ------------------------------------------------------------------------
+#    Third-Party Libraries
+# ------------------------------------------------------------------------
+import numpy as np
+
+# ------------------------------------------------------------------------
+#    Local Libraries
+# ------------------------------------------------------------------------
+
+#    k-Cells
+# -------------------------------------------------------------------
+
 from pyCellFoamCore.k_cells.cell.dual_cell import DualCell
-
-
-from pyCellFoamCore.k_cells.edge.edge import Edge
 from pyCellFoamCore.k_cells.node.node import Node
 from pyCellFoamCore.k_cells.node.dualNode1D import DualNode1D
 from pyCellFoamCore.k_cells.node.dualNode2D import DualNode2D
-import pyCellFoamCore.tools.colorConsole as cc
-import pyCellFoamCore.tools.tumcolor as tc
-import numpy as np
+from pyCellFoamCore.k_cells.node.dualNode3D import DualNode3D
+from pyCellFoamCore.k_cells.edge.edge import Edge
+from pyCellFoamCore.k_cells.face.face import Face
+from pyCellFoamCore.k_cells.volume.volume import Volume
+
+
+#    Tools
+# -------------------------------------------------------------------
 from pyCellFoamCore.tools.logging_formatter import set_logging_format
+import pyCellFoamCore.tools.tumcolor as tc
 
 
 # =============================================================================
@@ -51,7 +62,7 @@ _log.setLevel(logging.INFO)
 
 
 # =============================================================================
-#    CLASS DEFINITION
+#    CLASS DUAL EDGE 2D
 # =============================================================================
 
 
@@ -61,14 +72,14 @@ class DualEdge2D(Edge, DualCell):
 
     '''
 
-# =============================================================================
-#    SLOTS
-# =============================================================================
-#    __slots__ = ()
+    # ------------------------------------------------------------------------
+    #    Slots
+    # ------------------------------------------------------------------------
+    __slots__ = ()
 
-# =============================================================================
-#    INITIALIZATION
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Initialization
+    # ------------------------------------------------------------------------
     def __init__(self,
                  edge,
                  *args,
@@ -306,11 +317,6 @@ class DualEdge2D(Edge, DualCell):
 #    TEST FUNCTIONS
 # =============================================================================
 if __name__ == "__main__":
-    from k_cells.node import DualNode3D
-    from k_cells.face import Face
-    from k_cells.volume.volume import Volume
-    import tools.placeFigures as pf
-    from tools import MyLogging
     set_logging_format(logging.DEBUG)
     n0 = Node(0, 0, 0)
     n1 = Node(1, 0, 0)
@@ -445,3 +451,6 @@ if __name__ == "__main__":
     for e in dualEdges:
         e.color = tc.TUMOrange()
         e.plotEdge(ax[3])
+
+    for fig in figs:
+        fig.show()
