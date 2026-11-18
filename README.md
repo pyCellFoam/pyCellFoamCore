@@ -230,11 +230,11 @@ classDiagram
 
 - [x] ReversedSimpleEdge
 
-- [ ] DualEdge1D
+- [x] DualEdge1D
 
-- [ ] DualEdge2D
+- [x] DualEdge2D
 
-- [ ] DualEdge3D
+- [x] DualEdge3D
 
 ### Face
 
