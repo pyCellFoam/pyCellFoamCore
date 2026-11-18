@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-# =============================================================================
+# #############################################################################
 # FACE
-# =============================================================================
+# #############################################################################
 # Author:         Tobias Scheuermann
 # Institution:    Chair of Automatic Control
 #                 Department of Mechanical Engineering
@@ -163,13 +163,35 @@ class Face(BaseFace, Cell):
     Defines the face and prepares further properties.
 
     '''
+    # ------------------------------------------------------------------------
+    #    Class Variables
+    # ------------------------------------------------------------------------
 
     faceCount = 0
 
-# =============================================================================
-#    INITIALIZATION
-# =============================================================================
+    # ------------------------------------------------------------------------
+    #    Slots
+    # ------------------------------------------------------------------------
+    __slots__ = (
+        "__rawEdges",
+        "__edges",
+        "__geometricEdges",
+        "__geometricNodes",
+        "__topologicNodes",
+        "__simpleFaces",
+        "__showNormalVec",
+        "__showBarycenter",
+        "__volumes",
+        "__centerNodes",
+        "__triangulate",
+        "__sortEdges",
+        "__forceTriangulate",
+        "__triangulationMethod",
+    )
 
+    # ------------------------------------------------------------------------
+    #    Initialization
+    # ------------------------------------------------------------------------
     def __init__(self,
                  rawEdges,
                  *args,
@@ -206,7 +228,7 @@ class Face(BaseFace, Cell):
         self.__triangulate = triangulate
         self.__sortEdges = sortEdges
         self.__forceTriangulate = forceTriangulate
-        self.triangulationMethod = triangulationMethod
+        self.__triangulationMethod = triangulationMethod
         self.color = tc.TUMGreen()
         self.setUp()
         _log.info('Created face {}'.format(self.info_text))
@@ -1729,7 +1751,7 @@ if __name__ == '__main__':
 
 
     # Choose plotting method. Possible choices: pyplot, VTK, TikZ, None, plotly
-    PLOTTING_METHOD = "pyplot"
+    PLOTTING_METHOD = "plotly"
 
     match PLOTTING_METHOD:
         case "pyplot":

@@ -238,11 +238,11 @@ classDiagram
 
 ### Face
 
-- [ ] BaseFace
+- [x] BaseFace
 
-- [ ] Face
+- [x] Face
 
-- [ ] ReversedFace
+- [x] ReversedFace
 
 - [x] BaseSimpleFace
 
