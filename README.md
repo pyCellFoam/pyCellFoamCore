@@ -218,11 +218,11 @@ classDiagram
 
 ### Edge
 
-- [ ] BaseEdge
+- [x] BaseEdge
 
-- [ ] Edge
+- [x] Edge
 
-- [ ] ReversedEdge
+- [x] ReversedEdge
 
 - [x] BaseSimpleEdge
 
