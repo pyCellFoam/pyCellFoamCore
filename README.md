@@ -250,9 +250,9 @@ classDiagram
 
 - [x] ReversedSimpleFace
 
-- [ ] DualFace2D
+- [x] DualFace2D
 
-- [ ] DualFace3D
+- [x] DualFace3D
 
 ### Volume
 
